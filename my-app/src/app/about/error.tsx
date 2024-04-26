@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function ErrorPage({error,reset}: any) {
   return (
-    <div className='w-full text-center'>
+    <div className='mt-7 w-full text-center'>
         <div className='text-2xl text-red-500'>
             Error due to : {error.message}{" "}
         </div>

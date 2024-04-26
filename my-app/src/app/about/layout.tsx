@@ -18,7 +18,7 @@ export default function aboutLayout({
 }>) {
   return (
     <>
-    <b>about section</b>
+    <b></b>
     {children}
     </>
   );
