@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { JWTPayload } from "../../types/JWTPayload";
+import { JWTPayload } from "../../../types/JWTPayload";
 
 type SuccessResponse = {
   ok: true;
@@ -13,8 +13,6 @@ type SuccessResponse = {
   itaccounttype_EN: string;
   organization_code: string;
   organization_name_EN: string;
-  // role_name: string;
-  // MAJOR_NAME_TH: string;
 };
 
 type ErrorResponse = {

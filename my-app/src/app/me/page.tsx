@@ -1,7 +1,8 @@
+"use client"
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { WhoAmIResponse } from "../api/whoAmI";
+import { WhoAmIResponse } from "../../pages/api/whoAmI";
 
 export default function MePage() {
   const router = useRouter();

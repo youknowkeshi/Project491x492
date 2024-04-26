@@ -2,7 +2,7 @@ import axios from "axios";
 import { setCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { CmuOAuthBasicInfo } from "../../types/CmuOAuthBasicInfo";
+import { CmuOAuthBasicInfo } from "../../../types/CmuOAuthBasicInfo"
 
 type SuccessResponse = {
   ok: true;
@@ -19,6 +19,8 @@ async function getOAuthAccessTokenAsync(
   authorizationCode: string
 ): Promise<string | null> {
   try {
+
+    
     const response = await axios.post(
       process.env.CMU_OAUTH_GET_TOKEN_URL as string,
       {},
@@ -48,7 +50,10 @@ async function getCMUBasicInfoAsync(accessToken: string) {
       {
         headers: { Authorization: "Bearer " + accessToken },
       }
+      
+      
     );
+    console.log("kk",response);
     return response.data as CmuOAuthBasicInfo;
   } catch (err) {
     return null;
@@ -83,13 +88,7 @@ export default async function handler(
       .status(400)
       .json({ ok: false, message: "Cannot get cmu basic info" });
 
-  //Code related to CMU OAuth ends here.
-  //The rest code is just an example of how you can use CMU basic info to create session
 
-  //if the code reach here, it means that user sign-in using his CMU Account successfully
-  //Now we will use acquired baic info (student name, student id, ...) to create session
-  //There are many authentication methods such as token or cookie session or you can use any authentication library.
-  //The example will use JsonWebToken (JWT)
 
   if (typeof process.env.JWT_SECRET !== "string")
     throw "Please assign jwt secret in .env!";
@@ -127,3 +126,8 @@ export default async function handler(
 
   return res.json({ ok: true });
 }
+
+
+
+
+

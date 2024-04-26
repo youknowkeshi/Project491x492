@@ -1,23 +1,24 @@
+"use client"
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { SignInResponse } from "../api/signIn";
+import { SignInResponse } from "../../pages/api/signIn"
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
 
 export default function CMUOAuthCallback() {
   const router = useRouter();
-  const { code } = router.query;
+  const searchParams = useSearchParams()
+  const code = searchParams?.get("code")
   const [message, setMessage] = useState("");
-
+    
+  
   useEffect(() => {
-    //Next.js takes sometime to read parameter from URL
-    //So we'll check if "code" is ready before calling sign-in api
     if (!code) return;
 
     axios
       .post<SignInResponse>("/api/signIn", { authorizationCode: code })
       .then((resp) => {
         if (resp.data.ok) {
-          router.push("/me");
+          router.push("./me");
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
@@ -31,7 +32,7 @@ export default function CMUOAuthCallback() {
           setMessage("Unknown error occurred. Please try again later.");
         }
       });
-  }, [code]);
+  }, [code,]);
 
   return <div className="p-3">{message || "Redirecting ..."}</div>;
 }
