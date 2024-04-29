@@ -1,9 +1,11 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  params:any;
+}
 
-export default function MovieDetail({}: Props) {
+export default function MovieDetail({params}: Props) {
   return (
-    <div>MovieDetail</div>
+    <div>MovieDetail:{params.id}</div>
   )
 }
