@@ -2,6 +2,9 @@ import { resolve } from 'path';
 import React from 'react'
 import Image from 'next/image';
 import Movie from './movie';
+import { Head, Main, NextScript } from 'next/document';
+import { DarkThemeToggle, ThemeModeScript , Button } from 'flowbite-react';
+
 
 type Props = {}
 await delay(1000);
@@ -13,7 +16,7 @@ export default async function Home({}: Props) {
   const res = await data.json();
   return  (
   <div>
-    Home
+    <div className="grid gap-4 grid-cols-3">
     {res.results.map((movie:any)=>(
       <Movie 
         key={movie.id}
@@ -23,6 +26,7 @@ export default async function Home({}: Props) {
         release_date={movie.release_date}
         />
       ))}
+    </div>
   </div>);
 }
 
