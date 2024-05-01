@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Col, Divider, Row, Button , Flex  } from 'antd';
 import Link from "next/link";
+import React from "react";
 
 
 const style: React.CSSProperties = { background: '#FFFFFF', padding: '30px' };
