@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { JWTPayload } from "../../../types/JWTPayload";
 
+
 type SuccessResponse = {
   ok: true;
   cmuAccount: string;
@@ -22,6 +23,7 @@ type ErrorResponse = {
 
 export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<WhoAmIResponse>
@@ -34,6 +36,8 @@ export default async function handler(
   //validate token
   if (typeof token !== "string")
     return res.status(401).json({ ok: false, message: "Invalid token" });
+
+
   try {
     const decoded = jwt.verify(
       token,
@@ -50,9 +54,9 @@ export default async function handler(
       itaccounttype_EN: decoded.itaccounttype_EN,
       organization_code: decoded.organization_code,
       organization_name_EN: decoded.organization_name_EN,
-      // role_name: decoded.role_name,
-      // MAJOR_NAME_TH: decoded.MAJOR_NAME_TH,
+
     });
+
   } catch (error) {
     return res.status(401).json({ ok: false, message: "Invalid token" });
   }

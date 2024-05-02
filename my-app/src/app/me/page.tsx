@@ -3,6 +3,15 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
+import { NextRequest, NextResponse } from "next/server";
+
+
+
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 
 export default function MePage() {
   const router = useRouter();
@@ -11,33 +20,69 @@ export default function MePage() {
   const [studentId, setStudentId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    //All cookies that belong to the current url will be sent with the request automatically
-    //so we don't have to attach token to the request
-    //You can view token (stored in cookies storage) in browser devtools (F12). Open tab "Application" -> "Cookies"
+  function getUsers(){
     axios
-      .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
-      .then((response) => {
-        if (response.data.ok) {
-          setFullName(response.data.firstName + " " + response.data.lastName);
-          setCmuAccount(response.data.cmuAccount);
-          setStudentId(response.data.studentId ?? "No Student Id");
-        }
-      })
-      .catch((error: AxiosError<WhoAmIResponse>) => {
-        if (!error.response) {
-          setErrorMessage(
-            "Cannot connect to the network. Please try again later."
-          );
-        } else if (error.response.status === 401) {
-          setErrorMessage("Authentication failed");
-        } else if (error.response.data.ok === false) {
-          setErrorMessage(error.response.data.message);
-        } else {
-          setErrorMessage("Unknown error occurred. Please try again later");
-        }
+    .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
+    .then((response) => {
+      
+      
+      if (response.data.ok) {
+        setFullName(response.data.firstName + " " + response.data.lastName);
+        setCmuAccount(response.data.cmuAccount);
+        setStudentId(response.data.studentId ?? "No Student Id");
+        
+        
+      }
+
+      
+    })
+    .catch((error: AxiosError<WhoAmIResponse>) => {
+      if (!error.response) {
+        setErrorMessage(
+          "Cannot connect to the network. Please try again later."
+        );
+      } else if (error.response.status === 401) {
+        setErrorMessage("Authentication failed");
+      } else if (error.response.data.ok === false) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Unknown error occurred. Please try again later");
+      }
+    });
+    
+    
+  }
+
+  async function addUsers( name: string, email: string) {
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/hello', {
+        name: name,
+        email: email,
       });
-  }, []);
+      // res.status(200).json(response.data);
+    } catch (error) {
+      console.log(error);
+      // res.status(error.response.status).json({ message: error.message });
+    }
+  }
+  
+
+  useEffect(() => {
+  
+   
+    getUsers()
+
+    if(studentId && fullName &&cmuAccount){
+      addUsers(fullName,cmuAccount)
+    }
+
+    
+      
+      
+  }, [fullName, cmuAccount, studentId]);
+
+
 
   function signOut() {
     //Call sign out api without caring what is the result
@@ -46,6 +91,11 @@ export default function MePage() {
     axios.post("/api/signOut").finally(() => {
       router.push("/");
     });
+
+  
+
+
+
   }
 
   return (

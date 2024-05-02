@@ -19,7 +19,6 @@ async function getOAuthAccessTokenAsync(
   authorizationCode: string
 ): Promise<string | null> {
   try {
-
     
     const response = await axios.post(
       process.env.CMU_OAUTH_GET_TOKEN_URL as string,
@@ -53,12 +52,13 @@ async function getCMUBasicInfoAsync(accessToken: string) {
       
       
     );
-    console.log("kk",response);
     return response.data as CmuOAuthBasicInfo;
   } catch (err) {
     return null;
   }
 }
+
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -68,7 +68,7 @@ export default async function handler(
     return res.status(404).json({ ok: false, message: "Invalid HTTP method" });
 
   //validate authorizationCode
-  const authorizationCode = req.body.authorizationCode;
+  const authorizationCode = await req.body.authorizationCode;
   if (typeof authorizationCode !== "string")
     return res
       .status(400)
@@ -76,9 +76,11 @@ export default async function handler(
 
   //get access token
   const accessToken = await getOAuthAccessTokenAsync(authorizationCode);
+  console.log("pathon",accessToken);
+  
   if (!accessToken)
     return res
-      .status(400)
+      .status(401)
       .json({ ok: false, message: "Cannot get OAuth access token" });
 
   //get basic info

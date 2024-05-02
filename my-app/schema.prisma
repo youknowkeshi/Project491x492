@@ -6,22 +6,28 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = "postgres://default:oh80MiHuWFpt@ep-empty-dust-a1wnsfia-pooler.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require&pgbouncer=true&connect_timeout=15" // uses connection pooling
-  directUrl = "postgres://default:oh80MiHuWFpt@ep-empty-dust-a1wnsfia.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require" // uses a direct connection
+  url = "postgres://default:oh80MiHuWFpt@ep-empty-dust-a1wnsfia-pooler.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require&pgbouncer=true&connect_timeout=15"
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 // schema.prisma
 
+
+model Post {
+  id        String     @default(cuid()) @id
+  title     String
+  content   String?
+  published Boolean @default(false)
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  String?
+}
+
 model User {
-  personid         Int      @id @default(autoincrement())
-  firstname_lastname  String
-  studentid        String
-  phone            String
-  major            String
-  gender           String
-  topic            String
-  facebookurl      String
-  role             String
-  organizationcode String
-  timestamp_column DateTime @default(now())
+  id            String       @default(cuid()) @id
+  name          String?
+  email         String?   @unique
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  posts         Post[]
+  @@map(name: "users")
 }
