@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
+import { getCookie } from "cookies-next";
+import jwt from "jsonwebtoken";
+import verifyAuth from "../../../middleware"
+import uniqueString from 'unique-string';
 
 
 
 export async function GET(res: NextResponse, req: NextRequest) {
-
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM demo');
-        client.release(); // Release the client back to the pool
-        console.log(result.rows[0]);
+        const result = await client.query('SELECT * FROM users');
+        client.release(); // Release the client back to the pool 
         return NextResponse.json(result.rows);
     } catch (error) {
         console.error('Error executing query:', error);
@@ -20,23 +22,33 @@ export async function GET(res: NextResponse, req: NextRequest) {
 
 export async function POST(request: Request) {
     try {
+        const req = await request.json();
+        const { name, cmuaccount, studentid, organization_name, accounttype } = req;
+        const personid = uniqueString()
+        console.log(req);
+        
+        
+        
 
-        const req = await request.json()
-        const { name, email } = req
-        const text = 'INSERT INTO demo(name, email) VALUES($1, $2) RETURNING *'
-        const values = [name, email]
+        const text = 'INSERT INTO users(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype) VALUES($1, $2, $3, $4, $5,$6) RETURNING *';
+        const values = [personid, name, cmuaccount, studentid, organization_name, accounttype];
+
+        console.log(values);
+        
         const client = await pool.connect();
-        const res = await client.query(text, values)
+        const res = await client.query(text, values);
 
-        return Response.json({ res })
+        return Response.json({ res });
     } catch (error) {
         console.error('Error executing query:', error);
         return new Error('Failed to fetch users');
-
     }
 }
 
-export async function PUT(request: Request, context: any) {
+
+
+export async function PUT(request: Request, context: any ) {
+
     try {
         // รับข้อมูล JSON จาก request
         const req = await request.json();

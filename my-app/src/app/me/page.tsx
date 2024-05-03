@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { NextRequest, NextResponse } from "next/server";
+import { headers } from "next/headers";
 
 
 
@@ -18,69 +19,91 @@ export default function MePage() {
   const [fullName, setFullName] = useState("");
   const [cmuAccount, setCmuAccount] = useState("");
   const [studentId, setStudentId] = useState("");
+  const [organization_name, setorganization_name] = useState("");
+  const [itaccounttype_EN, setitaccounttype_EN] = useState("");
+  const [checkstudent,setcheckstudent] = useState("")
   const [errorMessage, setErrorMessage] = useState("");
 
-  function getUsers(){
+  function getUsers() {
     axios
-    .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
-    .then((response) => {
-      
-      
-      if (response.data.ok) {
-        setFullName(response.data.firstName + " " + response.data.lastName);
-        setCmuAccount(response.data.cmuAccount);
-        setStudentId(response.data.studentId ?? "No Student Id");
-        
-        
-      }
+      .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
+      .then((response) => {
 
-      
-    })
-    .catch((error: AxiosError<WhoAmIResponse>) => {
-      if (!error.response) {
-        setErrorMessage(
-          "Cannot connect to the network. Please try again later."
-        );
-      } else if (error.response.status === 401) {
-        setErrorMessage("Authentication failed");
-      } else if (error.response.data.ok === false) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage("Unknown error occurred. Please try again later");
-      }
-    });
-    
-    
+
+        if (response.data.ok) {
+          setFullName(response.data.firstName + " " + response.data.lastName);
+          setCmuAccount(response.data.cmuAccount);
+          setStudentId(response.data.studentId ?? "No Student Id");
+          setorganization_name(response.data.organization_name_EN);
+          setitaccounttype_EN(response.data.itaccounttype_EN);
+
+        }
+
+
+      })
+      .catch((error: AxiosError<WhoAmIResponse>) => {
+        if (!error.response) {
+          setErrorMessage(
+            "Cannot connect to the network. Please try again later."
+          );
+        } else if (error.response.status === 401) {
+          setErrorMessage("Authentication failed");
+        } else if (error.response.data.ok === false) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Unknown error occurred. Please try again later");
+        }
+      });
+
   }
 
-  async function addUsers( name: string, email: string) {
+  async function addUsers(firstname_lastname: string, cmuaccount: string, studentid: string, organization_name: string, accounttype: string) {
 
     try {
       const response = await axios.post('http://localhost:3000/api/hello', {
-        name: name,
-        email: email,
-      });
-      // res.status(200).json(response.data);
+
+        name: firstname_lastname,
+        cmuaccount: cmuaccount,
+        studentid: studentid,
+        organization_name: organization_name,
+        accounttype: accounttype
+      }
+      );
     } catch (error) {
       console.log(error);
-      // res.status(error.response.status).json({ message: error.message });
     }
   }
-  
+
+  async function searchdata() {
+    try{
+      const getrespone = await axios.get('http://localhost:3000/api/checkdata')
+
+      setcheckstudent(getrespone.data.temp.studentid);
+
+      
+    }catch(error){
+      console.log("",error)
+      return NextResponse.json("My error")
+    }
+    
+  }
+
 
   useEffect(() => {
-  
-   
+    searchdata()
     getUsers()
-
-    if(studentId && fullName &&cmuAccount){
-      addUsers(fullName,cmuAccount)
+    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN &&checkstudent ) {
+      if(checkstudent){
+        console.log("true");
+      }else{
+        addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
+        console.log("false");
+        
+      }
+      
     }
-
-    
-      
-      
-  }, [fullName, cmuAccount, studentId]);
+   
+  }, [fullName,cmuAccount,studentId,organization_name,itaccounttype_EN,checkstudent]);
 
 
 
@@ -92,7 +115,7 @@ export default function MePage() {
       router.push("/");
     });
 
-  
+
 
 
 
@@ -103,6 +126,8 @@ export default function MePage() {
       <h1>Hi, {fullName}</h1>
       <p>{cmuAccount}</p>
       <p>{studentId}</p>
+      <p>organize: {organization_name}</p>
+      <p>{itaccounttype_EN}</p>
       <p className="text-danger">{errorMessage}</p>
 
       <button className="btn btn-danger mb-3" onClick={signOut}>

@@ -76,8 +76,6 @@ export default async function handler(
 
   //get access token
   const accessToken = await getOAuthAccessTokenAsync(authorizationCode);
-  console.log("pathon",accessToken);
-  
   if (!accessToken)
     return res
       .status(401)
@@ -101,6 +99,8 @@ export default async function handler(
       firstName: cmuBasicInfo.firstname_EN,
       lastName: cmuBasicInfo.lastname_EN,
       studentId: cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
+      organization_name_EN: cmuBasicInfo.organization_name_EN,
+      itaccounttype_EN: cmuBasicInfo.itaccounttype_EN,
     },
     process.env.JWT_SECRET,
     {

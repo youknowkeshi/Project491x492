@@ -1,5 +1,6 @@
 import { NextResponse ,NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
+import axios from "axios";
 
 
 // This function can be marked async if using await inside
@@ -11,12 +12,26 @@ export default async function middleware(req: NextRequest) {
 
   // Verify the token
   const response = await verifyAuth(token);
-  console.log("This is my ",response);
-  
   if (!response.ok) {
     return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
   }
+
+
+  // const respone = await axios.get('http://localhost:3000/api/checkdata')
+  // const condition = respone.data.temp.studentid || null
+
+  
+
+  // if(!condition){
+  //   return NextResponse.redirect(new URL(`/register`, req.url));
+  // }
 }
+
+// export const checkpath = async () => {
+
+// }
+
+
 
 export const verifyAuth = async (token: string) => {
   try {
