@@ -38,7 +38,7 @@ export async function GET(req: NextRequest,
       process.env.JWT_SECRET as string
     ) as JWTPayload;
 
-   
+
 
     return NextResponse.json({
       ok: true,
@@ -92,14 +92,15 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     ) as JWTPayload;
 
     const request = await req.json();
-    const { phone, major, gender, topic, facebookurl } = request;
+    const { personid, phone, major, gender, topic, facebookurl } = request;
     const studentId = decoded.studentId;
 
 
 
-    if (!phone || !major || !gender || !topic || !facebookurl) {
+    if (!personid || !phone || !major || !gender || !topic || !facebookurl) {
       return new Response('Missing required fields', { status: 400 });
     }
+
 
 
     if (!studentId) {
@@ -107,8 +108,10 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     }
 
 
-    const text = 'UPDATE users SET phone = $2, major = $3, gender = $4, topic = $5, facebookurl = $6 WHERE studentId = $1';
-    const values = [studentId, phone, major, gender, topic, facebookurl];
+    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 WHERE studentId = $2';
+    const values = [personid, studentId, phone, major, gender, topic, facebookurl];
+
+    
 
 
     // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการอัปเดตข้อมูล

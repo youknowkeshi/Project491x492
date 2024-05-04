@@ -45,9 +45,15 @@ type SuccessResponse = {
       client.release(); // Release the client back to the pool 
       const temp = result.rows[0]
 
-      return NextResponse.json({
-        temp
-      });
+      
+      if(result.rows[0]){
+        return NextResponse.json({ temp });
+      }else{
+        return NextResponse.json( null );
+      }
+    
+      
+      
   
     } catch (error) {
       return NextResponse.json({ ok: false, message: "Invalid token" });

@@ -54,18 +54,12 @@ export default function RegisterPage() {
             }
             );
         } catch (error) {
-            console.log(error);
+            console.log("Hello",error);
         }
     }
 
     const handleSaveData = () => {
         updatedataUsers(Id, phone, major, gender, topic, facebookurl);
-        setphone('');
-        setmajor('');
-        setgender('');
-        settopic('');
-        setfacebookurl('');
-        setId('');
     };
 
     return (

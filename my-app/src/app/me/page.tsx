@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { log } from "util";
 
 
 
@@ -21,7 +22,7 @@ export default function MePage() {
   const [studentId, setStudentId] = useState("");
   const [organization_name, setorganization_name] = useState("");
   const [itaccounttype_EN, setitaccounttype_EN] = useState("");
-  const [checkstudent,setcheckstudent] = useState("")
+  const [checkstudent, setcheckstudent] = useState("")
   const [errorMessage, setErrorMessage] = useState("");
 
   function getUsers() {
@@ -75,35 +76,50 @@ export default function MePage() {
   }
 
   async function searchdata() {
-    try{
+    try {
       const getrespone = await axios.get('http://localhost:3000/api/checkdata')
+        .then(response => {
+          if (response.data ){
+            setcheckstudent(response.data.temp.studentid)
+          } else {
+          }
+        })
 
-      setcheckstudent(getrespone.data.temp.studentid);
 
-      
-    }catch(error){
-      console.log("",error)
-      return NextResponse.json("My error")
+
+
+    } catch (error) {
+      console.log("My error", error)
     }
-    
+
   }
+
+  function register() {
+    router.push("/register");
+  }
+
+  function home() {
+    router.push("/home");
+  }
+
 
 
   useEffect(() => {
     searchdata()
     getUsers()
-    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN &&checkstudent ) {
-      if(checkstudent){
-        console.log("true");
-      }else{
+    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN ) {
+      if (checkstudent) {
+        //console.log("found");
+
+      } else {
+        //console.log("not found");
         addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
-        console.log("false");
-        
+        register()
       }
-      
+
     }
-   
-  }, [fullName,cmuAccount,studentId,organization_name,itaccounttype_EN,checkstudent]);
+
+  }, [fullName, cmuAccount, studentId, organization_name, itaccounttype_EN, checkstudent]);
 
 
 
