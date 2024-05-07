@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import Nav from "../component/Nav";
 
-type Props = {}
+type Props = {};
 
 export default function LoginPage({}: Props) {
   return (
-    <div>LoginPage</div>
-  )
+    <div>
+      <Nav />
+      LoginPage
+    </div>
+  );
 }

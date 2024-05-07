@@ -3,8 +3,7 @@ import React from 'react'
 import Image from 'next/image';
 import Movie from './movie';
 import { Head, Main, NextScript } from 'next/document';
-import { DarkThemeToggle, ThemeModeScript , Button } from 'flowbite-react';
-
+import Nav from './component/Nav';
 
 type Props = {}
 await delay(1000);
@@ -15,7 +14,8 @@ export default async function Home({}: Props) {
   const data = await fetch(url);
   const res = await data.json();
   return  (
-  <div>
+  <main>
+    <Nav/>
     <div className="grid gap-4 grid-cols-3">
     {res.results.map((movie:any)=>(
       <Movie 
@@ -27,7 +27,7 @@ export default async function Home({}: Props) {
         />
       ))}
     </div>
-  </div>);
+  </main>);
 }
 
 function delay(timeout:number)
