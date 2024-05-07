@@ -1,6 +1,7 @@
 import script from "next/script";
 import type { Config } from "tailwindcss";
 
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,11 +19,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [require('flowbite/plugin')({
+    charts: true,
+})],
 };
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports =  {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -51,3 +54,13 @@ module.exports = {
   ],
 };
 export default config;
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+ 
+module.exports = withMT({
+  content: [],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+});
