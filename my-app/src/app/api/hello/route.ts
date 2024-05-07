@@ -25,10 +25,7 @@ export async function POST(request: Request) {
         const req = await request.json();
         const { name, cmuaccount, studentid, organization_name, accounttype } = req;
         const personid = uniqueString()
-        console.log(req);
-        
-        
-        
+    
 
         const text = 'INSERT INTO users(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype) VALUES($1, $2, $3, $4, $5,$6) RETURNING *';
         const values = [personid, name, cmuaccount, studentid, organization_name, accounttype];
