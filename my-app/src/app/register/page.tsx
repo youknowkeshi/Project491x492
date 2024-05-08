@@ -38,7 +38,10 @@ export default function RegisterPage({}: Props) {
                 <p className="text-purple">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Aenean suspendisse aliquam varius rutrum purus maecenas ac{" "}
-                  <a href="#" className="text-#4F6F52 font-semibold text-green-500">
+                  <a
+                    href="#"
+                    className="text-#4F6F52 font-semibold text-green-500"
+                  >
                     Learn more
                   </a>
                 </p>
@@ -50,17 +53,32 @@ export default function RegisterPage({}: Props) {
                 Create your account. It’s free and only take a minute
               </p>
               <form action="#">
-            <div className="mt-5">
-              <TextInput id="input-gray" placeholder="Name-Lastname" required color="gray" />
-            </div>
-            <div className="mt-5 grid grid-cols-2 gap-5">
-              <TextInput id="input-gray" placeholder="Phone" required color="gray" />
-              <TextInput id="input-gray" placeholder="Student ID" required color="gray" />
-            </div>
-                <div className="max-w-md mt-5">
-                  <Label htmlFor="Major"/>
+                <div className="mt-5">
+                  <TextInput
+                    id="input-gray"
+                    placeholder="First Name and Last Name"
+                    required
+                    color="gray"
+                  />
                 </div>
-                <Select id="Major" required >
+                <div className="mt-5 grid grid-cols-2 gap-5">
+                  <TextInput
+                    id="input-gray"
+                    placeholder="Phone"
+                    required
+                    color="gray"
+                  />
+                  <TextInput
+                    id="input-gray"
+                    placeholder="Student ID"
+                    required
+                    color="gray"
+                  />
+                </div>
+                <div className="max-w-md mt-5">
+                  <Label htmlFor="Major" />
+                </div>
+                <Select id="Major" required>
                   <option>วิศวกรรมโยธา</option>
                   <option>วิศวกรรมไฟฟ้า</option>
                   <option>วิศวกรรมเครื่องกล</option>
@@ -72,13 +90,28 @@ export default function RegisterPage({}: Props) {
                   <option>อื่นๆ</option>
                 </Select>
                 <div className="mt-5">
-                  <TextInput id="input-gray" placeholder="Topic" required color="gray" />
+                  <TextInput
+                    id="input-gray"
+                    placeholder="Topic"
+                    required
+                    color="gray"
+                  />
                 </div>
                 <div className="mt-5">
-                  <TextInput id="input-gray" placeholder="Facebook URL" required color="gray" />
+                  <TextInput
+                    id="input-gray"
+                    placeholder="Facebook URL"
+                    required
+                    color="gray"
+                  />
                 </div>
                 <div className="mt-5">
-                  <TextInput id="input-gray" placeholder="Access Code" required color="gray" />
+                  <TextInput
+                    id="input-gray"
+                    placeholder="Access Code"
+                    required
+                    color="gray"
+                  />
                 </div>
                 <div className="mt-5">
                   <input type="checkbox" className="border border-gray-400" />
@@ -103,8 +136,7 @@ export default function RegisterPage({}: Props) {
           </div>
         </div>
       </div>
-      <Foot/>
+      <Foot />
     </div>
-  
   );
 }
