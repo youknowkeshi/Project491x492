@@ -24,6 +24,8 @@ type SuccessResponse = {
   
   export type WhoAmIResponse = SuccessResponse | ErrorResponse;
   
+
+  //ตรวจสอบข้อมูลว่าเคย register ไปยัง
   export async function GET(req: NextRequest,
     res: NextResponse<WhoAmIResponse>) {
   

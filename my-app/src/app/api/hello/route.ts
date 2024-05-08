@@ -6,7 +6,7 @@ import verifyAuth from "../../../middleware"
 import uniqueString from 'unique-string';
 
 
-
+//ดึงข้อมูล users
 export async function GET(res: NextResponse, req: NextRequest) {
     try {
         const client = await pool.connect();
@@ -20,22 +20,32 @@ export async function GET(res: NextResponse, req: NextRequest) {
 
 }
 
+
+//add user into table
 export async function POST(request: Request) {
     try {
         const req = await request.json();
         const { name, cmuaccount, studentid, organization_name, accounttype } = req;
         const personid = uniqueString()
-    
+
 
         const text = 'INSERT INTO users(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype) VALUES($1, $2, $3, $4, $5,$6) RETURNING *';
         const values = [personid, name, cmuaccount, studentid, organization_name, accounttype];
 
-        console.log(values);
-        
-        const client = await pool.connect();
-        const res = await client.query(text, values);
 
-        return Response.json({ res });
+        const client = await pool.connect();
+        try {
+            const res = await client.query(text, values);
+
+            if (res.rowCount === 0) {
+                return new Response('User not found', { status: 404 });
+            }
+
+            return Response.json({ res });
+        } finally {
+            client.release();
+        }
+
     } catch (error) {
         console.error('Error executing query:', error);
         return new Error('Failed to fetch users');
@@ -43,7 +53,7 @@ export async function POST(request: Request) {
 }
 
 
-
+/*
 export async function PUT(request: Request, context: any ) {
 
     try {
@@ -77,6 +87,10 @@ export async function PUT(request: Request, context: any ) {
     }
 }
 
+*/
+
+
+//delete data
 export async function DELETE(request: Request, context: any) {
     try {
         // รับข้อมูล JSON จาก request
