@@ -110,7 +110,7 @@ export default function MePage() {
     if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN ) {
       if (checkstudent) {
         //console.log("found");
-
+        home()
       } else {
         //console.log("not found");
         addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
