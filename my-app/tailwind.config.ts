@@ -9,6 +9,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/flowbite/**/*.js",
     "./src/**/*.{js,jsx,ts,tsx}",
+    
   ],
   theme: {
     extend: {
