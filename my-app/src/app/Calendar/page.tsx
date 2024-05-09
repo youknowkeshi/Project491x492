@@ -2,7 +2,7 @@ import React from "react";
 import { Calendar } from "antd";
 import Nav from "../component/Nav";
 import { Foot } from "../component/Footer";
-import SelectDate from "./selectdate";
+import SelectDate from "./SelectData";
 type Props = {};
 
 export default function page({}: Props) {
