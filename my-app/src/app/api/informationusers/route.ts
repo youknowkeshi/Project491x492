@@ -20,15 +20,16 @@ export async function GET(res: NextResponse, req: NextRequest) {
 
 
 // edit  detail and checklist
-export async function PUT(res: NextResponse, request: NextRequest) {
+export async function PUT( request: NextResponse) {
     try{
         const req = await request.json();
-        const { details , health ,infor_id} = req;
+        
+        const { details , health , infor_id} = req;
 
-
-        //'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 WHERE studentId = $2'
         const text = 'UPDATE informationusers SET details_consultation =$1, mental_health_checklist= $2 WHERE infor_id = $3';
         const values = [details , health, infor_id];
+
+        
 
         const client = await pool.connect();
         try{
@@ -44,7 +45,20 @@ export async function PUT(res: NextResponse, request: NextRequest) {
     }
         
     }catch(error){
-        console.log("post information error : ",error);
+        console.log("put information error : ",error);
         
     }
 }
+
+
+// export async function POST(request: Request) {
+//     try {
+//         const req = await request.json();
+//         console.log(req);
+        
+//         return NextResponse.json("Test : ",req)
+//     } catch (error) {
+//         console.error('Error executing query:', error);
+//         return new Error('Failed to fetch users');
+//     }
+// }

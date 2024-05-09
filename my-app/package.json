@@ -19,6 +19,7 @@
     "cookies-next": "^4.1.1",
     "googleapis": "^136.0.0",
     "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.45",
     "next": "^14.2.2",
     "next-auth": "^4.24.7",
     "pg": "^8.11.5",

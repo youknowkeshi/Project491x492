@@ -1,10 +1,12 @@
 "use client"
 import React, { use, useState } from 'react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { pool } from '../lib/db';
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 export default function RegisterPage() {
+    const router = useRouter();
     const [inputValue, setInputValue] = useState('');
     const [Id, setId] = useState('');
     const [phone, setphone] = useState('');
@@ -39,6 +41,10 @@ export default function RegisterPage() {
         setfacebookurl(event.target.value);
     };
 
+    function home() {
+        router.push("/home");
+      }
+
 
 
     async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string) {
@@ -59,7 +65,8 @@ export default function RegisterPage() {
     }
 
     const handleSaveData = () => {
-        updatedataUsers(Id, phone, major, gender, topic, facebookurl);
+        updatedataUsers(Id, phone, major, gender, topic, facebookurl)
+        home()
     };
 
     return (
