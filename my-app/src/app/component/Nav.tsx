@@ -24,6 +24,7 @@ export function Nav() {
           </Navbar.Link>
           <Navbar.Link href="#">Appointment</Navbar.Link>
           <Navbar.Link href="/Calendar">Calendar</Navbar.Link>
+          <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
           <Navbar.Link href="https://oauth.cmu.ac.th/Login.aspx">
             Login
           </Navbar.Link>
