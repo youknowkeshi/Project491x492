@@ -8,7 +8,7 @@ export default function MyComponent() {
       <div className="flex items-start justify-center"> {/* Full screen height */}
       <div className="flex justify-center my-20">
         <Link href="/graph">
-        <div style={{ width: '400px', height: '150px' }} className="max-w-lg p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mx-6"> {/* First card */}
+        <div style={{ width: '400px', height: '150px' }} className="max-w-lg p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-yellow-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mx-6"> {/* First card */}
           
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
               Counselling Room 1
@@ -25,8 +25,7 @@ export default function MyComponent() {
           <h5  className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
             Counselling Room 2
           </h5>
-          <Divider className="dark:divide-gray-900">
-</Divider>
+          <Divider className="dark:divide-gray-900"></Divider>
           <p className="font-normal text-gray-700 dark:text-gray-400 text-center">
             (นักจิตอาสา)
           </p>
@@ -46,9 +45,7 @@ export default function MyComponent() {
         </div>
       {/* </a> */}
     </div>
-    <div className="flex flex-col space-y-10 mx-auto"> {/* จัดองค์ประกอบในแนวตั้ง */}
-        
-    </div>
+    
     </div>
     
   );
