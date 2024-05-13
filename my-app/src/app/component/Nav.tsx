@@ -10,7 +10,7 @@ export function Nav() {
       <Navbar fluid rounded>
         <Footer.Brand
           href="https://flowbite.com"
-          src="https://upload.wikimedia.org/wikipedia/commons/4/4f/SVG_Logo.svg"
+          src="/logo.svg"
           alt="Flowbite Logo"
           name="Entaneer Mind"
         />
@@ -22,7 +22,7 @@ export function Nav() {
           <Navbar.Link as={Link} href="/register">
             Register
           </Navbar.Link>
-          <Navbar.Link href="#">Appointment</Navbar.Link>
+          <Navbar.Link href="/appointment">Appointment</Navbar.Link>
           <Navbar.Link href="/Calendar">Calendar</Navbar.Link>
           <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
           <Navbar.Link href="https://oauth.cmu.ac.th/Login.aspx">
@@ -30,7 +30,7 @@ export function Nav() {
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
-      <hr></hr>
+      <hr className="mt-5"></hr>
     </div>
   );
 }
