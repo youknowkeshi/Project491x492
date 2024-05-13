@@ -21,7 +21,7 @@ export default function RegisterPage({}: Props) {
     <div>
       <Nav />
       <div
-        className="min-h-screen py-40 mt-7 mb-7 rounded-md"
+        className="min-h-screen py-40 mt-10 mb-7 rounded-md"
         style={{ backgroundImage: "linear-gradient(115deg, #4F6F52, #6BDE75)" }}
       >
         <div className="container mx-auto">

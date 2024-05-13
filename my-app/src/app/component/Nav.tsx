@@ -29,7 +29,7 @@ export function Nav() {
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
-      <hr></hr>
+      <hr className="mt-5"></hr>
     </div>
   );
 }
