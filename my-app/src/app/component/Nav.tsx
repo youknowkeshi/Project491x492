@@ -7,7 +7,7 @@ import { Footer, Navbar } from "flowbite-react";
 export function Nav() {
   return (
     <div>
-      <Navbar fluid rounded>
+      <Navbar fluid rounded className="">
         <Footer.Brand
           href="https://flowbite.com"
           src="/logo.svg"
@@ -30,7 +30,7 @@ export function Nav() {
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
-      <hr className="mt-5"></hr>
+      <hr className="mt-7"></hr>
     </div>
   );
 }

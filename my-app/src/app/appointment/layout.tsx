@@ -20,7 +20,7 @@ export default function calendarv2Layout({
     <>
       <Nav />
       {children}
-      <Foot />'
+      <Foot />
     </>
   );
 }
