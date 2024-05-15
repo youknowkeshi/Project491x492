@@ -32,3 +32,44 @@ export async function PUT(request:NextRequest) {
         
     }
 }
+
+export async function DELETE(request:NextRequest){
+    try {
+        // รับข้อมูล JSON จาก request
+        const req = await request.json();
+        const { event_id } = req; // สมมติว่ามี id ในข้อมูลที่ต้องการลบ
+
+        // ตรวจสอบว่ามีข้อมูล id หรือไม่
+        if (!event_id) {
+            return new Response('Missing required field: event_id', { status: 400 });
+        }
+
+        // สร้างคำสั่ง SQL และค่าที่จะใส่ลงไป
+        const text = 'DELETE FROM demo WHERE event_id = $1';
+        const values = [event_id];
+
+        // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการลบข้อมูล
+        const client = await pool.connect();
+        const res = await client.query(text, values);
+
+        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
+        if (res.rowCount === 0) {
+            return new Response('User not found', { status: 404 });
+        }
+
+        // ส่งข้อความยืนยันการลบกลับไปใน response
+        return new Response('appointment deleted successfully');
+    } catch (error) {
+        console.error('Error executing query:', error);
+        return new Response('Failed to delete user', { status: 500 });
+    }
+}
+
+export async function POST(request:NextRequest) {
+    try{
+        const req = await request.json()
+    }catch(error){
+        console.log("Can't Post");
+        
+    }
+}

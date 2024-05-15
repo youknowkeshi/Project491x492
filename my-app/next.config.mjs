@@ -3,6 +3,7 @@ const nextConfig = {
     fs: false,
     path: false,
     reactStrictMode: false,
+    net: 'empty',
 };
 
 

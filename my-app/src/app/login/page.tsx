@@ -9,7 +9,9 @@ export default function page() {
 
   
   if (session) {
-    redirect("/calendar");
+    console.log("This is my : " , session);
+    
+    // redirect("/calendar");
   }
 
   return (
