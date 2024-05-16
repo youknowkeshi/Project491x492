@@ -136,7 +136,6 @@ export default function RegisterPage({}: Props) {
           </div>
         </div>
       </div>
-      <Foot />
     </div>
   );
 }
