@@ -2,38 +2,38 @@ import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
 
 // update data room1
-export async function PUT(request:NextRequest) {
-    try{
+export async function PUT(request: NextRequest) {
+    try {
         const req = await request.json();
-        
-        const { start_datetime , end_datetime , expire_date ,event_id} = req;
-        const room ='conseling_room1'
+
+        const { start_datetime, end_datetime, expire_date, event_id } = req;
+        const room = 'conseling_room1'
 
         const text = 'UPDATE conseling_room1 SET start_datetime =$1, end_datetime= $2, expire_date= $3, room= $4 WHERE event_id = $5';
-        const values = [start_datetime , end_datetime , expire_date , room, event_id];
+        const values = [start_datetime, end_datetime, expire_date, room, event_id];
 
-        
+
 
         const client = await pool.connect();
-        try{
+        try {
             const res = await client.query(text, values);
 
             if (res.rowCount === 0) {
-                return new Response('User not found', { status: 404 });
+                return new NextResponse('User not found', { status: 404 });
             }
 
-            return Response.json({ res });
-        }finally {
-        client.release();
-    }
-        
-    }catch(error){
-        console.log("put conseling error : ",error);
-        
+            return NextResponse.json({ res });
+        } finally {
+            client.release();
+        }
+
+    } catch (error) {
+        console.log("put conseling error : ", error);
+
     }
 }
 
-export async function DELETE(request:NextRequest){
+export async function DELETE(request: NextRequest) {
     try {
         // รับข้อมูล JSON จาก request
         const req = await request.json();
@@ -54,22 +54,41 @@ export async function DELETE(request:NextRequest){
 
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
         if (res.rowCount === 0) {
-            return new Response('User not found', { status: 404 });
+            return new NextResponse('User not found', { status: 404 });
         }
 
         // ส่งข้อความยืนยันการลบกลับไปใน response
-        return new Response('appointment deleted successfully');
+        return new NextResponse('appointment deleted successfully');
     } catch (error) {
         console.error('Error executing query:', error);
-        return new Response('Failed to delete user', { status: 500 });
+        return new NextResponse('Failed to delete user', { status: 500 });
     }
 }
 
-export async function POST(request:NextRequest) {
-    try{
+export async function POST(request: NextRequest) {
+    try {
         const req = await request.json()
-    }catch(error){
+        const { start_datetime, end_datetime, expire_date, personid } = req;
+        const room = 'conseling_room1'
+
+        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
+        const values = [start_datetime, end_datetime, expire_date, room, personid];
+
+        const client = await pool.connect();
+        try {
+            const res = await client.query(text, values);
+
+            if (res.rowCount === 0) {
+                return new NextResponse('User not found', { status: 404 });
+            }
+
+            return NextResponse.json({ res });
+        } finally {
+            client.release();
+        }
+
+    } catch (error) {
         console.log("Can't Post");
-        
+
     }
 }

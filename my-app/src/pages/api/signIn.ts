@@ -13,6 +13,8 @@ type ErrorResponse = {
   message: string;
 };
 
+
+
 export type SignInResponse = SuccessResponse | ErrorResponse;
 
 async function getOAuthAccessTokenAsync(

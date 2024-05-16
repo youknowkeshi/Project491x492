@@ -8,6 +8,7 @@ import uniqueString from 'unique-string';
 
 //ดึงข้อมูล users
 export async function GET(res: NextResponse, req: NextRequest) {
+
     try {
         const client = await pool.connect();
         const result = await client.query('SELECT * FROM users');

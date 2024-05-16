@@ -98,13 +98,9 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const { personid, phone, major, gender, topic, facebookurl } = request;
     const studentId = decoded.studentId;
 
-
-
     if (!personid || !phone || !major || !gender || !topic || !facebookurl) {
       return new Response('Missing required fields', { status: 400 });
     }
-
-
 
     if (!studentId) {
       return new Response('Missing studentId', { status: 400 });
@@ -120,13 +116,6 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const text_con = 'INSERT INTO conseling_room1 (personid) VALUES ($1) RETURNING *'
     const values_con = [personid]
 
-   
-    
-    
-
-    
-
-
     // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการอัปเดตข้อมูล
     const client = await pool.connect();    
     try {
@@ -135,10 +124,6 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       const res_infor = await client.query(text_infor,values_infor)
 
       const res_con = await client.query(text_con,values_con)
-
-     
-      
-
 
       // ตรวจสอบว่ามีข้อมูลถูกอัปเดตหรือไม่
       if (res.rowCount === 0) {

@@ -11,6 +11,7 @@ import { WhoAmIResponse } from "../../pages/api/whoAmI";
 export default async function Home() {
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState("");
+    
 
     function signOut() {
         //Call sign out api without caring what is the result
@@ -28,8 +29,6 @@ export default async function Home() {
       <button className="btn btn-danger mb-3" onClick={signOut}>
         {errorMessage ? "Go back" : "Sign out"}
       </button>
-      
-      
     </div>
   );
 }

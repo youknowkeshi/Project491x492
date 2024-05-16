@@ -5,13 +5,7 @@ import { useEffect, useState } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { log } from "util";
 
-
-
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 
 
@@ -24,6 +18,9 @@ export default function MePage() {
   const [itaccounttype_EN, setitaccounttype_EN] = useState("");
   const [checkstudent, setcheckstudent] = useState("")
   const [errorMessage, setErrorMessage] = useState("");
+  const [admindata, setadmindata] = useState("")
+  const admin = process.env.NEXT_PUBLIC_ADMIN as string
+
 
   function getUsers() {
     axios
@@ -75,19 +72,51 @@ export default function MePage() {
     }
   }
 
-  async function searchdata() {
+  async function logadmin(firstname_lastname: string, cmuaccount: string, studentid: string, organization_name: string, accounttype: string) {
     try {
-      const getrespone = await axios.get('http://localhost:3000/api/checkdata')
+      axios.post('http://localhost:3000/api/admin', {
+
+        name: firstname_lastname,
+        cmuaccount: cmuaccount,
+        studentid: studentid,
+        organization_name: organization_name,
+        accounttype: accounttype
+      }
+      );
+    } catch (error) {
+      console.log("not found admin", error);
+
+    }
+  }
+
+  async function admincheck() {
+    try {
+      axios.put('http://localhost:3000/api/admin', { cmuaccount: cmuAccount })
         .then(response => {
-          if (response.data ){
-            setcheckstudent(response.data.temp.studentid)
+
+          if (response.data) {
+            setadmindata(response.data[0].cmuaccount)
           } else {
+            console.log("not found");
           }
         })
+    } catch (error) {
+      console.log("Error : ", error);
 
+    }
+  }
 
+  async function searchdata() {
+    try {
+      axios.get('http://localhost:3000/api/checkdata')
+        .then(response => {
+          if (response.data) {
+            setcheckstudent(response.data.temp.studentid)
+          } else {
+            console.log("no found data");
 
-
+          }
+        })
     } catch (error) {
       console.log("My error", error)
     }
@@ -104,23 +133,37 @@ export default function MePage() {
 
 
 
+
+
   useEffect(() => {
     searchdata()
     getUsers()
-    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN ) {
-      if (checkstudent) {
-        //console.log("found");
-        home()
+    admincheck()
+
+
+    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN  ) {
+      if (admin === cmuAccount) {
+        if(admindata){
+          console.log("admin home");
+          
+          // home()
+        }else{
+          // logadmin(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
+          // home()
+          console.log("admin login");
+        }
       } else {
-        //console.log("not found");
-        addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
-        register()
+        if (checkstudent) {
+          console.log("user home")
+          // home()
+        } else {
+        //   addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
+        //   register()
+        console.log("user login")
+         }
       }
-
     }
-
-  }, [fullName, cmuAccount, studentId, organization_name, itaccounttype_EN, checkstudent]);
-
+  }, [fullName, cmuAccount, studentId, organization_name, itaccounttype_EN, checkstudent,admindata]);
 
 
   function signOut() {
@@ -130,11 +173,6 @@ export default function MePage() {
     axios.post("/api/signOut").finally(() => {
       router.push("/");
     });
-
-
-
-
-
   }
 
   return (

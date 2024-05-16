@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
-import moment from 'moment-timezone';
-
-
-function timezone() {
-    const zuluTime = '2024-06-14T17:00:00.000Z'; 
-    const thailandTime = moment.utc(zuluTime).tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
-    console.log(thailandTime); // แสดงเวลาในรูปแบบท้องถิ่นในประเทศไทย
-}
 
 //ดึงข้อมูล users, room1
 export async function GET(res: NextResponse, req: NextRequest) {

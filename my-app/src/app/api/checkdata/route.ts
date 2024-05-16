@@ -43,20 +43,16 @@ type SuccessResponse = {
       const studentId = decoded.studentId
 
       const client = await pool.connect();
-      const result = await client.query('SELECT studentid  FROM users WHERE studentid = $1', [studentId]);
+      const result = await client.query('SELECT * FROM users WHERE studentid = $1', [studentId]);
       client.release(); // Release the client back to the pool 
       const temp = result.rows[0]
 
-      
       if(result.rows[0]){
         return NextResponse.json({ temp });
       }else{
         return NextResponse.json( null );
       }
     
-      
-      
-  
     } catch (error) {
       return NextResponse.json({ ok: false, message: "Invalid token" });
     }
@@ -88,8 +84,6 @@ type SuccessResponse = {
 //     } catch (error) {
 //       return NextResponse.json({ ok: false, message: "Invalid token" });
 //     }
-      
-
 //     // const studentId = "630612102"
 
 //     // try {
