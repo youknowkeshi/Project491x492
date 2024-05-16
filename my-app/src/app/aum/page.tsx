@@ -23,7 +23,7 @@ export default function Aum({}: Props) {
           </a>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mx-auto"> {/* เพิ่มระยะห่างระหว่าง Title 2 และ Title 3 */}
+        <div className="grid grid-rows-2 gap-4 mx-auto justify-end"> {/* เพิ่มระยะห่างระหว่าง Title 2 และ Title 3 */}
           <a href="#" className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow">
             <div className="flex flex-col justify-between p-4">
               <h5 className="mb-2 text-2xl font-bold">Title 2</h5>
