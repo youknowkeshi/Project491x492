@@ -4,6 +4,7 @@ import uniqueString from 'unique-string';
 
 
 export async function POST(request: NextRequest, response: NextResponse) {
+    const admin = process.env.NEXT_PUBLIC_ADMIN as string
     try {
         const req = await request.json()
         const { name, cmuaccount, studentid, organization_name, accounttype } = req;
@@ -15,13 +16,28 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
         const client = await pool.connect();
         try {
-            const res = await client.query(text, values);
 
-            if (res.rowCount === 0) {
-                return new NextResponse('User not found', { status: 404 });
+            const result = await client.query('SELECT * FROM admins WHERE cmuaccount = $1', [admin]);
+
+        
+
+
+            if (result.rowCount === 0) {
+                console.log("result.rowCount=0");
+                
+                const res = await client.query(text, values);
+
+                if (res.rowCount === 0) {
+                    return new NextResponse('User not found', { status: 404 });
+                }
+
+                return NextResponse.json({ res });
             }
 
-            return NextResponse.json({ res });
+
+
+
+            return new NextResponse("Welcome to home");
         } finally {
             client.release();
         }
@@ -38,7 +54,7 @@ export async function PUT(request: NextRequest) {
 
     const req = await request.json();
     const cmuaccount = req.cmuaccount
-    
+
     try {
         const client = await pool.connect();
         const result = await client.query('SELECT * FROM admins WHERE cmuaccount = $1', [cmuaccount]);
@@ -48,5 +64,5 @@ export async function PUT(request: NextRequest) {
         console.error('Error executing query:', error);
         return new Error('Failed to fetch users');
     }
-   
+
 }

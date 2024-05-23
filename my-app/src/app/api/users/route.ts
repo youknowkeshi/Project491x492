@@ -4,7 +4,27 @@ import { getCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import verifyAuth from "../../../middleware"
 import uniqueString from 'unique-string';
+import { JWTPayload } from "../../../../types/JWTPayload"
 
+
+type SuccessResponse = {
+    ok: true;
+    cmuAccount: string;
+    firstName: string;
+    lastName: string;
+    studentId?: string;
+    itaccounttype_id: string;
+    itaccounttype_EN: string;
+    organization_code: string;
+    organization_name_EN: string;
+};
+
+type ErrorResponse = {
+    ok: false;
+    message: string;
+};
+
+export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
 //ดึงข้อมูล users
 export async function GET(res: NextResponse, req: NextRequest) {
@@ -23,34 +43,61 @@ export async function GET(res: NextResponse, req: NextRequest) {
 
 
 //add user into table
-export async function POST(request: Request) {
+export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
+    const token = getCookie("cmu-oauth-example-token", { req, res });
+
+    if (typeof token !== "string")
+        return NextResponse.json({ ok: false, message: "Invalid token" });
+
     try {
-        const req = await request.json();
-        const { name, cmuaccount, studentid, organization_name, accounttype } = req;
-        const personid = uniqueString()
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET as string
+        ) as JWTPayload;
 
 
-        const text = 'INSERT INTO users(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype) VALUES($1, $2, $3, $4, $5,$6) RETURNING *';
-        const values = [personid, name, cmuaccount, studentid, organization_name, accounttype];
+        const studentId = decoded.studentId
 
+        console.log("sta : ",studentId);
+        
 
-        const client = await pool.connect();
         try {
-            const res = await client.query(text, values);
+            const request = await req.json();
+            const { name, cmuaccount, studentid, organization_name, accounttype } = request;
+            const personid = uniqueString()
 
-            if (res.rowCount === 0) {
-                return new Response('User not found', { status: 404 });
+            const text = 'INSERT INTO users(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype) VALUES($1, $2, $3, $4, $5,$6) RETURNING *';
+            const values = [personid, name, cmuaccount, studentid, organization_name, accounttype];
+
+
+            const client = await pool.connect();
+
+            const result = await client.query('SELECT studentid FROM users WHERE studentid = $1', [studentId]);
+            try {
+                if (result.rowCount === 0) {
+                    const res = await client.query(text, values);
+
+                    if (res.rowCount === 0) {
+                        return new Response('User not found', { status: 404 });
+                    }
+
+                    return NextResponse.json({ res });
+                    
+                }
+            } finally {
+                client.release();
             }
-
-            return Response.json({ res });
-        } finally {
-            client.release();
+            return new NextResponse("Welcome to home");
+        } catch (error) {
+            console.error('Error executing query:', error);
+            return new Error('Failed to fetch users');
         }
 
+
     } catch (error) {
-        console.error('Error executing query:', error);
-        return new Error('Failed to fetch users');
+        return NextResponse.json({ ok: false, message: "Invalid token" });
     }
+
 }
 
 

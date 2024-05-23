@@ -19,6 +19,7 @@ export default function MePage() {
   const [checkstudent, setcheckstudent] = useState("")
   const [errorMessage, setErrorMessage] = useState("");
   const [admindata, setadmindata] = useState("")
+  const [loading, setLoading] = useState(true);
   const admin = process.env.NEXT_PUBLIC_ADMIN as string
 
 
@@ -58,7 +59,7 @@ export default function MePage() {
   async function addUsers(firstname_lastname: string, cmuaccount: string, studentid: string, organization_name: string, accounttype: string) {
 
     try {
-      const response = await axios.post('http://localhost:3000/api/hello', {
+      const response = await axios.post('http://localhost:3000/api/users', {
 
         name: firstname_lastname,
         cmuaccount: cmuaccount,
@@ -93,11 +94,10 @@ export default function MePage() {
     try {
       axios.put('http://localhost:3000/api/admin', { cmuaccount: cmuAccount })
         .then(response => {
-
-          if (response.data) {
+          if (response.data.length > 0) {
             setadmindata(response.data[0].cmuaccount)
           } else {
-            console.log("not found");
+            console.log("Not found");
           }
         })
     } catch (error) {
@@ -111,9 +111,11 @@ export default function MePage() {
       axios.get('http://localhost:3000/api/checkdata')
         .then(response => {
           if (response.data) {
+            console.log(response.data.temp.studentid);
+
             setcheckstudent(response.data.temp.studentid)
           } else {
-            console.log("no found data");
+
 
           }
         })
@@ -133,37 +135,38 @@ export default function MePage() {
 
 
 
+  function role() {
+    getUsers()
+
+
+
+
+
+    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
+      if (admin === cmuAccount) {
+        logadmin(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
+        home()
+      } else {
+        axios.get('http://localhost:3000/api/checkdata')
+          .then(response => {
+            if (response.data) {
+              console.log(response.data.temp.studentid);
+              home()
+            } else {
+              addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
+              register()
+            }
+          })
+      }
+    }
+  }
+
+
 
 
   useEffect(() => {
-    searchdata()
-    getUsers()
-    admincheck()
-
-
-    if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN  ) {
-      if (admin === cmuAccount) {
-        if(admindata){
-          console.log("admin home");
-          
-          // home()
-        }else{
-          // logadmin(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
-          // home()
-          console.log("admin login");
-        }
-      } else {
-        if (checkstudent) {
-          console.log("user home")
-          // home()
-        } else {
-        //   addUsers(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
-        //   register()
-        console.log("user login")
-         }
-      }
-    }
-  }, [fullName, cmuAccount, studentId, organization_name, itaccounttype_EN, checkstudent,admindata]);
+    role()
+  }, [fullName, cmuAccount, studentId, organization_name, itaccounttype_EN, checkstudent]);
 
 
   function signOut() {
