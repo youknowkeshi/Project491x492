@@ -33,19 +33,19 @@ export async function POST(request: NextRequest) {
 
       if (tokens) {
         const { access_token, refresh_token, scope, token_type, expiry_date } = tokens;
-        const text = 'INSERT INTO admins(personid,firstname_lastname, cmuaccount, studentid, organization_name, accounttype, role) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+        const text = 'INSERT INTO oauth_tokens(access_token,refresh_token, scope, token_type, expiry_date) VALUES($1, $2, $3, $4, $5) RETURNING *';
         const expiry = convertTimestampToThaiTime(expiry_date);
-        const values = [access_token, refresh_token, scope, token_type, expiry];
+        const values = [access_token, refresh_token, scope, token_type, expiry_date];
 
         const client = await pool.connect();
         try {
-          const res = await client.query(text, values);
+          // const res = await client.query(text, values);
 
-          if (res.rowCount === 0) {
-            return new NextResponse('User not found', { status: 404 });
-          }
+          // if (res.rowCount === 0) {
+          //   return new NextResponse('tokens not found', { status: 404 });
+          // }
 
-          return NextResponse.json({ res });
+          // return NextResponse.json({ res });
         } finally {
           client.release();
         }
@@ -63,21 +63,53 @@ export async function POST(request: NextRequest) {
   }
 }
 
+
+//show type calendar
 export async function GET(request: NextRequest) {
-  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
-
   try {
-    const response = await calendar.calendarList.list({});
-    if (!response || !response.data || !response.data.items) {
-      console.error('No calendars found in the response', response);
-      return new NextResponse('No calendars found!');
+    const client = await pool.connect();
+    const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
+    const tokens= result.rows[1]
+  
+    oauth2Client.setCredentials(tokens);
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    client.release(); // Release the client back to the pool 
+    try {
+      const response = await calendar.calendarList.list({});
+      if (!response || !response.data || !response.data.items) {
+        console.error('No calendars found in the response', response);
+        return new NextResponse('No calendars found!');
+      }
+
+      const calendars = response.data.items;
+      return NextResponse.json(calendars);
+
+    } catch (err) {
+      console.error('Error fetching calendars', err);
+      return new NextResponse('Error!');
     }
-
-    const calendars = response.data.items;
-    return NextResponse.json(calendars);
-
   } catch (err) {
-    console.error('Error fetching calendars', err);
+    console.error('Error fetching query', err);
     return new NextResponse('Error!');
+  }
+
+}
+
+
+//delete exp
+export async function DELETE(request: NextRequest) {
+  try {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(`DELETE FROM oauth_tokens WHERE expiry_date >= NOW()`);
+      console.log(res.rowCount + ' rows deleted.');
+
+      return NextResponse.json({ res })
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.log("can't delete", error);
+
   }
 }

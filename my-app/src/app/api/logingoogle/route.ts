@@ -23,6 +23,8 @@ const scopes = [
         // If you only need one scope you can pass it as a string
         scope: scopes
       }); 
+      console.log(oauth2Client);
+      
       return NextResponse.redirect(url)
   }
   
