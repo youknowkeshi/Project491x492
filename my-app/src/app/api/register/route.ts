@@ -95,6 +95,7 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     ) as JWTPayload;
 
     const request = await req.json();
+    console.log(request);
     const { personid, phone, major, gender, topic, facebookurl } = request;
     const studentId = decoded.studentId;
 
@@ -106,9 +107,15 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       return new Response('Missing studentId', { status: 400 });
     }
 
+   
+    
+
 
     const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 WHERE studentId = $2';
     const values = [personid, studentId, phone, major, gender, topic, facebookurl];
+
+
+    
 
     const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
     const values_infor = [personid]

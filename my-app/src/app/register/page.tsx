@@ -7,16 +7,101 @@ import {
   TextInput,
   Textarea,
 } from "flowbite-react";
-import React from "react";
+import React, { use, useState, useEffect } from "react";
 import nav from "../component/Nav";
 import Nav from "../component/Nav";
 import Link from "next/link";
 import { Select } from "flowbite-react";
 import { Foot } from "../component/Footer";
+import { useRouter } from "next/navigation";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+
 
 type Props = {};
 
-export default function RegisterPage({}: Props) {
+export default function RegisterPage({ }: Props) {
+  const router = useRouter();
+  const [Id, setId] = useState('');
+  const [phone, setphone] = useState('');
+  const [major, setmajor] = useState('');
+  const [gender, setgender] = useState('');
+  const [topic, settopic] = useState('');
+  const [facebookurl, setfacebookurl] = useState('');
+  const [studentId, setStudentId] = useState("");
+  const [fullName, setFullName] = useState("");
+
+  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string) {
+
+    try {
+      const response = await axios.put('http://localhost:3000/api/register', {
+        personid: personid,
+        phone: phone,
+        major: major,
+        gender: gender,
+        topic: topic,
+        facebookurl: facebookurl
+      }
+      );
+    } catch (error) {
+      console.log("This is error : ", error);
+    }
+  }
+
+  async function getdatausers() {
+    try {
+      const response = await axios.get('/api/register')
+      setFullName(response.data.firstName + " " + response.data.lastName);
+      setStudentId(response.data.studentId ?? "-");
+
+
+    } catch (err) {
+      console.log("This is error: ", err);
+    }
+  }
+
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setId(event.target.value);
+  };
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setphone(event.target.value);
+  };
+
+  // const handleMajorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log("ค่าที่เลือก: ", selectedValue);
+  //   setmajor(event.target.value);
+  // };
+
+  const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    // ทำสิ่งที่คุณต้องการดำเนินการกับค่าที่ถูกเลือกที่นี่
+    console.log("ค่าที่เลือก: ", event.target.value);
+  }
+
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setgender(event.target.value);
+  };
+
+  const handleTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    settopic(event.target.value);
+  };
+
+  const handleFacebookUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setfacebookurl(event.target.value);
+  };
+
+  const handleSaveData = () => {
+
+    updatedataUsers(Id, phone, major, gender, topic, facebookurl)
+  };
+
+  useEffect(() => {
+    getdatausers()
+    console.log('ds', major);
+
+  }, []);
+
   return (
     <div>
       <Nav />
@@ -56,9 +141,8 @@ export default function RegisterPage({}: Props) {
                 <div className="mt-5">
                   <TextInput
                     id="input-gray"
-                    placeholder="First Name and Last Name"
-                    required
                     color="gray"
+                    placeholder={fullName} disabled
                   />
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-5">
@@ -67,27 +151,32 @@ export default function RegisterPage({}: Props) {
                     placeholder="Phone"
                     required
                     color="gray"
+                    value={phone}
+                    onChange={handlePhoneChange}
                   />
                   <TextInput
                     id="input-gray"
-                    placeholder="Student ID"
-                    required
+                    placeholder={studentId} disabled
                     color="gray"
                   />
                 </div>
                 <div className="max-w-md mt-5">
                   <Label htmlFor="Major" />
                 </div>
-                <Select id="Major" required>
-                  <option>วิศวกรรมโยธา</option>
-                  <option>วิศวกรรมไฟฟ้า</option>
-                  <option>วิศวกรรมเครื่องกล</option>
-                  <option>วิศวกรรมสิ่งแวดล้อม</option>
-                  <option>วิศวกรรมอุตสาหการ</option>
-                  <option>วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
-                  <option>วิศวกรรมคอมพิวเตอร์</option>
-                  <option>วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
-                  <option>อื่นๆ</option>
+                <Select
+                  id="Major"
+                  required
+                  onChange={handleMajorChange}
+                >
+                  <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
+                  <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
+                  <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
+                  <option value="วิศวกรรมสิ่งแวดล้อม">วิศวกรรมสิ่งแวดล้อม</option>
+                  <option value="วิศวกรรมอุตสาหการ">วิศวกรรมอุตสาหการ</option>
+                  <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
+                  <option value="วิศวกรรมคอมพิวเตอร์">วิศวกรรมคอมพิวเตอร์</option>
+                  <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
                 </Select>
                 <div className="mt-5">
                   <TextInput
@@ -95,6 +184,8 @@ export default function RegisterPage({}: Props) {
                     placeholder="Topic"
                     required
                     color="gray"
+                    value={topic}
+                    onChange={handleTopicChange}
                   />
                 </div>
                 <div className="mt-5">
@@ -103,6 +194,8 @@ export default function RegisterPage({}: Props) {
                     placeholder="Facebook URL"
                     required
                     color="gray"
+                    value={facebookurl}
+                    onChange={handleFacebookUrlChange}
                   />
                 </div>
                 <div className="mt-5">
@@ -111,6 +204,8 @@ export default function RegisterPage({}: Props) {
                     placeholder="Access Code"
                     required
                     color="gray"
+                    value={Id}
+                    onChange={handleIdChange}
                   />
                 </div>
                 <div className="mt-5">
@@ -127,7 +222,7 @@ export default function RegisterPage({}: Props) {
                   </span>
                 </div>
                 <div className="mt-5">
-                  <button className="w-full bg-green-500 py-3 text-center text-white">
+                  <button className="w-full bg-green-500 py-3 text-center text-white" onClick={handleSaveData}>
                     Register Now
                   </button>
                 </div>

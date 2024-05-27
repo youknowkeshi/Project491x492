@@ -19,7 +19,6 @@ export default function MePage() {
   const [checkstudent, setcheckstudent] = useState("")
   const [errorMessage, setErrorMessage] = useState("");
   const [admindata, setadmindata] = useState("")
-  const [loading, setLoading] = useState(true);
   const admin = process.env.NEXT_PUBLIC_ADMIN as string
 
 
@@ -179,22 +178,6 @@ export default function MePage() {
   }
 
   return (
-    <div className="p-3">
-      <h1>Hi, {fullName}</h1>
-      <p>{cmuAccount}</p>
-      <p>{studentId}</p>
-      <p>organize: {organization_name}</p>
-      <p>{itaccounttype_EN}</p>
-      <p className="text-danger">{errorMessage}</p>
-
-      <button className="btn btn-danger mb-3" onClick={signOut}>
-        {errorMessage ? "Go back" : "Sign out"}
-      </button>
-
-      <p className="text-muted fs-6">
-        This is a protected route. You can try to view this page without token.
-        It will fail.
-      </p>
-    </div>
+    <div>loading...</div>
   );
 }

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Footer, Navbar } from "flowbite-react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
+
 
 
 export function Nav() {
@@ -12,17 +14,26 @@ export function Nav() {
   const router = useRouter();
 
   function signOut() {
-
     axios.post("/api/signOut").finally(() => {
       router.push("/");
     });
   }
 
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/register');
+        const token = response.data.ok
+        if (token) {
+          setIsLoggedIn(true);
+        }
+      } catch (err) {
+        console.log("This is error: ", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -50,10 +61,9 @@ export function Nav() {
               <Navbar.Link href="/profile">Profile</Navbar.Link>
               <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
               <Navbar.Link href="/article">Article</Navbar.Link>
-              <Navbar.Link onClick={(e) => {
-                e.preventDefault(); // ป้องกันการนำทางโดยอัตโนมัติ
-                signOut();
-              }}>Logout</Navbar.Link>
+              <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
+
+              
             </>
           ) : (
             <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>

@@ -45,8 +45,6 @@ export default function RegisterPage() {
         router.push("/home");
       }
 
-
-
     async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string) {
 
         try {
@@ -60,7 +58,7 @@ export default function RegisterPage() {
             }
             );
         } catch (error) {
-            console.log("Hello",error);
+            console.log("This is error : ",error);
         }
     }
 
