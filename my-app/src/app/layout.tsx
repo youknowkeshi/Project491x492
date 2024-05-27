@@ -14,14 +14,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <body className={outfit.className}>
         <div className="mx-auto p-7">{children}</div>
       </body>
     </html>
-  );
+  )
 }
