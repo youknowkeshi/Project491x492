@@ -130,7 +130,7 @@ export default function MePage() {
   }
 
   function home() {
-    router.push("/home");
+    router.push("/dashboard");
   }
 
 
