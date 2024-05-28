@@ -37,7 +37,6 @@ export function Nav() {
               </Navbar.Link>
               <Navbar.Link href="/appointment">Appointment</Navbar.Link>
               <Navbar.Link href="/profile">Profile</Navbar.Link>
-              <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
               <Navbar.Link href="/article">Article</Navbar.Link>
               <Navbar.Link href="/login">Logout</Navbar.Link>
             </>
