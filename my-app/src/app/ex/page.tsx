@@ -1,29 +1,30 @@
 import React from 'react';
 import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
-import { Image } from 'antd';
+import Image from "next/image";
 type Props = {};
 
 const Page = (props: Props) => {
   return (
-    <div className='flex justify-items-start mt-10 ml-10 mr-10'>
+    <div className='flex justify-start mt-10 mx-10'>
       {/* บล็อคทางขวา */}
-      <div className="w-1/4 flex justify-end">
-        <a href="#" className="flex flex-col items-center border border-gray-200 rounded-lg shadow">
-          <div className="flex flex-col justify-between p-4">
-            {/* <Image> </Image> */}
-            <h5 className="mb-2 text-2xl font-bold">Title 2</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-        </a>
-      </div>
+      <Card className="max-w-lg" renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
+        <div className="w-3/4">
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Noteworthy technology acquisitions 2021
+          </h5>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+          </p>
+        </div>
+      </Card>
       {/* เส้นคั่นกลางแนวตั้ง */}
-      <div className="w-0.5 bg-gray-200 mx-4 "></div>
+      <div className="w-0.5 bg-gray-200 mx-4"></div>
       {/* บล็อคเรียงกัน 3 แถว */}
-      <div className='flex flex-col flex-grow space-y-4 m-auto'>
+      <div className='flex flex-col flex-grow space-y-4'>
         <Card className="flex flex-col">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          วัดพลังใจ
+            วัดพลังใจ
           </h5>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             พลังใจยังไหวอยู่หรือเปล่า ช่วงนี้เราเศร้ามากน้อยแค่ไหน มาทำแบบวัดพลังใจกันเลย
@@ -45,10 +46,10 @@ const Page = (props: Props) => {
         </Card>
         <Card className="flex flex-col">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          วัดความเครียด
+            วัดความเครียด
           </h5>
           <p className="font-normal text-gray-700 dark:text-gray-400">
-            ความเครียดในระดับที่เหมาะสมจะเป็นแรงผลักดันให้เราสามารถทำในสิ่งที่ตั้งใจให้ ประสบความสำเร็จมากขึ้นมาประเมินกันว่าความเครียดของเราอยู่ในระดับไหน
+            ความเครียดในระดับที่เหมาะสมจะเป็นแรงผลักดันให้เราสามารถทำในสิ่งที่ตั้งใจให้ประสบความสำเร็จมากขึ้น มาประเมินกันว่าความเครียดของเราอยู่ในระดับไหน
           </p>
           <div className="flex justify-end">
             <Link href='/graph'>
@@ -67,7 +68,7 @@ const Page = (props: Props) => {
         </Card>
         <Card className="flex flex-col">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          สำรวจตัวเอง
+            สำรวจตัวเอง
           </h5>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             มารู้จักตนเองให้มากขึ้นโดยทำแบบสำรวจตนเองได้เลย
