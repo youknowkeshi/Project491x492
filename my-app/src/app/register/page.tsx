@@ -24,8 +24,8 @@ export default function RegisterPage({ }: Props) {
   const router = useRouter();
   const [Id, setId] = useState('');
   const [phone, setphone] = useState('');
-  const [major, setmajor] = useState('');
-  const [gender, setgender] = useState('');
+  const [major, setmajor] = useState('วิศวกรรมโยธา');
+  const [gender, setgender] = useState('Male');
   const [topic, settopic] = useState('');
   const [facebookurl, setfacebookurl] = useState('');
   const [studentId, setStudentId] = useState("");
@@ -43,6 +43,8 @@ export default function RegisterPage({ }: Props) {
         facebookurl: facebookurl
       }
       );
+      console.log("front: ",response);
+      
     } catch (error) {
       console.log("This is error : ", error);
     }
@@ -68,18 +70,13 @@ export default function RegisterPage({ }: Props) {
     setphone(event.target.value);
   };
 
-  // const handleMajorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log("ค่าที่เลือก: ", selectedValue);
-  //   setmajor(event.target.value);
-  // };
-
   const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // ทำสิ่งที่คุณต้องการดำเนินการกับค่าที่ถูกเลือกที่นี่
-    console.log("ค่าที่เลือก: ", event.target.value);
+    setmajor(event.target.value)
   }
 
 
-  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("ค่าที่เลือก: ", event.target.value);
     setgender(event.target.value);
   };
 
@@ -91,15 +88,18 @@ export default function RegisterPage({ }: Props) {
     setfacebookurl(event.target.value);
   };
 
-  const handleSaveData = () => {
+  function appointment ()  {
+    router.push("appointment");
+  }
 
+  const handleSaveData = () => {
     updatedataUsers(Id, phone, major, gender, topic, facebookurl)
+    appointment()
   };
 
   useEffect(() => {
     getdatausers()
-    console.log('ds', major);
-
+    
   }, []);
 
   return (
@@ -138,7 +138,10 @@ export default function RegisterPage({ }: Props) {
                 Create your account. It’s free and only take a minute
               </p>
               <form action="#">
-                <div className="mt-5">
+                <div className="mb-1">
+                  <Label value="Fullname" />
+                </div>
+                <div>
                   <TextInput
                     id="input-gray"
                     color="gray"
@@ -146,9 +149,18 @@ export default function RegisterPage({ }: Props) {
                   />
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-5">
+                  <div className="">
+                    <Label value="Phone" />
+                  </div>
+                  <div className="">
+                    <Label value="StudentID" />
+                  </div>
+                </div>
+
+                <div className="mb-1 grid grid-cols-2 gap-5">
                   <TextInput
                     id="input-gray"
-                    placeholder="Phone"
+                    placeholder="091-345xxxx"
                     required
                     color="gray"
                     value={phone}
@@ -161,27 +173,35 @@ export default function RegisterPage({ }: Props) {
                   />
                 </div>
                 <div className="max-w-md mt-5">
-                  <Label htmlFor="Major" />
+
+                  <div className="mb-1 block">
+                    <Label htmlFor="Major" value="Major" />
+                  </div>
+                  <Select
+                    id="Major"
+                    required
+                    onChange={handleMajorChange}
+                  >
+
+                    <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
+                    <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
+                    <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
+                    <option value="วิศวกรรมสิ่งแวดล้อม">วิศวกรรมสิ่งแวดล้อม</option>
+                    <option value="วิศวกรรมอุตสาหการ">วิศวกรรมอุตสาหการ</option>
+                    <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
+                    <option value="วิศวกรรมคอมพิวเตอร์">วิศวกรรมคอมพิวเตอร์</option>
+                    <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
+                  </Select>
                 </div>
-                <Select
-                  id="Major"
-                  required
-                  onChange={handleMajorChange}
-                >
-                  <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
-                  <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
-                  <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
-                  <option value="วิศวกรรมสิ่งแวดล้อม">วิศวกรรมสิ่งแวดล้อม</option>
-                  <option value="วิศวกรรมอุตสาหการ">วิศวกรรมอุตสาหการ</option>
-                  <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
-                  <option value="วิศวกรรมคอมพิวเตอร์">วิศวกรรมคอมพิวเตอร์</option>
-                  <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
-                  <option value="อื่นๆ">อื่นๆ</option>
-                </Select>
+
                 <div className="mt-5">
+                  <div className="mb-1 block">
+                    <Label value="Topic" />
+                  </div>
                   <TextInput
                     id="input-gray"
-                    placeholder="Topic"
+                    placeholder="เครียดกับการทำงาน......"
                     required
                     color="gray"
                     value={topic}
@@ -189,9 +209,12 @@ export default function RegisterPage({ }: Props) {
                   />
                 </div>
                 <div className="mt-5">
+                  <div className="mb-1 block">
+                    <Label value="Facebook Profile" />
+                  </div>
                   <TextInput
                     id="input-gray"
-                    placeholder="Facebook URL"
+                    placeholder="https://www.facebook.com/parinya.mungrod"
                     required
                     color="gray"
                     value={facebookurl}
@@ -199,9 +222,12 @@ export default function RegisterPage({ }: Props) {
                   />
                 </div>
                 <div className="mt-5">
+                  <div className="mb-1 block">
+                    <Label value="Access Code" />
+                  </div>
                   <TextInput
                     id="input-gray"
-                    placeholder="Access Code"
+                    placeholder="Get the code from the psychiatrist"
                     required
                     color="gray"
                     value={Id}
@@ -209,14 +235,31 @@ export default function RegisterPage({ }: Props) {
                   />
                 </div>
                 <div className="mt-5">
+                  <div className="mb-1 block">
+                    <Label value="Gender" />
+                  </div>
+                  <Select
+                    id="Major"
+                    required
+                    onChange={handleGenderChange}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="LGBTQ+">LGBTQ+</option>
+                    <option value="Not specified">Not specified</option>
+
+                  </Select>
+                </div>
+
+                <div className="mt-5">
                   <input type="checkbox" className="border border-gray-400" />
                   <span className="ml-3">
                     I accept the{" "}
-                    <a href="#" className="text-green-500 font-semibold">
+                    <a className="text-green-500 font-semibold">
                       Terms of Use
                     </a>{" "}
                     &{" "}
-                    <a href="#" className="text-green-500 font-semibold">
+                    <a className="text-green-500 font-semibold">
                       Privacy Policy
                     </a>
                   </span>

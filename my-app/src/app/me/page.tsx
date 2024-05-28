@@ -89,40 +89,6 @@ export default function MePage() {
     }
   }
 
-  async function admincheck() {
-    try {
-      axios.put('http://localhost:3000/api/admin', { cmuaccount: cmuAccount })
-        .then(response => {
-          if (response.data.length > 0) {
-            setadmindata(response.data[0].cmuaccount)
-          } else {
-            console.log("Not found");
-          }
-        })
-    } catch (error) {
-      console.log("Error : ", error);
-
-    }
-  }
-
-  async function searchdata() {
-    try {
-      axios.get('http://localhost:3000/api/checkdata')
-        .then(response => {
-          if (response.data) {
-            console.log(response.data.temp.studentid);
-
-            setcheckstudent(response.data.temp.studentid)
-          } else {
-
-
-          }
-        })
-    } catch (error) {
-      console.log("My error", error)
-    }
-
-  }
 
   function register() {
     router.push("/register");

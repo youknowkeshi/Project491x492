@@ -85,19 +85,17 @@ export async function GET(req: NextRequest,
 export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
   const token = getCookie("cmu-oauth-example-token", { req, res });
 
-  if (typeof token !== "string")
+  if (typeof token !== "string") {
     return NextResponse.json({ ok: false, message: "Invalid token" });
+  }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as JWTPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload;
 
     const request = await req.json();
-    console.log(request);
     const { personid, phone, major, gender, topic, facebookurl } = request;
     const studentId = decoded.studentId;
+    const role = "users";
 
     if (!personid || !phone || !major || !gender || !topic || !facebookurl) {
       return new Response('Missing required fields', { status: 400 });
@@ -107,51 +105,45 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       return new Response('Missing studentId', { status: 400 });
     }
 
-   
-    
-
-
-    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 WHERE studentId = $2';
-    const values = [personid, studentId, phone, major, gender, topic, facebookurl];
-
-
-    
+    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 , role = $8 WHERE studentId = $2';
+    const values = [personid, studentId, phone, major, gender, topic, facebookurl, role];
 
     const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
-    const values_infor = [personid]
+    const values_infor = [personid];
 
-    const text_con = 'INSERT INTO conseling_room1 (personid) VALUES ($1) RETURNING *'
-    const values_con = [personid]
+    const text_con = 'INSERT INTO user_conseling_room1 (personid) VALUES ($1) RETURNING *';
+    const values_con = [personid];
 
-    // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการอัปเดตข้อมูล
-    const client = await pool.connect();    
+    const client = await pool.connect();
+
     try {
       const res = await client.query(text, values);
+     
+      const res_infor = await client.query(text_infor, values_infor);
+      // const res_con = await client.query(text_con, values_con);
 
-      const res_infor = await client.query(text_infor,values_infor)
-
-      const res_con = await client.query(text_con,values_con)
-
-      // ตรวจสอบว่ามีข้อมูลถูกอัปเดตหรือไม่
       if (res.rowCount === 0) {
+        console.log("User not found");
         return new Response('User not found', { status: 404 });
       }
 
-      if(res_infor.rowCount === 0){
-        return new Response('information not found', { status: 404 });
+      if (res_infor.rowCount === 0) {
+        console.log("Information not found");
+        return new Response('Information not found', { status: 404 });
       }
 
-      if(res_con.rowCount === 0){
-        return new Response('conselling not found', { status: 404 });
-      }
+      // if (res_con.rowCount === 0) {
+      //   console.log("Conselling not found");
+      //   return new Response('Conselling not found', { status: 404 });
+      // }
 
-      // ส่งข้อความยืนยันการอัปเดตกลับไปใน response
       return new Response('User updated successfully', { status: 200 });
     } finally {
       client.release();
     }
 
   } catch (error) {
+    console.error("Error: ", error);
     return NextResponse.json({ ok: false, message: "Invalid token" });
   }
 }

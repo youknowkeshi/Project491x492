@@ -10,12 +10,15 @@ import { getCookie } from "cookies-next";
 
 
 export function Nav() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   function signOut() {
     axios.post("/api/signOut").finally(() => {
       router.push("/");
+      setIsLoggedIn(false);
+      setIsLoading(true)
     });
   }
 
@@ -27,9 +30,11 @@ export function Nav() {
         const token = response.data.ok
         if (token) {
           setIsLoggedIn(true);
+          setIsLoading(false)
         }
       } catch (err) {
         console.log("This is error: ", err);
+
       }
     };
 
@@ -48,27 +53,30 @@ export function Nav() {
           />
         </div>
         <Navbar.Toggle />
-        <Navbar.Collapse>
-          {isLoggedIn ? (
-            <>
-              <Navbar.Link href="/dashboard" active>
-                Home
-              </Navbar.Link>
-              <Navbar.Link as={Link} href="/register">
-                Register
-              </Navbar.Link>
-              <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-              <Navbar.Link href="/profile">Profile</Navbar.Link>
-              <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
-              <Navbar.Link href="/article">Article</Navbar.Link>
-              <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
+        <Navbar fluid rounded>
+          {isLoading ? null : <Navbar.Collapse >
+            {isLoggedIn ? (
+              <>
+                <Navbar.Link href="/dashboard" active>
+                  Home
+                </Navbar.Link>
+                <Navbar.Link as={Link} href="/register">
+                  Register
+                </Navbar.Link>
+                <Navbar.Link href="/appointment">Appointment</Navbar.Link>
+                <Navbar.Link href="/profile">Profile</Navbar.Link>
+                <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
+                <Navbar.Link href="/article">Article</Navbar.Link>
+                <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
 
-              
-            </>
-          ) : (
-            <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>
-          )}
-        </Navbar.Collapse>
+
+              </>
+            ) : (
+              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>
+            )}
+          </Navbar.Collapse>}
+        </Navbar>
+
       </Navbar>
       <hr className="mt-4"></hr>
     </>

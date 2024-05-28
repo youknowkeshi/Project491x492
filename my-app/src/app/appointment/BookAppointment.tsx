@@ -15,7 +15,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 
-function BookAppointment() {
+function BookAppointment({room}:{room : any}) {
   interface TimeSlot {
     time: string;
   }
@@ -59,7 +59,7 @@ function BookAppointment() {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5">Appointment</Button>
+          <Button className="mt-5">Appointment {room}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
