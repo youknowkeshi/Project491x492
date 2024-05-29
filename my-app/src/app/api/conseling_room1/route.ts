@@ -12,8 +12,6 @@ export async function PUT(request: NextRequest) {
         const text = 'UPDATE conseling_room1 SET start_datetime =$1, end_datetime= $2, expire_date= $3, room= $4 WHERE event_id = $5';
         const values = [start_datetime, end_datetime, expire_date, room, event_id];
 
-
-
         const client = await pool.connect();
         try {
             const res = await client.query(text, values);

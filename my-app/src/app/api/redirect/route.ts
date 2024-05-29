@@ -81,7 +81,8 @@ export async function GET(request: NextRequest) {
         return new NextResponse('No calendars found!');
       }
 
-      const calendars = response.data.items;
+      const calendars = response.data.items.map(calendar => calendar.id);
+      //const calendars = response.data.items
       return NextResponse.json(calendars);
 
     } catch (err) {
