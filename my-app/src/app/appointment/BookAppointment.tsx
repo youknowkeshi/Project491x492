@@ -14,6 +14,8 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
+import {useState ,useEffect} from "react"
+import axios from "axios";
 
 function BookAppointment({room}:{room : any}) {
   interface TimeSlot {
@@ -24,6 +26,10 @@ function BookAppointment({room}:{room : any}) {
   const [timeSlot, setTimeSlot] = React.useState<TimeSlot[] | undefined>(
     undefined
   );
+
+  const [personId, setPersonId] = useState('')
+  const [conseling_room, setConseling_room] = useState('')
+
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
     string | undefined
   >(undefined);
@@ -55,11 +61,41 @@ function BookAppointment({room}:{room : any}) {
     setIsConfirmationModalOpen(true);
   };
 
+
+
+  function getpersonid (){
+    axios.get('http://localhost:3000/api/checkdata').then(response =>{
+      // console.log("Data : ",response.data.temp.personid);
+      setPersonId(response.data.temp.personid)
+    })
+    .catch(error =>{
+      console.log("getpersonid fail: ",error);
+      
+    })
+  }
+
+  function chooseroom() {
+    try {
+      axios.post('http://localhost:3000/api/appointment', {
+        personid: personId,
+        cmuaccount: room
+      }
+      );
+    } catch (error) {
+      console.log("not found room | personid", error);
+
+    }
+  }
+
+  useEffect(() => {
+    
+  },[])
+
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5">Appointment {room}</Button>
+          <Button className="mt-5" onClick={getpersonid}>Appointment {room}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

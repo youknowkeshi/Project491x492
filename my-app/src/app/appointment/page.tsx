@@ -18,35 +18,7 @@ import axios from "axios";
 type Props = {};
 
 export default function page({ }: Props) {
-  const [personId, setPersonId] = useState('')
-  const [room, setRoom] = useState('')
-
-  function getpersonid (){
-    axios.get('http://localhost:3000/api/admin').then(response =>{
-      console.log("Data : ",response.data);
-    })
-    .catch(error =>{
-      console.log("getpersonid fail: ",error);
-      
-    })
-  }
-
-  function chooseroom() {
-    try {
-      axios.post('http://localhost:3000/api/appointment', {
-        personid: personId,
-        cmuaccount: room
-      }
-      );
-    } catch (error) {
-      console.log("not found room | personid", error);
-
-    }
-  }
-
-  useEffect(() => {
-    getpersonid()
-  },[])
+ 
 
 
 
