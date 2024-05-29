@@ -89,7 +89,7 @@ export default function RegisterPage({ }: Props) {
   };
 
   function appointment ()  {
-    router.push("appointment");
+    router.push("/appointment");
   }
 
   const handleSaveData = () => {

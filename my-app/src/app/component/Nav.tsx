@@ -10,15 +10,12 @@ import { getCookie } from "cookies-next";
 
 
 export function Nav() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   function signOut() {
     axios.post("/api/signOut").finally(() => {
       router.push("/");
-      setIsLoggedIn(false);
-      setIsLoading(true)
     });
   }
 
@@ -30,7 +27,6 @@ export function Nav() {
         const token = response.data.ok
         if (token) {
           setIsLoggedIn(true);
-          setIsLoading(false)
         }
       } catch (err) {
         console.log("This is error: ", err);
@@ -54,7 +50,7 @@ export function Nav() {
         </div>
         <Navbar.Toggle />
         <Navbar fluid rounded>
-          {isLoading ? null : <Navbar.Collapse >
+        <Navbar.Collapse >
             {isLoggedIn ? (
               <>
                 <Navbar.Link href="/dashboard" active>
@@ -74,7 +70,7 @@ export function Nav() {
             ) : (
               <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>
             )}
-          </Navbar.Collapse>}
+          </Navbar.Collapse>
         </Navbar>
 
       </Navbar>
