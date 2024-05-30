@@ -6,57 +6,41 @@ import {
   Label,
   TextInput,
   Textarea,
+  Select,
 } from "flowbite-react";
-import React, { use, useState, useEffect } from "react";
-import nav from "../component/Nav";
+import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
-import Link from "next/link";
-import { Select } from "flowbite-react";
-import { Foot } from "../component/Footer";
 import { useRouter } from "next/navigation";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 
-
-
-type Props = {};
-
-export default function RegisterPage({ }: Props) {
+export default function RegisterPage() {
   const router = useRouter();
   const [Id, setId] = useState('');
-  const [phone, setphone] = useState('');
-  const [major, setmajor] = useState('วิศวกรรมโยธา');
-  const [gender, setgender] = useState('Male');
-  const [topic, settopic] = useState('');
-  const [facebookurl, setfacebookurl] = useState('');
+  const [phone, setPhone] = useState('');
+  const [major, setMajor] = useState('วิศวกรรมโยธา');
+  const [gender, setGender] = useState('Male');
+  const [topic, setTopic] = useState('');
+  const [facebookurl, setFacebookUrl] = useState('');
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
+  const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
 
-  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string) {
-
+  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string ,gradelevel:string) {
     try {
       const response = await axios.put('http://localhost:3000/api/register', {
-        personid: personid,
-        phone: phone,
-        major: major,
-        gender: gender,
-        topic: topic,
-        facebookurl: facebookurl
-      }
-      );
-      console.log("front: ",response);
-      
+        personid, phone, major, gender, topic, facebookurl, gradelevel
+      });
+      console.log("front: ", response);
     } catch (error) {
-      console.log("This is error : ", error);
+      console.log("This is error: ", error);
     }
   }
 
   async function getdatausers() {
     try {
-      const response = await axios.get('/api/register')
+      const response = await axios.get('/api/register');
       setFullName(response.data.firstName + " " + response.data.lastName);
       setStudentId(response.data.studentId ?? "-");
-
-
     } catch (err) {
       console.log("This is error: ", err);
     }
@@ -67,39 +51,43 @@ export default function RegisterPage({ }: Props) {
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setphone(event.target.value);
+    setPhone(event.target.value);
   };
 
   const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setmajor(event.target.value)
-  }
-
+    setMajor(event.target.value);
+  };
 
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("ค่าที่เลือก: ", event.target.value);
-    setgender(event.target.value);
+    setGender(event.target.value);
+  };
+
+  const handleGradeLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGradeLevel(event.target.value);
   };
 
   const handleTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    settopic(event.target.value);
+    setTopic(event.target.value);
   };
 
   const handleFacebookUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setfacebookurl(event.target.value);
+    setFacebookUrl(event.target.value);
   };
 
-  function appointment ()  {
+  function appointment() {
+    console.log("Navigating to /appointment");
     router.push("/appointment");
   }
 
   const handleSaveData = () => {
-    updatedataUsers(Id, phone, major, gender, topic, facebookurl)
-    appointment()
+    console.log("handleSaveData called");
+    updatedataUsers(Id, phone, major, gender, topic, facebookurl, gradeLevel).then(() => {
+      appointment();
+    });
   };
 
   useEffect(() => {
-    getdatausers()
-    
+    getdatausers();
   }, []);
 
   return (
@@ -145,7 +133,8 @@ export default function RegisterPage({ }: Props) {
                   <TextInput
                     id="input-gray"
                     color="gray"
-                    placeholder={fullName} disabled
+                    placeholder={fullName}
+                    disabled
                   />
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-5">
@@ -168,12 +157,12 @@ export default function RegisterPage({ }: Props) {
                   />
                   <TextInput
                     id="input-gray"
-                    placeholder={studentId} disabled
+                    placeholder={studentId}
+                    disabled
                     color="gray"
                   />
                 </div>
                 <div className="max-w-md mt-5">
-
                   <div className="mb-1 block">
                     <Label htmlFor="Major" value="Major" />
                   </div>
@@ -182,7 +171,6 @@ export default function RegisterPage({ }: Props) {
                     required
                     onChange={handleMajorChange}
                   >
-
                     <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
                     <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
                     <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
@@ -191,6 +179,7 @@ export default function RegisterPage({ }: Props) {
                     <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
                     <option value="วิศวกรรมคอมพิวเตอร์">วิศวกรรมคอมพิวเตอร์</option>
                     <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
+                    <option value="วิศวกรรมบูรณาการ">วิศวกรรมบูรณาการ</option>
                     <option value="อื่นๆ">อื่นๆ</option>
                   </Select>
                 </div>
@@ -239,7 +228,7 @@ export default function RegisterPage({ }: Props) {
                     <Label value="Gender" />
                   </div>
                   <Select
-                    id="Major"
+                    id="gender"
                     required
                     onChange={handleGenderChange}
                   >
@@ -247,7 +236,29 @@ export default function RegisterPage({ }: Props) {
                     <option value="Female">Female</option>
                     <option value="LGBTQ+">LGBTQ+</option>
                     <option value="Not specified">Not specified</option>
+                  </Select>
+                </div>
 
+                <div className="mt-5">
+                  <div className="mb-1 block">
+                    <Label value="GradeLevel" />
+                  </div>
+                  <Select
+                    id="gradeLevel"
+                    required
+                    onChange={handleGradeLevelChange}
+                  >
+                    <option value="ชั้นปี 1">ชั้นปี 1</option>
+                    <option value="ชั้นปี 2">ชั้นปี 2</option>
+                    <option value="ชั้นปี 3">ชั้นปี 3</option>
+                    <option value="ชั้นปี 4">ชั้นปี 4</option>
+                    <option value="มากกว่าชั้นปี 4">มากกว่าชั้นปี 4</option>
+                    <option value="ป.โท">ป.โท</option>
+                    <option value="ป.เอก">ป.เอก</option>
+                    <option value="อาจารย์">อาจารย์</option>
+                    <option value="บุคลากร">บุคลากร</option>
+                    <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
                   </Select>
                 </div>
 
@@ -255,17 +266,12 @@ export default function RegisterPage({ }: Props) {
                   <input type="checkbox" className="border border-gray-400" />
                   <span className="ml-3">
                     I accept the{" "}
-                    <a className="text-green-500 font-semibold">
-                      Terms of Use
-                    </a>{" "}
-                    &{" "}
-                    <a className="text-green-500 font-semibold">
-                      Privacy Policy
-                    </a>
+                    <a className="text-green-500 font-semibold">Terms of Use</a> &{" "}
+                    <a className="text-green-500 font-semibold">Privacy Policy</a>
                   </span>
                 </div>
                 <div className="mt-5">
-                  <button className="w-full bg-green-500 py-3 text-center text-white" onClick={handleSaveData}>
+                  <button className="w-full bg-green-500 py-3 text-center text-white" onClick={(e) => {e.preventDefault(); handleSaveData();}}>
                     Register Now
                   </button>
                 </div>

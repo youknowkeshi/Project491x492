@@ -93,11 +93,11 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload;
 
     const request = await req.json();
-    const { personid, phone, major, gender, topic, facebookurl } = request;
+    const { personid, phone, major, gender, topic, facebookurl ,gradelevel} = request;
     const studentId = decoded.studentId;
     const role = "users";
 
-    if (!personid || !phone || !major || !gender || !topic || !facebookurl) {
+    if (!personid || !phone || !major || !gender || !topic || !facebookurl || !gradelevel) {
       return new Response('Missing required fields', { status: 400 });
     }
 
@@ -105,14 +105,14 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       return new Response('Missing studentId', { status: 400 });
     }
 
-    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 , role = $8 WHERE studentId = $2';
-    const values = [personid, studentId, phone, major, gender, topic, facebookurl, role];
+    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 , role = $8 , gradelevel = $9 WHERE studentId = $2';
+    const values = [personid, studentId, phone, major, gender, topic, facebookurl, role, gradelevel];
 
     const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
     const values_infor = [personid];
 
-    const text_con = 'INSERT INTO user_conseling_room1 (personid) VALUES ($1) RETURNING *';
-    const values_con = [personid];
+    // const text_con = 'INSERT INTO user_conseling_room1 (personid) VALUES ($1) RETURNING *';
+    // const values_con = [personid];
 
     const client = await pool.connect();
 
