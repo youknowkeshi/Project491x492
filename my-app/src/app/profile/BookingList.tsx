@@ -1,7 +1,19 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Card, Button } from "antd";
 
 function BookingList() {
+  const [visible, setVisible] = useState(true);
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  if (!visible) {
+    return null;
+  }
+
   return (
     <Card className="mt-7 relative">
       <div className="flex flex-col md:flex-row items-center">
@@ -19,7 +31,12 @@ function BookingList() {
         </div>
       </div>
 
-      <Button type="primary" danger className="absolute bottom-4 right-4">
+      <Button
+        type="primary"
+        danger
+        className="absolute bottom-4 right-4"
+        onClick={handleCancel}
+      >
         Cancel
       </Button>
     </Card>
