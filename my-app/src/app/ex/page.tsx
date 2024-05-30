@@ -30,7 +30,7 @@ const Page = (props: Props) => {
             พลังใจยังไหวอยู่หรือเปล่า ช่วงนี้เราเศร้ามากน้อยแค่ไหน มาทำแบบวัดพลังใจกันเลย
           </p>
           <div className="flex justify-end">
-            <Link href='/graph'>
+            <Link href='https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey'>
               <Button className='w-full sm:w-auto'>
                 แบบวัดพลังใจ
                 <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@ const Page = (props: Props) => {
             ความเครียดในระดับที่เหมาะสมจะเป็นแรงผลักดันให้เราสามารถทำในสิ่งที่ตั้งใจให้ประสบความสำเร็จมากขึ้น มาประเมินกันว่าความเครียดของเราอยู่ในระดับไหน
           </p>
           <div className="flex justify-end">
-            <Link href='/graph'>
+            <Link href='https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress'>
               <Button className='w-full sm:w-auto'>
                 แบบประเมินความเครียด
                 <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@ const Page = (props: Props) => {
             มารู้จักตนเองให้มากขึ้นโดยทำแบบสำรวจตนเองได้เลย
           </p>
           <div className="flex justify-end">
-            <Link href='/graph'>
+            <Link href='https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList'>
               <Button className='w-full sm:w-auto'>
                 แบบสำรวจตัวเอง
                 <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

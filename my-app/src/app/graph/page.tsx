@@ -15,6 +15,8 @@ const PieChart = () => {
     promotion: false,
     age: false,
     shipping: false,
+    shippin: false,
+    fo: false,
   });
 
   // ฟังก์ชันเพื่อสลับสถานะ dropdown
@@ -33,15 +35,16 @@ const PieChart = () => {
 
   // ข้อมูลสำหรับ Pie Chart
   const data = {
-    labels: ['JavaScript', 'Python', 'Ruby'],
+    labels: ['JavaScript', 'Python', 'Ruby' ,'unknown'],
     datasets: [
       {
         label: 'Languages',
-        data: [150, 50, 100],
+        data: [150, 50, 100 ,60],
         backgroundColor: [
           'rgb(133, 105, 241)',
           'rgb(164, 101, 241)',
           'rgb(101, 143, 241)',
+          'rgb(101, 153, 141)',
         ],
         hoverOffset: 4,
       },
@@ -74,11 +77,40 @@ const PieChart = () => {
                 <Checkbox id="promotion" checked={checkedItems.promotion} onChange={handleCheckboxChange} />
                 <Label htmlFor="promotion">I want to get promotional offers</Label>
               </div>
-              <div className="flex items-center gap-2">
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='age' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='age'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+              <div className='flex items-center gap-2'>
+                <Checkbox id='fo' checked={checkedItems.fo} onChange={handleCheckboxChange}/>
+                <Label htmlFor='fo'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
+              </div>
+
+              {/* <div className="flex items-center gap-2">
                 <Checkbox id="age" checked={checkedItems.age} onChange={handleCheckboxChange} />
                 <Label htmlFor="age">I am 18 years or older</Label>
-              </div>
-              <div className="flex gap-2">
+              </div> */}
+              {/* <div className="flex gap-2">
                 <div className="flex h-5 items-center">
                   <Checkbox id="shipping" checked={checkedItems.shipping} onChange={handleCheckboxChange} />
                 </div>
@@ -91,7 +123,7 @@ const PieChart = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </Dropdown>
 
@@ -216,10 +248,10 @@ const PieChart = () => {
               </div>
               <div className="flex gap-2">
                 <div className="flex h-5 items-center">
-                  <Checkbox id="shipping" checked={checkedItems.shipping} onChange={handleCheckboxChange} />
+                  <Checkbox id="shippin" checked={checkedItems.shippin} onChange={handleCheckboxChange} />
                 </div>
                 <div className="flex flex-col">
-                  <Label htmlFor="shipping">จัดส่งฟรีผ่าน Flowbite</Label>
+                  <Label htmlFor="shippin">จัดส่งฟรีผ่าน Flowbite</Label>
                   <div className="text-gray-500 dark:text-gray-300">
                     <span className="text-xs font-normal">
                       สำหรับคำสั่งซื้อที่จัดส่งจาก Flowbite ตั้งแต่ <span className="font-medium">€ 25</span> ในหมวดหนังสือหรือ&nbsp;
