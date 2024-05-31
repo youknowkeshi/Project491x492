@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 import {useState ,useEffect} from "react"
 import axios from "axios";
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 
 function BookAppointment({room}:{room : any}) {
   interface TimeSlot {
@@ -140,6 +142,13 @@ function BookAppointment({room}:{room : any}) {
                         ))}
                     </div>
                   </div>
+                  <div className="grid w-full gap-1.5">
+                    <div className= "mt-3">
+      <Label htmlFor="message-2">Your Message</Label>
+      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
+      </div>
+
+    </div>
                 </div>
               </div>
             </DialogDescription>
