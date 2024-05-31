@@ -2,6 +2,7 @@ import { google } from "googleapis";
 import { NextRequest, NextResponse } from 'next/server';
 import { oauth2Client } from "../logingoogle/route"
 import { pool } from "../../lib/db";
+import { event } from "jquery";
 
 export async function POST(request: NextRequest) {
   const client = await pool.connect();
@@ -36,8 +37,25 @@ export async function POST(request: NextRequest) {
       return new NextResponse('No events found!', { status: 404 });
     }
 
+    let startTimeArray: any[] = [];
+    let endTimeArray: any[] = [];
+    let evnetidArray: any[] = [];
     // Send the list of events as JSON
-    const events = response.data.items;
+    const events = response.data.items.map(event => {
+      // Add start time to startTimeArray
+      startTimeArray.push(event.start);
+      endTimeArray.push(event.end)
+      evnetidArray.push(event.id)
+    });
+
+
+    console.log("This is startEvents: ", startTimeArray);
+    console.log("This is endEvents: ",endTimeArray);
+    console.log("This is idEvents: ",evnetidArray);
+    
+    
+
+
     return NextResponse.json(events);
   } catch (error) {
     console.error("Can't fetch events", error);
