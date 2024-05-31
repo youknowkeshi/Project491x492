@@ -26,6 +26,9 @@ export default function Events() {
       const response = await axios.post(apiUrl, reqData);
       const eventData = response.data;
 
+      console.log(response);
+      
+
       if (eventData) {
         eventData.forEach((events: any) => {
           myArrayStart.push({ date_s: events.start.dateTime });

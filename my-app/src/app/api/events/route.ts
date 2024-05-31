@@ -6,13 +6,14 @@ import { pool } from "../../lib/db";
 export async function POST(request: NextRequest) {
   const client = await pool.connect();
   const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
-  const tokens = result.rows[1]
+  const tokens = result.rows[0]
 
   if(tokens === null){
     return new NextResponse('No found tokens!', { status: 404 });
   }
 
   oauth2Client.setCredentials(tokens);
+  
   try {
     const req = await request.json();
     const calendarId = req.calendar; // assuming req contains a calendarId property

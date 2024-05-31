@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const req = await request.json();
+        //events will have title location(default) description start(Time) end(Time) reminders -> true
         const { calendarId, event } = req;
 
         if (!calendarId) {
