@@ -15,20 +15,34 @@ import axios from "axios";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [Id, setId] = useState('');
-  const [phone, setPhone] = useState('');
-  const [major, setMajor] = useState('วิศวกรรมโยธา');
-  const [gender, setGender] = useState('Male');
-  const [topic, setTopic] = useState('');
-  const [facebookurl, setFacebookUrl] = useState('');
+  const [Id, setId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [major, setMajor] = useState("วิศวกรรมโยธา");
+  const [gender, setGender] = useState("Male");
+  const [topic, setTopic] = useState("");
+  const [facebookurl, setFacebookUrl] = useState("");
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
   const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
 
-  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string ,gradelevel:string) {
+  async function updatedataUsers(
+    personid: string,
+    phone: string,
+    major: string,
+    gender: string,
+    topic: string,
+    facebookurl: string,
+    gradelevel: string
+  ) {
     try {
-      const response = await axios.put('http://localhost:3000/api/register', {
-        personid, phone, major, gender, topic, facebookurl, gradelevel
+      const response = await axios.put("http://localhost:3000/api/register", {
+        personid,
+        phone,
+        major,
+        gender,
+        topic,
+        facebookurl,
+        gradelevel,
       });
       console.log("front: ", response);
     } catch (error) {
@@ -38,7 +52,7 @@ export default function RegisterPage() {
 
   async function getdatausers() {
     try {
-      const response = await axios.get('/api/register');
+      const response = await axios.get("/api/register");
       setFullName(response.data.firstName + " " + response.data.lastName);
       setStudentId(response.data.studentId ?? "-");
     } catch (err) {
@@ -62,7 +76,9 @@ export default function RegisterPage() {
     setGender(event.target.value);
   };
 
-  const handleGradeLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleGradeLevelChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setGradeLevel(event.target.value);
   };
 
@@ -70,7 +86,9 @@ export default function RegisterPage() {
     setTopic(event.target.value);
   };
 
-  const handleFacebookUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFacebookUrlChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFacebookUrl(event.target.value);
   };
 
@@ -81,7 +99,15 @@ export default function RegisterPage() {
 
   const handleSaveData = () => {
     console.log("handleSaveData called");
-    updatedataUsers(Id, phone, major, gender, topic, facebookurl, gradeLevel).then(() => {
+    updatedataUsers(
+      Id,
+      phone,
+      major,
+      gender,
+      topic,
+      facebookurl,
+      gradeLevel
+    ).then(() => {
       appointment();
     });
   };
@@ -95,7 +121,9 @@ export default function RegisterPage() {
       <Nav />
       <div
         className="min-h-screen py-40 mt-10 mb-7 rounded-md"
-        style={{ backgroundImage: "linear-gradient(115deg, #4F6F52, #6BDE75)" }}
+        style={{
+          backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
+        }}
       >
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
@@ -166,19 +194,23 @@ export default function RegisterPage() {
                   <div className="mb-1 block">
                     <Label htmlFor="Major" value="Major" />
                   </div>
-                  <Select
-                    id="Major"
-                    required
-                    onChange={handleMajorChange}
-                  >
+                  <Select id="Major" required onChange={handleMajorChange}>
                     <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
                     <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
                     <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
-                    <option value="วิศวกรรมสิ่งแวดล้อม">วิศวกรรมสิ่งแวดล้อม</option>
+                    <option value="วิศวกรรมสิ่งแวดล้อม">
+                      วิศวกรรมสิ่งแวดล้อม
+                    </option>
                     <option value="วิศวกรรมอุตสาหการ">วิศวกรรมอุตสาหการ</option>
-                    <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">วิศวกรรมเหมืองแร่และปิโตรเลียม</option>
-                    <option value="วิศวกรรมคอมพิวเตอร์">วิศวกรรมคอมพิวเตอร์</option>
-                    <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์</option>
+                    <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">
+                      วิศวกรรมเหมืองแร่และปิโตรเลียม
+                    </option>
+                    <option value="วิศวกรรมคอมพิวเตอร์">
+                      วิศวกรรมคอมพิวเตอร์
+                    </option>
+                    <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">
+                      วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์
+                    </option>
                     <option value="วิศวกรรมบูรณาการ">วิศวกรรมบูรณาการ</option>
                     <option value="อื่นๆ">อื่นๆ</option>
                   </Select>
@@ -227,11 +259,7 @@ export default function RegisterPage() {
                   <div className="mb-1 block">
                     <Label value="Gender" />
                   </div>
-                  <Select
-                    id="gender"
-                    required
-                    onChange={handleGenderChange}
-                  >
+                  <Select id="gender" required onChange={handleGenderChange}>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="LGBTQ+">LGBTQ+</option>
@@ -266,12 +294,21 @@ export default function RegisterPage() {
                   <input type="checkbox" className="border border-gray-400" />
                   <span className="ml-3">
                     I accept the{" "}
-                    <a className="text-green-500 font-semibold">Terms of Use</a> &{" "}
-                    <a className="text-green-500 font-semibold">Privacy Policy</a>
+                    <a className="text-green-500 font-semibold">Terms of Use</a>{" "}
+                    &{" "}
+                    <a className="text-green-500 font-semibold">
+                      Privacy Policy
+                    </a>
                   </span>
                 </div>
                 <div className="mt-5">
-                  <button className="w-full bg-green-500 py-3 text-center text-white" onClick={(e) => {e.preventDefault(); handleSaveData();}}>
+                  <button
+                    className="w-full bg-green-500 py-3 text-center text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSaveData();
+                    }}
+                  >
                     Register Now
                   </button>
                 </div>
