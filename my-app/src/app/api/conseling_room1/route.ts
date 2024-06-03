@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
 
+
 // update data room1
 export async function PUT(request: NextRequest) {
     try {
@@ -66,11 +67,11 @@ export async function DELETE(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json()
-        const { start_datetime, end_datetime, expire_date, personid } = req;
+        const { start_datetime, end_datetime, personid } = req;
         const room = 'conseling_room1'
 
-        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
-        const values = [start_datetime, end_datetime, expire_date, room, personid];
+        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4) RETURNING *';
+        const values = [start_datetime, end_datetime, room, personid];
 
         const client = await pool.connect();
         try {
@@ -86,7 +87,7 @@ export async function POST(request: NextRequest) {
         }
 
     } catch (error) {
-        console.log("Can't Post");
-
+        console.log("Can't Post",error);
+        return NextResponse.json("Error Can't Add", { status: 404 });
     }
 }
