@@ -36,7 +36,6 @@ export async function DELETE(response: NextResponse) {
         }
     } catch (error) {
         console.log("can't delete", error);
-
     }
 
 }

@@ -25,6 +25,18 @@ type ErrorResponse = {
 
 export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
+
+export async function GET() {
+  const client = await pool.connect();
+  try{
+    const result = await client.query('SELECT * FROM admin_conseling_room1')
+    return NextResponse.json({result})
+  }catch(error){
+    console.log("This is : ",error);
+    return new NextResponse('Error code',{status:404})
+  }
+}
+
 export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
   const token = getCookie("cmu-oauth-example-token", { req, res });
 
@@ -81,7 +93,7 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
       if (startDateTime && endDateTime && eventId) {
         // Check if the event already exists in the database
         const checkExisting = await client.query('SELECT event_id FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
-        
+
         if (checkExisting.rowCount === 0) {
           // Insert the event if it does not exist
           const text = 'INSERT INTO admin_conseling_room1(event_id, start_datetime, end_datetime, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
@@ -90,6 +102,30 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
           await client.query(text, values);
         }
       }
+
+
+      const queryCalendar = await client.query('SELECT event_id FROM admin_conseling_room1');
+      const checkCalendar = queryCalendar.rows.map(row => row.event_id);
+      
+      for (const eventId of checkCalendar) {
+        if (!events.some(event => event.id === eventId)) {
+          // EventId exists in the database but not in the current events from Google Calendar
+          console.log("this is eventId",eventId);
+          
+          try {
+            await client.query('DELETE FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
+          } catch (deleteError) {
+            console.error("Error deleting event from the database:", deleteError);
+          }
+        }
+      }
+      
+      
+
+      
+
+      
+      
     }
 
     return NextResponse.json(events);
@@ -98,5 +134,22 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
     return new NextResponse('Error', { status: 500 });
   } finally {
     client.release();
+  }
+}
+
+
+//check time 
+export async function DELETE() {
+  try {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(`DELETE FROM admin_conseling_room1 WHERE CAST(end_datetime AS TIMESTAMP) < NOW()`);
+
+      return new NextResponse('Delete Success', { status: 200 });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.log("can't delete", error);
   }
 }
