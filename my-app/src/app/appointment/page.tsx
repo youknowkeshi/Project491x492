@@ -15,34 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 
-interface EventRow {
-  start_datetime: string;
-  end_datetime: string;
-  // Add more properties if necessary
-}
 
 type Props = {};
 
 export default function page({ }: Props) {
-  const [startEventDate, setStartEventDate] = useState([])
-  const [endEventDate, setEndEventDate] = useState([])
-
-  async function getEvents() {
-    const apiUrl = 'http://localhost:3000/api/events';
-    try {
-      const response = await axios.get(apiUrl);
-      const rows: EventRow[] = response.data.result.rows;
-      const startDatetimes = rows.map(row => row.start_datetime);
-      const endDatetimes = rows.map(row => row.end_datetime);
-
-      console.log("Start : ",startDatetimes);
-      console.log("End : ",endDatetimes);
-
-    } catch (error) {
-
-    }
-  }
-
+ 
   async function fetchEvents() {
     const apiUrl = 'http://localhost:3000/api/events';
 
@@ -67,7 +44,7 @@ export default function page({ }: Props) {
 
 
   useEffect(() => {
-    getEvents()
+  
     fetchEvents()
     deleteEvent()
   })

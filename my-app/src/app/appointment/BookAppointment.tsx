@@ -14,30 +14,78 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
-import {useState ,useEffect} from "react"
+import { useState, useEffect } from "react"
 import axios from "axios";
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
-
-function BookAppointment({room}:{room : any}) {
+function BookAppointment({ room }: { room: any }) {
   interface TimeSlot {
     time: string;
   }
 
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const [timeSlot, setTimeSlot] = React.useState<TimeSlot[] | undefined>(
-    undefined
-  );
+  interface EventRow {
+    start_datetime: string;
+    end_datetime: string;
+  }
+
+  type DateParts = {
+    date: string;
+    time: string;
+  };
+
+
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
 
   const [personId, setPersonId] = useState('')
-  const [conseling_room, setConseling_room] = useState('')
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
-    string | undefined
-  >(undefined);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    React.useState(false);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
+
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const [startEventDate, setStartEventDate] = useState<string[]>([])
+  const [endEventDate, setEndEventDate] = useState<string[]>([])
+  const [startEventTime, setStartEventTime] = useState<string[]>([])
+  const [endEventTime, setEndEventTime] = useState<string[]>([])
+
+  function splitDateTime(datetime: string): DateParts {
+    const [date, time] = datetime.split('T');
+
+    const result: DateParts = {
+      date: date,
+      time: time
+    };
+
+    return result;
+  }
+
+  async function getEvents() {
+    const apiUrl = 'http://localhost:3000/api/events'
+    try {
+      const response = await axios.get(apiUrl);
+      const rows: EventRow[] = response.data.result.rows;
+      const startDatetimes = rows.map(row => row.start_datetime);
+      const endDatetimes = rows.map(row => row.end_datetime);
+
+      const startDates = startDatetimes.map(datetime => splitDateTime(datetime).date);
+      const endDates = endDatetimes.map(datetime => splitDateTime(datetime).date);
+      const startTimes = startDatetimes.map(datetime => splitDateTime(datetime).time);
+      const endTimes = endDatetimes.map(datetime => splitDateTime(datetime).time);
+
+      setStartEventDate(startDates);
+      setEndEventDate(endDates);
+      setStartEventTime(startTimes);
+      setEndEventTime(endTimes);
+
+      // setStartEventDate(startDatetimes)//2024-06-07T16:00:00+07:00
+      // setEndEventDate(endDatetimes)//2024-06-07T17:00:00+07:00
+
+    } catch (error) {
+      console.log("Can't getEvent : ", error);
+    }
+  }
+
 
   const isPastDay = (day: Date) => {
     const today = new Date();
@@ -45,15 +93,11 @@ function BookAppointment({room}:{room : any}) {
     return day < today;
   };
 
-  React.useEffect(() => {
-    getTime();
-  }, []);
-
   const getTime = () => {
     const timeList: TimeSlot[] = [];
-    for (let i = 10; i <= 15; i++) {
-      const time = `${i}:00 AM`;
-      if (time !== "12:00 AM") {
+    for (let i = 9; i <= 15; i++) {
+      const time = `${i}:00`;
+      if (time !== "12:00") {
         timeList.push({ time });
       }
     }
@@ -66,26 +110,14 @@ function BookAppointment({room}:{room : any}) {
 
 
 
-  function getpersonid (){
-    axios.get('http://localhost:3000/api/checkdata').then(response =>{
+  function getpersonid() {
+    axios.get('http://localhost:3000/api/checkdata').then(response => {
       setPersonId(response.data.temp.personid)
     })
-    .catch(error =>{
-      console.log("getpersonid fail: ",error);
-      
-    })
-  }
+      .catch(error => {
+        console.log("getpersonid fail: ", error);
 
-  async function getEventAdmin() {
-    const apiUrl = 'http://localhost:3000/api/events'
-    try{
-      const response = await axios.get(apiUrl)
-
-      return
-    }catch(error){
-      console.log("Can't get api",error);
-      
-    }
+      })
   }
 
   function chooseroom() {
@@ -103,13 +135,15 @@ function BookAppointment({room}:{room : any}) {
 
   useEffect(() => {
     getpersonid()
-  },[])
+    getEvents()
+    getTime();
+  }, [])
 
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5" onClick={getpersonid}>Appointment {room}</Button>
+          <Button className="mt-5">Appointment {room}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -142,11 +176,10 @@ function BookAppointment({room}:{room : any}) {
                         timeSlot.map((item, index) => (
                           <h2
                             onClick={() => setSelectedTimeSlot(item.time)}
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
-                              selectedTimeSlot === item.time
-                                ? "bg-green-500 text-white"
-                                : ""
-                            }`}
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === item.time
+                              ? "bg-green-500 text-white"
+                              : ""
+                              }`}
                             key={index}
                           >
                             {item.time}
@@ -155,12 +188,12 @@ function BookAppointment({room}:{room : any}) {
                     </div>
                   </div>
                   <div className="grid w-full gap-1.5">
-                    <div className= "mt-3">
-      <Label htmlFor="message-2">Your Message</Label>
-      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
-      </div>
+                    <div className="mt-3">
+                      <Label htmlFor="message-2">Your Message</Label>
+                      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
+                    </div>
 
-    </div>
+                  </div>
                 </div>
               </div>
             </DialogDescription>
@@ -213,6 +246,12 @@ function BookAppointment({room}:{room : any}) {
           </DialogContent>
         </Dialog>
       )}
+      <p>Start : {startEventDate.map((date, index) => (
+        <li key={index}>{date}</li>
+      ))}</p>
+      <p>End : {endEventDate.map((date, index) => (
+        <li key={index}>{date}</li>
+      ))}</p>
     </>
   );
 }
