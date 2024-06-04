@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Dropdown, Checkbox, Label } from "flowbite-react";
+import { Dropdown, Checkbox, Label, Button, Navbar } from "flowbite-react";
 import { Datepicker } from "flowbite-react";
 import Nav from '../component/Nav';
 import { Foot } from '../component/Footer';
@@ -59,6 +59,8 @@ const PieChart = () => {
   };
 
   return (
+    
+    <><Nav/>
     <div className="flex flex-col justify-center p-5 space-y-4">
       <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
         
@@ -258,7 +260,11 @@ const PieChart = () => {
               
             </div>
           </Dropdown>
-
+          <Button>
+            <div className='flex items-center gap-2 text-red-300'>
+              <Label className=''> Submit</Label>
+            </div>
+          </Button>
           
         </div>
         
@@ -283,7 +289,10 @@ const PieChart = () => {
           </div>
         </div>
       </div>
+      {/* <Foot/> */}
     </div>
+    </>
+    
   );
 };
 

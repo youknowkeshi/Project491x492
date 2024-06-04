@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
 import Image from "next/image";
-import Nav from '../component/Nav';
+import Nav from '../admin/Navad';
+
 type Props = {};
+
+
+
 
 const Page = (props: Props) => {
   return (
     <><Nav /><div className='flex justify-start mt-10 mx-10'>
       
       {/* บล็อคทางขวา */}
-      <Card className="max-w-lg" renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
+
+      <Card className="hidden sm:flex max-w-lg items-center " renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
         <div className="w-3/4">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Noteworthy technology acquisitions 2021
@@ -19,12 +24,10 @@ const Page = (props: Props) => {
             Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
           </p>
         </div>
-        if (condition) {
-          
-        }
+       
       </Card>
       {/* เส้นคั่นกลางแนวตั้ง */}
-      <div className="w-0.5 bg-gray-200 mx-4"></div>
+      <div className="w-0.5 bg-gray-200 mx-4 hidden sm:flex"></div>
       {/* บล็อคเรียงกัน 3 แถว */}
       <div className='flex flex-col flex-grow space-y-4'>
         <Card className="flex flex-col">
@@ -36,7 +39,7 @@ const Page = (props: Props) => {
           </p>
           <div className="flex justify-end">
             <Link href='https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey'>
-              <Button className='w-full sm:w-auto'>
+              <Button  className='w-full sm:w-auto'>
                 แบบวัดพลังใจ
                 <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path
