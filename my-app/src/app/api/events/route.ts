@@ -55,8 +55,8 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
 
     oauth2Client.setCredentials(tokens);
 
-    const requestBody = await req.json();
-    const calendarId = requestBody.calendar; // assuming req contains a calendarId property
+    // const requestBody = await req.json();
+    const calendarId = "nithikon1404@gmail.com"; // assuming req contains a calendarId property
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload;
     const cmuAccount = decoded.cmuAccount;

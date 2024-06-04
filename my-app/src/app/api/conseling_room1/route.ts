@@ -64,6 +64,8 @@ export async function DELETE(request: NextRequest) {
     }
 }
 
+
+// add data into table conseling_room1
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json()

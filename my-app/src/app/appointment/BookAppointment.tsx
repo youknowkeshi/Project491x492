@@ -19,6 +19,7 @@ import axios from "axios";
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
+
 function BookAppointment({room}:{room : any}) {
   interface TimeSlot {
     time: string;
@@ -50,7 +51,7 @@ function BookAppointment({room}:{room : any}) {
 
   const getTime = () => {
     const timeList: TimeSlot[] = [];
-    for (let i = 9; i <= 15; i++) {
+    for (let i = 10; i <= 15; i++) {
       const time = `${i}:00 AM`;
       if (time !== "12:00 AM") {
         timeList.push({ time });
@@ -67,13 +68,24 @@ function BookAppointment({room}:{room : any}) {
 
   function getpersonid (){
     axios.get('http://localhost:3000/api/checkdata').then(response =>{
-      // console.log("Data : ",response.data.temp.personid);
       setPersonId(response.data.temp.personid)
     })
     .catch(error =>{
       console.log("getpersonid fail: ",error);
       
     })
+  }
+
+  async function getEventAdmin() {
+    const apiUrl = 'http://localhost:3000/api/events'
+    try{
+      const response = await axios.get(apiUrl)
+
+      return
+    }catch(error){
+      console.log("Can't get api",error);
+      
+    }
   }
 
   function chooseroom() {
@@ -90,7 +102,7 @@ function BookAppointment({room}:{room : any}) {
   }
 
   useEffect(() => {
-    
+    getpersonid()
   },[])
 
   return (

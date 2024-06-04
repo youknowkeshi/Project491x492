@@ -40,6 +40,6 @@ export const verifyAuth = async (token: string) => {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/me/:path*",
+  matcher: "/me/:path*", 
   // matcher:`${process.env.redirect_uri}`,
 };

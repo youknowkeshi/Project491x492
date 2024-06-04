@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 
 export default function Events() {
-  const searchParams = useSearchParams();
-  const calendar = searchParams && searchParams.get('calendar');
+  // const searchParams = useSearchParams();
+  // const calendar = searchParams && searchParams.get('calendar');
 
   async function getEvents() {
     const apiUrl = 'http://localhost:3000/api/events';
-    const reqData = { calendar };
+    // const reqData =  "nithikon1404@gmail.com" ;
 
 
     try {
-      const response = await axios.post(apiUrl, reqData);
+      const response = await axios.post(apiUrl);
       console.log(response.data);
     } catch (error) {
       console.error('Oh no! An error has arisen from the depths of the internet:', error);
