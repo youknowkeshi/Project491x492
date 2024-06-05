@@ -60,9 +60,11 @@ export function Nav() {
                   Register
                 </Navbar.Link>
                 <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-                <Navbar.Link href="/profile">Profile</Navbar.Link>
-                <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
+                <Navbar.Link href="/information">information</Navbar.Link>
+                <Navbar.Link href="/report">report</Navbar.Link>
+                <Navbar.Link href="/make">make appointment</Navbar.Link>
                 <Navbar.Link href="/article">Article</Navbar.Link>
+                <Navbar.Link href="/Evaluation form">Evaluation form</Navbar.Link>
                 <Navbar.Link href="/graph">graph</Navbar.Link>
                 <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
 

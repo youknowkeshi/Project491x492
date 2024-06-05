@@ -6,13 +6,11 @@ import { Dropdown, Checkbox, Label, Button, Navbar } from "flowbite-react";
 import { Datepicker } from "flowbite-react";
 import Nav from '../component/Nav';
 import { Foot } from '../component/Footer';
-type Props = {}
+import { Save } from 'lucide-react';
 
-// ลงทะเบียน plugins สำหรับ chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = () => {
-  // สร้างสถานะสำหรับควบคุม dropdown และ checkbox
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState({
     a: false, b: false, c: false, d: false, e: false, f: false, g: false, h: false, i: false, j: false, k: false, l: false, m: false,
@@ -21,12 +19,10 @@ const PieChart = () => {
     personnel: false, none: false
   });
 
-  // ฟังก์ชันเพื่อสลับสถานะ dropdown
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // ฟังก์ชันเพื่อจัดการการเปลี่ยนสถานะของ checkbox
   const handleCheckboxChange = (event: { target: { id: any; checked: any; }; }) => {
     const { id, checked } = event.target;
     setCheckedItems(prevState => ({
@@ -35,7 +31,6 @@ const PieChart = () => {
     }));
   };
 
-  // ข้อมูลสำหรับ Pie Chart
   const data = {
     labels: ['JavaScript', 'Python', 'Ruby' ,'unknown'],
     datasets: [
@@ -54,18 +49,19 @@ const PieChart = () => {
   };
 
   const chartStyle = {
-    width: '300px',
-    height: '300px',
+    width: '100%',
+    height: '100%',
+    maxWidth: '300px',
+    maxHeight: '300px',
   };
 
   return (
-    
     <><Nav/>
     <div className="flex flex-col justify-center p-5 space-y-4">
       <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
         
         {/* Flex container for dropdowns */}
-        <div className="flex space-x-4 mb-4 justify-center">
+        <div className="flex flex-wrap space-x-4 mb-4 justify-center">
           <Datepicker></Datepicker>
           <Dropdown label="ประเด็นสุขภาพจิต" dismissOnClick={false}>
             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
@@ -131,25 +127,6 @@ const PieChart = () => {
                 <Checkbox id='o' checked={checkedItems.o} onChange={handleCheckboxChange}/>
                 <Label htmlFor='o'>การพัฒนาตัวเอง/รู้จักตัวเองมากขึ้น</Label>
               </div>
-
-              {/* <div className="flex items-center gap-2">
-                <Checkbox id="age" checked={checkedItems.age} onChange={handleCheckboxChange} />
-                <Label htmlFor="age">I am 18 years or older</Label>
-              </div> */}
-              {/* <div className="flex gap-2">
-                <div className="flex h-5 items-center">
-                  <Checkbox id="shipping" checked={checkedItems.shipping} onChange={handleCheckboxChange} />
-                </div>
-                <div className="flex flex-col">
-                  <Label htmlFor="shipping">Free shipping via Flowbite</Label>
-                  <div className="text-gray-500 dark:text-gray-300">
-                    <span className="text-xs font-normal">
-                      For orders shipped from Flowbite from <span className="font-medium">€ 25</span> in books or&nbsp;
-                      <span>€ 29</span> on other categories
-                    </span>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </Dropdown>
 
@@ -262,14 +239,14 @@ const PieChart = () => {
           </Dropdown>
           <Button>
             <div className='flex items-center gap-2 text-red-300'>
-              <Label className=''> Submit</Label>
+              <Label className='text-red-100'> Submit</Label>
             </div>
           </Button>
           
         </div>
         
         {/* ส่วนของกราฟ */}
-        <div className="flex flex-row justify-center space-x-4">
+        <div className="flex flex-wrap justify-center space-x-4">
           <div className="shadow-lg rounded-lg overflow-hidden bg-gray-50 p-5">
             <div style={chartStyle}>
               <Pie data={data} />
@@ -277,7 +254,7 @@ const PieChart = () => {
           </div>
 
           {/* ข้อมูลเพิ่มเติม */}
-          <div className="shadow-lg rounded-lg overflow-hidden bg-gray-50 p-5">
+          <div className="shadow-lg rounded-lg overflow-hidden bg-gray-50 p-5 max-w-xs">
             <h3 className="text-lg font-semibold">รายละเอียดข้อมูล:</h3>
             <ul className="list-disc list-inside">
               {data.labels.map((label, index) => (
@@ -287,7 +264,12 @@ const PieChart = () => {
               ))}
             </ul>
           </div>
+          
         </div>
+        <div className='flex justify-end'>
+          <Button >save</Button>
+        </div>
+        
       </div>
       {/* <Foot/> */}
     </div>
