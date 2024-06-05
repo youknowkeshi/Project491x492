@@ -108,8 +108,8 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 , role = $8 , gradelevel = $9 WHERE studentId = $2';
     const values = [personid, studentId, phone, major, gender, topic, facebookurl, role, gradelevel];
 
-    const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
-    const values_infor = [personid];
+    // const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
+    // const values_infor = [personid];
 
     // const text_con = 'INSERT INTO user_conseling_room1 (personid) VALUES ($1) RETURNING *';
     // const values_con = [personid];
@@ -119,7 +119,7 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     try {
       const res = await client.query(text, values);
      
-      const res_infor = await client.query(text_infor, values_infor);
+      // const res_infor = await client.query(text_infor, values_infor);
       // const res_con = await client.query(text_con, values_con);
 
       if (res.rowCount === 0) {
@@ -127,10 +127,10 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
         return new Response('User not found', { status: 404 });
       }
 
-      if (res_infor.rowCount === 0) {
-        console.log("Information not found");
-        return new Response('Information not found', { status: 404 });
-      }
+      // if (res_infor.rowCount === 0) {
+      //   console.log("Information not found");
+      //   return new Response('Information not found', { status: 404 });
+      // }
 
       // if (res_con.rowCount === 0) {
       //   console.log("Conselling not found");

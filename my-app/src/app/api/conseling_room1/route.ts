@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
+import uniqueString from 'unique-string';
 
 
 // update data room1
@@ -71,16 +72,26 @@ export async function POST(request: NextRequest) {
         const req = await request.json()
         const { start_datetime, end_datetime, personid } = req;
         const room = 'conseling_room1'
+        const event_id = uniqueString()
 
-        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4) RETURNING *';
+        const text = 'INSERT INTO user_conseling_room1 (start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4) RETURNING *';
         const values = [start_datetime, end_datetime, room, personid];
+
+        const text_infor = 'INSERT INTO informationusers_room1 (personid,event_id) VALUES($1, $2) RETURNING *';
+        const values_infor = [personid,event_id]
 
         const client = await pool.connect();
         try {
             const res = await client.query(text, values);
 
+            const res_infor = await client.query(text_infor,values_infor)
+
             if (res.rowCount === 0) {
-                return new NextResponse('User not found', { status: 404 });
+                return new Error('User not found');
+            }
+
+            if (res_infor.rowCount === 0) {
+                return new Error('User not found');
             }
 
             return NextResponse.json({ res });

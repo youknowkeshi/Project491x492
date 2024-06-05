@@ -8,7 +8,7 @@ export async function GET(res: NextResponse, req: NextRequest) {
     try {
         const client = await pool.connect();
         const result = await client.query
-        ('select u.personid ,u.firstname_lastname , u.studentid ,u.phone , u.major  , u.gender , u.topic , u.facebookurl ,i.details_consultation ,i.mental_health_checklist ,uc.start_datetime, uc.end_datetime ,uc.room from users u inner join informationusers i on u.personid = i.personid inner join user_conseling_room1 uc on u.personid = uc.personid ');
+        ('select u.personid ,u.firstname_lastname , u.studentid ,u.phone , u.major  , u.gender , u.topic , u.facebookurl ,ir.details_consultation ,ir.mental_health_checklist ,ucr.start_datetime, ucr.end_datetime ,ucr.room from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id');
         client.release(); // Release the client back to the pool 
         return NextResponse.json(result.rows);
     } catch (error) {
