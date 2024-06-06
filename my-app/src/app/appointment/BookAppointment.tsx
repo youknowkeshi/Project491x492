@@ -33,6 +33,11 @@ function BookAppointment({ room }: { room: any }) {
     date: string;
     time: string;
   };
+  
+  interface DataandTime {
+    data: string;
+    time: string; 
+  }
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
@@ -40,6 +45,7 @@ function BookAppointment({ room }: { room: any }) {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [unavailableDates, setUnavailableDates] = useState<Map<string, Set<string>>>(new Map());
+
 
   function splitDateTime(datetime: string): DateParts {
     const [date, time] = datetime.split('T');
@@ -56,6 +62,9 @@ function BookAppointment({ room }: { room: any }) {
 
       rows.forEach(row => {
         const { date, time } = splitDateTime(row.start_datetime);
+
+        console.log("Time",row.start_datetime);
+        
         if (!dateToTimesMap.has(date)) {
           dateToTimesMap.set(date, new Set());
         }
@@ -77,12 +86,14 @@ function BookAppointment({ room }: { room: any }) {
   const isUnavailableDay = (day: Date) => {
     const dayWithOffset = new Date(day.getTime() - (day.getTimezoneOffset() * 60000)).toISOString();
     const formattedDate = dayWithOffset.split('T')[0];
+  
+    
     return unavailableDates.has(formattedDate);
   };
 
   const getTime = () => {
     const timeList: TimeSlot[] = [];
-    for (let i = 9; i <= 15; i++) {
+    for (let i = 10; i <= 15; i++) {
       const time = `${i}:00`;
       if (time !== "12:00") {
         timeList.push({ time });
