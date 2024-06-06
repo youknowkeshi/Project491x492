@@ -26,7 +26,7 @@ export default function MePage() {
         <>
             <Nav />
             <div className=" rounded p-8">
-            <div className=' h-32 sm:h-48 xl:h-60 2xl:h-72'>
+            <div className=' h-16 sm:h-24 xl:h-30 2xl:h-36'>
                 <Carousel>
                 <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
                 <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
