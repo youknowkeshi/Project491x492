@@ -81,7 +81,7 @@ export default async function handler(
   if (!accessToken)
     return res
       .status(401)
-      .json({ ok: false, message: "Cannot get OAuth access token" });
+      .json({ ok: false, message: "loading..." });
 
   //get basic info
   const cmuBasicInfo = await getCMUBasicInfoAsync(accessToken);

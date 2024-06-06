@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
+import uniqueString from 'unique-string';
+
 
 // update data room1
 export async function PUT(request: NextRequest) {
@@ -11,8 +13,6 @@ export async function PUT(request: NextRequest) {
 
         const text = 'UPDATE conseling_room1 SET start_datetime =$1, end_datetime= $2, expire_date= $3, room= $4 WHERE event_id = $5';
         const values = [start_datetime, end_datetime, expire_date, room, event_id];
-
-
 
         const client = await pool.connect();
         try {
@@ -65,21 +65,33 @@ export async function DELETE(request: NextRequest) {
     }
 }
 
+
+// add data into table conseling_room1
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json()
-        const { start_datetime, end_datetime, expire_date, personid } = req;
+        const { start_datetime, end_datetime, personid } = req;
         const room = 'conseling_room1'
+        const event_id = uniqueString()
 
-        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
-        const values = [start_datetime, end_datetime, expire_date, room, personid];
+        const text = 'INSERT INTO user_conseling_room1 (start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4) RETURNING *';
+        const values = [start_datetime, end_datetime, room, personid];
+
+        const text_infor = 'INSERT INTO informationusers_room1 (personid,event_id) VALUES($1, $2) RETURNING *';
+        const values_infor = [personid,event_id]
 
         const client = await pool.connect();
         try {
             const res = await client.query(text, values);
 
+            const res_infor = await client.query(text_infor,values_infor)
+
             if (res.rowCount === 0) {
-                return new NextResponse('User not found', { status: 404 });
+                return new Error('User not found');
+            }
+
+            if (res_infor.rowCount === 0) {
+                return new Error('User not found');
             }
 
             return NextResponse.json({ res });
@@ -88,7 +100,7 @@ export async function POST(request: NextRequest) {
         }
 
     } catch (error) {
-        console.log("Can't Post");
-
+        console.log("Can't Post",error);
+        return NextResponse.json("Error Can't Add", { status: 404 });
     }
 }

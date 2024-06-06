@@ -14,27 +14,68 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
-import {useState ,useEffect} from "react"
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-function BookAppointment({room}:{room : any}) {
+function BookAppointment({ room }: { room: any }) {
   interface TimeSlot {
     time: string;
   }
 
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const [timeSlot, setTimeSlot] = React.useState<TimeSlot[] | undefined>(
-    undefined
-  );
+  interface EventRow {
+    start_datetime: string;
+    end_datetime: string;
+  }
 
-  const [personId, setPersonId] = useState('')
-  const [conseling_room, setConseling_room] = useState('')
+  type DateParts = {
+    date: string;
+    time: string;
+  };
+  
+  interface DataandTime {
+    data: string;
+    time: string; 
+  }
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
-    string | undefined
-  >(undefined);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    React.useState(false);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
+  const [personId, setPersonId] = useState("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [unavailableDates, setUnavailableDates] = useState<Map<string, Set<string>>>(new Map());
+
+
+  function splitDateTime(datetime: string): DateParts {
+    const [date, time] = datetime.split('T');
+    return { date, time };
+  }
+
+  async function getEvents() {
+    const apiUrl = 'http://localhost:3000/api/events';
+    try {
+      const response = await axios.get(apiUrl);
+      const rows: EventRow[] = response.data.result.rows;
+
+      const dateToTimesMap = new Map<string, Set<string>>();
+
+      rows.forEach(row => {
+        const { date, time } = splitDateTime(row.start_datetime);
+
+        console.log("Time",row.start_datetime);
+        
+        if (!dateToTimesMap.has(date)) {
+          dateToTimesMap.set(date, new Set());
+        }
+        dateToTimesMap.get(date)?.add(time);
+      });
+
+      setUnavailableDates(dateToTimesMap);
+    } catch (error) {
+      console.log("Can't getEvent: ", error);
+    }
+  }
 
   const isPastDay = (day: Date) => {
     const today = new Date();
@@ -42,15 +83,19 @@ function BookAppointment({room}:{room : any}) {
     return day < today;
   };
 
-  React.useEffect(() => {
-    getTime();
-  }, []);
+  const isUnavailableDay = (day: Date) => {
+    const dayWithOffset = new Date(day.getTime() - (day.getTimezoneOffset() * 60000)).toISOString();
+    const formattedDate = dayWithOffset.split('T')[0];
+  
+    
+    return unavailableDates.has(formattedDate);
+  };
 
   const getTime = () => {
     const timeList: TimeSlot[] = [];
-    for (let i = 9; i <= 15; i++) {
-      const time = `${i}:00 AM`;
-      if (time !== "12:00 AM") {
+    for (let i = 10; i <= 15; i++) {
+      const time = `${i}:00`;
+      if (time !== "12:00") {
         timeList.push({ time });
       }
     }
@@ -61,41 +106,23 @@ function BookAppointment({room}:{room : any}) {
     setIsConfirmationModalOpen(true);
   };
 
-
-
-  function getpersonid (){
-    axios.get('http://localhost:3000/api/checkdata').then(response =>{
-      // console.log("Data : ",response.data.temp.personid);
-      setPersonId(response.data.temp.personid)
-    })
-    .catch(error =>{
-      console.log("getpersonid fail: ",error);
-      
-    })
-  }
-
-  function chooseroom() {
-    try {
-      axios.post('http://localhost:3000/api/appointment', {
-        personid: personId,
-        cmuaccount: room
-      }
-      );
-    } catch (error) {
-      console.log("not found room | personid", error);
-
-    }
+  function getpersonid() {
+    axios.get('http://localhost:3000/api/checkdata')
+      .then(response => setPersonId(response.data.temp.personid))
+      .catch(error => console.log("getpersonid fail: ", error));
   }
 
   useEffect(() => {
-    
-  },[])
+    getpersonid();
+    getEvents();
+    getTime();
+  }, []);
 
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5" onClick={getpersonid}>Appointment {room}</Button>
+          <Button className="mt-5">Appointment {room}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -104,7 +131,7 @@ function BookAppointment({room}:{room : any}) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3 items-baseline">
                   <h2 className="flex gap-2 mt-2 mb-1">
-                    <CalendarDays className="text-primary h-5 w-5 " />
+                    <CalendarDays className="text-primary h-5 w-5" />
                     Select Date
                   </h2>
                   <div>
@@ -112,7 +139,7 @@ function BookAppointment({room}:{room : any}) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={(day) => isPastDay(day)}
+                      disabled={day => isPastDay(day) || isUnavailableDay(day)}
                       className="border rounded-lg"
                     />
                   </div>
@@ -125,19 +152,30 @@ function BookAppointment({room}:{room : any}) {
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
                       {timeSlot &&
-                        timeSlot.map((item, index) => (
-                          <h2
-                            onClick={() => setSelectedTimeSlot(item.time)}
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
-                              selectedTimeSlot === item.time
+                        timeSlot.map((item, index) => {
+                          const formattedDate = date?.toISOString().split('T')[0] || "";
+                          const isUnavailable = unavailableDates.get(formattedDate)?.has(item.time);
+
+                          return (
+                            <h2
+                              onClick={() => !isUnavailable && setSelectedTimeSlot(item.time)}
+                              className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === item.time
                                 ? "bg-green-500 text-white"
-                                : ""
-                            }`}
-                            key={index}
-                          >
-                            {item.time}
-                          </h2>
-                        ))}
+                                : isUnavailable
+                                  ? "bg-red-500 text-white cursor-not-allowed"
+                                  : ""}`}
+                              key={index}
+                            >
+                              {item.time}
+                            </h2>
+                          );
+                        })}
+                    </div>
+                  </div>
+                  <div className="grid w-full gap-1.5">
+                    <div className="mt-3">
+                      <Label htmlFor="message-2">Your Message</Label>
+                      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
                     </div>
                   </div>
                 </div>
@@ -146,11 +184,7 @@ function BookAppointment({room}:{room : any}) {
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button
-                className="text-red-500 border-red-500"
-                type="button"
-                variant="outline"
-              >
+              <Button className="text-red-500 border-red-500" type="button" variant="outline">
                 Close
               </Button>
             </DialogClose>
@@ -167,24 +201,17 @@ function BookAppointment({room}:{room : any}) {
       </Dialog>
 
       {isConfirmationModalOpen && (
-        <Dialog
-          open={isConfirmationModalOpen}
-          onOpenChange={setIsConfirmationModalOpen}
-        >
+        <Dialog open={isConfirmationModalOpen} onOpenChange={setIsConfirmationModalOpen}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Confirmation</DialogTitle>
               <DialogDescription>
-                Your appointment has been booked for{" "}
-                {date?.toLocaleDateString()} at {selectedTimeSlot}.
+                Your appointment has been booked for {date?.toLocaleDateString()} at {selectedTimeSlot}.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="sm:justify-end">
               <Link href="/profile">
-                <Button
-                  className="bg-blue-500 text-white border-blue-500"
-                  type="button"
-                >
+                <Button className="bg-blue-500 text-white border-blue-500" type="button">
                   Submit
                 </Button>
               </Link>
@@ -192,6 +219,7 @@ function BookAppointment({room}:{room : any}) {
           </DialogContent>
         </Dialog>
       )}
+      {/* <p>{Array.from(unavailableDates.entries()).map(([key, value]) => `${key}: ${Array.from(value).join(', ')}`).join(' | ')}</p> */}
     </>
   );
 }

@@ -1,18 +1,66 @@
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from 'next/server';
-import { oauth2Client } from "../logingoogle/route"
+import { oauth2Client } from "../logingoogle/route";
 import { pool } from "../../lib/db";
+import { getCookie } from "cookies-next";
+import jwt from "jsonwebtoken";
+import { JWTPayload } from "../../../../types/JWTPayload";
 
-export async function POST(request: NextRequest) {
+type SuccessResponse = {
+  ok: true;
+  cmuAccount: string;
+  firstName: string;
+  lastName: string;
+  studentId?: string;
+  itaccounttype_id: string;
+  itaccounttype_EN: string;
+  organization_code: string;
+  organization_name_EN: string;
+};
+
+type ErrorResponse = {
+  ok: false;
+  message: string;
+};
+
+export type WhoAmIResponse = SuccessResponse | ErrorResponse;
+
+
+export async function GET() {
   const client = await pool.connect();
-  const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
-  const tokens = result.rows[1]
+  try{
+    const result = await client.query('SELECT * FROM admin_conseling_room1')
+    return NextResponse.json({result})
+  }catch(error){
+    console.log("This is : ",error);
+    return new NextResponse('Error code',{status:404})
+  }
+}
 
-  oauth2Client.setCredentials(tokens);
+export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
+  const token = getCookie("cmu-oauth-example-token", { req, res });
+
+  if (typeof token !== "string") {
+    return NextResponse.json({ ok: false, message: "Invalid token" });
+  }
+
+  const client = await pool.connect();
   try {
-    const req = await request.json();
-    const calendarId = req.calendar; // assuming req contains a calendarId property
+    const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
+    const tokens = result.rows[0];
 
+    if (!tokens) {
+      return new NextResponse('No found tokens!', { status: 404 });
+    }
+
+    oauth2Client.setCredentials(tokens);
+
+    // const requestBody = await req.json();
+    const calendarId = "nithikon1404@gmail.com"; // assuming req contains a calendarId property
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload;
+    const cmuAccount = decoded.cmuAccount;
+    const room = "conseling_room1";
 
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
@@ -31,11 +79,77 @@ export async function POST(request: NextRequest) {
       return new NextResponse('No events found!', { status: 404 });
     }
 
-    // Send the list of events as JSON
+    const searchAdmin = await client.query('SELECT * FROM admins WHERE cmuAccount = $1', [cmuAccount]);
+    const personIdAdmin = searchAdmin.rows[0].personid;
+
     const events = response.data.items;
+
+    // Insert each event individually
+    for (const event of events) {
+      const startDateTime = event.start?.dateTime;
+      const endDateTime = event.end?.dateTime;
+      const eventId = event.id;
+
+      if (startDateTime && endDateTime && eventId) {
+        // Check if the event already exists in the database
+        const checkExisting = await client.query('SELECT event_id FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
+
+        if (checkExisting.rowCount === 0) {
+          // Insert the event if it does not exist
+          const text = 'INSERT INTO admin_conseling_room1(event_id, start_datetime, end_datetime, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
+          const values = [eventId, startDateTime, endDateTime, room, personIdAdmin];
+
+          await client.query(text, values);
+        }
+      }
+
+
+      const queryCalendar = await client.query('SELECT event_id FROM admin_conseling_room1');
+      const checkCalendar = queryCalendar.rows.map(row => row.event_id);
+      
+      for (const eventId of checkCalendar) {
+        if (!events.some(event => event.id === eventId)) {
+          // EventId exists in the database but not in the current events from Google Calendar
+          console.log("this is eventId",eventId);
+          
+          try {
+            await client.query('DELETE FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
+          } catch (deleteError) {
+            console.error("Error deleting event from the database:", deleteError);
+          }
+        }
+      }
+      
+      
+
+      
+
+      
+      
+    }
+
     return NextResponse.json(events);
   } catch (error) {
     console.error("Can't fetch events", error);
     return new NextResponse('Error', { status: 500 });
+  } finally {
+    client.release();
+  }
+}
+
+
+//check time 
+export async function DELETE() {
+  try {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(`DELETE FROM admin_conseling_room1 WHERE CAST(end_datetime AS TIMESTAMP) < NOW()`);
+
+      return new NextResponse('Delete Success', { status: 200 });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.log("can't delete", error);
   }
 }
