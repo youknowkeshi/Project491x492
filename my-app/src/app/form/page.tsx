@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
@@ -6,10 +7,10 @@ import Nav from '../admin/Navad';
 
 type Props = {};
 
-const Page = (props: Props) => {
-  const [mindSurveyClicks, setMindSurveyClicks] = useState(0);
-  const [stressSurveyClicks, setStressSurveyClicks] = useState(0);
-  const [selfSurveyClicks, setSelfSurveyClicks] = useState(0);
+const Page: React.FC<Props> = () => {
+  const [mindSurveyClicks, setMindSurveyClicks] = useState<number>(0);
+  const [stressSurveyClicks, setStressSurveyClicks] = useState<number>(0);
+  const [selfSurveyClicks, setSelfSurveyClicks] = useState<number>(0);
 
   const handleMindSurveyClick = () => {
     setMindSurveyClicks(mindSurveyClicks + 1);
@@ -28,7 +29,7 @@ const Page = (props: Props) => {
       <Nav />
       <div className='flex justify-start mt-10 mx-10'>
         {/* บล็อคทางขวา */}
-        <Card className="hidden sm:flex max-w-lg items-center " renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
+        <Card className="hidden sm:flex max-w-lg items-center" renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
           <div className="w-3/4">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               Noteworthy technology acquisitions 2021
