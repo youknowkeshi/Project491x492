@@ -58,9 +58,6 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
 
         const studentId = decoded.studentId
 
-        console.log("sta : ",studentId);
-        
-
         try {
             const request = await req.json();
             const { name, cmuaccount, studentid, organization_name, accounttype } = request;

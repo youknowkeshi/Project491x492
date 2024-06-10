@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../../lib/db"
-import { log } from "console";
+
 
 
 export async function POST(request: NextRequest) {
@@ -36,7 +36,6 @@ export async function DELETE(response: NextResponse) {
         }
     } catch (error) {
         console.log("can't delete", error);
-
     }
 
 }

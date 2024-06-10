@@ -8,7 +8,7 @@ export async function GET(res: NextResponse, req: NextRequest) {
     try {
         const client = await pool.connect();
         const result = await client.query
-        ('SELECT users.personid ,users.firstname_lastname , users.studentid ,users.phone , users.major  , users.gender , users.topic , users.facebookurl ,informationusers.details_consultation ,informationusers.mental_health_checklist ,conseling_room1.start_datetime,conseling_room1.end_datetime,conseling_room1.expire_date ,conseling_room1.room FROM users INNER JOIN informationusers ON users.personid = informationusers.personid INNER JOIN conseling_room1  ON users.personid = conseling_room1.personid');
+        ('select u.personid ,u.firstname_lastname , u.studentid ,u.phone , u.major  , u.gender , u.topic , u.facebookurl ,ir.details_consultation ,ir.mental_health_checklist ,ucr.start_datetime, ucr.end_datetime ,ucr.room from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id');
         client.release(); // Release the client back to the pool 
         return NextResponse.json(result.rows);
     } catch (error) {
@@ -29,8 +29,6 @@ export async function PUT( request: NextResponse) {
         const text = 'UPDATE informationusers SET details_consultation =$1, mental_health_checklist= $2 WHERE infor_id = $3';
         const values = [details , health, infor_id];
 
-        
-
         const client = await pool.connect();
         try{
             const res = await client.query(text, values);
@@ -49,16 +47,3 @@ export async function PUT( request: NextResponse) {
         
     }
 }
-
-
-// export async function POST(request: Request) {
-//     try {
-//         const req = await request.json();
-//         console.log(req);
-        
-//         return NextResponse.json("Test : ",req)
-//     } catch (error) {
-//         console.error('Error executing query:', error);
-//         return new Error('Failed to fetch users');
-//     }
-// }
