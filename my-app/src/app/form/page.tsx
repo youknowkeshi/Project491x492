@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
 import Image from "next/image";
-import Nav from '../admin/Navad';
+import Nav from '../component/Nav';
 
 type Props = {};
 
