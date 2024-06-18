@@ -134,14 +134,14 @@ export default function RegisterPage() {
                   "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
               }}
             >
-              <h1 className="text-green-500 text-3xl mb-3">Welcome</h1>
+              <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
               <div>
                 <p className="text-purple">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Aenean suspendisse aliquam varius rutrum purus maecenas ac{" "}
                   <a
                     href="#"
-                    className="text-#4F6F52 font-semibold text-green-500"
+                    className="text-#4F6F52 font-semibold text-[#B9F3FC]"
                   >
                     Learn more
                   </a>
@@ -149,7 +149,7 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="w-full lg:w-1/2 py-16 px-12">
-              <h2 className="text-3xl mb-4 text-green-500">Register</h2>
+              <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
               <p className="mb-4">
                 Create your account. It’s free and only take a minute
               </p>
@@ -294,16 +294,16 @@ export default function RegisterPage() {
                   <input type="checkbox" className="border border-gray-400" />
                   <span className="ml-3">
                     I accept the{" "}
-                    <a className="text-green-500 font-semibold">Terms of Use</a>{" "}
+                    <a className="text-[#B9F3FC] font-semibold">Terms of Use</a>{" "}
                     &{" "}
-                    <a className="text-green-500 font-semibold">
+                    <a className="text-[#B9F3FC] font-semibold">
                       Privacy Policy
                     </a>
                   </span>
                 </div>
                 <div className="mt-5">
                   <button
-                    className="w-full bg-green-500 py-3 text-center text-white"
+                    className="w-full bg-[#B9F3FC] py-3 text-center text-white"
                     onClick={(e) => {
                       e.preventDefault();
                       handleSaveData();
