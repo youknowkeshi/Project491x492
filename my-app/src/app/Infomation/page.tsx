@@ -14,9 +14,21 @@ export default function page({}: Props) {
   return (
     <div>
       <Nav />
-      <h1 className="mt-7 text-xl tracking-tight text-gray-900 dark:text-white ml-1">
-        Appointment List
-      </h1>
+      <div>
+        <h1 className="mt-7 text-xl tracking-tight text-gray-900 dark:text-white ml-1">
+          User Infomation
+        </h1>
+        <form className="w-[440px] relative">
+          <div className="relative">
+            <input
+              type="search"
+              placeholder="Type Here"
+              className="w-full p-4
+          rounded-full bg-slate-800"
+            />
+          </div>
+        </form>
+      </div>
       <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-3 mb-4 p-4 relative  ">
         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Time : 9.00 - 10.00
