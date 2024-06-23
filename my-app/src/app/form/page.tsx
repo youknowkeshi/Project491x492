@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
@@ -8,27 +8,17 @@ import Nav from '../component/Nav';
 type Props = {};
 
 const Page: React.FC<Props> = () => {
-  const [mindSurveyClicks, setMindSurveyClicks] = useState<number>(0);
-  const [stressSurveyClicks, setStressSurveyClicks] = useState<number>(0);
-  const [selfSurveyClicks, setSelfSurveyClicks] = useState<number>(0);
+  const [clickCounts, setClickCounts] = useState({ mind: 0, stress: 0, self: 0 });
 
-  const handleMindSurveyClick = () => {
-    setMindSurveyClicks(mindSurveyClicks + 1);
-  };
-
-  const handleStressSurveyClick = () => {
-    setStressSurveyClicks(stressSurveyClicks + 1);
-  };
-
-  const handleSelfSurveyClick = () => {
-    setSelfSurveyClicks(selfSurveyClicks + 1);
+  const handleClick = (type: 'mind' | 'stress' | 'self') => {
+    setClickCounts(prevCounts => ({ ...prevCounts, [type]: prevCounts[type] + 1 }));
   };
 
   return (
     <>
       <Nav />
       <div className='flex justify-start mt-10 mx-10'>
-        {/* บล็อคทางขวา */}
+        {/* Right block */}
         <Card className="hidden sm:flex max-w-lg items-center" renderImage={() => <Image width={500} height={500} src="/1.jpg" alt="image 1" />}>
           <div className="w-3/4">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -39,9 +29,9 @@ const Page: React.FC<Props> = () => {
             </p>
           </div>
         </Card>
-        {/* เส้นคั่นกลางแนวตั้ง */}
+        {/* Vertical divider */}
         <div className="w-0.5 bg-gray-200 mx-4 hidden sm:flex"></div>
-        {/* บล็อคเรียงกัน 3 แถว */}
+        {/* Left block with 3 cards */}
         <div className='flex flex-col flex-grow space-y-4'>
           <Card className="flex flex-col">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -52,7 +42,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey' passHref>
-                <Button className='w-full sm:w-auto' onClick={handleMindSurveyClick}>
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('mind')} aria-label="Mind Survey">
                   แบบวัดพลังใจ
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -64,7 +54,7 @@ const Page: React.FC<Props> = () => {
               </Link>
             </div>
             <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {mindSurveyClicks}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {clickCounts.mind}</p>
             </div>
           </Card>
           <Card className="flex flex-col">
@@ -76,7 +66,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress' passHref>
-                <Button className='w-full sm:w-auto' onClick={handleStressSurveyClick}>
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('stress')} aria-label="Stress Survey">
                   แบบประเมินความเครียด
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -88,7 +78,7 @@ const Page: React.FC<Props> = () => {
               </Link>
             </div>
             <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {stressSurveyClicks}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {clickCounts.stress}</p>
             </div>
           </Card>
           <Card className="flex flex-col">
@@ -100,7 +90,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList' passHref>
-                <Button className='w-full sm:w-auto' onClick={handleSelfSurveyClick}>
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('self')} aria-label="Self Survey">
                   แบบสำรวจตัวเอง
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -112,7 +102,7 @@ const Page: React.FC<Props> = () => {
               </Link>
             </div>
             <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {selfSurveyClicks}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">จำนวนคลิก: {clickCounts.self}</p>
             </div>
           </Card>
         </div>
