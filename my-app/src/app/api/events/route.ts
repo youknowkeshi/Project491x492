@@ -92,8 +92,61 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
 
     const events = response.data.items;
 
-    const temp = ["09:00" ,"10:00" ,"11:00","13:00","14:00","15:00"]
-
+    const freeTimeSlots: string[] = [
+      "09:00 - 10:00",
+      "10:00 - 11:00",
+      "11:00 - 12:00",
+      "13:00 - 14:00",
+      "14:00 - 15:00",
+      "15:00 - 16:00",
+    ];
+    
+    // สร้าง object เปล่าๆ เพื่อเก็บข้อมูลของแต่ละวัน
+    const slotsByDay: { [key: string]: string[] } = {};
+    
+    // วนลูปผ่าน events เพื่อจัดเก็บช่วงเวลาที่มีการจองในแต่ละวัน
+    events.forEach((event) => {
+      const startDateTime = event.start?.dateTime;
+      const endDateTime = event.end?.dateTime;
+    
+      if (startDateTime && endDateTime) {
+        const date = startDateTime.substring(0, 10); // ดึงเฉพาะส่วนของวันที่ออกมา (YYYY-MM-DD)
+        const start = startDateTime.substring(11, 16);
+        const end = endDateTime.substring(11, 16);
+    
+        // ถ้ายังไม่มี key ของวันที่นั้นใน object slotsByDay ให้สร้าง key และกำหนดค่าเป็น []
+        if (!slotsByDay[date]) {
+          slotsByDay[date] = [];
+        }
+    
+        // เพิ่มช่วงเวลาที่มีการจองลงใน array ของวันนั้น
+        slotsByDay[date].push(start + " - " + end);
+      }
+    });
+    
+    // วนลูปผ่าน freeTimeSlots เพื่อหาช่วงเวลาที่ว่างในแต่ละวัน
+    const availableSlotsByDay: { [key: string]: string[] } = {};
+    for (const date in slotsByDay) {
+      availableSlotsByDay[date] = freeTimeSlots.filter((slot) => {
+        for (const occupiedSlot of slotsByDay[date]) {
+          const [occupiedStart, occupiedEnd] = occupiedSlot.split(" - ");
+          const [slotStart, slotEnd] = slot.split(" - ");
+          if (!(occupiedEnd <= slotStart || occupiedStart >= slotEnd)) {
+            return false;
+          }
+        }
+        return true;
+      });
+    }
+    
+    // แสดงผลช่วงเวลาที่มีการจองและช่วงเวลาที่ว่างในแต่ละวัน
+    for (const date in slotsByDay) {
+      console.log(`Occupied Slots on ${date}:`);
+      console.log(slotsByDay[date]);
+    
+      console.log(`Available Slots on ${date}:`);
+      console.log(availableSlotsByDay[date]);
+    }
     
 
     // Insert each event individually
@@ -101,9 +154,7 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
       const startDateTime = event.start?.dateTime;
       const endDateTime = event.end?.dateTime;
       const eventId = event.id;
-
-      if(startDateTime)
-
+      
       if (startDateTime && endDateTime && eventId) {
         // Check if the event already exists in the database
         const checkExisting = await client.query('SELECT event_id FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
@@ -133,12 +184,6 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
           }
         }
       }
-      
-      
-
-      
-
-      
       
     }
 
