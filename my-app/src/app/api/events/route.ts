@@ -25,6 +25,14 @@ type ErrorResponse = {
 
 export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
+interface DateParts {
+  date: string;
+  time: string;
+}
+function splitDateTime(datetime: string): DateParts {
+  const [date, time] = datetime.split('T');
+  return { date, time };
+}
 
 export async function GET() {
   const client = await pool.connect();
@@ -84,11 +92,17 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
 
     const events = response.data.items;
 
+    const temp = ["09:00" ,"10:00" ,"11:00","13:00","14:00","15:00"]
+
+    
+
     // Insert each event individually
     for (const event of events) {
       const startDateTime = event.start?.dateTime;
       const endDateTime = event.end?.dateTime;
       const eventId = event.id;
+
+      if(startDateTime)
 
       if (startDateTime && endDateTime && eventId) {
         // Check if the event already exists in the database

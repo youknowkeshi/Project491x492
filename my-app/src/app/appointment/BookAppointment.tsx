@@ -39,12 +39,16 @@ function BookAppointment({ room }: { room: any }) {
     time: string; 
   }
 
+  const temp = ["09:00" ,"10:00" ,"11:00","13:00","14:00","15:00"]
+
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
   const [personId, setPersonId] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [timeOfDay , setTimeOfDay] = useState<TimeSlot[]>()
   const [unavailableDates, setUnavailableDates] = useState<Map<string, Set<string>>>(new Map());
+  const [timeUse, setTimeUse] = useState()
 
 
   function splitDateTime(datetime: string): DateParts {
@@ -64,6 +68,8 @@ function BookAppointment({ room }: { room: any }) {
         const { date, time } = splitDateTime(row.start_datetime);
 
         console.log("Time",row.start_datetime);
+        console.log("End : ",row.end_datetime);
+        
         
         if (!dateToTimesMap.has(date)) {
           dateToTimesMap.set(date, new Set());
