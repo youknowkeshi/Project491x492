@@ -123,6 +123,10 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
         slotsByDay[date].push(start + " - " + end);
       }
     });
+
+    // for (const date in slotsByDay) {
+    //   console.log("test12345: ",slotsByDay[date]);
+    // }
     
     // วนลูปผ่าน freeTimeSlots เพื่อหาช่วงเวลาที่ว่างในแต่ละวัน
     const availableSlotsByDay: { [key: string]: string[] } = {};
@@ -141,9 +145,6 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
     
     // แสดงผลช่วงเวลาที่มีการจองและช่วงเวลาที่ว่างในแต่ละวัน
     for (const date in slotsByDay) {
-      console.log(`Occupied Slots on ${date}:`);
-      console.log(slotsByDay[date]);
-    
       console.log(`Available Slots on ${date}:`);
       console.log(availableSlotsByDay[date]);
     }

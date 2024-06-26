@@ -33,55 +33,99 @@ function BookAppointment({ room }: { room: any }) {
     date: string;
     time: string;
   };
-  
+
   interface DataandTime {
     data: string;
-    time: string; 
+    time: string;
   }
-
-  const temp = ["09:00" ,"10:00" ,"11:00","13:00","14:00","15:00"]
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
   const [personId, setPersonId] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [timeOfDay , setTimeOfDay] = useState<TimeSlot[]>()
   const [unavailableDates, setUnavailableDates] = useState<Map<string, Set<string>>>(new Map());
-  const [timeUse, setTimeUse] = useState()
 
 
-  function splitDateTime(datetime: string): DateParts {
-    const [date, time] = datetime.split('T');
-    return { date, time };
-  }
-
+  const freeTimeSlots: string[] = [
+    "09:00 - 10:00",
+    "10:00 - 11:00",
+    "11:00 - 12:00",
+    "13:00 - 14:00",
+    "14:00 - 15:00",
+    "15:00 - 16:00",
+  ];
+  
+  // สร้าง object เปล่าๆ เพื่อเก็บข้อมูลของแต่ละวัน
+  const slotsByDay: { [key: string]: string[] } = {};
+  
   async function getEvents() {
     const apiUrl = 'http://localhost:3000/api/events';
     try {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data.result.rows;
+  
+      const events = rows.map((event) => ({
+        start_datetime: event.start_datetime,
+        end_datetime: event.end_datetime,
+      }));
+  
+      events.forEach((event) => {
+        const startDateTime = event.start_datetime;
+        const endDateTime = event.end_datetime;
 
-      const dateToTimesMap = new Map<string, Set<string>>();
-
-      rows.forEach(row => {
-        const { date, time } = splitDateTime(row.start_datetime);
-
-        console.log("Time",row.start_datetime);
-        console.log("End : ",row.end_datetime);
+        // console.log("startDateTime: ",startDateTime);
+        // console.log("endDateTime: ",endDateTime);
         
-        
-        if (!dateToTimesMap.has(date)) {
-          dateToTimesMap.set(date, new Set());
+  
+        if (startDateTime && endDateTime) {
+          const date = startDateTime.substring(0, 10); // ดึงเฉพาะส่วนของวันที่ออกมา (YYYY-MM-DD)
+          const start = startDateTime.substring(11, 16);
+          const end = endDateTime.substring(11, 16);
+  
+          // ถ้ายังไม่มี key ของวันที่นั้นใน object slotsByDay ให้สร้าง key และกำหนดค่าเป็น []
+          if (!slotsByDay[date]) {
+            slotsByDay[date] = [];
+          }
+
+          // เพิ่มช่วงเวลาที่มีการจองลงใน array ของวันนั้น
+          slotsByDay[date].push(start + " - " + end);
         }
-        dateToTimesMap.get(date)?.add(time);
       });
 
-      setUnavailableDates(dateToTimesMap);
+      // for (const date in slotsByDay) {
+      //   console.log("test12345: ",slotsByDay[date]);
+      // }
+  
+      // วนลูปผ่าน freeTimeSlots เพื่อหาช่วงเวลาที่ว่างในแต่ละวัน
+      const availableSlotsByDay: { [key: string]: string[] } = {};
+      for (const date in slotsByDay) {
+        availableSlotsByDay[date] = freeTimeSlots.filter((slot) => {
+          for (const occupiedSlot of slotsByDay[date]) {
+            const [occupiedStart, occupiedEnd] = occupiedSlot.split(" - ");
+            const [slotStart, slotEnd] = slot.split(" - ");
+            
+            
+            if (!(occupiedEnd <= slotStart || occupiedStart >= slotEnd)) {
+              return false;
+            }
+          }
+          return true;
+        });
+      }
+  
+      // แสดงผลช่วงเวลาที่มีการจองและช่วงเวลาที่ว่างในแต่ละวัน
+      for (const date in availableSlotsByDay) {
+        console.log(`Available Slots on ${date}:`);
+        console.log(availableSlotsByDay[date]);
+      }
     } catch (error) {
-      console.log("Can't getEvent: ", error);
+      console.error("Can't get events: ", error);
     }
   }
+  
+  
+  
 
   const isPastDay = (day: Date) => {
     const today = new Date();
@@ -92,8 +136,8 @@ function BookAppointment({ room }: { room: any }) {
   const isUnavailableDay = (day: Date) => {
     const dayWithOffset = new Date(day.getTime() - (day.getTimezoneOffset() * 60000)).toISOString();
     const formattedDate = dayWithOffset.split('T')[0];
-  
-    
+
+
     return unavailableDates.has(formattedDate);
   };
 
@@ -121,7 +165,9 @@ function BookAppointment({ room }: { room: any }) {
   useEffect(() => {
     getpersonid();
     getEvents();
-    getTime();
+    getTime(); 
+    console.log();
+    
   }, []);
 
   return (
