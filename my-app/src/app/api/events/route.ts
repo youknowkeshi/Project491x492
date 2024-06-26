@@ -29,10 +29,7 @@ interface DateParts {
   date: string;
   time: string;
 }
-function splitDateTime(datetime: string): DateParts {
-  const [date, time] = datetime.split('T');
-  return { date, time };
-}
+
 
 export async function GET() {
   const client = await pool.connect();
@@ -143,11 +140,7 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
       });
     }
     
-    // แสดงผลช่วงเวลาที่มีการจองและช่วงเวลาที่ว่างในแต่ละวัน
-    for (const date in slotsByDay) {
-      console.log(`Available Slots on ${date}:`);
-      console.log(availableSlotsByDay[date]);
-    }
+
     
 
     // Insert each event individually
