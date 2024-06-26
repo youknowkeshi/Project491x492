@@ -1,27 +1,61 @@
 "use client";
-import React from "react";
+import * as React from "react";
 import Nav from "../component/Nav";
 import { Button, Card } from "flowbite-react";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { format } from "date-fns";
+
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
 
 type Props = {};
 
-export default function page({}: Props) {
+export default function Page({}: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
+  const [date, setDate] = React.useState<Date>();
   return (
     <div>
       <Nav />
       <h1 className="mt-7 text-xl tracking-tight text-gray-900 dark:text-white ml-1">
         Appointment List
       </h1>
-      <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative  ">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            className={cn(
+              "w-[240px] justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+              "bg-gray-100 hover:bg-blue-700 text-white" // เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+
+      <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative">
         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Time : 9.00 - 10.00
-        </h5> 
-        <hr></hr>
+        </h5>
+        <hr />
         <p className="font-normal text-gray-700 dark:text-gray-400">
           Name : Pongtanate Namsawat
         </p>
@@ -67,7 +101,7 @@ export default function page({}: Props) {
                 gradientMonochrome="failure"
                 onClick={() => setOpenModal2(false)}
               >
-                close
+                Close
               </Button>
             </Modal.Footer>
           </Modal>
@@ -75,7 +109,7 @@ export default function page({}: Props) {
             gradientMonochrome="failure"
             onClick={() => setOpenModal(true)}
           >
-            Cancle
+            Cancel
           </Button>
         </div>
         <Modal
@@ -96,7 +130,7 @@ export default function page({}: Props) {
                   {"Yes, I'm sure"}
                 </Button>
                 <Button color="gray" onClick={() => setOpenModal(false)}>
-                  No, canceld
+                  No, cancel
                 </Button>
               </div>
             </div>
