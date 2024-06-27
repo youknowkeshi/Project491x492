@@ -70,12 +70,12 @@ export async function DELETE(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json()
-        const { start_datetime, end_datetime, personid } = req;
+        const { start_datetime, end_datetime, personid ,topic} = req;
         const room = 'conseling_room1'
         const event_id = uniqueString()
 
-        const text = 'INSERT INTO user_conseling_room1 (start_datetime, end_datetime, expire_date, room, personid) VALUES($1, $2, $3, $4) RETURNING *';
-        const values = [start_datetime, end_datetime, room, personid];
+        const text = 'INSERT INTO user_conseling_room1 (start_datetime, end_datetime, expire_date, room, personid, topic) VALUES($1, $2, $3, $4, $5) RETURNING *';
+        const values = [start_datetime, end_datetime, room, personid, topic];
 
         const text_infor = 'INSERT INTO informationusers_room1 (personid,event_id) VALUES($1, $2) RETURNING *';
         const values_infor = [personid,event_id]

@@ -19,16 +19,15 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [major, setMajor] = useState('วิศวกรรมโยธา');
   const [gender, setGender] = useState('Male');
-  const [topic, setTopic] = useState('');
   const [facebookurl, setFacebookUrl] = useState('');
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
   const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
 
-  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, topic: string, facebookurl: string ,gradelevel:string) {
+  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string ,gradelevel:string) {
     try {
       const response = await axios.put('http://localhost:3000/api/register', {
-        personid, phone, major, gender, topic, facebookurl, gradelevel
+        personid, phone, major, gender, facebookurl, gradelevel
       });
       console.log("front: ", response);
     } catch (error) {
@@ -66,9 +65,7 @@ export default function RegisterPage() {
     setGradeLevel(event.target.value);
   };
 
-  const handleTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTopic(event.target.value);
-  };
+
 
   const handleFacebookUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFacebookUrl(event.target.value);
@@ -81,7 +78,7 @@ export default function RegisterPage() {
 
   const handleSaveData = () => {
     console.log("handleSaveData called");
-    updatedataUsers(Id, phone, major, gender, topic, facebookurl, gradeLevel).then(() => {
+    updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
       appointment();
     });
   };
@@ -184,19 +181,7 @@ export default function RegisterPage() {
                   </Select>
                 </div>
 
-                <div className="mt-5">
-                  <div className="mb-1 block">
-                    <Label value="Topic" />
-                  </div>
-                  <TextInput
-                    id="input-gray"
-                    placeholder="เครียดกับการทำงาน......"
-                    required
-                    color="gray"
-                    value={topic}
-                    onChange={handleTopicChange}
-                  />
-                </div>
+               
                 <div className="mt-5">
                   <div className="mb-1 block">
                     <Label value="Facebook Profile" />

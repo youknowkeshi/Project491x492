@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
 import uniqueString from 'unique-string';
 
-
+//admin fisrt login
 export async function POST(request: NextRequest, response: NextResponse) {
     const admin = process.env.NEXT_PUBLIC_ADMIN as string
     try {

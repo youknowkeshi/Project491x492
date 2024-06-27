@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
+import moment from 'moment-timezone';
 
 export default function MyPage() {
     const [date, setDate] = useState<Date | undefined>(new Date());
+    const [currentTime,setCurrentTime] = useState("")
+    const nowInThailand = moment().tz('Asia/Bangkok');
 
     const formatDate = (date: Date | undefined): string => {
         if (!date) {
@@ -16,6 +19,11 @@ export default function MyPage() {
 
         return `${year}-${month}-${day}`;
     };
+
+    useEffect(()=>{
+        setCurrentTime( nowInThailand.format('HH:mm:ss'))
+        console.log('Current time in Thailand:', currentTime);
+    },[])
 
     return (
         <div>

@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import moment from 'moment-timezone';
 
 function BookAppointment({ room }: { room: any }) {
   interface EventRow {
@@ -30,6 +31,8 @@ function BookAppointment({ room }: { room: any }) {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [unavailableSlotsByDay, setUnavailableSlotsByDay] = useState<{ [key: string]: string[] }>({});
+  const [currentTime, setCurrentTime] = useState("");
+  const nowInThailand = moment().tz('Asia/Bangkok');
 
   const freeTimeSlots: string[] = [
     "09:00 - 10:00",
@@ -80,25 +83,61 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
+  async function AddTimeAppointment(start_datetime:string, end_datetime:string, personid:string, topic:string) {
+    const apiUrl = "http://localhost:3000/api/conseling_room1"
+    try{
+      const response = await axios.post(apiUrl,{start_datetime,end_datetime,personid,topic})
+    }catch(error){
+      console.log("Can't post api conseling_room1 : ",error);
+      
+    }
+  }
+
   const isPastDay = (day: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return day < today;
   };
 
+  const formatDate = (date: Date | undefined): string => {
+    if (!date) {
+      return "No date selected";
+    }
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   const isUnavailableTimeSlot = (timeSlot: string, selectedDate: Date | undefined): boolean => {
     if (!selectedDate) {
       return true; // ถ้าไม่ได้เลือกวันที่ก็ให้ถือว่าไม่สามารถใช้งานได้
     }
-  
-    // ใช้ formatDate เพื่อให้ได้รับวันที่ในรูปแบบที่ต้องการ
+
     const formattedDate = formatDate(selectedDate);
-  
-    // หาช่องว่างที่ไม่สามารถใช้งานได้ในวันที่นั้นๆ
     const slots = unavailableSlotsByDay[formattedDate];
-  
-    return slots ? slots.includes(timeSlot) : false;
+
+    if (slots && slots.includes(timeSlot)) {
+      return true;
+    }
+
+    // Disable slots that are past the current time on the current date
+    if (formattedDate === formatDate(new Date())) {
+      const [startHour, startMinute] = timeSlot.split(' - ')[0].split(':');
+      const slotDateTime = new Date(selectedDate);
+      slotDateTime.setHours(parseInt(startHour), parseInt(startMinute), 0, 0);
+
+      const currentDateTime = new Date(currentTime);
+      if (slotDateTime <= currentDateTime) {
+        return true;
+      }
+    }
+
+    return false;
   };
+
   const handleSubmit = () => {
     setIsConfirmationModalOpen(true);
   };
@@ -109,21 +148,10 @@ function BookAppointment({ room }: { room: any }) {
       .catch(error => console.log("getPersonId fail: ", error));
   }
 
-  const formatDate = (date: Date | undefined): string => {
-    if (!date) {
-        return "No date selected";
-    }
-
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-};
-
   useEffect(() => {
     getPersonId();
     getEvents();
+    setCurrentTime(nowInThailand.format('YYYY-MM-DD HH:mm:ss'));
   }, []);
 
   return (
@@ -160,7 +188,6 @@ function BookAppointment({ room }: { room: any }) {
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
                       {freeTimeSlots.map((timeSlot, index) => {
-                        const formattedDate = formatDate(date);
                         const isAvailable = !isUnavailableTimeSlot(timeSlot, date);
 
                         return (

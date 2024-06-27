@@ -93,11 +93,11 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload;
 
     const request = await req.json();
-    const { personid, phone, major, gender, topic, facebookurl ,gradelevel} = request;
+    const { personid, phone, major, gender, facebookurl ,gradelevel} = request;
     const studentId = decoded.studentId;
     const role = "users";
 
-    if (!personid || !phone || !major || !gender || !topic || !facebookurl || !gradelevel) {
+    if (!personid || !phone || !major || !gender || !facebookurl || !gradelevel) {
       return new Response('Missing required fields', { status: 400 });
     }
 
@@ -105,8 +105,8 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       return new Response('Missing studentId', { status: 400 });
     }
 
-    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, topic = $6, facebookurl = $7 , role = $8 , gradelevel = $9 WHERE studentId = $2';
-    const values = [personid, studentId, phone, major, gender, topic, facebookurl, role, gradelevel];
+    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, facebookurl = $6 , role = $7 , gradelevel = $8 WHERE studentId = $2';
+    const values = [personid, studentId, phone, major, gender, facebookurl, role, gradelevel];
 
     // const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
     // const values_infor = [personid];
