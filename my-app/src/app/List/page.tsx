@@ -25,16 +25,18 @@ export default function Page({}: Props) {
   return (
     <div>
       <Nav />
-      <h1 className="mt-7 text-xl tracking-tight text-gray-900 dark:text-white ml-1">
+      <div className="flex flex-row mt-7 gap-7 ">
+      {/* <h1 className="text-xl tracking-tight text-gray-900 dark:text-white ml-1">
         Appointment List
-      </h1>
+      </h1> */}
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            color={"gray"}
             className={cn(
               "w-[240px] justify-start text-left font-normal",
               !date && "text-muted-foreground",
-              "bg-gray-100 hover:bg-blue-700 text-white" // เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
+              "bg-neutral-100 hover:bg-cyan-300 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"// เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -50,6 +52,7 @@ export default function Page({}: Props) {
           />
         </PopoverContent>
       </Popover>
+      </div>
 
       <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative">
         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

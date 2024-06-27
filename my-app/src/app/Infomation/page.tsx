@@ -60,9 +60,9 @@ export default function page({}: Props) {
         </h1>
       </div> */}
 
-      <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative  ">
-        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Time : 9.00 - 10.00
+      <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative ">
+        <h5 className="grid content-start text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Student ID : 630612106
         </h5>
         <hr></hr>
         <p className="font-normal text-gray-700 dark:text-gray-400">
