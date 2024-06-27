@@ -45,7 +45,7 @@ export default function page({ }: Props) {
 
   useEffect(() => {
   
-    fetchEvents()
+    // fetchEvents()
     deleteEvent()
   })
 

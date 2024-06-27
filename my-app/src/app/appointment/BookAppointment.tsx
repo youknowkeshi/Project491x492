@@ -32,6 +32,7 @@ function BookAppointment({ room }: { room: any }) {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [unavailableSlotsByDay, setUnavailableSlotsByDay] = useState<{ [key: string]: string[] }>({});
   const [currentTime, setCurrentTime] = useState("");
+  const [message, setMessage] = useState("");
   const nowInThailand = moment().tz('Asia/Bangkok');
 
   const freeTimeSlots: string[] = [
@@ -83,13 +84,12 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
-  async function AddTimeAppointment(start_datetime:string, end_datetime:string, personid:string, topic:string) {
-    const apiUrl = "http://localhost:3000/api/conseling_room1"
-    try{
-      const response = await axios.post(apiUrl,{start_datetime,end_datetime,personid,topic})
-    }catch(error){
-      console.log("Can't post api conseling_room1 : ",error);
-      
+  async function AddTimeAppointment(start_datetime: string, end_datetime: string, personid: string, topic: string) {
+    const apiUrl = "http://localhost:3000/api/conseling_room1";
+    try {
+      const response = await axios.post(apiUrl, { start_datetime, end_datetime, personid, topic });
+    } catch (error) {
+      console.log("Can't post api conseling_room1 : ", error);
     }
   }
 
@@ -139,7 +139,17 @@ function BookAppointment({ room }: { room: any }) {
   };
 
   const handleSubmit = () => {
-    setIsConfirmationModalOpen(true);
+    if (date && selectedTimeSlot) {
+      const formattedDate = formatDate(date);
+      const [startHour, startMinute] = selectedTimeSlot.split(' - ')[0].split(':');
+      const [endHour, endMinute] = selectedTimeSlot.split(' - ')[1].split(':');
+
+      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00`;
+      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00`;
+
+      AddTimeAppointment(start_datetime, end_datetime, personId, message);
+      setIsConfirmationModalOpen(true);
+    }
   };
 
   function getPersonId() {
@@ -209,7 +219,13 @@ function BookAppointment({ room }: { room: any }) {
                   <div className="grid w-full gap-1.5">
                     <div className="mt-3">
                       <Label htmlFor="message-2">Your Message</Label>
-                      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
+                      <Textarea
+                        className="mt-3"
+                        placeholder="Type your message here."
+                        id="message-2"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -217,11 +233,13 @@ function BookAppointment({ room }: { room: any }) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
+
             <DialogClose asChild>
               <Button className="text-red-500 border-red-500" type="button" variant="outline">
                 Close
               </Button>
             </DialogClose>
+
             <Button
               className="bg-blue-500 text-white border-blue-500"
               type="button"
