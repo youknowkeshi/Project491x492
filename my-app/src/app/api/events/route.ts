@@ -121,9 +121,6 @@ export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) 
       }
     });
 
-    // for (const date in slotsByDay) {
-    //   console.log("test12345: ",slotsByDay[date]);
-    // }
     
     // วนลูปผ่าน freeTimeSlots เพื่อหาช่วงเวลาที่ว่างในแต่ละวัน
     const availableSlotsByDay: { [key: string]: string[] } = {};

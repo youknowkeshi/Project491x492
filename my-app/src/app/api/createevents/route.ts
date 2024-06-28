@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         }
 
         const event = {
-            'summary': 'นัดพูดคุย',
+            'summary': 'Entaneer Mind นัดปรึกษา',
             'location': 'conseling_room1',
             'description': description,
             'start': {
@@ -50,16 +50,15 @@ export async function POST(req: NextRequest) {
 
             const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
-            calendar.events.insert({
+            return calendar.events.insert({
                 calendarId: calendarId,
                 requestBody: event,
-            }, (err: Error | null, event: any) => {
-                if (err) {
-                    console.log('There was an error contacting the Calendar service: ' + err);
-                    return;
-                }
-                console.log('Event created: %s', event.data);
+            }).then((response) => {
+                console.log('Event created: %s', response.data);
                 return new NextResponse(JSON.stringify({ message: "Event successfully created!" }), { status: 200 });
+            }).catch((err: Error) => {
+                console.error('There was an error contacting the Calendar service:', err);
+                return new NextResponse('Error creating event', { status: 500 });
             });
 
         } catch (error) {

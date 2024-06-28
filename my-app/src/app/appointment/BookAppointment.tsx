@@ -58,14 +58,19 @@ function BookAppointment({ room }: { room: any }) {
 
         if (startDateTime && endDateTime) {
           const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-          const start = startDateTime.substring(11, 16);
-          const end = endDateTime.substring(11, 16);
+          const start = moment(startDateTime);
+          const end = moment(endDateTime);
+
+          const hours = [];
+          for (let m = start; m.isBefore(end); m.add(1, 'hours')) {
+            hours.push(m.format('HH:mm'));
+          }
 
           if (!slotsByDay[date]) {
             slotsByDay[date] = [];
           }
 
-          slotsByDay[date].push(start + " - " + end);
+          hours.forEach(hour => slotsByDay[date].push(`${hour} - ${moment(hour, 'HH:mm').add(1, 'hours').format('HH:mm')}`));
         }
       });
 
@@ -87,9 +92,19 @@ function BookAppointment({ room }: { room: any }) {
   async function AddTimeAppointment(start_datetime: string, end_datetime: string, personid: string, topic: string) {
     const apiUrl = "http://localhost:3000/api/conseling_room1";
     try {
-      const response = await axios.post(apiUrl, { start_datetime, end_datetime, personid, topic });
+      await axios.post(apiUrl, { start_datetime, end_datetime, personid, topic });
     } catch (error) {
       console.log("Can't post api conseling_room1 : ", error);
+    }
+  }
+
+  async function AddAppointmentGoogle( description: string, startDateTime: string, endDateTime: string) {
+    const apiUrl = "http://localhost:3000/api/createevents"
+    try{
+      await axios.post(apiUrl,{description, startDateTime, endDateTime})
+    }catch(error){
+      console.log("Can't add appointment to googlecalendar : ",error);
+      
     }
   }
 
@@ -144,10 +159,11 @@ function BookAppointment({ room }: { room: any }) {
       const [startHour, startMinute] = selectedTimeSlot.split(' - ')[0].split(':');
       const [endHour, endMinute] = selectedTimeSlot.split(' - ')[1].split(':');
 
-      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00`;
-      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00`;
+      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
+      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
 
       AddTimeAppointment(start_datetime, end_datetime, personId, message);
+      AddAppointmentGoogle(message, start_datetime, end_datetime);
       setIsConfirmationModalOpen(true);
     }
   };
