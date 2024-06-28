@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Dropdown, Checkbox, Label, Button, Navbar } from "flowbite-react";
@@ -7,15 +7,24 @@ import { Datepicker } from "flowbite-react";
 import Nav from '../component/Nav';
 import { Foot } from '../component/Footer';
 import { Save } from 'lucide-react';
+import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
+
+
+
+
+
+
+
+
 
 const PieChart = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState({
     a: false, b: false, c: false, d: false, e: false, f: false, g: false, h: false, i: false, j: false, k: false, l: false, m: false,
     n: false, o: false, p: false, q: false, r: false, s: false, t: false, u: false, v: false, w: false, x: false, y: false,
-    first: false, second: false, third: false, fourth: false, master: false, grandmaster: false, professor: false, 
+    first: false, second: false, third: false, fourth: false, master: false, grandmaster: false, professor: false,
     personnel: false, none: false
   });
 
@@ -32,11 +41,11 @@ const PieChart = () => {
   };
 
   const data = {
-    labels: ['JavaScript', 'Python', 'Ruby' ,'unknown'],
+    labels: ['JavaScript', 'Python', 'Ruby', 'unknown'],
     datasets: [
       {
         label: 'Languages',
-        data: [150, 50, 100 ,60],
+        data: [150, 50, 100, 60],
         backgroundColor: [
           'rgb(133, 105, 241)',
           'rgb(164, 101, 241)',
@@ -55,9 +64,25 @@ const PieChart = () => {
     maxHeight: '300px',
   };
 
+  async function informaforgraph() {
+    try {
+      const apiURL = "http://localhost:3000/api/graph";
+      const response = await axios.get(apiURL);
+      console.log(response.data);
+    } catch (error) {
+      console.log("hloep ", error);
+    }
+  }
+
+  useEffect(() => {
+  
+
+    informaforgraph();
+  }, []);
+
   return (
     <>
-      <Nav/>
+      <Nav />
       <div className="flex flex-col justify-center p-5 space-y-4">
         <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
           {/* Flex container for dropdowns */}
@@ -72,59 +97,59 @@ const PieChart = () => {
                   </Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='b' checked={checkedItems.b} onChange={handleCheckboxChange}/>
+                  <Checkbox id='b' checked={checkedItems.b} onChange={handleCheckboxChange} />
                   <Label htmlFor='b'>มีอารมณ์เศร้าอย่างต่อเนื่องหรือมีอาการโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='c' checked={checkedItems.c} onChange={handleCheckboxChange}/>
+                  <Checkbox id='c' checked={checkedItems.c} onChange={handleCheckboxChange} />
                   <Label htmlFor='c'>มีพฤติกรรม/ความคิด เกี่ยวกับความตาย ฆ่าตัวตายหรือทำร้ายตัวเอง</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='d' checked={checkedItems.d} onChange={handleCheckboxChange}/>
+                  <Checkbox id='d' checked={checkedItems.d} onChange={handleCheckboxChange} />
                   <Label htmlFor='d'>การปรับตัว/ขนาดทักษะทางสังคม</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='e' checked={checkedItems.e} onChange={handleCheckboxChange}/>
+                  <Checkbox id='e' checked={checkedItems.e} onChange={handleCheckboxChange} />
                   <Label htmlFor='e'>ปัญหาความสัมพันธ์กับเพื่อน</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='f' checked={checkedItems.f} onChange={handleCheckboxChange}/>
+                  <Checkbox id='f' checked={checkedItems.f} onChange={handleCheckboxChange} />
                   <Label htmlFor='f'>การใช้สารเสพติด</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='g' checked={checkedItems.g} onChange={handleCheckboxChange}/>
+                  <Checkbox id='g' checked={checkedItems.g} onChange={handleCheckboxChange} />
                   <Label htmlFor='g'>วิตกกังวล/แพนิค</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='h' checked={checkedItems.h} onChange={handleCheckboxChange}/>
+                  <Checkbox id='h' checked={checkedItems.h} onChange={handleCheckboxChange} />
                   <Label htmlFor='h'>มีอาการทางกายซึ่งอาจเป็นผลมาจากสภาวะทางจิตใจ</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='i' checked={checkedItems.i} onChange={handleCheckboxChange}/>
+                  <Checkbox id='i' checked={checkedItems.i} onChange={handleCheckboxChange} />
                   <Label htmlFor='i'>ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='j' checked={checkedItems.j} onChange={handleCheckboxChange}/>
+                  <Checkbox id='j' checked={checkedItems.j} onChange={handleCheckboxChange} />
                   <Label htmlFor='j'>ปัญหาความสัมพันธ์กับคนรัก</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='k' checked={checkedItems.k} onChange={handleCheckboxChange}/>
+                  <Checkbox id='k' checked={checkedItems.k} onChange={handleCheckboxChange} />
                   <Label htmlFor='k'>ปัญหาความสัมพันธ์ภายในครอบครัว</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='l' checked={checkedItems.l} onChange={handleCheckboxChange}/>
+                  <Checkbox id='l' checked={checkedItems.l} onChange={handleCheckboxChange} />
                   <Label htmlFor='l'>เศร้าโศกจากการสูญเสีย</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='m' checked={checkedItems.m} onChange={handleCheckboxChange}/>
+                  <Checkbox id='m' checked={checkedItems.m} onChange={handleCheckboxChange} />
                   <Label htmlFor='m'>บาดแผลทางใจ/ประสบการาณ์เลวร้ายในวัยเด็ก</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='n' checked={checkedItems.n} onChange={handleCheckboxChange}/>
+                  <Checkbox id='n' checked={checkedItems.n} onChange={handleCheckboxChange} />
                   <Label htmlFor='n'>ปัญหาบุคลิกภาพ</Label>
                 </div>
                 <div className='flex items-center gap-2'>
-                  <Checkbox id='o' checked={checkedItems.o} onChange={handleCheckboxChange}/>
+                  <Checkbox id='o' checked={checkedItems.o} onChange={handleCheckboxChange} />
                   <Label htmlFor='o'>การพัฒนาตัวเอง/รู้จักตัวเองมากขึ้น</Label>
                 </div>
               </div>
@@ -135,7 +160,7 @@ const PieChart = () => {
                 <div className="flex items-center gap-2">
                   <Checkbox id="p" checked={checkedItems.p} onChange={handleCheckboxChange} />
                   <Label htmlFor="p" className="flex">
-                  คอมพิวเตอร์
+                    คอมพิวเตอร์
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
@@ -218,35 +243,35 @@ const PieChart = () => {
           </div>
 
 
-        <div className="flex flex-wrap justify-center space-x-4">
-          {/* Pie chart */}
-          <div className="flex justify-center mb-4">
-            <div style={chartStyle}>
-              <Pie data={data} />
+          <div className="flex flex-wrap justify-center space-x-4">
+            {/* Pie chart */}
+            <div className="flex justify-center mb-4">
+              <div style={chartStyle}>
+                <Pie data={data} />
+              </div>
+            </div>
+
+            {/* Bar chart */}
+            <div className="flex justify-center">
+              <div style={chartStyle}>
+                <Bar data={data} />
+              </div>
+            </div>
+
+            {/* ข้อมูลเพิ่มเติม */}
+            <div className="shadow-lg rounded-lg overflow-hidden bg-gray-50 p-5 max-w-xs">
+              <h3 className="text-lg font-semibold">รายละเอียดข้อมูล:</h3>
+              <ul className="list-disc list-inside">
+                {data.labels.map((label, index) => (
+                  <li key={index}>
+                    {label}: {data.datasets[0].data[index]} หน่วย
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Bar chart */}
-          <div className="flex justify-center">
-            <div style={chartStyle}>
-              <Bar data={data} />
-            </div>
-          </div>
 
-           {/* ข้อมูลเพิ่มเติม */}
-           <div className="shadow-lg rounded-lg overflow-hidden bg-gray-50 p-5 max-w-xs">
-            <h3 className="text-lg font-semibold">รายละเอียดข้อมูล:</h3>
-            <ul className="list-disc list-inside">
-              {data.labels.map((label, index) => (
-                <li key={index}>
-                  {label}: {data.datasets[0].data[index]} หน่วย
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-          
 
           <div className="mt-4 ">
             <Button color="gray" pill={true}>
@@ -256,7 +281,7 @@ const PieChart = () => {
           </div>
         </div>
       </div>
-      <Foot/>
+      <Foot />
     </>
   );
 };
