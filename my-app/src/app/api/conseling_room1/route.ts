@@ -46,16 +46,25 @@ export async function DELETE(request: NextRequest) {
         }
 
         // สร้างคำสั่ง SQL และค่าที่จะใส่ลงไป
-        const text = 'DELETE FROM demo WHERE event_id = $1';
+        const text = 'DELETE FROM user_conseling_room1 WHERE event_id = $1';
         const values = [event_id];
+
+        const text_infor = 'DELETE FROM informationusers_room1 WHERE event_id = $1';
+        const values_infor = [event_id];
+        
 
         // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการลบข้อมูล
         const client = await pool.connect();
+        const res_infor = await client.query(text_infor, values_infor);
         const res = await client.query(text, values);
-
+       
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
         if (res.rowCount === 0) {
             return new NextResponse('User not found', { status: 404 });
+        }
+
+        if (res_infor.rowCount === 0) {
+            return new NextResponse('infor not found', { status: 404 });
         }
 
         // ส่งข้อความยืนยันการลบกลับไปใน response

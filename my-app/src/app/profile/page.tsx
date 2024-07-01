@@ -12,18 +12,11 @@ function profile() {
         <Tabs defaultValue="account" className="w-full mt-5">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
           </TabsList>
           <TabsContent value="account">
             <BookingList />
           </TabsContent>
-          <TabsContent value="password"></TabsContent>
-          <TabsContent value="account">
-            <BookingList />
-          </TabsContent>
-          <TabsContent value="account">
-            <BookingList />
-          </TabsContent>
+    
         </Tabs>
       </div>
     </div>

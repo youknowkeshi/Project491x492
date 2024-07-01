@@ -24,20 +24,31 @@ type ErrorResponse = {
 export type WhoAmIResponse = SuccessResponse | ErrorResponse;
 
 //ดึงข้อมูล users, room1
-export async function GET(res: NextResponse, req: NextRequest) {
-    try {
-        const client = await pool.connect();
-        const result = await client.query
-            ('select u.firstname_lastname ,u.phone ,u.studentid ,c.start_datetime ,c.end_datetime ,c.expire_date ,c.room  from users u INNER JOIN conseling_room1 c ON u.personid = c.personid')
 
-        client.release(); // Release the client back to the pool 
+export async function PUT(req: NextRequest) {
+    try {
+        const requestBody = await req.json();
+        const { studentid } = requestBody; // Correctly extract personId from the request body
+
+        const client = await pool.connect();
+
+        const query = `
+            SELECT u.firstname_lastname, u.studentid, ucr.start_datetime, ucr.end_datetime, ucr.room ,ucr.event_id
+            FROM users u
+            INNER JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
+            WHERE u.studentid = $1;
+        `;
+
+        const result = await client.query(query, [studentid]);
+        client.release(); // Release the client back to the pool
+
         return NextResponse.json(result.rows);
     } catch (error) {
         console.error('Error executing query:', error);
-        return new Error('Failed to fetch users');
+        return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
     }
-
 }
+
 
 export async function POST(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const token = getCookie("cmu-oauth-example-token", { req, res });

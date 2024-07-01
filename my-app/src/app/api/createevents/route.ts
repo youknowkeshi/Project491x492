@@ -72,3 +72,34 @@ export async function POST(req: NextRequest) {
         return new NextResponse('Invalid request body!', { status: 400 });
     }
 }
+
+export async function PUT(req: NextRequest) {
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
+        const tokens = result.rows[0];
+
+        if (!tokens) {
+            return new NextResponse('No found tokens!', { status: 404 });
+        }
+
+        oauth2Client.setCredentials(tokens);
+        const requestBody = await req.json();
+        const { event_id } = requestBody;
+
+        const GOOGLE_CALENDAR_ID = "nithikon1404@gmail.com";
+        const GOOGLE_EVENT_ID = event_id;
+        const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+        await calendar.events.delete({
+            calendarId: GOOGLE_CALENDAR_ID,
+            eventId: GOOGLE_EVENT_ID,
+        });
+
+        return NextResponse.json({ message: "Event successfully deleted!" });
+    } catch (error) {
+        console.log("Can't Delete ", error);
+        return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
+    }
+}

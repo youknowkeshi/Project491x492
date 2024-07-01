@@ -20,6 +20,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from 'moment-timezone';
 
+
+//วันปัจจุบันถ้าไม่ว่างเเล้ววันที่ไม่ปิด เเต่ถ้าจองจน SlotTime เต็มจะกดไม่ได้
 function BookAppointment({ room }: { room: any }) {
   interface EventRow {
     start_datetime: string;
@@ -98,13 +100,12 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
-  async function AddAppointmentGoogle( description: string, startDateTime: string, endDateTime: string) {
-    const apiUrl = "http://localhost:3000/api/createevents"
-    try{
-      await axios.post(apiUrl,{description, startDateTime, endDateTime})
-    }catch(error){
-      console.log("Can't add appointment to googlecalendar : ",error);
-      
+  async function AddAppointmentGoogle(description: string, startDateTime: string, endDateTime: string) {
+    const apiUrl = "http://localhost:3000/api/createevents";
+    try {
+      await axios.post(apiUrl, { description, startDateTime, endDateTime });
+    } catch (error) {
+      console.log("Can't add appointment to googlecalendar : ", error);
     }
   }
 
@@ -112,6 +113,17 @@ function BookAppointment({ room }: { room: any }) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return day < today;
+  };
+
+  const isWeekend = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
+  };
+
+  const isFullyBooked = (day: Date) => {
+    const formattedDate = formatDate(day);
+    const slots = unavailableSlotsByDay[formattedDate];
+    return slots && slots.length >= freeTimeSlots.length;
   };
 
   const formatDate = (date: Date | undefined): string => {
@@ -154,7 +166,7 @@ function BookAppointment({ room }: { room: any }) {
   };
 
   const handleSubmit = () => {
-    if (date && selectedTimeSlot) {
+    if (date && selectedTimeSlot && message) {
       const formattedDate = formatDate(date);
       const [startHour, startMinute] = selectedTimeSlot.split(' - ')[0].split(':');
       const [endHour, endMinute] = selectedTimeSlot.split(' - ')[1].split(':');
@@ -201,7 +213,7 @@ function BookAppointment({ room }: { room: any }) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={day => isPastDay(day)}
+                      disabled={day => isPastDay(day) || isWeekend(day) || isFullyBooked(day)}
                       className="border rounded-lg"
                     />
                   </div>
@@ -259,7 +271,7 @@ function BookAppointment({ room }: { room: any }) {
             <Button
               className="bg-blue-500 text-white border-blue-500"
               type="button"
-              disabled={!(date && selectedTimeSlot)}
+              disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}
             >
               Submit
