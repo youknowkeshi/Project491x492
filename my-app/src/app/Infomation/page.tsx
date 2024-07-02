@@ -84,13 +84,15 @@ export default function page({}: Props) {
           >
             <Modal.Header>Talk details</Modal.Header>
             <Modal.Body>
-              <div className="space-y-6">
+              <div className="space-y-5">
+                <h2>ประเด็นที่ต้องการปรึกษา</h2>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                   With less than a month to go before the European Union enacts
                   new consumer privacy laws for its citizens, companies around
                   the world are updating their terms of service agreements to
                   comply.
                 </p>
+                <h2>รายละเอียดการปรึกษา</h2>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                   The European Union’s General Data Protection Regulation
                   (G.D.P.R.) goes into effect on May 25 and is meant to ensure a
@@ -102,10 +104,10 @@ export default function page({}: Props) {
             </Modal.Body>
             <Modal.Footer>
               <Button
-                gradientMonochrome="failure"
+                color="light"
                 onClick={() => setOpenModal2(false)}
               >
-                close
+                Edit
               </Button>
             </Modal.Footer>
           </Modal>
