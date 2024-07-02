@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
+import axios from "axios";
 
 type Props = {};
 
@@ -22,6 +23,22 @@ export default function Page({}: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
   const [date, setDate] = React.useState<Date>();
+
+  async function informationUser() {
+    const apiUrl = "http://localhost:3000/api/informationusers"
+    try{
+      const response = await axios.get(apiUrl)
+      console.log("mydata : ",response.data);
+      
+    }catch(error){
+      console.log("Can't get information users");
+      
+    }
+  }
+
+  React.useEffect(()=>{
+    informationUser();
+  },[])
   return (
     <div>
       <Nav />
