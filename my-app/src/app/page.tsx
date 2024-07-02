@@ -5,13 +5,14 @@ import {pool} from "./lib/db";
 import Movie from "./movie";
 import { Head, Main, NextScript } from "next/document";
 import Nav from "./component/Nav";
-import { Carousel } from "flowbite-react";
+import { Carousel,ThemeModeScript } from "flowbite-react";
 import { Foot } from "./component/Footer";
 
 type Props = {};
 await delay(1000);
 
-export default async function Home({}: Props) {
+
+export default function Home({}: Props) {
   return (
     <main>
       <Nav />
@@ -93,8 +94,9 @@ export default async function Home({}: Props) {
   );
 }
 
-function delay(timeout: number) {
+async function  delay(timeout: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 }
+

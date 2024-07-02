@@ -8,7 +8,10 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 
 export function Nav() {
+  const admin = process.env.NEXT_PUBLIC_ADMIN as string;
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
 
   function signOut() {
@@ -25,6 +28,9 @@ export function Nav() {
         if (token) {
           setIsLoggedIn(true);
         }
+        // if (adminCMUAccount === admin) {
+        //   setIsAdmin(true);
+        // }
       } catch (err) {
         console.log("This is error: ", err);
       }
@@ -59,7 +65,7 @@ export function Nav() {
                 <Navbar.Link href="/profile">Profile</Navbar.Link>
                 <Dropdown label="Dropdown" inline>
                   <Dropdown.Item>
-                    <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
+                    <Navbar.Link href="/form">Evaluation</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/article">Article</Navbar.Link>
@@ -83,7 +89,7 @@ export function Nav() {
           </Navbar.Collapse>
         </Navbar>
       </Navbar>
-      <hr className="mt-4"></hr>
+      <hr className="mt-4" />
     </>
   );
 }
