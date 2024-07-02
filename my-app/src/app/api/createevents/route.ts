@@ -88,6 +88,9 @@ export async function PUT(req: NextRequest) {
         const requestBody = await req.json();
         const { event_id } = requestBody;
 
+        console.log("This is eventId ",event_id);
+        
+
         const GOOGLE_CALENDAR_ID = "nithikon1404@gmail.com";
         const GOOGLE_EVENT_ID = event_id;
         const calendar = google.calendar({ version: 'v3', auth: oauth2Client });

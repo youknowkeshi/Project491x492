@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
+import { log } from "console";
 
 export async function POST(request: NextRequest) {
     try {
@@ -46,13 +47,15 @@ export async function PUT(req: NextRequest) {
         WHERE start_datetime = $1 AND  end_datetime = $2
       `;
       const values = [start_datetime ,end_datetime];
-      console.log(values);
+      console.log("This is Timeslots",values);
       
   
       const result = await client.query(query, values);
   
       client.release();
   
+      console.log("show data of bug : ",result.rows);
+      
       return NextResponse.json(result.rows);
     } catch (error) {
       console.error('Error executing query:', error);

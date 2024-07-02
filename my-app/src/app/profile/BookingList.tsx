@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "antd";
 import axios from "axios";
+import { useRouter } from "next/navigation"
 
 interface Appointment {
   firstname_lastname: string;
@@ -14,27 +15,39 @@ interface Appointment {
 }
 
 function BookingList() {
+  const router = useRouter()
   const [visible, setVisible] = useState(true);
   const [personId, setPersonId] = useState("");
   const [make_An_Appointment, setMake_An_Appointment] = useState<Appointment[]>([]);
-  const [eventCalendar,setEventCalendar] = useState("")
+  const [eventCalendar, setEventCalendar] = useState("")
+
+  const fetchEvents = async () => {
+    const apiUrl = 'http://localhost:3000/api/events';
+
+    try {
+      await axios.post(apiUrl);
+      // console.log(response.data);
+    } catch (error) {
+      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+    }
+  }
 
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string) => {
     // setVisible(false);
 
+    // const id = GetEventIdCalendar(start_datetime, end_datetime)
+    await GetEventIdCalendar(start_datetime, end_datetime)
+   
 
-    GetEventIdCalendar(start_datetime, end_datetime)
-
-    
-    
     // // Call function to get event ID from calendar API
-    DeleteEventsCalendar(eventCalendar);
+    // await DeleteEventsCalendar(eventCalendar);
 
-     // Call functions to delete events and calendar events
-    DeleteEvents(event_id);
-
+    // Call functions to delete events and calendar events
+    await DeleteEvents(event_id);
     
-  
+    fetchEvents()
+    await router.push("/appointment")
+
   };
 
   if (!visible) {
@@ -51,14 +64,15 @@ function BookingList() {
     try {
       const response = await axios.put('http://localhost:3000/api/appointment', { studentid });
       setMake_An_Appointment(response.data);
-     
-      
+
+
     } catch (error) {
       console.log("Can't get appointment", error);
     }
   };
 
   async function DeleteEvents(event_id: string) {
+    
     const apiUrl = "http://localhost:3000/api/conseling_room1";
     try {
       await axios.delete(apiUrl, {
@@ -73,8 +87,8 @@ function BookingList() {
   async function DeleteEventsCalendar(event_id: string) {
     const apiUrl = "http://localhost:3000/api/createevents";
     try {
-      await axios.delete(apiUrl, {
-        data: { event_id }
+      await axios.put(apiUrl, {
+         event_id 
       });
       console.log("EventCalendar successfully deleted!");
     } catch (error) {
@@ -86,7 +100,20 @@ function BookingList() {
     const apiUrl = "http://localhost:3000/api/admin_conselling_room1";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
-      setEventCalendar(response.data[0].event_id)
+      // setEventCalendar(response.data[0].event_id)
+      const eventsid = response.data[0].event_id
+      // console.log("sfss",eventsid);
+
+      if(eventsid){
+        DeleteEventsCalendar(eventsid)
+        console.log("shiow",eventsid);
+        
+        
+      }
+      
+      
+      // console.log("s11111",response.data[0].event_id);
+      
       // console.log("Successfully got EventId from Calendar: ", response.data[0].event_id);
     } catch (error) {
       console.log("Can't GET EventId ", error);

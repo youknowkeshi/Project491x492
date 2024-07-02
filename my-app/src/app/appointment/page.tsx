@@ -43,7 +43,7 @@ export default function Page({ }: Props) {
     const intervalId = setInterval(() => {
       fetchEvents();
       deleteEvent();
-    }, 5000); // fetch and delete every 5 seconds
+    }, 1000); // fetch and delete every 5 seconds
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
