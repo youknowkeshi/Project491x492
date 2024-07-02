@@ -41,31 +41,33 @@ const PieChart = () => {
     maxHeight: '300px',
   };
 
-  const [chartData, setChartData] = useState<ChartData<'bar' | 'pie', number[], unknown> | null>(null);
+ // const [chartData, setChartData] = useState<ChartData<'bar' | 'pie', number[], unknown> | null>(null);
 
   async function informaforgraph() {
     try {
       const apiURL = "http://localhost:3000/api/graph";
       const response = await axios.get(apiURL);
       const data = response.data;
+      console.log(response.data);
+      
       // สมมติว่าข้อมูลที่ได้รับมาจาก API มีโครงสร้างที่เหมาะสม
-      const transformedData = {
-        labels: data.labels, // ตั้งค่าป้ายชื่อ
-        datasets: [
-          {
-            label: 'Sample Data',
-            data: data.values, // ตั้งค่าข้อมูล
-            backgroundColor: [
-              'rgb(133, 105, 241)',
-              'rgb(164, 101, 241)',
-              'rgb(101, 143, 241)',
-              'rgb(101, 153, 141)',
-            ],
-            hoverOffset: 4,
-          },
-        ],
-      };
-      setChartData(transformedData);
+      // const transformedData = {
+      //   labels: data.labels, // ตั้งค่าป้ายชื่อ
+      //   datasets: [
+      //     {
+      //       label: 'Sample Data',
+      //       data: data.values, // ตั้งค่าข้อมูล
+      //       backgroundColor: [
+      //         'rgb(133, 105, 241)',
+      //         'rgb(164, 101, 241)',
+      //         'rgb(101, 143, 241)',
+      //         'rgb(101, 153, 141)',
+      //       ],
+      //       hoverOffset: 4,
+      //     },
+      //   ],
+      // };
+      // setChartData(transformedData);
       console.log(response.data);
     } catch (error) {
       console.log("Error: ", error);
@@ -275,7 +277,7 @@ const PieChart = () => {
           </div>
         </div>
         {/* Chart rendering section */}
-        <div style={chartStyle}>
+        {/* <div style={chartStyle}>
           {chartData ? (
             <>
               <Pie data={chartData} />
@@ -284,7 +286,7 @@ const PieChart = () => {
           ) : (
             <p>Loading...</p>
           )}
-        </div>
+        </div> */}
       </div>
       <Foot />
     </>
