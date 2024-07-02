@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Footer, Navbar } from "flowbite-react";
+import { Dropdown, Footer, Navbar } from "flowbite-react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
-
-
 
 export function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,18 +17,16 @@ export function Nav() {
     });
   }
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/register');
-        const token = response.data.ok
+        const response = await axios.get("/api/register");
+        const token = response.data.ok;
         if (token) {
           setIsLoggedIn(true);
         }
       } catch (err) {
         console.log("This is error: ", err);
-
       }
     };
 
@@ -50,7 +46,7 @@ export function Nav() {
         </div>
         <Navbar.Toggle />
         <Navbar fluid rounded>
-        <Navbar.Collapse >
+          <Navbar.Collapse>
             {isLoggedIn ? (
               <>
                 <Navbar.Link href="/dashboard" active>
@@ -61,18 +57,31 @@ export function Nav() {
                 </Navbar.Link>
                 <Navbar.Link href="/appointment">Appointment</Navbar.Link>
                 <Navbar.Link href="/profile">Profile</Navbar.Link>
-                <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
-                <Navbar.Link href="/article">Article</Navbar.Link>
-                <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
-
-
+                <Dropdown label="Dropdown" inline>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/Evaluation">Evaluation</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/article">Article</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/List">List</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/Infomation">Info</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
+                  </Dropdown.Item>
+                </Dropdown>
               </>
             ) : (
-              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>
+              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>
+                Login
+              </Navbar.Link>
             )}
           </Navbar.Collapse>
         </Navbar>
-
       </Navbar>
       <hr className="mt-4"></hr>
     </>
