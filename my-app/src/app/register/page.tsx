@@ -27,7 +27,7 @@ export default function RegisterPage() {
   async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string ,gradelevel:string) {
     try {
       const response = await axios.put('http://localhost:3000/api/register', {
-        personid, phone, major, gender, topic, facebookurl, gradelevel
+        personid, phone, major, gender, facebookurl, gradelevel
       });
       console.log("front: ", response);
     } catch (error) {
