@@ -355,6 +355,8 @@ export default function RegisterPage() {
                     Register Now
                   </button>
 
+                  {/* Condition for registered */}
+
                   <Modal
                     dismissible
                     show={!!showModal}
@@ -377,7 +379,7 @@ export default function RegisterPage() {
                     </Modal.Footer>
                   </Modal>
                   
-
+                      {/* Condition for request access code */}
                   <Modal
                     dismissible
                     show={!!showModalAccessCode}

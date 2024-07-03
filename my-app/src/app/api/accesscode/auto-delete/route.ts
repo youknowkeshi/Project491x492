@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../../lib/db"
 
 
-
+// insert access code
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json();
@@ -22,6 +22,8 @@ export async function POST(request: NextRequest) {
     }
 }
 
+
+// check access code
 export async function PUT(request: NextRequest) {
     try {
         const req = await request.json();
@@ -45,6 +47,7 @@ export async function PUT(request: NextRequest) {
     }
 }
 
+// delete code auto
 export async function DELETE(response: NextResponse) {
     try {
         const client = await pool.connect();
