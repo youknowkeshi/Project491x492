@@ -68,7 +68,7 @@ export function Nav() {
                     <Navbar.Link href="/List">List</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/Infomation">Info</Navbar.Link>
+                    <Navbar.Link href="/UserInfomation">UserInfo</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link onClick={signOut}>Logout</Navbar.Link>

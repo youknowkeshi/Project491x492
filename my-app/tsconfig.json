@@ -22,6 +22,16 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/prisma.ts", "src/pages/test/route.ts", "src/app/lib/prisma.ts", "src/app/lib/db.ts", "src/app/test/page.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "utils/prisma.ts",
+    "src/pages/test/route.ts",
+    "src/app/lib/prisma.ts",
+    "src/app/lib/db.ts",
+    "src/app/test/page.tsx"
+  ],
   "exclude": ["node_modules"]
 }
