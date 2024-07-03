@@ -7,7 +7,10 @@ import {
   TextInput,
   Textarea,
   Select,
+  Modal,
 } from "flowbite-react";
+
+
 import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
 import { useRouter } from "next/navigation";
@@ -24,7 +27,18 @@ export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
   const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
 
-  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string ,gradelevel:string) {
+
+  const [checkPhone, setCheckPhone] = useState('');
+  const [checkMajor, setCheckMajor] = useState('');
+  const [checkGender, setCheckGender] = useState('');
+  const [checkFacebookurl, setCheckFacebookUrl] = useState('');
+  const [checkGradeLevel, setCheckGradeLevel] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string, gradelevel: string) {
     try {
       const response = await axios.put('http://localhost:3000/api/register', {
         personid, phone, major, gender, facebookurl, gradelevel
@@ -40,8 +54,26 @@ export default function RegisterPage() {
       const response = await axios.get("/api/register");
       setFullName(response.data.firstName + " " + response.data.lastName);
       setStudentId(response.data.studentId ?? "-");
+      checkregister(response.data.studentId);
     } catch (err) {
       console.log("This is error: ", err);
+    }
+  }
+
+  async function checkregister(studentId: string) {
+    const apiUrl = "http://localhost:3000/api/register"
+
+    try {
+      const response = await axios.post(apiUrl, { studentId });
+
+      setCheckPhone(response.data.data[0].phone)
+      setCheckMajor(response.data.data[0].major)
+      setCheckGender(response.data.data[0].gender)
+      setCheckFacebookUrl(response.data.data[0].facebookurl)
+      setCheckGradeLevel(response.data.data[0].gradelevel)
+
+    } catch (error) {
+      console.log("Can't check resgister users ", error);
     }
   }
 
@@ -76,19 +108,25 @@ export default function RegisterPage() {
   };
 
   function appointment() {
-    console.log("Navigating to /appointment");
+    //console.log("Navigating to /appointment");
     router.push("/appointment");
   }
 
   const handleSaveData = () => {
-    console.log("handleSaveData called");
-    updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
-      appointment();
-    });
+    if (checkFacebookurl && checkGender && checkGradeLevel && checkMajor && checkPhone) {
+      handleShow()
+    } else {
+      updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
+        appointment();
+      });
+    }
+
+
   };
 
   useEffect(() => {
     getdatausers();
+
   }, []);
 
   return (
@@ -191,7 +229,7 @@ export default function RegisterPage() {
                   </Select>
                 </div>
 
-               
+
                 <div className="mt-5">
                   <div className="mb-1 block">
                     <Label value="Facebook Profile" />
@@ -270,10 +308,34 @@ export default function RegisterPage() {
                     onClick={(e) => {
                       e.preventDefault();
                       handleSaveData();
+
                     }}
                   >
                     Register Now
                   </button>
+
+                  <Modal
+                    dismissible
+                    show={!!showModal}
+                    onClose={handleClose}
+                  >
+                    <Modal.Body>
+                      <div className="space-y-6">
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          คุณได้ทำการลงทะเบียนเเล้ว
+                        </p>
+                      </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        gradientMonochrome="failure"
+                        onClick={handleClose}
+                      >
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
                 </div>
               </form>
             </div>
@@ -281,5 +343,8 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+
+
+
   );
 }

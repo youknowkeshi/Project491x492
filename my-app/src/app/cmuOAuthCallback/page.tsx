@@ -38,5 +38,5 @@ export default function CMUOAuthCallback() {
     LogIn()
   }, []);
 
-  return <div className="p-3">{message || "Redirecting ..."}</div>;
+  return <div className="p-3">{message || ""}</div>;
 }

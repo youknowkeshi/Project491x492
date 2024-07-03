@@ -45,7 +45,9 @@ export const config = {
     "/register/:path*",
     "/about/:path*",
     "/appointment/:path*",
-    "/profile/:path*"
+    "/profile/:path*",
+    "/Infomation/:path*",
+    "/List/:path*"
     // Add more paths as needed
   ],
 };
