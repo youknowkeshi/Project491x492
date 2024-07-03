@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { access } from "fs";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -37,6 +38,11 @@ export default function RegisterPage() {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
+
+  const [showModalAccessCode, setShowModalAccessCode] = useState(false);
+  const handleShowAccessCode = () => setShowModalAccessCode(true);
+  const handleCloseAccessCode = () => setShowModalAccessCode(false);
+  const [accessCodeCondition , setAccessCodeCondition] = useState("")
 
   async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string, gradelevel: string) {
     try {
@@ -113,20 +119,55 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
+
+    checkAccessCode(Id)
     if (checkFacebookurl && checkGender && checkGradeLevel && checkMajor && checkPhone) {
       handleShow()
-    } else {
+    }
+    else if(accessCodeCondition == '0'){
+      handleShowAccessCode()
+    } 
+    else {
       updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
         appointment();
       });
     }
-
-
   };
+
+  async function deleteAccessCode() {
+    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+    try {
+      await axios.delete(apiUrl)
+    } catch (error) {
+      console.log("Can't delete access code ", error);
+    }
+  }
+
+  async function checkAccessCode(accesscode: string) {
+    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+    try {
+      const response = await axios.put(apiUrl, { accesscode })
+      const count = response.data.res ? response.data.res.length : 0;
+      
+      setAccessCodeCondition(count)
+      if(count <= 0){
+         
+      }
+      
+    } catch (error) {
+      console.log("Can't generate access code ", error);
+    }
+  }
 
   useEffect(() => {
     getdatausers();
+    deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
+    
+    const interval = setInterval(() => {
+      deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
+    }, 300000); // 300 วินาที
 
+    return () => clearInterval(interval); // เมื่อ Component ถูก unmount ให้ clear interval
   }, []);
 
   return (
@@ -330,6 +371,29 @@ export default function RegisterPage() {
                       <Button
                         gradientMonochrome="failure"
                         onClick={handleClose}
+                      >
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                  
+
+                  <Modal
+                    dismissible
+                    show={!!showModalAccessCode}
+                    onClose={handleCloseAccessCode}
+                  >
+                    <Modal.Body>
+                      <div className="space-y-6">
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          คุณต้องขอรหัสเพื่อลงทะเบียนครั้งแรก
+                        </p>
+                      </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        gradientMonochrome="failure"
+                        onClick={handleCloseAccessCode}
                       >
                         Close
                       </Button>
