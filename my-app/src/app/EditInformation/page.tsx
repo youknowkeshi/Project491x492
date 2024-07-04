@@ -1,12 +1,17 @@
-import React from 'react'
-import { Nav } from '../component/Nav'
+// AnotherComponent.tsx
 
-type Props = {}
+import React from 'react';
+import { ProfileForm } from './profileform';
+import { Nav } from '../component/Nav';
+ // Adjust path as per your file structure
 
-export default function page({}: Props) {
-  return (
-    <div>
-        <Nav/>
-        </div>
-  )
-}
+const AnotherComponent = () => {
+    return (
+        <><Nav />
+        <div className='mt-7'>
+            <ProfileForm />
+        </div></>
+    );
+};
+
+export default AnotherComponent;

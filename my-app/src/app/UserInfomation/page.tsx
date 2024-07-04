@@ -121,7 +121,7 @@ export default async function DemoPage() {
       <div className="container mx-auto ">
         <DataTable columns={columns} data={data} />
       </div>
-      <span>Total Data Sets: {dataCount}</span>
+      {/* <span>Total Data Sets: {dataCount}</span> */}
     </>
   );
 }
