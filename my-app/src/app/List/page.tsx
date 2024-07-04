@@ -26,32 +26,29 @@ export default function Page({}: Props) {
     <div>
       <Nav />
       <div className="flex flex-row mt-7 gap-7 ">
-      {/* <h1 className="text-xl tracking-tight text-gray-900 dark:text-white ml-1">
-        Appointment List
-      </h1> */}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            color={"gray"}
-            className={cn(
-              "w-[240px] justify-start text-left font-normal",
-              !date && "text-muted-foreground",
-              "bg-neutral-100 hover:bg-cyan-300 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"// เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              color={"gray"}
+              className={cn(
+                "w-[240px] justify-start text-left font-normal",
+                !date && "text-muted-foreground",
+                "bg-neutral-100 hover:bg-[#B9F3FC] text-gray-900 hover:text-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" // เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <Card className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative">
@@ -66,7 +63,15 @@ export default function Page({}: Props) {
           Student ID : 630612106
         </p>
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          Facebook : URL
+          Facebook :{" "}
+          <a
+            href="https://www.facebook.com/pimlapat.chaiya.773"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            URL
+          </a>
         </p>
         <div className="flex flex-row gap-4 absolute bottom-4 right-4">
           <Button

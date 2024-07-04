@@ -1,5 +1,0 @@
-.calendar-day:hover {
-  background-color: #34d399; /* สีเขียว */
-  color: white; /* สีของตัวอักษร */
-  cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็น pointer */
-}

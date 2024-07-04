@@ -14,12 +14,12 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
-import {useState ,useEffect} from "react"
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-function BookAppointment({room}:{room : any}) {
+function BookAppointment({ room }: { room: any }) {
   interface TimeSlot {
     time: string;
   }
@@ -29,8 +29,8 @@ function BookAppointment({room}:{room : any}) {
     undefined
   );
 
-  const [personId, setPersonId] = useState('')
-  const [conseling_room, setConseling_room] = useState('')
+  const [personId, setPersonId] = useState("");
+  const [conseling_room, setConseling_room] = useState("");
 
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
     string | undefined
@@ -63,41 +63,43 @@ function BookAppointment({room}:{room : any}) {
     setIsConfirmationModalOpen(true);
   };
 
-
-
-  function getpersonid (){
-    axios.get('http://localhost:3000/api/checkdata').then(response =>{
-      // console.log("Data : ",response.data.temp.personid);
-      setPersonId(response.data.temp.personid)
-    })
-    .catch(error =>{
-      console.log("getpersonid fail: ",error);
-      
-    })
+  function getpersonid() {
+    axios
+      .get("http://localhost:3000/api/checkdata")
+      .then((response) => {
+        // console.log("Data : ",response.data.temp.personid);
+        setPersonId(response.data.temp.personid);
+      })
+      .catch((error) => {
+        console.log("getpersonid fail: ", error);
+      });
   }
 
   function chooseroom() {
     try {
-      axios.post('http://localhost:3000/api/appointment', {
+      axios.post("http://localhost:3000/api/appointment", {
         personid: personId,
-        cmuaccount: room
-      }
-      );
+        cmuaccount: room,
+      });
     } catch (error) {
       console.log("not found room | personid", error);
-
     }
   }
 
-  useEffect(() => {
-    
-  },[])
+  useEffect(() => {}, []);
 
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5" onClick={getpersonid}>Appointment {room}</Button>
+          <Button
+            className="mt-5 text-gray-600 border-cyan-300"
+            onClick={getpersonid}
+            type="button"
+            variant="outline"
+          >
+            Appointment {room}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -143,12 +145,15 @@ function BookAppointment({room}:{room : any}) {
                     </div>
                   </div>
                   <div className="grid w-full gap-1.5">
-                    <div className= "mt-3">
-      <Label htmlFor="message-2">Your Message</Label>
-      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
-      </div>
-
-    </div>
+                    <div className="mt-3">
+                      <Label htmlFor="message-2">Your Message</Label>
+                      <Textarea
+                        className="mt-3"
+                        placeholder="Type your message here."
+                        id="message-2"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </DialogDescription>
