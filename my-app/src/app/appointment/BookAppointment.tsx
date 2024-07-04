@@ -19,6 +19,21 @@ import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from 'moment-timezone';
+import {
+  Modal
+} from "flowbite-react";
+import { log } from "console";
+
+interface Appointment {
+  firstname_lastname: string;
+  studentid: string;
+  start_datetime: string;
+  end_datetime: string;
+  room: string;
+  event_id: string;
+}
+
+
 
 
 //วันปัจจุบันถ้าไม่ว่างเเล้ววันที่ไม่ปิด เเต่ถ้าจองจน SlotTime เต็มจะกดไม่ได้
@@ -36,6 +51,25 @@ function BookAppointment({ room }: { room: any }) {
   const [currentTime, setCurrentTime] = useState("");
   const [message, setMessage] = useState("");
   const nowInThailand = moment().tz('Asia/Bangkok');
+
+  //show eror that not register
+  const [checkPhone, setCheckPhone] = useState('');
+  const [checkMajor, setCheckMajor] = useState('');
+  const [checkGender, setCheckGender] = useState('');
+  const [checkFacebookurl, setCheckFacebookUrl] = useState('');
+  const [checkGradeLevel, setCheckGradeLevel] = useState("");
+
+  //show eror that not register
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+  const [showModalAppointmented, setShowModalAppointmented] = useState(false);
+  const handleShowAppointmented = () => setShowModalAppointmented(true);
+  const handleCloseAppointmented = () => setShowModalAppointmented(false);
+  const [checkAppointmented, setCheckAppointmented] = useState(false)
+
+
 
   const freeTimeSlots: string[] = [
     "09:00 - 10:00",
@@ -165,6 +199,34 @@ function BookAppointment({ room }: { room: any }) {
     return false;
   };
 
+  async function getdatausers() {
+    try {
+      const response = await axios.get("/api/register");
+      const studentId = response.data.studentId
+      checkregister(studentId);
+      appointment(studentId);
+    } catch (err) {
+      console.log("This is error: ", err);
+    }
+  }
+
+  async function checkregister(studentId: string) {
+    const apiUrl = "http://localhost:3000/api/register"
+
+    try {
+      const response = await axios.post(apiUrl, { studentId });
+
+      setCheckPhone(response.data.data[0].phone)
+      setCheckMajor(response.data.data[0].major)
+      setCheckGender(response.data.data[0].gender)
+      setCheckFacebookUrl(response.data.data[0].facebookurl)
+      setCheckGradeLevel(response.data.data[0].gradelevel)
+
+    } catch (error) {
+      console.log("Can't check resgister users ", error);
+    }
+  }
+
   const handleSubmit = () => {
     if (date && selectedTimeSlot && message) {
       const formattedDate = formatDate(date);
@@ -174,23 +236,62 @@ function BookAppointment({ room }: { room: any }) {
       const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
       const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
 
-      AddTimeAppointment(start_datetime, end_datetime, personId, message);
-      AddAppointmentGoogle(message, start_datetime, end_datetime);
-      setIsConfirmationModalOpen(true);
+      if (checkFacebookurl && checkGender && checkGradeLevel && checkMajor && checkPhone) {
+
+        if (checkAppointmented) {
+          handleShowAppointmented()
+        } else {
+          AddTimeAppointment(start_datetime, end_datetime, personId, message);
+          AddAppointmentGoogle(message, start_datetime, end_datetime);
+          setIsConfirmationModalOpen(true);
+        }
+
+      } else {
+        handleShow()
+      }
+
+    }
+  };
+
+  const appointment = async (studentid: string) => {
+    try {
+      const response = await axios.put('http://localhost:3000/api/appointment', { studentid });
+      const len = response.data.length - 1
+      const latestApppoint = response.data[len].start_datetime
+      checkLatestAppointment(latestApppoint)
+
+    } catch (error) {
+      console.log("Can't get appointment", error);
     }
   };
 
   function getPersonId() {
     axios.get('http://localhost:3000/api/checkdata')
-      .then(response => setPersonId(response.data.temp.personid))
+      .then(response => {
+        const personId = response.data.temp.personid;
+        setPersonId(personId);
+      })
       .catch(error => console.log("getPersonId fail: ", error));
   }
+
+  const checkLatestAppointment = (appointments: string) => {
+    const currentDateTime = new Date();
+
+    const appointmentDateTime = new Date(appointments);
+    if (appointmentDateTime > currentDateTime) {
+      setCheckAppointmented(false)
+    }
+    setCheckAppointmented(true)
+  };
+
 
   useEffect(() => {
     getPersonId();
     getEvents();
+    getdatausers();
     setCurrentTime(nowInThailand.format('YYYY-MM-DD HH:mm:ss'));
   }, []);
+
 
   return (
     <>
@@ -299,6 +400,52 @@ function BookAppointment({ room }: { room: any }) {
           </DialogContent>
         </Dialog>
       )}
+
+
+      <Modal
+        dismissible
+        show={!!showModal}
+        onClose={handleClose}
+      >
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              คุณต้องลงทะเบียนที่หน้า register ก่อนจึงจำทำการนัดหมายได้
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            // gradientMonochrome="failure"
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+      <Modal
+        dismissible
+        show={!!showModalAppointmented}
+        onClose={handleCloseAppointmented}
+      >
+        <Modal.Body>
+          <div className="space-y-6">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              คุณได้ทำการนัดหมายไปเเล้ว หากต้องการเปลี่ยนกรุณากดยกเลิกนัดก่อน
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            // gradientMonochrome="failure"
+            onClick={handleCloseAppointmented}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

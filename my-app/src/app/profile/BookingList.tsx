@@ -64,8 +64,6 @@ function BookingList() {
     try {
       const response = await axios.put('http://localhost:3000/api/appointment', { studentid });
       setMake_An_Appointment(response.data);
-
-
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -100,9 +98,7 @@ function BookingList() {
     const apiUrl = "http://localhost:3000/api/admin_conselling_room1";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
-      // setEventCalendar(response.data[0].event_id)
       const eventsid = response.data[0].event_id
-      // console.log("sfss",eventsid);
 
       if(eventsid){
         DeleteEventsCalendar(eventsid)
@@ -111,10 +107,6 @@ function BookingList() {
         
       }
       
-      
-      // console.log("s11111",response.data[0].event_id);
-      
-      // console.log("Successfully got EventId from Calendar: ", response.data[0].event_id);
     } catch (error) {
       console.log("Can't GET EventId ", error);
     }
