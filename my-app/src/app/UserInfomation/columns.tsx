@@ -21,6 +21,7 @@ export type Payment = {
   status: "pending" | "processing" | "success" | "failed";
   email: string;
   phone: string;
+  facebook_url : string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -63,5 +64,14 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "phone",
     header: "Phone",
+  },
+  {
+    accessorKey: "facebook_url",
+    header: "Facebook",
+    cell: ({ row }) => (
+      <a href={row.original.facebook_url} target="_blank" rel="noopener noreferrer">
+        {row.original.facebook_url}
+      </a>
+    ),
   },
 ];
