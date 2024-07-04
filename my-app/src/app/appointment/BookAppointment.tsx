@@ -93,7 +93,7 @@ function BookAppointment({ room }: { room: any }) {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            className="mt-5 text-gray-600 border-cyan-300"
+            className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
             onClick={getpersonid}
             type="button"
             variant="outline"

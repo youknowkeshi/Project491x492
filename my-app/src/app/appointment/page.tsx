@@ -32,7 +32,7 @@ export default function page({}: Props) {
           </div>
 
           <div className="lg:py-24">
-            <h2 className="text-3xl font-bold sm:text-4xl text-cyan-100 font-sans">
+            <h2 className="text-3xl font-bold sm:text-4xl text-neutral-950 font-sans">
               Counseling Room 1
             </h2>
 
@@ -43,7 +43,7 @@ export default function page({}: Props) {
               จองนัดวันนี้และเริ่มต้นก้าวแรกสู่ตัวคุณที่ดีกว่าเดิม
             </p>
             <div className="mt-4 text-red-600">
-              หมายเหตุ: ก่อนจองต้องลงทะเบียนก่อน
+              หมายเหตุ : ก่อนจองต้องลงทะเบียนก่อน
             </div>
             <div>
               <BookAppointment room="1" />
