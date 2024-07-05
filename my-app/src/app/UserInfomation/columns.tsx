@@ -18,27 +18,13 @@ import {
 export type Payment = {
   id: string;
   studentid: string;
-  status: "pending" | "processing" | "success" | "failed";
+  date: string;  // New date field
   email: string;
   phone: string;
   facebook_url : string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
-  // {
-  //   accessorKey: "email",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Email
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -58,8 +44,18 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Student ID",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "date",  // New date field
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "phone",
@@ -68,10 +64,5 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "facebook_url",
     header: "Facebook",
-    cell: ({ row }) => (
-      <a href={row.original.facebook_url} target="_blank" rel="noopener noreferrer">
-        {row.original.facebook_url}
-      </a>
-    ),
   },
 ];

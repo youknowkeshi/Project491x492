@@ -11,6 +11,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  FilterFn,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -22,6 +23,14 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+// Define a custom filter function
+const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
+  return (
+    row.original.email.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.studentid.toLowerCase().includes(filterValue.toLowerCase())
+  );
+};
 
 export type Payment = {
   id: string;
@@ -39,7 +48,8 @@ interface DataTableProps {
 
 export function DataTable({ columns, data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
+
   const [isClient, setIsClient] = useState(false);
 
   React.useEffect(() => {
@@ -53,11 +63,11 @@ export function DataTable({ columns, data }: DataTableProps) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn,
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
     },
   });
 
@@ -69,11 +79,9 @@ export function DataTable({ columns, data }: DataTableProps) {
     <>
       <div className="flex items-center py-7">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+          placeholder="Filter emails or student IDs..."
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
       </div>
