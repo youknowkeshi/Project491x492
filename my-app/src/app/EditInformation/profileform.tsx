@@ -53,7 +53,7 @@ export function ProfileForm() {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <div className="grid grid-cols-2 gap-4"> {/* Adjusted to grid layout with 2 columns */}
+                    <div className="grid grid-cols-2 gap-7"> {/* Adjusted to grid layout with 2 columns */}
                         <FormField
                             control={form.control}
                             name="username"
@@ -158,9 +158,9 @@ export function ProfileForm() {
                             <FormDescription>
                                 Edit and save text content here.
                             </FormDescription>
+                            <Button type="submit">Submit</Button>
                         </FormItem>
                     </div>
-                    <Button type="submit">Submit</Button>
                 </form>
             </Form>
         </>

@@ -12,12 +12,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "flowbite-react";
 
 function BookAppointment({ room }: { room: any }) {
   interface TimeSlot {
@@ -96,9 +96,8 @@ function BookAppointment({ room }: { room: any }) {
             className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
             onClick={getpersonid}
             type="button"
-            variant="outline"
           >
-            Appointment {room}
+            จองคิวนัดปรึกษาที่ห้อง {room}
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -161,9 +160,8 @@ function BookAppointment({ room }: { room: any }) {
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button
-                className="text-red-500 border-red-500"
+                color="failure"
                 type="button"
-                variant="outline"
               >
                 Close
               </Button>

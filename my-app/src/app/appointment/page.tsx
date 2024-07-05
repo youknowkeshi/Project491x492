@@ -26,23 +26,23 @@ export default function page({}: Props) {
           <div className="relative h-64 overflow-hidden rounded-lg sm:h-80 lg:order-last lg:h-full">
             <img
               alt=""
-              src="https://as2.ftcdn.net/v2/jpg/07/52/73/81/1000_F_752738114_CcWpaa9ymekp84jwjd7yBK0t34NA72Zz.jpg"
+              src="https://images.unsplash.com/photo-1488901512066-cd403111aeb2?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
 
           <div className="lg:py-24">
             <h2 className="text-3xl font-bold sm:text-4xl text-neutral-950 font-sans">
-              Counseling Room 1
+            ห้องให้คำปรึกษาที่ 1
             </h2>
 
-            <p className="mt-4 text-zinc-950 font-mono">
+            <p className="mt-4 text-gray-600 font-mono">
               รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 1
               ไม่ว่าคุณจะกำลังเผชิญกับความท้าทายส่วนตัวหรือต้องการใครสักคนที่พร้อมรับฟัง
               พี่ป็อปพร้อมช่วยคุณในการแก้ไขปัญหา
               จองนัดวันนี้และเริ่มต้นก้าวแรกสู่ตัวคุณที่ดีกว่าเดิม
             </p>
-            <div className="mt-4 text-red-600">
+            <div className="mt-4 text-gray-600text-inherit text-justify font-bold">
               หมายเหตุ : ก่อนจองต้องลงทะเบียนก่อน
             </div>
             <div>
@@ -56,22 +56,25 @@ export default function page({}: Props) {
           <div className="relative h-64 overflow-hidden rounded-lg sm:h-80 lg:order-last lg:h-full">
             <img
               alt=""
-              src="https://as1.ftcdn.net/v2/jpg/08/07/16/10/1000_F_807161055_esCWhvC0BIhdHw2HLgn4WSUkOZydeF4B.jpg"
+              src="https://images.unsplash.com/photo-1488901512066-cd403111aeb2?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
 
           <div className="lg:py-24">
             <h2 className="text-3xl font-bold sm:text-4xl">
-              Counseling Room 2
+            ห้องให้คำปรึกษาที่ 2
             </h2>
 
-            <p className="mt-4 text-gray-600">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut qui
-              hic atque tenetur quis eius quos ea neque sunt, accusantium soluta
-              minus veniam tempora deserunt? Molestiae eius quidem quam
-              repellat.
+            <p className="mt-4 text-gray-600 text-justify">
+            รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 1
+              ไม่ว่าคุณจะกำลังเผชิญกับความท้าทายส่วนตัวหรือต้องการใครสักคนที่พร้อมรับฟัง
+              พี่ป็อปพร้อมช่วยคุณในการแก้ไขปัญหา
+              จองนัดวันนี้และเริ่มต้นก้าวแรกสู่ตัวคุณที่ดีกว่าเดิม
             </p>
+            <div className="mt-4 text-gray-600text-inherit text-justify font-bold">
+              หมายเหตุ : ก่อนจองต้องลงทะเบียนก่อน
+            </div>
             <div>
               <BookAppointment room="2" />
             </div>
