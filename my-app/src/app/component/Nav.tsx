@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Footer, Navbar } from "flowbite-react";
-import axios from "axios";
+import { Dropdown, Footer, Navbar } from "flowbite-react";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
 
 export function Nav() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
@@ -24,14 +25,12 @@ export function Nav() {
       try {
         const response = await axios.get("/api/register");
         const token = response.data.ok;
-        const adminCMUAccount = response.data.cmuAccount;
-
         if (token) {
           setIsLoggedIn(true);
         }
-        if (adminCMUAccount === admin) {
-          setIsAdmin(true);
-        }
+        // if (adminCMUAccount === admin) {
+        //   setIsAdmin(true);
+        // }
       } catch (err) {
         console.log("This is error: ", err);
       }
@@ -55,40 +54,37 @@ export function Nav() {
         <Navbar fluid rounded>
           <Navbar.Collapse>
             {isLoggedIn ? (
-              isAdmin ? (
-                <>
-                  <Navbar.Link href="/dashboard" active>
-                    Home
-                  </Navbar.Link>
-                  <Navbar.Link as={Link} href="/register">
-                    Register
-                  </Navbar.Link>
-                  <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-                  <Navbar.Link href="/information">Information</Navbar.Link>
-                  <Navbar.Link href="/report">Report</Navbar.Link>
-                  <Navbar.Link href="/make">Make Appointment</Navbar.Link>
-                  <Navbar.Link href="/article">Article</Navbar.Link>
-                  <Navbar.Link href="/evaluation-form">Evaluation Form</Navbar.Link>
-                  <Navbar.Link href="/graph">Graph</Navbar.Link>
-                  <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
-                </>
-              ) : (
-                <>
-                  <Navbar.Link href="/dashboard" active>
-                    Home
-                  </Navbar.Link>
-                  <Navbar.Link as={Link} href="/register">
-                    Register
-                  </Navbar.Link>
-                  <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-                  <Navbar.Link href="/profile">Profile</Navbar.Link>
-                  <Navbar.Link href="/evaluation">Evaluation</Navbar.Link>
-                  <Navbar.Link href="/article">Article</Navbar.Link>
-                  <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
-                </>
-              )
+              <>
+                <Navbar.Link href="/dashboard" active>
+                  Home
+                </Navbar.Link>
+                <Navbar.Link as={Link} href="/register">
+                  Register
+                </Navbar.Link>
+                <Navbar.Link href="/appointment">Appointment</Navbar.Link>
+                <Navbar.Link href="/profile">Profile</Navbar.Link>
+                <Dropdown label="Dropdown" inline>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/form">Evaluation</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/article">Article</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/List">List</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link href="/Infomation">Info</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
+                  </Dropdown.Item>
+                </Dropdown>
+              </>
             ) : (
-              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>Login</Navbar.Link>
+              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>
+                Login
+              </Navbar.Link>
             )}
           </Navbar.Collapse>
         </Navbar>

@@ -18,39 +18,33 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import moment from 'moment-timezone';
 
+
+//วันปัจจุบันถ้าไม่ว่างเเล้ววันที่ไม่ปิด เเต่ถ้าจองจน SlotTime เต็มจะกดไม่ได้
 function BookAppointment({ room }: { room: any }) {
-  interface TimeSlot {
-    time: string;
-  }
-
   interface EventRow {
     start_datetime: string;
     end_datetime: string;
   }
 
-  type DateParts = {
-    date: string;
-    time: string;
-  };
-  
-  interface DataandTime {
-    data: string;
-    time: string; 
-  }
-
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [timeSlot, setTimeSlot] = useState<TimeSlot[] | undefined>(undefined);
   const [personId, setPersonId] = useState("");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(undefined);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [unavailableDates, setUnavailableDates] = useState<Map<string, Set<string>>>(new Map());
+  const [unavailableSlotsByDay, setUnavailableSlotsByDay] = useState<{ [key: string]: string[] }>({});
+  const [currentTime, setCurrentTime] = useState("");
+  const [message, setMessage] = useState("");
+  const nowInThailand = moment().tz('Asia/Bangkok');
 
-
-  function splitDateTime(datetime: string): DateParts {
-    const [date, time] = datetime.split('T');
-    return { date, time };
-  }
+  const freeTimeSlots: string[] = [
+    "09:00 - 10:00",
+    "10:00 - 11:00",
+    "11:00 - 12:00",
+    "13:00 - 14:00",
+    "14:00 - 15:00",
+    "15:00 - 16:00",
+  ];
 
   async function getEvents() {
     const apiUrl = 'http://localhost:3000/api/events';
@@ -58,22 +52,60 @@ function BookAppointment({ room }: { room: any }) {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data.result.rows;
 
-      const dateToTimesMap = new Map<string, Set<string>>();
+      const slotsByDay: { [key: string]: string[] } = {};
 
-      rows.forEach(row => {
-        const { date, time } = splitDateTime(row.start_datetime);
+      rows.forEach((event) => {
+        const startDateTime = event.start_datetime;
+        const endDateTime = event.end_datetime;
 
-        console.log("Time",row.start_datetime);
-        
-        if (!dateToTimesMap.has(date)) {
-          dateToTimesMap.set(date, new Set());
+        if (startDateTime && endDateTime) {
+          const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
+          const start = moment(startDateTime);
+          const end = moment(endDateTime);
+
+          const hours = [];
+          for (let m = start; m.isBefore(end); m.add(1, 'hours')) {
+            hours.push(m.format('HH:mm'));
+          }
+
+          if (!slotsByDay[date]) {
+            slotsByDay[date] = [];
+          }
+
+          hours.forEach(hour => slotsByDay[date].push(`${hour} - ${moment(hour, 'HH:mm').add(1, 'hours').format('HH:mm')}`));
         }
-        dateToTimesMap.get(date)?.add(time);
       });
 
-      setUnavailableDates(dateToTimesMap);
+      const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+
+      for (const date in slotsByDay) {
+        if (slotsByDay[date].length > 0) {
+          newUnavailableSlotsByDay[date] = slotsByDay[date];
+        }
+      }
+
+      setUnavailableSlotsByDay(newUnavailableSlotsByDay);
+
     } catch (error) {
-      console.log("Can't getEvent: ", error);
+      console.error("Can't get events: ", error);
+    }
+  }
+
+  async function AddTimeAppointment(start_datetime: string, end_datetime: string, personid: string, topic: string) {
+    const apiUrl = "http://localhost:3000/api/conseling_room1";
+    try {
+      await axios.post(apiUrl, { start_datetime, end_datetime, personid, topic });
+    } catch (error) {
+      console.log("Can't post api conseling_room1 : ", error);
+    }
+  }
+
+  async function AddAppointmentGoogle(description: string, startDateTime: string, endDateTime: string) {
+    const apiUrl = "http://localhost:3000/api/createevents";
+    try {
+      await axios.post(apiUrl, { description, startDateTime, endDateTime });
+    } catch (error) {
+      console.log("Can't add appointment to googlecalendar : ", error);
     }
   }
 
@@ -83,39 +115,81 @@ function BookAppointment({ room }: { room: any }) {
     return day < today;
   };
 
-  const isUnavailableDay = (day: Date) => {
-    const dayWithOffset = new Date(day.getTime() - (day.getTimezoneOffset() * 60000)).toISOString();
-    const formattedDate = dayWithOffset.split('T')[0];
-  
-    
-    return unavailableDates.has(formattedDate);
+  const isWeekend = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
   };
 
-  const getTime = () => {
-    const timeList: TimeSlot[] = [];
-    for (let i = 10; i <= 15; i++) {
-      const time = `${i}:00`;
-      if (time !== "12:00") {
-        timeList.push({ time });
+  const isFullyBooked = (day: Date) => {
+    const formattedDate = formatDate(day);
+    const slots = unavailableSlotsByDay[formattedDate];
+    return slots && slots.length >= freeTimeSlots.length;
+  };
+
+  const formatDate = (date: Date | undefined): string => {
+    if (!date) {
+      return "No date selected";
+    }
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const isUnavailableTimeSlot = (timeSlot: string, selectedDate: Date | undefined): boolean => {
+    if (!selectedDate) {
+      return true; // ถ้าไม่ได้เลือกวันที่ก็ให้ถือว่าไม่สามารถใช้งานได้
+    }
+
+    const formattedDate = formatDate(selectedDate);
+    const slots = unavailableSlotsByDay[formattedDate];
+
+    if (slots && slots.includes(timeSlot)) {
+      return true;
+    }
+
+    // Disable slots that are past the current time on the current date
+    if (formattedDate === formatDate(new Date())) {
+      const [startHour, startMinute] = timeSlot.split(' - ')[0].split(':');
+      const slotDateTime = new Date(selectedDate);
+      slotDateTime.setHours(parseInt(startHour), parseInt(startMinute), 0, 0);
+
+      const currentDateTime = new Date(currentTime);
+      if (slotDateTime <= currentDateTime) {
+        return true;
       }
     }
-    setTimeSlot(timeList);
+
+    return false;
   };
 
   const handleSubmit = () => {
-    setIsConfirmationModalOpen(true);
+    if (date && selectedTimeSlot && message) {
+      const formattedDate = formatDate(date);
+      const [startHour, startMinute] = selectedTimeSlot.split(' - ')[0].split(':');
+      const [endHour, endMinute] = selectedTimeSlot.split(' - ')[1].split(':');
+
+      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
+      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
+
+      AddTimeAppointment(start_datetime, end_datetime, personId, message);
+      AddAppointmentGoogle(message, start_datetime, end_datetime);
+      setIsConfirmationModalOpen(true);
+    }
   };
 
-  function getpersonid() {
+  function getPersonId() {
     axios.get('http://localhost:3000/api/checkdata')
       .then(response => setPersonId(response.data.temp.personid))
-      .catch(error => console.log("getpersonid fail: ", error));
+      .catch(error => console.log("getPersonId fail: ", error));
   }
 
   useEffect(() => {
-    getpersonid();
+    getPersonId();
     getEvents();
-    getTime();
+    setCurrentTime(nowInThailand.format('YYYY-MM-DD HH:mm:ss'));
   }, []);
 
   return (
@@ -139,7 +213,7 @@ function BookAppointment({ room }: { room: any }) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={day => isPastDay(day) || isUnavailableDay(day)}
+                      disabled={day => isPastDay(day) || isWeekend(day) || isFullyBooked(day)}
                       className="border rounded-lg"
                     />
                   </div>
@@ -151,31 +225,35 @@ function BookAppointment({ room }: { room: any }) {
                       Select Time Slot
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
-                      {timeSlot &&
-                        timeSlot.map((item, index) => {
-                          const formattedDate = date?.toISOString().split('T')[0] || "";
-                          const isUnavailable = unavailableDates.get(formattedDate)?.has(item.time);
+                      {freeTimeSlots.map((timeSlot, index) => {
+                        const isAvailable = !isUnavailableTimeSlot(timeSlot, date);
 
-                          return (
-                            <h2
-                              onClick={() => !isUnavailable && setSelectedTimeSlot(item.time)}
-                              className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === item.time
-                                ? "bg-green-500 text-white"
-                                : isUnavailable
-                                  ? "bg-red-500 text-white cursor-not-allowed"
-                                  : ""}`}
-                              key={index}
-                            >
-                              {item.time}
-                            </h2>
-                          );
-                        })}
+                        return (
+                          <h2
+                            onClick={() => isAvailable && setSelectedTimeSlot(timeSlot)}
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
+                              ? "bg-green-500 text-white"
+                              : !isAvailable
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : ""}`}
+                            key={index}
+                          >
+                            {timeSlot}
+                          </h2>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="grid w-full gap-1.5">
                     <div className="mt-3">
                       <Label htmlFor="message-2">Your Message</Label>
-                      <Textarea className="mt-3" placeholder="Type your message here." id="message-2" />
+                      <Textarea
+                        className="mt-3"
+                        placeholder="Type your message here."
+                        id="message-2"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -183,15 +261,17 @@ function BookAppointment({ room }: { room: any }) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
+
             <DialogClose asChild>
               <Button className="text-red-500 border-red-500" type="button" variant="outline">
                 Close
               </Button>
             </DialogClose>
+
             <Button
               className="bg-blue-500 text-white border-blue-500"
               type="button"
-              disabled={!(date && selectedTimeSlot)}
+              disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}
             >
               Submit
@@ -219,7 +299,6 @@ function BookAppointment({ room }: { room: any }) {
           </DialogContent>
         </Dialog>
       )}
-      {/* <p>{Array.from(unavailableDates.entries()).map(([key, value]) => `${key}: ${Array.from(value).join(', ')}`).join(' | ')}</p> */}
     </>
   );
 }

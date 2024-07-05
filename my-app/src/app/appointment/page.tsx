@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BookAppointment from "./BookAppointment";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,41 +15,39 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 
-
 type Props = {};
 
-export default function page({ }: Props) {
- 
-  async function fetchEvents() {
+export default function Page({ }: Props) {
+  const fetchEvents = async () => {
     const apiUrl = 'http://localhost:3000/api/events';
 
     try {
-      const response = await axios.post(apiUrl);
+      await axios.post(apiUrl);
       // console.log(response.data);
     } catch (error) {
       console.error('Oh no! An error has arisen from the depths of the internet:', error);
     }
   }
 
-  async function deleteEvent() {
+  const deleteEvent = async () => {
     const apiUrl = 'http://localhost:3000/api/events'
 
     try {
       await axios.delete(apiUrl)
     } catch (error) {
       console.log("This is : ", error);
-
     }
   }
 
-
   useEffect(() => {
-  
-    fetchEvents()
-    deleteEvent()
-  })
+    const intervalId = setInterval(() => {
+      fetchEvents();
+      deleteEvent();
+    }, 1000); // fetch and delete every 5 seconds
 
-
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <section>
