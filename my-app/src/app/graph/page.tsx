@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Checkbox, Label, Navbar, Modal } from 'flowbite-react';
-import { Datepicker } from 'flowbite-react';
 import Nav from '../component/Nav';
 import { Foot } from '../component/Footer';
 import { Save } from 'lucide-react';
@@ -15,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button"
 import { CalendarIcon } from "@radix-ui/react-icons";
+import PieChart from './PieChart';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -102,27 +102,27 @@ const Graph = () => {
       const data = response.data;
       console.log(response.data);
 
-      // Assuming the response data has the structure required for the charts
-      setPieData({
-        labels: data.pie.labels,
-        datasets: [
-          {
-            data: data.pie.values,
-            backgroundColor: data.pie.colors,
-          }
-        ]
-      });
+     
+      // setPieData({
+      //   labels: data.pie.labels,
+      //   datasets: [
+      //     {
+      //       data: data.pie.values,
+      //       backgroundColor: data.pie.colors,
+      //     }
+      //   ]
+      // });
 
-      setBarData({
-        labels: data.bar.labels,
-        datasets: [
-          {
-            label: data.bar.label,
-            data: data.bar.values,
-            backgroundColor: data.bar.colors,
-          }
-        ]
-      });
+      // setBarData({
+      //   labels: data.bar.labels,
+      //   datasets: [
+      //     {
+      //       label: data.bar.label,
+      //       data: data.bar.values,
+      //       backgroundColor: data.bar.colors,
+      //     }
+      //   ]
+      // });
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -138,27 +138,22 @@ const Graph = () => {
       <div className="flex flex-col justify-center p-5 space-y-4">
         <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
           <div className="flex flex-wrap space-x-4 mb-4 justify-center">
-            <Datepicker />
+            
             <div className="container mx-auto">
               <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
                 <div className="w-full lg:w-full flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
                   <h1 className="text-green-500 text-3xl mb-3">Welcome</h1>
-                  <div>
-                    <p className="text-purple">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suspendisse aliquam varius rutrum purus maecenas ac{" "}
-                      <a href="#" className="text-#4F6F52 font-semibold text-green-500">
-                        Learn more
-                      </a>
-                    </p>
+                  <div className='flex gap-4'>
+                  <DatePickerWithRange></DatePickerWithRange>
+                  <Button onClick={() => setOpenModal(true)}>กรุณาเลือก</Button>
                   </div>
-                  <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
-                  <Modal className='' show={openModal} onClose={() => setOpenModal(false)}>
+                  <Modal className='' show={openModal} size={"7xl"} onClose={() => setOpenModal(false)}>
                     <Modal.Header>กรุณาเลือก</Modal.Header>
                     <Modal.Body>
                       <div className="space-y-7">
                         <div className="flex justify-between">
                           <div className="w-1/3 pr-2">
-                            <Label className="block text-lg font-medium text-gray-700">ประเด็นสุขภาพจิต</Label>
+                            <Label className="block text-lg font-medium text-gray-700 mb-4">ประเด็นสุขภาพจิต</Label>
                             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
                               <div className="flex items-center gap-2">
                                 <Checkbox id="Willpower_test_score" checked={checkedItems.Willpower_test_score} onChange={handleCheckboxChange} />
@@ -223,7 +218,7 @@ const Graph = () => {
                             </div>
                           </div>
                           <div className="w-1/3 pr-2">
-                            <Label className="block text-lg font-medium text-gray-700">ปัญหาด้านการเรียน</Label>
+                            <Label className="block text-lg font-medium text-gray-700 mb-4">ปัญหาด้านการเรียน</Label>
                             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='computer' checked={checkedItems.computer} onChange={handleCheckboxChange} />
@@ -264,7 +259,7 @@ const Graph = () => {
                             </div>
                           </div>
                           <div className="w-1/3 pr-2">
-                            <Label className="block text-lg font-medium text-gray-700">ระดับชั้น</Label>
+                            <Label className="block text-lg font-medium text-gray-700 mb-4">ระดับชั้น</Label>
                             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='first' checked={checkedItems.first} onChange={handleCheckboxChange} />
@@ -318,16 +313,15 @@ const Graph = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <h2 className="text-xl font-bold mb-2">Pie Chart</h2>
-              <Pie data={pieData} />
+              <PieChart></PieChart>
             </div>
-            <div>
+            {/* <div>
               <h2 className="text-xl font-bold mb-2">Bar Chart</h2>
               <Bar data={barData} />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
-      <Foot />
     </>
   );
 };
