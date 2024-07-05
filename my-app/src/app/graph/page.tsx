@@ -2,16 +2,73 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
-import { Checkbox, Label, Button, Navbar, Modal } from 'flowbite-react';
+import { Checkbox, Label, Navbar, Modal } from 'flowbite-react';
 import { Datepicker } from 'flowbite-react';
 import Nav from '../component/Nav';
 import { Foot } from '../component/Footer';
 import { Save } from 'lucide-react';
 import axios from 'axios';
+import { Calendar } from "@/components/ui/calendar";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button"
+import { CalendarIcon } from "@radix-ui/react-icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
-const PieChart = () => {
+export function DatePickerWithRange({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
+
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
+const Graph = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState({
     Willpower_test_score: false, sad_mood: false, Have_behaviors: false, Social_skills: false, Relationship_problems_with_friends: false, substance_use: false,
@@ -35,12 +92,8 @@ const PieChart = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
-  // const chartStyle = {
-  //   width: '100%',
-  //   height: '100%',
-  //   maxWidth: '500px',
-  //   maxHeight: '500px',
-  // };
+  const [pieData, setPieData] = useState({});
+  const [barData, setBarData] = useState({});
 
   async function informaforgraph() {
     try {
@@ -48,6 +101,28 @@ const PieChart = () => {
       const response = await axios.get(apiURL);
       const data = response.data;
       console.log(response.data);
+
+      // Assuming the response data has the structure required for the charts
+      setPieData({
+        labels: data.pie.labels,
+        datasets: [
+          {
+            data: data.pie.values,
+            backgroundColor: data.pie.colors,
+          }
+        ]
+      });
+
+      setBarData({
+        labels: data.bar.labels,
+        datasets: [
+          {
+            label: data.bar.label,
+            data: data.bar.values,
+            backgroundColor: data.bar.colors,
+          }
+        ]
+      });
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -115,11 +190,11 @@ const PieChart = () => {
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='physical_symptoms' checked={checkedItems.physical_symptoms} onChange={handleCheckboxChange} />
-                                <Label htmlFor='physical_symptoms'>มีอาการทางกายซึ่งอาจเป็นผลมาจากสภาวะทางจิตใจ</Label>
+                                <Label htmlFor='physical_symptoms'>อาการทางกาย</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='Study_problems' checked={checkedItems.Study_problems} onChange={handleCheckboxChange} />
-                                <Label htmlFor='Study_problems'>ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ</Label>
+                                <Label htmlFor='Study_problems'>ปัญหาการเรียน</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='Relationship_loved' checked={checkedItems.Relationship_loved} onChange={handleCheckboxChange} />
@@ -127,15 +202,15 @@ const PieChart = () => {
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='relationships_family' checked={checkedItems.relationships_family} onChange={handleCheckboxChange} />
-                                <Label htmlFor='relationships_family'>ปัญหาความสัมพันธ์ภายในครอบครัว</Label>
+                                <Label htmlFor='relationships_family'>ปัญหาความสัมพันธ์ในครอบครัว</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='Grieving_loss' checked={checkedItems.Grieving_loss} onChange={handleCheckboxChange} />
-                                <Label htmlFor='Grieving_loss'>เศร้าโศกจากการสูญเสีย</Label>
+                                <Label htmlFor='Grieving_loss'>เศร้าโศกต่อการสูญเสีย</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='emotional_wound' checked={checkedItems.emotional_wound} onChange={handleCheckboxChange} />
-                                <Label htmlFor='emotional_wound'>บาดแผลทางใจ/ประสบการาณ์เลวร้ายในวัยเด็ก</Label>
+                                <Label htmlFor='emotional_wound'>มีบาดแผลทางใจ/มีประสบการณ์ที่กระทบกระเทือนจิตใจอย่างรุนแรง</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='Personality_problems' checked={checkedItems.Personality_problems} onChange={handleCheckboxChange} />
@@ -143,12 +218,12 @@ const PieChart = () => {
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='self_development' checked={checkedItems.self_development} onChange={handleCheckboxChange} />
-                                <Label htmlFor='self_development'>พัฒนาตัวเอง</Label>
+                                <Label htmlFor='self_development'>การพัฒนาตัวเอง</Label>
                               </div>
                             </div>
                           </div>
-                          <div className="w-1/3 px-2">
-                            <Label className="block text-lg font-medium text-gray-700">ระดับการศึกษา</Label>
+                          <div className="w-1/3 pr-2">
+                            <Label className="block text-lg font-medium text-gray-700">ปัญหาด้านการเรียน</Label>
                             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='computer' checked={checkedItems.computer} onChange={handleCheckboxChange} />
@@ -184,64 +259,70 @@ const PieChart = () => {
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='Integrated' checked={checkedItems.Integrated} onChange={handleCheckboxChange} />
-                                <Label htmlFor='Integrated'>วิศวกรรมอินทิเกรต</Label>
+                                <Label htmlFor='Integrated'>วิศวกรรมหุ่นยนต์และระบบอัตโนมัติ</Label>
                               </div>
                             </div>
                           </div>
-                          <div className="w-1/3 px-2">
-                            <Label className="block text-lg font-medium text-gray-700">ระดับการศึกษา</Label>
+                          <div className="w-1/3 pr-2">
+                            <Label className="block text-lg font-medium text-gray-700">ระดับชั้น</Label>
                             <div className="p-4 max-h-60 overflow-y-auto flex flex-col gap-4" id="checkbox">
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='first' checked={checkedItems.first} onChange={handleCheckboxChange} />
-                                <Label htmlFor='first'>ปี 1</Label>
+                                <Label htmlFor='first'>ชั้นปีที่ 1</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='second' checked={checkedItems.second} onChange={handleCheckboxChange} />
-                                <Label htmlFor='second'>ปี 2</Label>
+                                <Label htmlFor='second'>ชั้นปีที่ 2</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='third' checked={checkedItems.third} onChange={handleCheckboxChange} />
-                                <Label htmlFor='third'>ปี 3</Label>
+                                <Label htmlFor='third'>ชั้นปีที่ 3</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='fourth' checked={checkedItems.fourth} onChange={handleCheckboxChange} />
-                                <Label htmlFor='fourth'>ปี 4</Label>
+                                <Label htmlFor='fourth'>ชั้นปีที่ 4</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='master' checked={checkedItems.master} onChange={handleCheckboxChange} />
-                                <Label htmlFor='master'>ป.โท</Label>
+                                <Label htmlFor='master'>มหาบัณฑิต</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='grandmaster' checked={checkedItems.grandmaster} onChange={handleCheckboxChange} />
-                                <Label htmlFor='grandmaster'>ป.เอก</Label>
+                                <Label htmlFor='grandmaster'>ดุษฎีบัณฑิต</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='professor' checked={checkedItems.professor} onChange={handleCheckboxChange} />
-                                <Label htmlFor='professor'>อาจารย์</Label>
+                                <Label htmlFor='professor'>อาจารย์/เจ้าหน้าที่</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='personnel' checked={checkedItems.personnel} onChange={handleCheckboxChange} />
-                                <Label htmlFor='personnel'>บุคลากร</Label>
+                                <Label htmlFor='personnel'>บุคลากรภายนอก/ศิษย์เก่า</Label>
                               </div>
                               <div className='flex items-center gap-2'>
                                 <Checkbox id='none' checked={checkedItems.none} onChange={handleCheckboxChange} />
-                                <Label htmlFor='none'>ไม่มี</Label>
+                                <Label htmlFor='none'>ไม่ใช่บุคลากร/นักศึกษา</Label>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <div className="w-full flex justify-end">
+                          <Button color="gray" onClick={() => setOpenModal(false)}>Done</Button>
+                        </div>
                       </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                      <Button onClick={() => setOpenModal(false)}>I accept</Button>
-                      <Button color="gray" onClick={() => setOpenModal(false)}>Decline</Button>
-                    </Modal.Footer>
                   </Modal>
                 </div>
-                <div>
-
-                </div>
               </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h2 className="text-xl font-bold mb-2">Pie Chart</h2>
+              <Pie data={pieData} />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-2">Bar Chart</h2>
+              <Bar data={barData} />
             </div>
           </div>
         </div>
@@ -249,6 +330,6 @@ const PieChart = () => {
       <Foot />
     </>
   );
-}
+};
 
-export default PieChart;
+export default Graph;
