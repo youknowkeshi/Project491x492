@@ -80,6 +80,9 @@ export function Nav() {
                     <Navbar.Link href="/Infomation">Info</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
+                    <Navbar.Link href="/graph">graph</Navbar.Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
                     <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
                   </Dropdown.Item>
                 </Dropdown>
