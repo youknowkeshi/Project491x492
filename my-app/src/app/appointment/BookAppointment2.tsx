@@ -22,7 +22,7 @@ import moment from 'moment-timezone';
 import {
   Modal
 } from "flowbite-react";
-import { log } from "console";
+
 
 interface Appointment {
   firstname_lastname: string;
@@ -81,7 +81,7 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = 'http://localhost:3000/api/events';
+    const apiUrl = 'http://localhost:3000/api/events2';
     try {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data.result.rows;
@@ -126,7 +126,7 @@ function BookAppointment({ room }: { room: any }) {
   }
 
   async function AddTimeAppointment(start_datetime: string, end_datetime: string, personid: string, topic: string) {
-    const apiUrl = "http://localhost:3000/api/conseling_room1";
+    const apiUrl = "http://localhost:3000/api/conseling_room2";
     try {
       await axios.post(apiUrl, { start_datetime, end_datetime, personid, topic });
     } catch (error) {
@@ -135,7 +135,7 @@ function BookAppointment({ room }: { room: any }) {
   }
 
   async function AddAppointmentGoogle(description: string, startDateTime: string, endDateTime: string) {
-    const apiUrl = "http://localhost:3000/api/createevents";
+    const apiUrl = "http://localhost:3000/api/createevents2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -255,7 +255,7 @@ function BookAppointment({ room }: { room: any }) {
 
   const appointment = async (studentid: string) => {
     try {
-      const response = await axios.put('http://localhost:3000/api/appointment', { studentid });
+      const response = await axios.put('http://localhost:3000/api/appointment2', { studentid });
       const len = response.data.length - 1
       const latestApppoint = response.data[len].start_datetime
       checkLatestAppointment(latestApppoint)

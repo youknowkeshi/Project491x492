@@ -3,14 +3,18 @@ import { useEffect, useState } from "react";
 import uniqueString from 'unique-string';
 import Nav from "../component/Nav";
 import { Carousel } from "flowbite-react";
+import { apiBaseUrl } from "next-auth/client/_utils";
+import axios from "axios";
 
 export default function MePage() {
     const [generatedString, setGeneratedString] = useState("");
     const [copySuccess, setCopySuccess] = useState("");
 
     const generateNewString = () => {
-        setGeneratedString(uniqueString());
+        const code = uniqueString();
+        setGeneratedString(code);
         setCopySuccess("");
+        addAccessCode(code)
     };
 
     const copyToClipboard = async () => {
@@ -21,6 +25,34 @@ export default function MePage() {
             setCopySuccess("Failed to copy!");
         }
     };
+
+    async function addAccessCode(accesscode:string) {
+        const  apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+        try{
+            await axios.post(apiUrl,{accesscode})
+        }catch(error){
+            console.log("Can't generate access code ",error);
+        }
+    }
+
+    async function deleteAccessCode() {
+        const  apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+        try{
+            await axios.delete(apiUrl)
+        }catch(error){
+            console.log("Can't delete access code ",error);
+        }
+    }
+
+    useEffect(()=>{
+        deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
+
+        const interval = setInterval(() => {
+            deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
+        }, 300000); // 300 วินาที
+
+        return () => clearInterval(interval); // เมื่อ Component ถูก unmount ให้ clear interval
+    },[])
 
     return (
         <>
@@ -35,7 +67,7 @@ export default function MePage() {
                 <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
                 </Carousel>
             </div>
-                <h2 className="text-2xl mb-7 mt-7">Random Access Code Generator</h2>
+                <h2 className="text-2xl mb-7 mt-7">สร้าง ID สำหรับผู้รับบริการใหม่</h2>
                 <button
                     onClick={generateNewString}
                     className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-7"
@@ -44,7 +76,7 @@ export default function MePage() {
                 </button>
                 <hr className="border-gray-400 mb-8"/>
                 <div className="flex flex-col items-start">
-                    <p className="text-lg mb-8">Generated Unique String: {generatedString}</p>
+                    <p className="text-lg mb-8">ID ของผู้รับบริการใหม่ : {generatedString}</p>
                     <button
                         onClick={copyToClipboard}
                         // className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"

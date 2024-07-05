@@ -1,36 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../lib/db"
-import { log } from "console";
 
-export async function POST(request: NextRequest) {
-    try {
-        const req = await request.json();
 
-        const { start_datetime, end_datetime} = req;
-        const room = 'conseling_room1'
-        const role = 'admin'
+// export async function POST(request: NextRequest) {
+//     try {
+//         const req = await request.json();
 
-        const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, role) VALUES($1, $2, $3, $4) RETURNING *';
-        const values = [start_datetime, end_datetime, room, role];
+//         const { start_datetime, end_datetime} = req;
+//         const room = 'conseling_room1'
+//         const role = 'admin'
 
-        const client = await pool.connect();
-        try {
-            const res = await client.query(text, values);
+//         const text = 'INSERT INTO conseling_room1(start_datetime, end_datetime, expire_date, room, role) VALUES($1, $2, $3, $4) RETURNING *';
+//         const values = [start_datetime, end_datetime, room, role];
 
-            if (res.rowCount === 0) {
-                return new NextResponse('User not found', { status: 404 });
-            }
+//         const client = await pool.connect();
+//         try {
+//             const res = await client.query(text, values);
 
-            return NextResponse.json({ res });
-        } finally {
-            client.release();
-        }
+//             if (res.rowCount === 0) {
+//                 return new NextResponse('User not found', { status: 404 });
+//             }
 
-    } catch (error) {
-        console.log("put conseling error : ", error);
+//             return NextResponse.json({ res });
+//         } finally {
+//             client.release();
+//         }
 
-    }
-}
+//     } catch (error) {
+//         console.log("put conseling error : ", error);
+
+//     }
+// }
 
 
 //get calendarevents
@@ -47,9 +47,7 @@ export async function PUT(req: NextRequest) {
         WHERE start_datetime = $1 AND  end_datetime = $2
       `;
       const values = [start_datetime ,end_datetime];
-      console.log("This is Timeslots",values);
-      
-  
+
       const result = await client.query(query, values);
   
       client.release();

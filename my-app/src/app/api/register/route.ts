@@ -62,24 +62,27 @@ export async function GET(req: NextRequest,
 }
 
 
+// check data in database that have
+export async function POST(request: NextRequest) {
+  try {
+    const req = await request.json();
+    const { studentId } = req;
 
-// export async function POST(request: NextRequest) {
-//   try {
+    const text = 'SELECT * FROM users WHERE studentid = $1';
+    const values = [studentId];
+    const client = await pool.connect();
 
-//     const req = await request.json()
-//     const { name, email } = req
-//     const text = 'INSERT INTO demo(name, email) VALUES($1, $2) RETURNING *'
-//     const values = [name, email]
-//     const client = await pool.connect();
-//     const res = await client.query(text, values)
-
-//     return Response.json({ req })
-//   } catch (error) {
-//     console.error('Error executing query:', error);
-//     return new Error('Failed to fetch users');
-
-//   }
-// }
+    try {
+      const res = await client.query(text, values);
+      return NextResponse.json({ data: res.rows }); // Access rows from the result
+    } finally {
+      client.release(); // Release the client back to the pool
+    }
+  } catch (error) {
+    console.error('Error executing query:', error);
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+  }
+}
 
 // update data register in table users 
 export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
@@ -108,34 +111,15 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, facebookurl = $6 , role = $7 , gradelevel = $8 WHERE studentId = $2';
     const values = [personid, studentId, phone, major, gender, facebookurl, role, gradelevel];
 
-    // const text_infor = 'INSERT INTO informationusers (personid) VALUES ($1) RETURNING *';
-    // const values_infor = [personid];
-
-    // const text_con = 'INSERT INTO user_conseling_room1 (personid) VALUES ($1) RETURNING *';
-    // const values_con = [personid];
-
     const client = await pool.connect();
 
     try {
       const res = await client.query(text, values);
-     
-      // const res_infor = await client.query(text_infor, values_infor);
-      // const res_con = await client.query(text_con, values_con);
 
       if (res.rowCount === 0) {
         console.log("User not found");
         return new Response('User not found', { status: 404 });
       }
-
-      // if (res_infor.rowCount === 0) {
-      //   console.log("Information not found");
-      //   return new Response('Information not found', { status: 404 });
-      // }
-
-      // if (res_con.rowCount === 0) {
-      //   console.log("Conselling not found");
-      //   return new Response('Conselling not found', { status: 404 });
-      // }
 
       return new Response('User updated successfully', { status: 200 });
     } finally {

@@ -34,7 +34,7 @@ interface DateParts {
 export async function GET() {
   const client = await pool.connect();
   try{
-    const result = await client.query('SELECT * FROM admin_conseling_room1')
+    const result = await client.query('SELECT * FROM admin_conseling_room2')
     return NextResponse.json({result})
   }catch(error){
     console.log("This is : ",error);
@@ -43,6 +43,7 @@ export async function GET() {
 }
 
 export async function POST() {
+
 
   const client = await pool.connect();
   try {
@@ -55,11 +56,11 @@ export async function POST() {
 
     oauth2Client.setCredentials(tokens);
 
-    const calendarId = "nithikon1404@gmail.com"; // assuming req contains a calendarId property
+    // const requestBody = await req.json();
+    const calendarId = "nithikon440@gmail.com"; // assuming req contains a calendarId property
 
-    const cmuAccount = process.env.NEXT_PUBLIC_ADMIN as string;
-    
-    const room = "conseling_room1";
+    const cmuAccount = process.env.NEXT_PUBLIC_ADMIN2 as string;
+    const room = "conseling_room2";
 
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
@@ -81,8 +82,8 @@ export async function POST() {
     const searchAdmin = await client.query('SELECT * FROM admins WHERE cmuAccount = $1', [cmuAccount]);
     const personIdAdmin = searchAdmin.rows[0].personid;
 
-  
     const events = response.data.items;
+
 
     // Insert each event individually
     for (const event of events) {
@@ -92,18 +93,19 @@ export async function POST() {
       
       if (startDateTime && endDateTime && eventId) {
         // Check if the event already exists in the database
-        const checkExisting = await client.query('SELECT event_id FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
+        const checkExisting = await client.query('SELECT event_id FROM admin_conseling_room2 WHERE event_id = $1', [eventId]);
 
         if (checkExisting.rowCount === 0) {
           // Insert the event if it does not exist
-          const text = 'INSERT INTO admin_conseling_room1(event_id, start_datetime, end_datetime, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
+          const text = 'INSERT INTO admin_conseling_room2(event_id, start_datetime, end_datetime, room, personid) VALUES($1, $2, $3, $4, $5) RETURNING *';
           const values = [eventId, startDateTime, endDateTime, room, personIdAdmin];
-          
+
           await client.query(text, values);
         }
       }
 
-      const queryCalendar = await client.query('SELECT event_id FROM admin_conseling_room1');
+
+      const queryCalendar = await client.query('SELECT event_id FROM admin_conseling_room2');
       const checkCalendar = queryCalendar.rows.map(row => row.event_id);
       
       for (const eventId of checkCalendar) {
@@ -112,7 +114,7 @@ export async function POST() {
           console.log("this is eventId",eventId);
           
           try {
-            await client.query('DELETE FROM admin_conseling_room1 WHERE event_id = $1', [eventId]);
+            await client.query('DELETE FROM admin_conseling_room2 WHERE event_id = $1', [eventId]);
           } catch (deleteError) {
             console.error("Error deleting event from the database:", deleteError);
           }
@@ -136,7 +138,7 @@ export async function DELETE() {
   try {
     const client = await pool.connect();
     try {
-      const res = await client.query(`DELETE FROM admin_conseling_room1 WHERE CAST(end_datetime AS TIMESTAMP) < NOW()`);
+      const res = await client.query(`DELETE FROM admin_conseling_room2 WHERE CAST(end_datetime AS TIMESTAMP) < NOW()`);
 
       return new NextResponse('Delete Success', { status: 200 });
     } finally {

@@ -1,19 +1,14 @@
 "use client";
 import * as React from "react";
 import Nav from "../component/Nav";
-import { Button, Card } from "flowbite-react";
-import { Modal } from "flowbite-react";
+import { Button, Card, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 
@@ -21,29 +16,36 @@ type Props = {};
 
 export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
-  const [openModal2, setOpenModal2] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
   async function informationUser(selectedDate: Date) {
     const apiUrl = "http://localhost:3000/api/informationusers";
     try {
-      const response = await axios.post(apiUrl, { date: 
-        selectedDate ? format(selectedDate, "yyyy-MM-dd") : 'null'
+      const response = await axios.post(apiUrl, { 
+        date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : 'null'
       });
       setInformationUsers(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log("Can't get information users");
     }
   }
-
-  const displayDate = date ? format(date, "yyyy-MM-dd") : 'null';
 
   const handleSelectDate = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
       informationUser(selectedDate);
     }
+  };
+
+  const handleOpenModal2 = (user: any) => {
+    setSelectedUser(user);
+  };
+
+  const handleCloseModal2 = () => {
+    setSelectedUser(null);
   };
 
   return (
@@ -94,42 +96,10 @@ export default function Page({ }: Props) {
             <Button
               outline
               gradientDuoTone="cyanToBlue"
-              onClick={() => setOpenModal2(true)}
+              onClick={() => handleOpenModal2(user)}
             >
               Details
             </Button>
-            <Modal
-              dismissible
-              show={openModal2}
-              onClose={() => setOpenModal2(false)}
-            >
-              <Modal.Header>Talk details</Modal.Header>
-              <Modal.Body>
-                <div className="space-y-6">
-                  <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts
-                    new consumer privacy laws for its citizens, companies around
-                    the world are updating their terms of service agreements to
-                    comply.
-                  </p>
-                  <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation
-                    (G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-                    common set of data rights in the European Union. It requires
-                    organizations to notify users as soon as possible of high-risk
-                    data breaches that could personally affect them.
-                  </p>
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  gradientMonochrome="failure"
-                  onClick={() => setOpenModal2(false)}
-                >
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
             <Button
               gradientMonochrome="failure"
               onClick={() => setOpenModal(true)}
@@ -163,6 +133,34 @@ export default function Page({ }: Props) {
           </Modal>
         </Card>
       ))}
+
+      {selectedUser && (
+        <Modal
+          dismissible
+          show={!!selectedUser}
+          onClose={handleCloseModal2}
+        >
+          <Modal.Header>Talk details</Modal.Header>
+          <Modal.Body>
+            <div className="space-y-6">
+              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                หัวข้อที่ต้องการพูดคุย : {selectedUser.topic}
+              </p>
+              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                รายละเอียดการรับคำปรึกษาครั้งแรก : {selectedUser.details_consultation || '-'}
+              </p>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              gradientMonochrome="failure"
+              onClick={handleCloseModal2}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 }
