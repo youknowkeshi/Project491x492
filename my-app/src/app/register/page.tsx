@@ -130,6 +130,7 @@ export default function RegisterPage() {
     else {
       updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
         appointment();
+        afterUseAccesscode(Id)
       });
     }
   };
@@ -140,6 +141,16 @@ export default function RegisterPage() {
       await axios.delete(apiUrl)
     } catch (error) {
       console.log("Can't delete access code ", error);
+    }
+  }
+
+  async function  afterUseAccesscode(accesscode:string) {
+    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete"
+    try{
+      await axios.put(apiUrl,{ accesscode })
+    }catch(error){
+      console.log("Can't manual-delete access code : ",error);
+      
     }
   }
 

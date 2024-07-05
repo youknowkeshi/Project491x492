@@ -79,9 +79,6 @@ export default function CMUOAuthCallback() {
             // Faculty that not Engineering
             handleShow()
           }
-
-
-
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
@@ -141,10 +138,6 @@ export default function CMUOAuthCallback() {
   function home() {
     router.push("/dashboard");
   }
-
-
-
-
 
   useEffect(() => {
     LogIn()

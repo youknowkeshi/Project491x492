@@ -16,43 +16,46 @@ interface Appointment {
 
 function BookingList() {
   const router = useRouter()
-  const [visible, setVisible] = useState(true);
   const [personId, setPersonId] = useState("");
   const [make_An_Appointment, setMake_An_Appointment] = useState<Appointment[]>([]);
-  const [eventCalendar, setEventCalendar] = useState("")
+  // const [eventCalendar, setEventCalendar] = useState("")
 
   const fetchEvents = async () => {
     const apiUrl = 'http://localhost:3000/api/events';
 
     try {
       await axios.post(apiUrl);
-      // console.log(response.data);
+    } catch (error) {
+      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+    }
+  }
+
+  const fetchEvents2 = async () => {
+    const apiUrl = 'http://localhost:3000/api/events2';
+
+    try {
+      await axios.post(apiUrl);
     } catch (error) {
       console.error('Oh no! An error has arisen from the depths of the internet:', error);
     }
   }
 
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string) => {
-    // setVisible(false);
 
-    // const id = GetEventIdCalendar(start_datetime, end_datetime)
     await GetEventIdCalendar(start_datetime, end_datetime)
    
-
-    // // Call function to get event ID from calendar API
-    // await DeleteEventsCalendar(eventCalendar);
-
     // Call functions to delete events and calendar events
     await DeleteEvents(event_id);
     
     fetchEvents()
+    fetchEvents2()
     await router.push("/appointment")
 
   };
 
-  if (!visible) {
-    return null;
-  }
+  // if (!visible) {
+  //   return null;
+  // }
 
   const getPersonId = () => {
     axios.get('http://localhost:3000/api/checkdata')
@@ -69,9 +72,31 @@ function BookingList() {
     }
   };
 
+  const appointment2 = async (studentid: string) => {
+    try {
+      const response = await axios.put('http://localhost:3000/api/appointment2', { studentid });
+      setMake_An_Appointment(response.data);
+    } catch (error) {
+      console.log("Can't get appointment", error);
+    }
+  };
+
   async function DeleteEvents(event_id: string) {
     
     const apiUrl = "http://localhost:3000/api/conseling_room1";
+    try {
+      await axios.delete(apiUrl, {
+        data: { event_id }
+      });
+      console.log("Event successfully deleted!");
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEvents2(event_id: string) {
+    
+    const apiUrl = "http://localhost:3000/api/conseling_room2";
     try {
       await axios.delete(apiUrl, {
         data: { event_id }
@@ -93,18 +118,27 @@ function BookingList() {
       console.log("Can't Delete Event ", error);
     }
   }
+  
+  async function DeleteEventsCalendar2(event_id: string) {
+    const apiUrl = "http://localhost:3000/api/createevents2";
+    try {
+      await axios.put(apiUrl, {
+         event_id 
+      });
+      console.log("EventCalendar successfully deleted!");
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
 
   async function GetEventIdCalendar(start_datetime: string, end_datetime: string) {
-    const apiUrl = "http://localhost:3000/api/admin_conselling_room1";
+    const apiUrl = "http://localhost:3000/api/admin_conselling_room2";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id
 
       if(eventsid){
         DeleteEventsCalendar(eventsid)
-        console.log("shiow",eventsid);
-        
-        
       }
       
     } catch (error) {
@@ -119,6 +153,7 @@ function BookingList() {
   useEffect(() => {
     if (personId) {
       appointment(personId);
+      appointment2(personId)
     }
   }, [personId]);
 
@@ -135,8 +170,8 @@ function BookingList() {
               className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
             />
             <div className="flex flex-col gap-4 p-5 text-center md:text-left">
-              <h2 className="font-bold text-[18px]">Dr : Pongtante Namsawat</h2>
-              <h1>{appointment.event_id}</h1>
+              {appointment.room == 'conseling_room1' ?  (<h2 className="font-bold text-[18px]"> psychologist of room 1 </h2>) : (<h2 className="font-bold text-[18px]"> psychologist of room 2 </h2>) }
+             
               <h2>Room: {appointment.room}</h2>
               <h2>Time: {new Date(appointment.start_datetime).toLocaleTimeString()} - {new Date(appointment.end_datetime).toLocaleTimeString()}</h2>
               <h2>Appointment: {new Date(appointment.start_datetime).toLocaleDateString()}</h2>
