@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
 import { Card, Carousel } from "flowbite-react";
+import axios from "axios";
 
 type Props = {};
 
-export default function page({}: Props) {
+interface Article {
+  text: string
+  img_url: string
+}
+
+
+export default function page({ }: Props) {
+  const [article, setArticle] = useState<Article[]>([]);
+
+  async function showarticle() {
+    const apiUrl = `/api/article`;
+    try {
+      const response = await axios.get(apiUrl)
+      setArticle(response.data)
+    } catch (error) {
+      console.log("Can't show article : ", error);
+
+    }
+  }
+
+  async function Addarticle(text: string, img_url: string) {
+    const apiUrl = `/api/article`;
+    try {
+      await axios.post(apiUrl,{text,img_url})
+    } catch (error) {
+      console.log("Can't show article : ", error);
+
+    }
+  }
+
+  useEffect(()=>{
+    //showarticle()
+  },[])
+
   return (
     <>
       <Nav />
