@@ -68,7 +68,22 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 //     </div>
 //   );
 // }
+type PieChartData = {
+  labels: string[];
+  datasets: {
+    data: number[];
+    backgroundColor: string[];
+  }[];
+};
 
+type BarChartData = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+  }[];
+};
 const Graph = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState({
@@ -90,12 +105,14 @@ const Graph = () => {
       ...prevState,
       [id]: checked,
     }));
+    
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [pieData, setPieData] = useState({});
-  const [barData, setBarData] = useState({});
-
+  const [pieData, setPieData] = useState<PieChartData | null>(null);
+  const [barData, setBarData] = useState<BarChartData | null>(null);
+  const [showGraphs, setShowGraphs] = useState(false);
+  // const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   async function informaforgraph() {
     try {
       const apiURL = "http://localhost:3000/api/graph";
@@ -103,26 +120,26 @@ const Graph = () => {
       const data = response.data;
       console.log(response.data);
 
-      // setPieData({
-      //   labels: data.pie.labels,
-      //   datasets: [
-      //     {
-      //       data: data.pie.values,
-      //       backgroundColor: data.pie.colors,
-      //     }
-      //   ]
-      // });
+      setPieData({
+        labels: data.pie.labels,
+        datasets: [
+          {
+            data: data.pie.values,
+            backgroundColor: data.pie.colors,
+          }
+        ]
+      });
 
-      // setBarData({
-      //   labels: data.bar.labels,
-      //   datasets: [
-      //     {
-      //       label: data.bar.label,
-      //       data: data.bar.values,
-      //       backgroundColor: data.bar.colors,
-      //     }
-      //   ]
-      // });
+      setBarData({
+        labels: data.bar.labels,
+        datasets: [
+          {
+            label: data.bar.label,
+            data: data.bar.values,
+            backgroundColor: data.bar.colors,
+          }
+        ]
+      });
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -317,16 +334,7 @@ const Graph = () => {
             </div>
 
           </div>
-          {/* <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h2 className="text-xl font-bold mb-2">Pie Chart</h2>
-              <PieChart></PieChart>
-            </div>
-            <div>
-              <h2 className="text-xl font-bold mb-2">Bar Chart</h2>
-              <Bar data={barData} />
-            </div>
-          </div> */}
+          
         </div>
       </div>
     </>
