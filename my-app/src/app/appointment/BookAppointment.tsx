@@ -159,10 +159,7 @@ function BookAppointment({ room }: { room: any }) {
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button
-                color="failure"
-                type="button"
-              >
+              <Button color="failure" type="button">
                 Close
               </Button>
             </DialogClose>

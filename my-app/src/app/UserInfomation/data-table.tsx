@@ -35,7 +35,7 @@ const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
 export type Payment = {
   id: string;
   studentid: string;
-  status: "pending" | "processing" | "success" | "failed";
+  date: string; // New date field
   email: string;
   phone: string;
   facebook_url: string;
@@ -111,19 +111,27 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.id}`)} // Use window.location here
+                  onClick={() =>
+                    (window.location.href = `/EditInformation?id=${row.original.id}`)
+                  } // Use window.location here
                   style={{ cursor: "pointer" }} // Optional: change cursor to pointer
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
