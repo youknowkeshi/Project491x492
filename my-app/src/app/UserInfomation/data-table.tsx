@@ -48,6 +48,7 @@ export type Information = {
   mental_health_checklist: string | null;
   start_datetime: string;
   room: string;
+  event_id:string;
 };
 
 interface DataTableProps {
@@ -120,7 +121,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.personid}`)}
+                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.event_id}`)}
                   style={{ cursor: "pointer" }}
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -15,6 +15,7 @@ export type Information = {
   mental_health_checklist: string | null;
   start_datetime: string;
   room: string;
+  event_id:string;
 };
 
 export const columns: ColumnDef<Information>[] = [

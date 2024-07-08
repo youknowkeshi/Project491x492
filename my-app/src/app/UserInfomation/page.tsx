@@ -18,6 +18,7 @@ export type Information = {
   start_datetime: string;
   end_datetime: string;
   room: string;
+  event_id:string;
 };
 
 function formatDatetime(start: string, end: string): string {
