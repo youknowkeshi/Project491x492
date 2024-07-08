@@ -29,6 +29,17 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import PieChart from "./PieChart";
 import { DatePickerWithRange } from "./DatePicker";
 
+interface chart {
+  personid:string;
+  major: string;
+  gradelevel: string;
+  details_consultation: string;
+  mental_health_checklist: string;
+  start_datetime: string;
+  end_datetime:string;
+
+}
+
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -109,7 +120,7 @@ type CheckedItems = {
 };
 const Graph = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  
+
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
@@ -126,12 +137,13 @@ const Graph = () => {
     }
   };
 
-
+  const [temp, setTemp] = useState<chart[]>([])
   const [openModal, setOpenModal] = useState(false);
   const [pieData, setPieData] = useState<PieChartData | null>(null);
   const [barData, setBarData] = useState<BarChartData | null>(null);
   const [showGraphs, setShowGraphs] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({Willpower_test_score: false,
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({
+    Willpower_test_score: false,
     sad_mood: false,
     Have_behaviors: false,
     Social_skills: false,
@@ -163,7 +175,8 @@ const Graph = () => {
     grandmaster: false,
     professor: false,
     personnel: false,
-    none: false,});
+    none: false,
+  });
 
   async function informaforgraph() {
     try {
@@ -172,26 +185,28 @@ const Graph = () => {
       const data = response.data;
       console.log(response.data);
 
-      setPieData({
-        labels: data.pie.labels,
-        datasets: [
-          {
-            data: data.pie.values,
-            backgroundColor: data.pie.colors,
-          },
-        ],
-      });
+      setTemp(data)
 
-      setBarData({
-        labels: data.bar.labels,
-        datasets: [
-          {
-            label: data.bar.label,
-            data: data.bar.values,
-            backgroundColor: data.bar.colors,
-          },
-        ],
-      });
+      // setPieData({
+      //   labels: data.pie.labels,
+      //   datasets: [
+      //     {
+      //       data: data.pie.values,
+      //       backgroundColor: data.pie.colors,
+      //     },
+      //   ],
+      // });
+
+      // setBarData({
+      //   labels: data.bar.labels,
+      //   datasets: [
+      //     {
+      //       label: data.bar.label,
+      //       data: data.bar.values,
+      //       backgroundColor: data.bar.colors,
+      //     },
+      //   ],
+      // });
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -203,7 +218,27 @@ const Graph = () => {
 
   return (
     <>
+
+      
       <Nav />
+
+      <div>
+      {temp.length > 0 ? (
+        temp.map((item, index) => (
+          <div key={index}>
+            <p>Person ID: {item.personid}</p>
+            <p>Major: {item.major}</p>
+            <p>Grade Level: {item.gradelevel}</p>
+            <p>Details Consultation: {item.details_consultation}</p>
+            <p>Mental Health Checklist: {item.mental_health_checklist}</p>
+            <p>Start DateTime: {item.start_datetime}</p>
+            <p>End DateTime: {item.end_datetime}</p>
+          </div>
+        ))
+      ) : (
+        <div>No data available</div>
+      )}
+    </div>
       <div className="flex flex-col justify-center p-5 space-y-4">
         <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
           <div className="flex flex-wrap space-x-4 mb-4 justify-center">
@@ -601,7 +636,7 @@ const Graph = () => {
                   <input
                     type="checkbox"
                     id="showGraphsCheckbox"
-                    checked={checkedItems["showGraphsCheckbox"] || false} 
+                    checked={checkedItems["showGraphsCheckbox"] || false}
                     onChange={handleCheckboxChange}
                   />
                   Show Graphs
