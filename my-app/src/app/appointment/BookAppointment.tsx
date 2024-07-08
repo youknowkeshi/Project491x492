@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
@@ -297,7 +297,13 @@ function BookAppointment({ room }: { room: any }) {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5">Appointment {room}</Button>
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
+            onClick={getpersonid}
+            type="button"
+          >
+            จองคิวนัดปรึกษาที่ห้อง {room}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

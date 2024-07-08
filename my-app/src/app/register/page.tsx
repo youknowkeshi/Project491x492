@@ -185,7 +185,7 @@ export default function RegisterPage() {
     <div>
       <Nav />
       <div
-        className="min-h-screen py-40 mt-10 mb-7 rounded-md"
+        className="min-h-screen py-40 mt-7  rounded-md"
         style={{
           backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
         }}

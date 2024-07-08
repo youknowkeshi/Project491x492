@@ -51,7 +51,7 @@ export default function Page({ }: Props) {
   return (
     <div>
       <Nav />
-      <div className="flex flex-row mt-7 gap-7">
+      <div className="flex flex-row mt-7 gap-7 ">
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -59,7 +59,7 @@ export default function Page({ }: Props) {
               className={cn(
                 "w-[240px] justify-start text-left font-normal",
                 !date && "text-muted-foreground",
-                "bg-neutral-100 hover:bg-cyan-300 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                "bg-neutral-100 hover:bg-[#B9F3FC] text-gray-900 hover:text-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" // เพิ่ม class สำหรับเปลี่ยนสีปุ่ม
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -70,7 +70,7 @@ export default function Page({ }: Props) {
             <Calendar
               mode="single"
               selected={date}
-              onSelect={handleSelectDate}
+              onSelect={setDate}
               initialFocus
             />
           </PopoverContent>
