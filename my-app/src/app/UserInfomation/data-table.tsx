@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -27,24 +27,32 @@ import { Input } from "@/components/ui/input";
 // Define a custom filter function
 const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
   return (
-    row.original.email.toLowerCase().includes(filterValue.toLowerCase()) ||
-    row.original.studentid.toLowerCase().includes(filterValue.toLowerCase())
+    row.original.firstname_lastname.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.studentid.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.phone.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.major.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.gender.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.topic.toLowerCase().includes(filterValue.toLowerCase())
   );
 };
 
-export type Payment = {
-  id: string;
+export type Information = {
+  personid: string;
+  firstname_lastname: string;
   studentid: string;
-  date: string;  // New date field
-  email: string;
   phone: string;
-  facebook_url : string;
+  major: string;
+  topic: string;
+  facebookurl: string;
+  details_consultation: string | null;
+  mental_health_checklist: string | null;
+  start_datetime: string;
+  room: string;
 };
 
-
 interface DataTableProps {
-  columns: ColumnDef<Payment, any>[];
-  data: Payment[];
+  columns: ColumnDef<Information, any>[];
+  data: Information[];
 }
 
 export function DataTable({ columns, data }: DataTableProps) {
@@ -53,7 +61,7 @@ export function DataTable({ columns, data }: DataTableProps) {
 
   const [isClient, setIsClient] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsClient(true);
   }, []);
 
@@ -80,7 +88,7 @@ export function DataTable({ columns, data }: DataTableProps) {
     <>
       <div className="flex items-center py-7">
         <Input
-          placeholder="Filter emails or student IDs..."
+          placeholder="Filter data..."
           value={globalFilter}
           onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
@@ -112,8 +120,8 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.id}`)} // Use window.location here
-                  style={{ cursor: "pointer" }} // Optional: change cursor to pointer
+                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.personid}`)}
+                  style={{ cursor: "pointer" }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
