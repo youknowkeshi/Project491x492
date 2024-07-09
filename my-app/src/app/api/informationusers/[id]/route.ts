@@ -26,3 +26,32 @@ export async function GET(request: NextRequest, context: { params: { id: string 
     }
 
 }
+
+// edit  detail and checklist
+export async function PUT(request: NextResponse) {
+    try {
+        const req = await request.json();
+
+        const { details, health, mental_risk_level,event_id } = req;
+
+        const text = 'UPDATE informationusers_room1 SET details_consultation =$1, mental_health_checklist= $2,mental_risk_level= $3 WHERE infor_id = $4';
+        const values = [details, health, mental_risk_level,event_id];
+
+        const client = await pool.connect();
+        try {
+            const res = await client.query(text, values);
+
+            if (res.rowCount === 0) {
+                return new Response('User not found', { status: 404 });
+            }
+
+            return Response.json({ res });
+        } finally {
+            client.release();
+        }
+
+    } catch (error) {
+        console.log("put information error : ", error);
+
+    }
+}

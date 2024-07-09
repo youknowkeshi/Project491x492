@@ -76,12 +76,15 @@ export function ProfileForm() {
         const apiUrl = `/api/informationusers/${id}`;
         try {
             const response = await axios.get(apiUrl);
-            console.log(response.data);
             setInfor(response.data); // Assuming you expect only one object
         } catch (error) {
             console.log("Can't get data", error);
         }
     }
+
+    // async function updatesingledata(params:type) {
+        
+    // }
 
     useEffect(() => {
         if (id) {
@@ -93,7 +96,6 @@ export function ProfileForm() {
 
     return (
         <>
-            <div>{infor.firstname_lastname}</div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div className="grid grid-cols-2 gap-7">
@@ -106,9 +108,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.firstname_lastname} {...field} disabled />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         This is your public display name.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -121,9 +123,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.major} {...field} />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         This is your surname.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -136,9 +138,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.phone} {...field} disabled />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         Please enter your phone number.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -151,9 +153,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.facebookurl} {...field} disabled />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         Please enter your Facebook profile URL.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -166,9 +168,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.start_datetime} {...field} disabled />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         Please enter a date in the format YYYY-MM-DD.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -181,9 +183,9 @@ export function ProfileForm() {
                                     <FormControl>
                                         <Input placeholder={infor.studentid} {...field} disabled />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         Please enter your student ID.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -198,9 +200,9 @@ export function ProfileForm() {
                                         disabled
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         This is your surname.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -215,9 +217,9 @@ export function ProfileForm() {
                                         disabled
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    {/* <FormDescription>
                                         This is your surname.
-                                    </FormDescription>
+                                    </FormDescription> */}
                                 </FormItem>
                             )}
                         />
@@ -225,7 +227,7 @@ export function ProfileForm() {
                             <FormLabel>รายละเอียดการพูดคุย</FormLabel>
                             <FormControl>
                                 <textarea
-                                    placeholder="Write something..."
+                                    placeholder={infor.details_consultation ? infor.details_consultation : 'โปรดกรอกรายละเอียดการพูดคุย'}
                                     value={textEditorContent}
                                     onChange={handleTextEditorChange}
                                     className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
