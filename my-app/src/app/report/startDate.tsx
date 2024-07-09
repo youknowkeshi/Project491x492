@@ -18,7 +18,7 @@ export function StartDatePicker() {
   const [endDate, setEndDate] = React.useState<Date>();
 
   return (
-    <div className="flex gap-4">
+    <div className="flex">
       <Popover>
         <PopoverTrigger asChild>
           <Button
