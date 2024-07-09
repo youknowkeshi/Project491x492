@@ -4,14 +4,25 @@ import { Button, Card } from "flowbite-react";
 import Link from 'next/link';
 import Image from "next/image";
 import Nav from '../component/Nav';
+import axios from 'axios';
 
 type Props = {};
 
 const Page: React.FC<Props> = () => {
   const [clickCounts, setClickCounts] = useState({ mind: 0, stress: 0, self: 0 });
 
-  const handleClick = (type: 'mind' | 'stress' | 'self') => {
-    setClickCounts(prevCounts => ({ ...prevCounts, [type]: prevCounts[type] + 1 }));
+  async function countevaluationform(topic:string) {
+    const apiUrl="/api/clickevaluationform"
+    try{
+       await axios.post(apiUrl,{topic});
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleClick = (topic:string) => {
+    // setClickCounts(prevCounts => ({ ...prevCounts, [type]: prevCounts[type] + 1 }));
+    countevaluationform(topic)
   };
 
   return (
@@ -42,7 +53,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey' passHref>
-                <Button className='w-full sm:w-auto' onClick={() => handleClick('mind')} aria-label="Mind Survey">
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('แบบวัดพลังใจ')} aria-label="Mind Survey">
                   แบบวัดพลังใจ
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -66,7 +77,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress' passHref>
-                <Button className='w-full sm:w-auto' onClick={() => handleClick('stress')} aria-label="Stress Survey">
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('วัดความเครียด')} aria-label="Stress Survey">
                   แบบประเมินความเครียด
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -90,7 +101,7 @@ const Page: React.FC<Props> = () => {
             </p>
             <div className="flex justify-end">
               <Link href='https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList' passHref>
-                <Button className='w-full sm:w-auto' onClick={() => handleClick('self')} aria-label="Self Survey">
+                <Button className='w-full sm:w-auto' onClick={() => handleClick('สำรวจตัวเอง')} aria-label="Self Survey">
                   แบบสำรวจตัวเอง
                   <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path

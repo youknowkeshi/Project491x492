@@ -297,7 +297,10 @@ function BookAppointment({ room }: { room: any }) {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5">Appointment {room}</Button>
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
+            type="button"
+          >จองคิวนัดปรึกษาที่ห้อง {room}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

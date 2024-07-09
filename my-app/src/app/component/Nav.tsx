@@ -65,7 +65,7 @@ export function Nav() {
                 <Navbar.Link href="/profile">Profile</Navbar.Link>
                 <Dropdown label="Dropdown" inline>
                   <Dropdown.Item>
-                    <Navbar.Link href="/form">Evaluation</Navbar.Link>
+                    <Navbar.Link href="/Evaluationform">Evaluation</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/article">Article</Navbar.Link>
@@ -77,7 +77,7 @@ export function Nav() {
                     <Navbar.Link href="/List">List</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/Infomation">Info</Navbar.Link>
+                    <Navbar.Link href="/UserInfomation">UserInfo</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/graph">graph</Navbar.Link>

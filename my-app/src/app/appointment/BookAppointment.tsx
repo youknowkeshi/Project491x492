@@ -12,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -20,9 +19,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from 'moment-timezone';
 import {
+  Button,
   Modal
 } from "flowbite-react";
-import { log } from "console";
+
 
 interface Appointment {
   firstname_lastname: string;
@@ -68,8 +68,6 @@ function BookAppointment({ room }: { room: any }) {
   const handleShowAppointmented = () => setShowModalAppointmented(true);
   const handleCloseAppointmented = () => setShowModalAppointmented(false);
   const [checkAppointmented, setCheckAppointmented] = useState(false)
-
-
 
   const freeTimeSlots: string[] = [
     "09:00 - 10:00",
@@ -297,7 +295,12 @@ function BookAppointment({ room }: { room: any }) {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mt-5">Appointment {room}</Button>
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
+            type="button"
+          >
+            จองคิวนัดปรึกษาที่ห้อง {room}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -364,7 +367,7 @@ function BookAppointment({ room }: { room: any }) {
           <DialogFooter className="sm:justify-end">
 
             <DialogClose asChild>
-              <Button className="text-red-500 border-red-500" type="button" variant="outline">
+              <Button className="text-red-500 border-red-500" type="button" >
                 Close
               </Button>
             </DialogClose>

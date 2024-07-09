@@ -18,9 +18,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="">
       <body className={outfit.className}>
-        <div className="mx-auto p-7">{children}</div>
+        <div className="mx-auto p-7 ">{children}</div>
       </body>
     </html>
   )
