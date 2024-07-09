@@ -1,0 +1,108 @@
+import { google } from "googleapis";
+import { NextRequest, NextResponse } from 'next/server';
+import { oauth2Client } from "../logingoogle/route";
+import { pool } from "../../lib/db";
+
+export async function POST(req: NextRequest) {
+    try {
+        const requestBody = await req.json();
+
+        const { description, startDateTime, endDateTime } = requestBody;
+
+        if (!description || !startDateTime || !endDateTime) {
+            return new NextResponse('Missing required event details!', { status: 400 });
+        }
+
+        const event = {
+            'summary': 'Entaneer Mind นัดปรึกษา',
+            'location': 'conseling_room1',
+            'description': description,
+            'start': {
+                'dateTime': startDateTime,
+                'timeZone': 'Asia/Bangkok',
+            },
+            'end': {
+                'dateTime': endDateTime,
+                'timeZone': 'Asia/Bangkok',
+            },
+            'attendees': [],
+            'reminders': {
+                'useDefault': false,
+                'overrides': [
+                    { 'method': 'email', 'minutes': 24 * 60 },
+                    { 'method': 'popup', 'minutes': 10 },
+                ],
+            },
+        };
+
+        const client = await pool.connect();
+        try {
+            const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
+            const tokens = result.rows[0];
+
+            if (!tokens) {
+                return new NextResponse('No found tokens!', { status: 404 });
+            }
+
+            oauth2Client.setCredentials(tokens);
+
+            const calendarId = "nithikon440@gmail.com"; // assuming req contains a calendarId property
+
+            const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+            return calendar.events.insert({
+                calendarId: calendarId,
+                requestBody: event,
+            }).then((response) => {
+                console.log('Event created: %s', response.data);
+                return new NextResponse(JSON.stringify({ message: "Event successfully created!" }), { status: 200 });
+            }).catch((err: Error) => {
+                console.error('There was an error contacting the Calendar service:', err);
+                return new NextResponse('Error creating event', { status: 500 });
+            });
+
+        } catch (error) {
+            console.error("Can't insert events", error);
+            return new NextResponse('Error', { status: 500 });
+        } finally {
+            client.release();
+        }
+    } catch (error) {
+        console.error('Error parsing request', error);
+        return new NextResponse('Invalid request body!', { status: 400 });
+    }
+}
+
+export async function PUT(req: NextRequest) {
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
+        const tokens = result.rows[0];
+
+        if (!tokens) {
+            return new NextResponse('No found tokens!', { status: 404 });
+        }
+
+        oauth2Client.setCredentials(tokens);
+        const requestBody = await req.json();
+        const { event_id } = requestBody;
+
+        console.log("This is eventId ",event_id);
+        
+
+        const GOOGLE_CALENDAR_ID = "nithikon440@gmail.com";
+        const GOOGLE_EVENT_ID = event_id;
+        const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+        await calendar.events.delete({
+            calendarId: GOOGLE_CALENDAR_ID,
+            eventId: GOOGLE_EVENT_ID,
+        });
+
+        return NextResponse.json({ message: "Event successfully deleted!" });
+    } catch (error) {
+        console.log("Can't Delete ", error);
+        return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
+    }
+}

@@ -1,9 +1,28 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Nav from "../component/Nav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BookingList from "./BookingList";
+import axios from "axios";
 
-function profile() {
+function Profile() {
+  const [events, setEvents] = useState([]);
+
+  const fetchEvents = async () => {
+    const apiUrl = 'http://localhost:3000/api/events';
+
+    try {
+      const response = await axios.post(apiUrl);
+      setEvents(response.data); // Assuming the API response contains event data
+    } catch (error) {
+      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
   return (
     <div>
       <Nav />
@@ -12,22 +31,15 @@ function profile() {
         <Tabs defaultValue="account" className="w-full mt-5">
           <TabsList className="w-full justify-start">
             <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
           </TabsList>
           <TabsContent value="account">
             <BookingList />
           </TabsContent>
-          <TabsContent value="password"></TabsContent>
-          <TabsContent value="account">
-            <BookingList />
-          </TabsContent>
-          <TabsContent value="account">
-            <BookingList />
-          </TabsContent>
+
         </Tabs>
       </div>
     </div>
   );
 }
 
-export default profile;
+export default Profile;

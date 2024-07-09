@@ -8,7 +8,7 @@ export default async function About({}: Props) {
   const data = await result.json();
   return (
     <div>
-      About
+      About1
       <ul>
         {data.youtubes.map((e: { id: React.Key | null | undefined; title: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; })=>(
           <li key={e.id}>{e.title}</li>

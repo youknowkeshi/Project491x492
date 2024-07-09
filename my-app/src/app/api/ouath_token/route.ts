@@ -6,7 +6,7 @@ import { pool } from "../../lib/db";
 export async function POST(request: NextRequest) {
     const client = await pool.connect();
     const result = await client.query('SELECT access_token, refresh_token, scope, token_type, expiry_date FROM oauth_tokens');
-    const tokens = result.rows[1];
+    const tokens = result.rows[0];
 
     if (!tokens) {
         return new NextResponse('No found tokens!', { status: 404 });
@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const req = await request.json();
+        //events will have title location(default) description start(Time) end(Time) reminders -> true
         const { calendarId, event } = req;
 
         if (!calendarId) {

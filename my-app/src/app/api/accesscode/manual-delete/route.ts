@@ -3,11 +3,11 @@ import { pool } from "../../../lib/db"
 
 
 
-export async function DELETE(request: NextRequest) {
+export async function PUT(request: NextRequest) {
     try {
         // รับข้อมูล JSON จาก request
-        const req = await request.json();
-        const { accesscode } = req; // สมมติว่ามี id ในข้อมูลที่ต้องการลบ
+        const req = await request.json();     
+        const { accesscode } = req; // สมมติว่ามี id ในข้อมูลที่ต้องการลบ     
     
         // ตรวจสอบว่ามีข้อมูล id หรือไม่
         if (!accesscode) {
@@ -21,6 +21,7 @@ export async function DELETE(request: NextRequest) {
         // เชื่อมต่อกับฐานข้อมูลและทำการ query สำหรับการลบข้อมูล
         const client = await pool.connect();
         const res = await client.query(text, values);
+        client.release();
     
         // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
         if (res.rowCount === 0) {

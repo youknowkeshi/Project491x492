@@ -35,11 +35,12 @@ const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
 export type Payment = {
   id: string;
   studentid: string;
-  date: string; // New date field
+  date: string;  // New date field
   email: string;
   phone: string;
-  facebook_url: string;
+  facebook_url : string;
 };
+
 
 interface DataTableProps {
   columns: ColumnDef<Payment, any>[];
