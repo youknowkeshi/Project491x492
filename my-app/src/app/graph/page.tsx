@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import PieChart from "./PieChart";
 import { DatePickerWithRange } from "./DatePicker";
+import BarChart from "./BarChart";
 
 interface chart {
   personid:string;
@@ -49,55 +50,6 @@ ChartJS.register(
   BarElement
 );
 
-// export function DatePickerWithRange({
-//   className,
-// }: React.HTMLAttributes<HTMLDivElement>) {
-//   const [date, setDate] = useState<DateRange | undefined>({
-//     from: new Date(2022, 0, 20),
-//     to: addDays(new Date(2022, 0, 20), 20),
-//   });
-
-//   return (
-//     <div className={cn("grid gap-2", className)}>
-//       <Popover>
-//         <PopoverTrigger asChild>
-//           <Button
-//             id="date"
-//             variant={"outline"}
-//             className={cn(
-//               "w-[300px] justify-start text-left font-normal",
-//               !date && "text-muted-foreground"
-//             )}
-//           >
-//             <CalendarIcon className="mr-2 h-4 w-4" />
-//             {date?.from ? (
-//               date.to ? (
-//                 <>
-//                   {format(date.from, "LLL dd, y")} -{" "}
-//                   {format(date.to, "LLL dd, y")}
-//                 </>
-//               ) : (
-//                 format(date.from, "LLL dd, y")
-//               )
-//             ) : (
-//               <span>Pick a date</span>
-//             )}
-//           </Button>
-//         </PopoverTrigger>
-//         <PopoverContent className="w-auto p-0" align="start">
-//           <Calendar
-//             initialFocus
-//             mode="range"
-//             defaultMonth={date?.from}
-//             selected={date}
-//             onSelect={setDate}
-//             numberOfMonths={2}
-//           />
-//         </PopoverContent>
-//       </Popover>
-//     </div>
-//   );
-// }
 type PieChartData = {
   labels: string[];
   datasets: {
@@ -187,26 +139,6 @@ const Graph = () => {
 
       setTemp(data)
 
-      // setPieData({
-      //   labels: data.pie.labels,
-      //   datasets: [
-      //     {
-      //       data: data.pie.values,
-      //       backgroundColor: data.pie.colors,
-      //     },
-      //   ],
-      // });
-
-      // setBarData({
-      //   labels: data.bar.labels,
-      //   datasets: [
-      //     {
-      //       label: data.bar.label,
-      //       data: data.bar.values,
-      //       backgroundColor: data.bar.colors,
-      //     },
-      //   ],
-      // });
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -221,8 +153,12 @@ const Graph = () => {
 
       
       <Nav />
+      <div className="flex ">
+      <PieChart/>
+      <BarChart/>
+      </div>
 
-      <div>
+      {/* <div>
       {temp.length > 0 ? (
         temp.map((item, index) => (
           <div key={index}>
@@ -238,7 +174,7 @@ const Graph = () => {
       ) : (
         <div>No data available</div>
       )}
-    </div>
+    </div> */}
       <div className="flex flex-col justify-center p-5 space-y-4">
         <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
           <div className="flex flex-wrap space-x-4 mb-4 justify-center">
@@ -632,15 +568,7 @@ const Graph = () => {
           <div className="flex flex-row justify-start p-5 gap-y-4">
             <div className="shadow-lg rounded-lg bg-gray-50 p-5 overflow-hidden">
               <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    id="showGraphsCheckbox"
-                    checked={checkedItems["showGraphsCheckbox"] || false}
-                    onChange={handleCheckboxChange}
-                  />
-                  Show Graphs
-                </label>
+                
 
                 {showGraphs && pieData && barData && (
                   <div>

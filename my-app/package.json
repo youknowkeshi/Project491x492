@@ -36,6 +36,8 @@
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
     "googleapis": "^136.0.0",
+    "jquery": "^3.7.1",
+    "jsdom": "^24.1.0",
     "jsonwebtoken": "^9.0.2",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.378.0",
