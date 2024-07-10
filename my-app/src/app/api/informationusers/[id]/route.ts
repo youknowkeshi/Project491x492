@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "../../../lib/db"
+import { message } from "antd";
 
 
 // get in id
@@ -32,10 +33,14 @@ export async function PUT(request: NextResponse) {
     try {
         const req = await request.json();
 
-        const { details, health, mental_risk_level,event_id } = req;
+        const { details_consultation, mental_health_checklist, mental_risk_level,event_id } = req;
+
+        if(!details_consultation && !mental_health_checklist && !mental_risk_level && !event_id){
+            return NextResponse.json({message:"request some data null"},{status:400})
+        }
 
         const text = 'UPDATE informationusers_room1 SET details_consultation =$1, mental_health_checklist= $2,mental_risk_level= $3 WHERE infor_id = $4';
-        const values = [details, health, mental_risk_level,event_id];
+        const values = [details_consultation, mental_health_checklist, mental_risk_level,event_id];
 
         const client = await pool.connect();
         try {

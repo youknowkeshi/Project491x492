@@ -11,6 +11,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import axios from "axios";
+import moment from 'moment-timezone';
 
 type Props = {};
 
@@ -19,6 +20,7 @@ export default function Page({ }: Props) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
+  const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
 
   async function informationUser(selectedDate: Date) {
     const apiUrl = "http://localhost:3000/api/informationusers";
@@ -27,7 +29,6 @@ export default function Page({ }: Props) {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : 'null'
       });
       setInformationUsers(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log("Can't get information users");
     }
@@ -47,6 +48,10 @@ export default function Page({ }: Props) {
   const handleCloseModal2 = () => {
     setSelectedUser(null);
   };
+
+  React.useEffect(()=>{
+    informationUser( new Date(nowInThailand))
+  },[])
 
   return (
     <div>

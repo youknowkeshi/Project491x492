@@ -26,7 +26,7 @@ export default function RegisterPage() {
   const [facebookurl, setFacebookUrl] = useState('');
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
+  const [gradeLevel, setGradeLevel] = useState("ป.ตรี");
 
 
   const [checkPhone, setCheckPhone] = useState('');
@@ -42,7 +42,11 @@ export default function RegisterPage() {
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
   const handleCloseAccessCode = () => setShowModalAccessCode(false);
-  const [accessCodeCondition , setAccessCodeCondition] = useState("")
+  const [accessCodeCondition, setAccessCodeCondition] = useState("")
+
+  const [showModalFull, setShowModalFull] = useState(false);
+  const handleShowFull = () => setShowModalFull(true);
+  const handleCloseFull = () => setShowModalFull(false);
 
   async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string, gradelevel: string) {
     try {
@@ -124,14 +128,19 @@ export default function RegisterPage() {
     if (checkFacebookurl && checkGender && checkGradeLevel && checkMajor && checkPhone) {
       handleShow()
     }
-    else if(accessCodeCondition == '0'){
+    else if (accessCodeCondition == '0') {
       handleShowAccessCode()
-    } 
+    }
     else {
-      updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
-        appointment();
-        afterUseAccesscode(Id)
-      });
+      if (Id && phone && major && gender && facebookurl && gradeLevel) {
+        updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
+          appointment();
+          afterUseAccesscode(Id)
+        });
+      }else{
+        handleShowFull()
+      }
+
     }
   };
 
@@ -144,13 +153,13 @@ export default function RegisterPage() {
     }
   }
 
-  async function  afterUseAccesscode(accesscode:string) {
+  async function afterUseAccesscode(accesscode: string) {
     const apiUrl = "http://localhost:3000/api/accesscode/manual-delete"
-    try{
-      await axios.put(apiUrl,{ accesscode })
-    }catch(error){
-      console.log("Can't manual-delete access code : ",error);
-      
+    try {
+      await axios.put(apiUrl, { accesscode })
+    } catch (error) {
+      console.log("Can't manual-delete access code : ", error);
+
     }
   }
 
@@ -159,12 +168,12 @@ export default function RegisterPage() {
     try {
       const response = await axios.put(apiUrl, { accesscode })
       const count = response.data.res ? response.data.res.length : 0;
-      
+
       setAccessCodeCondition(count)
-      if(count <= 0){
-         
+      if (count <= 0) {
+
       }
-      
+
     } catch (error) {
       console.log("Can't generate access code ", error);
     }
@@ -173,7 +182,7 @@ export default function RegisterPage() {
   useEffect(() => {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
-    
+
     const interval = setInterval(() => {
       deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
     }, 300000); // 300 วินาที
@@ -329,11 +338,7 @@ export default function RegisterPage() {
                     required
                     onChange={handleGradeLevelChange}
                   >
-                    <option value="ชั้นปี 1">ชั้นปี 1</option>
-                    <option value="ชั้นปี 2">ชั้นปี 2</option>
-                    <option value="ชั้นปี 3">ชั้นปี 3</option>
-                    <option value="ชั้นปี 4">ชั้นปี 4</option>
-                    <option value="มากกว่าชั้นปี 4">มากกว่าชั้นปี 4</option>
+                    <option value="ป.ตรี">ป.ตรี</option>
                     <option value="ป.โท">ป.โท</option>
                     <option value="ป.เอก">ป.เอก</option>
                     <option value="อาจารย์">อาจารย์</option>
@@ -389,8 +394,8 @@ export default function RegisterPage() {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  
-                      {/* Condition for request access code */}
+
+                  {/* Condition for request access code */}
                   <Modal
                     dismissible
                     show={!!showModalAccessCode}
@@ -407,6 +412,29 @@ export default function RegisterPage() {
                       <Button
                         gradientMonochrome="failure"
                         onClick={handleCloseAccessCode}
+                      >
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
+
+                  <Modal
+                    dismissible
+                    show={!!showModalFull}
+                    onClose={handleCloseFull}
+                  >
+                    <Modal.Body>
+                      <div className="space-y-6">
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          โปรดกรอกข้อมูลให้ครบ
+                        </p>
+                      </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        gradientMonochrome="failure"
+                        onClick={handleCloseFull}
                       >
                         Close
                       </Button>
