@@ -56,7 +56,6 @@ export default function CMUOAuthCallback() {
 
           if (organization_name == 'Faculty of Engineering') {
             if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
-              console.log("tetstttt");
               if (admin === cmuAccount) {
                 logadmin(fullName, cmuAccount, studentId, organization_name, itaccounttype_EN)
                 home()

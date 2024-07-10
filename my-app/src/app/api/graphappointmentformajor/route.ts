@@ -7,9 +7,9 @@ import { pool } from "../../lib/db";
 export async function PUT(req: NextRequest) {
     try {
         const request = await req.json();
-        const { date } = request;
+        const { start, end } = request;
 
-        if (!date) {
+        if (!start && !end) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
         }
 
@@ -18,12 +18,14 @@ export async function PUT(req: NextRequest) {
             FROM users u
             JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
             JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
-            WHERE ucr.start_datetime LIKE $1
+            WHERE ucr.start_datetime BETWEEN $1 AND $2
             GROUP BY u.major;
         `;
 
+        const values = [start, end]
+
         const client = await pool.connect();
-        const result = await client.query(text, [`${date}%`]); // Using parameterized query for security
+        const result = await client.query(text, values); // Using parameterized query for security
         client.release();
 
         return NextResponse.json(result.rows);
