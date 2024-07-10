@@ -2,7 +2,6 @@ import { resolve } from "path";
 import React from "react";
 import Image from "next/image";
 import {pool} from "./lib/db";
-import Movie from "./movie";
 import { Head, Main, NextScript } from "next/document";
 import Nav from "./component/Nav";
 import { Carousel,ThemeModeScript } from "flowbite-react";
