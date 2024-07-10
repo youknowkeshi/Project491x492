@@ -205,10 +205,10 @@ export default function RegisterPage() {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Aenean suspendisse aliquam varius rutrum purus maecenas ac{" "}
                   <a
-                    href="#"
+                    href="https://www.facebook.com/messages/t/100395738521698"
                     className="text-#4F6F52 font-semibold text-[#B9F3FC]"
                   >
-                    Learn more
+                click
                   </a>
                 </p>
               </div>
