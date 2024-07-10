@@ -71,7 +71,9 @@ export function Nav() {
                     <Navbar.Link href="/article">Article</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/accessCode">สร้างรหัสสำหรับผู้รับบริการใหม่</Navbar.Link>
+                    <Navbar.Link href="/accessCode">
+                      สร้างรหัสสำหรับผู้รับบริการใหม่
+                    </Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/List">List</Navbar.Link>
@@ -92,7 +94,7 @@ export function Nav() {
           </Navbar.Collapse>
         </Navbar>
       </Navbar>
-      <hr className="mt-4" />
+      <div className="mt-4" />
     </>
   );
 }
