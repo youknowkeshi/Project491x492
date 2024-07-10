@@ -8,26 +8,14 @@ export type Information = {
   firstname_lastname: string;
   studentid: string;
   phone: string;
-  facebook_url: string;
-};
-const dateSortingFn = (
-  rowA: { original: { date: any } },
-  rowB: { original: { date: any } }
-) => {
-  const parseDate = (dateString: {
-    split: (arg0: string) => {
-      (): any;
-      new (): any;
-      map: { (arg0: NumberConstructor): [any, any, any]; new (): any };
-    };
-  }) => {
-    const [day, month, year] = dateString.split("/").map(Number);
-    return new Date(year, month - 1, day).getTime();
-  };
-
-  const dateA = parseDate(rowA.original.date);
-  const dateB = parseDate(rowB.original.date);
-  return dateA - dateB;
+  major: string;
+  topic: string;
+  facebookurl: string;
+  details_consultation: string | null;
+  mental_health_checklist: string | null;
+  start_datetime: string;
+  room: string;
+  event_id:string;
 };
 
 export const columns: ColumnDef<Information>[] = [
@@ -58,5 +46,21 @@ export const columns: ColumnDef<Information>[] = [
   {
     accessorKey: "facebookurl",
     header: "Facebook",
+  },
+  {
+    accessorKey: "start_datetime",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Start Date
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
+    accessorKey: "room",
+    header: "Room",
   },
 ];

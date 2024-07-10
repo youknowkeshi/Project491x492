@@ -1,131 +1,58 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+"use client"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Nav } from "../component/Nav";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
-import {
-  CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons";
 
-// Function to generate a random date within the past year
-function getRandomDate() {
-  const start = new Date();
-  const end = new Date(start);
-  start.setFullYear(start.getFullYear() - 1);
-  const randomDate = new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
-  return randomDate.toLocaleDateString("th-TH", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+export type Information = {
+  personid: string;
+  firstname_lastname: string;
+  studentid: string;
+  phone: string;
+  major: string;
+  topic: string;
+  facebookurl: string;
+  details_consultation: string | null;
+  mental_health_checklist: string | null;
+  start_datetime: string;
+  end_datetime: string;
+  room: string;
+  event_id:string;
+};
+
+function formatDatetime(start: string): string {
+  const startDate = new Date(start);
+  
+
+  const date = startDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+  return `${date}`;
 }
 
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: "728ed52f1",
-      studentid: "630612106",
-      date: getRandomDate(), // Generate random date
-      email: "a@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f2",
-      studentid: "610612105",
-      date: getRandomDate(), // Generate random date
-      email: "bm@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/nithikon440",
-    },
-    {
-      id: "728ed52f3",
-      studentid: "630612107",
-      date: getRandomDate(), // Generate random date
-      email: "c1@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f4",
-      studentid: "630612108",
-      date: getRandomDate(), // Generate random date
-      email: "d@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f5",
-      studentid: "630612109",
-      date: getRandomDate(), // Generate random date
-      email: "e@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f6",
-      studentid: "630612110",
-      date: getRandomDate(), // Generate random date
-      email: "f@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f7",
-      studentid: "630612111",
-      date: getRandomDate(), // Generate random date
-      email: "g@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f8",
-      studentid: "630612112",
-      date: getRandomDate(), // Generate random date
-      email: "h@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f9",
-      studentid: "630612113",
-      date: getRandomDate(), // Generate random date
-      email: "i@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-    {
-      id: "728ed52f10",
-      studentid: "630612114",
-      date: getRandomDate(), // Generate random date
-      email: "j@example.com",
-      phone: "0945241644",
-      facebook_url: "https://www.facebook.com/casey.4552/",
-    },
-  ];
-}
+export default function DemoPage() {
+  const [information, setInformation] = useState<Information[]>([]);
 
-export default async function DemoPage() {
-  const data = await getData();
+  async function fetchData() {
+    const apiUrl = `/api/informationusers`;
+    try {
+      const response = await axios.get(apiUrl);
+      
+      // Format start_datetime and end_datetime, and reverse the data array
+      const formattedData = response.data.map((item: Information) => ({
+        ...item,
+        start_datetime: formatDatetime(item.start_datetime)
+      }));
+
+      setInformation(formattedData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>

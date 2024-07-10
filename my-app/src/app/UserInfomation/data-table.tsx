@@ -27,8 +27,12 @@ import { Input } from "@/components/ui/input";
 // Define a custom filter function
 const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
   return (
-    row.original.email.toLowerCase().includes(filterValue.toLowerCase()) ||
-    row.original.studentid.toLowerCase().includes(filterValue.toLowerCase())
+    row.original.firstname_lastname.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.studentid.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.phone.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.major.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.gender.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.topic.toLowerCase().includes(filterValue.toLowerCase())
   );
 };
 
@@ -37,7 +41,14 @@ export type Information = {
   firstname_lastname: string;
   studentid: string;
   phone: string;
-  facebook_url : string;
+  major: string;
+  topic: string;
+  facebookurl: string;
+  details_consultation: string | null;
+  mental_health_checklist: string | null;
+  start_datetime: string;
+  room: string;
+  event_id:string;
 };
 
 interface DataTableProps {
@@ -110,10 +121,8 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() =>
-                    (window.location.href = `/EditInformation?id=${row.original.id}`)
-                  } // Use window.location here
-                  style={{ cursor: "pointer" }} // Optional: change cursor to pointer
+                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.event_id}`)}
+                  style={{ cursor: "pointer" }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
