@@ -3,7 +3,7 @@ import { pool } from "../../lib/db";
 
 
 
-// input must have date and this is data of  user 
+// input must have date and this is data of  user each major
 export async function PUT(req: NextRequest) {
     try {
         const request = await req.json();

@@ -3,7 +3,7 @@ import { pool } from "../../lib/db";
 
 
 
-// input must have date and this is data of  appointment not for single-people each major
+// input must have date and this is data of  user  each grade level
 export async function PUT(req: NextRequest) {
     try {
         const request = await req.json();
@@ -13,17 +13,13 @@ export async function PUT(req: NextRequest) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
         }
 
-        const text = `
-            SELECT u.major, COUNT(*) AS major_count
-            FROM users u
-            JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
-            JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
-            WHERE ucr.start_datetime BETWEEN $1 AND $2
-            GROUP BY u.major;
+        const text = `SELECT u.gradelevel, COUNT(*) AS gradelevel
+                    FROM users u 
+                    WHERE u.timestamp_column BETWEEN TO_DATE($1, 'YYYY-MM-DD') AND TO_DATE( $2 , 'YYYY-MM-DD')
+                    GROUP BY u.gradelevel;
         `;
 
         const values = [start, end]
-
         const client = await pool.connect();
         const result = await client.query(text, values); // Using parameterized query for security
         client.release();

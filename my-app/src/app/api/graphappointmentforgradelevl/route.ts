@@ -13,13 +13,12 @@ export async function PUT(req: NextRequest) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
         }
 
-        const text = `
-            SELECT u.major, COUNT(*) AS major_count
-            FROM users u
-            JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
-            JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
-            WHERE ucr.start_datetime BETWEEN $1 AND $2
-            GROUP BY u.major;
+        const text = `SELECT u.gradelevel, COUNT(*) AS gradelevel_count
+                    FROM users u
+                    JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
+                    JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
+                    WHERE ucr.start_datetime BETWEEN $1 AND $2
+                    GROUP BY u.gradelevel;
         `;
 
         const values = [start, end]
