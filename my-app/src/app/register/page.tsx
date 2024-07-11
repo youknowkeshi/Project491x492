@@ -8,27 +8,26 @@ import {
 } from "flowbite-react";
 
 import React, { useState, useEffect } from "react";
-import Nav from "../component/Nav";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
+import { access } from "fs";
+import { Navbar } from "../component/์Navbar";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [Id, setId] = useState('');
-  const [phone, setPhone] = useState('');
-  const [major, setMajor] = useState('วิศวกรรมโยธา');
-  const [gender, setGender] = useState('Male');
-  const [facebookurl, setFacebookUrl] = useState('');
+  const [Id, setId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [major, setMajor] = useState("วิศวกรรมโยธา");
+  const [gender, setGender] = useState("Male");
+  const [facebookurl, setFacebookUrl] = useState("");
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
   const [gradeLevel, setGradeLevel] = useState("ป.ตรี");
 
-
-  const [checkPhone, setCheckPhone] = useState('');
-  const [checkMajor, setCheckMajor] = useState('');
-  const [checkGender, setCheckGender] = useState('');
-  const [checkFacebookurl, setCheckFacebookUrl] = useState('');
+  const [checkPhone, setCheckPhone] = useState("");
+  const [checkMajor, setCheckMajor] = useState("");
+  const [checkGender, setCheckGender] = useState("");
+  const [checkFacebookurl, setCheckFacebookUrl] = useState("");
   const [checkGradeLevel, setCheckGradeLevel] = useState("");
 
   const [showModal, setShowModal] = useState(false);
@@ -44,10 +43,22 @@ export default function RegisterPage() {
   const handleShowFull = () => setShowModalFull(true);
   const handleCloseFull = () => setShowModalFull(false);
 
-  async function updatedataUsers(personid: string, phone: string, major: string, gender: string, facebookurl: string, gradelevel: string) {
+  async function updatedataUsers(
+    personid: string,
+    phone: string,
+    major: string,
+    gender: string,
+    facebookurl: string,
+    gradelevel: string
+  ) {
     try {
-      const response = await axios.put('http://localhost:3000/api/register', {
-        personid, phone, major, gender, facebookurl, gradelevel
+      const response = await axios.put("http://localhost:3000/api/register", {
+        personid,
+        phone,
+        major,
+        gender,
+        facebookurl,
+        gradelevel,
       });
       console.log("front: ", response);
     } catch (error) {
@@ -67,17 +78,16 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register"
+    const apiUrl = "http://localhost:3000/api/register";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
 
-      setCheckPhone(response.data.data[0].phone)
-      setCheckMajor(response.data.data[0].major)
-      setCheckGender(response.data.data[0].gender)
-      setCheckFacebookUrl(response.data.data[0].facebookurl)
-      setCheckGradeLevel(response.data.data[0].gradelevel)
-
+      setCheckPhone(response.data.data[0].phone);
+      setCheckMajor(response.data.data[0].major);
+      setCheckGender(response.data.data[0].gender);
+      setCheckFacebookUrl(response.data.data[0].facebookurl);
+      setCheckGradeLevel(response.data.data[0].gradelevel);
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -104,8 +114,6 @@ export default function RegisterPage() {
   ) => {
     setGradeLevel(event.target.value);
   };
-
-
 
   const handleFacebookUrlChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -141,9 +149,9 @@ export default function RegisterPage() {
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
     try {
-      await axios.delete(apiUrl)
+      await axios.delete(apiUrl);
     } catch (error) {
       console.log("Can't delete access code ", error);
     }
@@ -160,9 +168,9 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete"
+    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
     try {
-      const response = await axios.put(apiUrl, { accesscode })
+      const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.res ? response.data.res.length : 0;
 
       setAccessCodeCondition(count)
@@ -188,142 +196,172 @@ export default function RegisterPage() {
 
   return (
     <div>
-      <Nav />
-      <div
-        className="min-h-screen py-40 mt-7  rounded-md"
-        style={{
-          backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
-        }}
-      >
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
+      <Navbar />
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Register
+          </h1>
+        </div>
+      </header>
+      <main>
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="relative isolate px-6 pt-14 lg:px-8">
             <div
-              className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-              }}
+              className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+              aria-hidden="true"
             >
-              <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
-              <div>
-                <p className="text-purple">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aenean suspendisse aliquam varius rutrum purus maecenas ac{" "}
-                  <a
-                    href="#"
-                    className="text-#4F6F52 font-semibold text-[#B9F3FC]"
-                  >
-                    Learn more
-                  </a>
-                </p>
-              </div>
+              {/* <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] clip-custom"></div> */}
             </div>
-            <div className="w-full lg:w-1/2 py-16 px-12">
-              <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
-              <p className="mb-4">
-                Create your account. It’s free and only take a minute
-              </p>
-              <form action="#">
-                <div className="mb-1">
-                  <Label value="Fullname" />
-                </div>
-                <div>
-                  <TextInput
-                    id="input-gray"
-                    color="gray"
-                    placeholder={fullName}
-                    disabled
-                  />
-                </div>
-                <div className="mt-5 grid grid-cols-2 gap-5">
-                  <div className="">
-                    <Label value="Phone" />
+            <div
+              className="min-h-screen py-20  rounded-md"
+              // style={{
+              //   backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
+              // }}
+            >
+              <div className="container mx-auto">
+                <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
+                  <div
+                    className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
+                    style={{
+                      backgroundImage:
+                        "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                    }}
+                  >
+                    <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
+                    <div>
+                      <p className="text-purple">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Aenean suspendisse aliquam varius rutrum purus maecenas
+                        ac{" "}
+                        <a
+                          href="https://www.facebook.com/messages/t/100395738521698"
+                          className="text-#4F6F52 font-semibold text-[#B9F3FC]"
+                        >
+                          click
+                        </a>
+                      </p>
+                    </div>
                   </div>
-                  <div className="">
-                    <Label value="StudentID" />
-                  </div>
-                </div>
+                  <div className="w-full lg:w-1/2 py-16 px-12">
+                    <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
+                    <p className="mb-4">
+                      Create your account. It’s free and only take a minute
+                    </p>
+                    <form action="#">
+                      <div className="mb-1">
+                        <Label value="Fullname" />
+                      </div>
+                      <div>
+                        <TextInput
+                          id="input-gray"
+                          color="gray"
+                          placeholder={fullName}
+                          disabled
+                        />
+                      </div>
+                      <div className="mt-5 grid grid-cols-2 gap-5">
+                        <div className="">
+                          <Label value="Phone" />
+                        </div>
+                        <div className="">
+                          <Label value="StudentID" />
+                        </div>
+                      </div>
 
-                <div className="mb-1 grid grid-cols-2 gap-5">
-                  <TextInput
-                    id="input-gray"
-                    placeholder="091-345xxxx"
-                    required
-                    color="gray"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                  />
-                  <TextInput
-                    id="input-gray"
-                    placeholder={studentId}
-                    disabled
-                    color="gray"
-                  />
-                </div>
-                <div className="max-w-md mt-5">
-                  <div className="mb-1 block">
-                    <Label htmlFor="Major" value="Major" />
-                  </div>
-                  <Select id="Major" required onChange={handleMajorChange}>
-                    <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
-                    <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
-                    <option value="วิศวกรรมเครื่องกล">วิศวกรรมเครื่องกล</option>
-                    <option value="วิศวกรรมสิ่งแวดล้อม">
-                      วิศวกรรมสิ่งแวดล้อม
-                    </option>
-                    <option value="วิศวกรรมอุตสาหการ">วิศวกรรมอุตสาหการ</option>
-                    <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">
-                      วิศวกรรมเหมืองแร่และปิโตรเลียม
-                    </option>
-                    <option value="วิศวกรรมคอมพิวเตอร์">
-                      วิศวกรรมคอมพิวเตอร์
-                    </option>
-                    <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">
-                      วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์
-                    </option>
-                    <option value="วิศวกรรมบูรณาการ">วิศวกรรมบูรณาการ</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                  </Select>
-                </div>
+                      <div className="mb-1 grid grid-cols-2 gap-5">
+                        <TextInput
+                          id="input-gray"
+                          placeholder="091-345xxxx"
+                          required
+                          color="gray"
+                          value={phone}
+                          onChange={handlePhoneChange}
+                        />
+                        <TextInput
+                          id="input-gray"
+                          placeholder={studentId}
+                          disabled
+                          color="gray"
+                        />
+                      </div>
+                      <div className="max-w-md mt-5">
+                        <div className="mb-1 block">
+                          <Label htmlFor="Major" value="Major" />
+                        </div>
+                        <Select
+                          id="Major"
+                          required
+                          onChange={handleMajorChange}
+                        >
+                          <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
+                          <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
+                          <option value="วิศวกรรมเครื่องกล">
+                            วิศวกรรมเครื่องกล
+                          </option>
+                          <option value="วิศวกรรมสิ่งแวดล้อม">
+                            วิศวกรรมสิ่งแวดล้อม
+                          </option>
+                          <option value="วิศวกรรมอุตสาหการ">
+                            วิศวกรรมอุตสาหการ
+                          </option>
+                          <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">
+                            วิศวกรรมเหมืองแร่และปิโตรเลียม
+                          </option>
+                          <option value="วิศวกรรมคอมพิวเตอร์">
+                            วิศวกรรมคอมพิวเตอร์
+                          </option>
+                          <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">
+                            วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์
+                          </option>
+                          <option value="วิศวกรรมบูรณาการ">
+                            วิศวกรรมบูรณาการ
+                          </option>
+                          <option value="อื่นๆ">อื่นๆ</option>
+                        </Select>
+                      </div>
 
-
-                <div className="mt-5">
-                  <div className="mb-1 block">
-                    <Label value="Facebook Profile" />
-                  </div>
-                  <TextInput
-                    id="input-gray"
-                    placeholder="https://www.facebook.com/parinya.mungrod"
-                    required
-                    color="gray"
-                    value={facebookurl}
-                    onChange={handleFacebookUrlChange}
-                  />
-                </div>
-                <div className="mt-5">
-                  <div className="mb-1 block">
-                    <Label value="Access Code" />
-                  </div>
-                  <TextInput
-                    id="input-gray"
-                    placeholder="Get the code from the psychiatrist"
-                    required
-                    color="gray"
-                    value={Id}
-                    onChange={handleIdChange}
-                  />
-                </div>
-                <div className="mt-5">
-                  <div className="mb-1 block">
-                    <Label value="Gender" />
-                  </div>
-                  <Select id="gender" required onChange={handleGenderChange}>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="LGBTQ+">LGBTQ+</option>
-                    <option value="Not specified">Not specified</option>
-                  </Select>
-                </div>
+                      <div className="mt-5">
+                        <div className="mb-1 block">
+                          <Label value="Facebook Profile" />
+                        </div>
+                        <TextInput
+                          id="input-gray"
+                          placeholder="https://www.facebook.com/parinya.mungrod"
+                          required
+                          color="gray"
+                          value={facebookurl}
+                          onChange={handleFacebookUrlChange}
+                        />
+                      </div>
+                      <div className="mt-5">
+                        <div className="mb-1 block">
+                          <Label value="Access Code" />
+                        </div>
+                        <TextInput
+                          id="input-gray"
+                          placeholder="Get the code from the psychiatrist"
+                          required
+                          color="gray"
+                          value={Id}
+                          onChange={handleIdChange}
+                        />
+                      </div>
+                      <div className="mt-5">
+                        <div className="mb-1 block">
+                          <Label value="Gender" />
+                        </div>
+                        <Select
+                          id="gender"
+                          required
+                          onChange={handleGenderChange}
+                        >
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="LGBTQ+">LGBTQ+</option>
+                          <option value="Not specified">Not specified</option>
+                        </Select>
+                      </div>
 
                 <div className="mt-5">
                   <div className="mb-1 block">
@@ -344,30 +382,34 @@ export default function RegisterPage() {
                   </Select>
                 </div>
 
-                <div className="mt-5">
-                  <input type="checkbox" className="border border-gray-400" />
-                  <span className="ml-3">
-                    I accept the{" "}
-                    <a className="text-[#B9F3FC] font-semibold">Terms of Use</a>{" "}
-                    &{" "}
-                    <a className="text-[#B9F3FC] font-semibold">
-                      Privacy Policy
-                    </a>
-                  </span>
-                </div>
-                <div className="mt-5">
-                  <button
-                    className="w-full bg-[#B9F3FC] py-3 text-center text-white"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleSaveData();
+                      <div className="mt-5">
+                        <input
+                          type="checkbox"
+                          className="border border-gray-400"
+                        />
+                        <span className="ml-3">
+                          I accept the{" "}
+                          <a className="text-[#B9F3FC] font-semibold">
+                            Terms of Use
+                          </a>{" "}
+                          &{" "}
+                          <a className="text-[#B9F3FC] font-semibold">
+                            Privacy Policy
+                          </a>
+                        </span>
+                      </div>
+                      <div className="mt-5">
+                        <button
+                          className="w-full bg-[#B9F3FC] py-3 text-center text-white"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleSaveData();
+                          }}
+                        >
+                          Register Now
+                        </button>
 
-                    }}
-                  >
-                    Register Now
-                  </button>
-
-                  {/* Condition for registered */}
+                        {/* Condition for registered */}
 
                   <Modal
                     dismissible
@@ -444,8 +486,5 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
-
-
-
   );
 }
