@@ -24,16 +24,6 @@ import {
 } from "flowbite-react";
 
 
-interface Appointment {
-  firstname_lastname: string;
-  studentid: string;
-  start_datetime: string;
-  end_datetime: string;
-  room: string;
-  event_id: string;
-}
-
-
 
 
 //วันปัจจุบันถ้าไม่ว่างเเล้ววันที่ไม่ปิด เเต่ถ้าจองจน SlotTime เต็มจะกดไม่ได้

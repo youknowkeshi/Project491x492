@@ -1,21 +1,17 @@
 "use client";
 import {
   Button,
-  Card,
-  Checkbox,
   Label,
   TextInput,
-  Textarea,
   Select,
   Modal,
 } from "flowbite-react";
-
 
 import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { access } from "fs";
+
 
 export default function RegisterPage() {
   const router = useRouter();

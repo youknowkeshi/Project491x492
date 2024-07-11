@@ -1,7 +1,6 @@
 import React from 'react';
 import { ProfileForm } from './profileform';
 import { Nav } from '../component/Nav';
-import { useEffect } from 'react';
 
 const AnotherComponent = () => {
    
