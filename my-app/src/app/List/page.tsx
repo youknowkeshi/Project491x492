@@ -21,6 +21,7 @@ export default function Page({ }: Props) {
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
+  const [pastDetail, setPastDetail] = useState("")
 
   async function informationUser(selectedDate: Date) {
     const apiUrl = "http://localhost:3000/api/informationusers";
@@ -34,6 +35,18 @@ export default function Page({ }: Props) {
     }
   }
 
+  async function detailUser(studentid: string) {
+    const apiUrl = "http://localhost:3000/api/informationusers";
+    try {
+      const response = await axios.put(apiUrl, { 
+        studentid
+      });
+      setPastDetail(response.data[1]?.details_consultation || '');
+    } catch (error) {
+      console.log("Can't get information users");
+    }
+  }
+
   const handleSelectDate = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
@@ -41,17 +54,19 @@ export default function Page({ }: Props) {
     }
   };
 
-  const handleOpenModal2 = (user: any) => {
+  const handleOpenModal2 = async (user: any) => {
     setSelectedUser(user);
+    await detailUser(user.studentid);
   };
 
   const handleCloseModal2 = () => {
     setSelectedUser(null);
+    setPastDetail("");
   };
 
-  React.useEffect(()=>{
-    informationUser( new Date(nowInThailand))
-  },[])
+  React.useEffect(() => {
+    informationUser(new Date(nowInThailand))
+  }, [])
 
   return (
     <div>
@@ -152,7 +167,7 @@ export default function Page({ }: Props) {
                 หัวข้อที่ต้องการพูดคุย : {selectedUser.topic}
               </p>
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                รายละเอียดการรับคำปรึกษาครั้งแรก : {selectedUser.details_consultation || '-'}
+                รายละเอียดการรับคำปรึกษาครั้งแรก : {pastDetail || '-'}
               </p>
             </div>
           </Modal.Body>

@@ -54,4 +54,34 @@ export async function POST(req: NextRequest) {
     }
 }
 
+export async function PUT(req: NextRequest) {
+    try {
+        const requestBody = await req.json();
+        const { studentid } = requestBody;
+
+
+        // Validate the date input
+        if (!studentid) {
+            return NextResponse.json({ error: 'Date is required' }, { status: 400 });
+        }
+
+        const client = await pool.connect();
+
+        // Parameterized query to prevent SQL injection
+        const queryText = `
+          select ir.details_consultation 
+        from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id
+        WHERE u.studentid = $1 ORDER BY ucr.start_datetime desc ;
+        `;
+
+        const result = await client.query(queryText, [studentid]);
+
+        client.release(); // Release the client back to the pool
+
+        return NextResponse.json(result.rows, { status: 200 });
+    } catch (error) {
+        console.error('Error executing query:', error);
+        return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+    }
+}
 
