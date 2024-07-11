@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
+
 export function Navbar() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
 
   function signOut() {
@@ -35,16 +37,21 @@ export function Navbar() {
 
     fetchData();
   }, []);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <div>
-      <nav className="bg-gray-800">
+      <nav className="bg-[#eb5b6c]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <img
-                  className="h-8 w-8"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                  className="h-20 w-20"
+                  src="/logoent.png"
                   alt="Your Company"
                 />
               </div>
@@ -54,34 +61,40 @@ export function Navbar() {
                     <>
                       <a
                         href="/dashboard"
-                        className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                        className="rounded-md bg-[#fad5d6] px-3 py-2 text-sm font-medium text-white"
                         aria-current="page"
                       >
-                        Home
+                        หน้าแรก
                       </a>
                       <a
                         href="/register"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
                       >
-                        Register
+                        ลงทะเบียน
                       </a>
                       <a
                         href="/appointment"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
                       >
-                        Appointment
+                        จองคิว
                       </a>
                       <a
                         href="/report"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
                       >
-                        Reports
+                        รายงานประจำเดือน
+                      </a>
+                      <a
+                        href="/List"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
+                      >
+                        รายการนัด
                       </a>
                     </>
                   ) : (
                     <a
                       href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
                     >
                       Login
                     </a>
@@ -93,7 +106,7 @@ export function Navbar() {
               <div className="ml-4 flex items-center md:ml-6">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-full bg-[#fad5d6] p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5"></span>
                   <span className="sr-only">View notifications</span>
@@ -117,9 +130,10 @@ export function Navbar() {
                   <div>
                     <button
                       type="button"
+                      onClick={toggleDropdown}
                       className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       id="user-menu-button"
-                      aria-expanded="false"
+                      aria-expanded={isDropdownOpen}
                       aria-haspopup="true"
                     >
                       <span className="absolute -inset-1.5"></span>
@@ -131,49 +145,51 @@ export function Navbar() {
                       />
                     </button>
                   </div>
-                  <div
-                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                    tabIndex={-1}
-                  >
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
+                  {isDropdownOpen && (
+                    <div
+                      className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="user-menu-button"
                       tabIndex={-1}
-                      id="user-menu-item-0"
                     >
-                      Your Profile
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="user-menu-item-1"
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href=""
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="user-menu-item-2"
-                      onClick={signOut}
-                    >
-                      Sign out
-                    </a>
-                  </div>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="user-menu-item-0"
+                      >
+                        Your Profile
+                      </a>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="user-menu-item-1"
+                      >
+                        Settings
+                      </a>
+                      <a
+                        href=""
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="user-menu-item-2"
+                        onClick={signOut}
+                      >
+                        Sign out
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="-mr-2 flex md:hidden">
               <button
                 type="button"
-                className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-[#fad5d6] hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
@@ -219,35 +235,35 @@ export function Navbar() {
               className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
               aria-current="page"
             >
-              Home
+              หน้าแรก
             </a>
             <a
               href="/register"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
             >
-              Register
+              ลงทะเบียน
             </a>
             <a
               href="/appointment"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
             >
-              Appoinment
+              จองคิว
             </a>
             <a
               href="/artical"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
             >
               Artical
             </a>
             <a
               href="/report"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
             >
-              Reports
+              รายงานประจำเดือน
             </a>
             <a
               href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-50 hover:bg-[#fad5d6] hover:text-white"
             >
               Login
             </a>
@@ -294,19 +310,19 @@ export function Navbar() {
             <div className="mt-3 space-y-1 px-2">
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#fad5d6] hover:text-white"
               >
                 Your Profile
               </a>
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#fad5d6] hover:text-white"
               >
                 Settings
               </a>
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#fad5d6] hover:text-white"
               >
                 Sign out
               </a>
