@@ -20,7 +20,7 @@ import { Navbar } from "../component/์Navbar";
 
 type Props = {};
 
-export default function Page({}: Props) {
+export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
@@ -43,7 +43,7 @@ export default function Page({}: Props) {
   async function detailUser(studentid: string) {
     const apiUrl = "http://localhost:3000/api/informationusers";
     try {
-      const response = await axios.put(apiUrl, { 
+      const response = await axios.put(apiUrl, {
         studentid
       });
       setPastDetail(response.data[1]?.details_consultation || '');
@@ -171,33 +171,34 @@ export default function Page({}: Props) {
           </Card>
         ))}
 
-      {selectedUser && (
-        <Modal
-          dismissible
-          show={!!selectedUser}
-          onClose={handleCloseModal2}
-        >
-          <Modal.Header>Talk details</Modal.Header>
-          <Modal.Body>
-            <div className="space-y-6">
-              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                หัวข้อที่ต้องการพูดคุย : {selectedUser.topic}
-              </p>
-              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                รายละเอียดการรับคำปรึกษาครั้งแรก : {pastDetail || '-'}
-              </p>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              gradientMonochrome="failure"
-              onClick={handleCloseModal2}
-            >
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+        {selectedUser && (
+          <Modal
+            dismissible
+            show={!!selectedUser}
+            onClose={handleCloseModal2}
+          >
+            <Modal.Header>Talk details</Modal.Header>
+            <Modal.Body>
+              <div className="space-y-6">
+                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                  หัวข้อที่ต้องการพูดคุย : {selectedUser.topic}
+                </p>
+                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                  รายละเอียดการรับคำปรึกษาครั้งแรก : {pastDetail || '-'}
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                gradientMonochrome="failure"
+                onClick={handleCloseModal2}
+              >
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </div>
     </div>
   );
 }
