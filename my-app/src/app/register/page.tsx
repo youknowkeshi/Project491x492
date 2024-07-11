@@ -1,13 +1,17 @@
 "use client";
 import {
   Button,
+  Card,
+  Checkbox,
   Label,
   TextInput,
+  Textarea,
   Select,
   Modal,
 } from "flowbite-react";
 
 import React, { useState, useEffect } from "react";
+import Nav from "../component/Nav";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { access } from "fs";
@@ -22,7 +26,7 @@ export default function RegisterPage() {
   const [facebookurl, setFacebookUrl] = useState("");
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [gradeLevel, setGradeLevel] = useState("ป.ตรี");
+  const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
 
   const [checkPhone, setCheckPhone] = useState("");
   const [checkMajor, setCheckMajor] = useState("");
@@ -37,11 +41,7 @@ export default function RegisterPage() {
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
   const handleCloseAccessCode = () => setShowModalAccessCode(false);
-  const [accessCodeCondition, setAccessCodeCondition] = useState("")
-
-  const [showModalFull, setShowModalFull] = useState(false);
-  const handleShowFull = () => setShowModalFull(true);
-  const handleCloseFull = () => setShowModalFull(false);
+  const [accessCodeCondition, setAccessCodeCondition] = useState("");
 
   async function updatedataUsers(
     personid: string,
@@ -127,24 +127,24 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
-
-    checkAccessCode(Id)
-    if (checkFacebookurl && checkGender && checkGradeLevel && checkMajor && checkPhone) {
-      handleShow()
-    }
-    else if (accessCodeCondition == '0') {
-      handleShowAccessCode()
-    }
-    else {
-      if (Id && phone && major && gender && facebookurl && gradeLevel) {
-        updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(() => {
+    checkAccessCode(Id);
+    if (
+      checkFacebookurl &&
+      checkGender &&
+      checkGradeLevel &&
+      checkMajor &&
+      checkPhone
+    ) {
+      handleShow();
+    } else if (accessCodeCondition == "0") {
+      handleShowAccessCode();
+    } else {
+      updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(
+        () => {
           appointment();
-          afterUseAccesscode(Id)
-        });
-      }else{
-        handleShowFull()
-      }
-
+          afterUseAccesscode(Id);
+        }
+      );
     }
   };
 
@@ -158,12 +158,11 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete"
+    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete";
     try {
-      await axios.put(apiUrl, { accesscode })
+      await axios.put(apiUrl, { accesscode });
     } catch (error) {
       console.log("Can't manual-delete access code : ", error);
-
     }
   }
 
@@ -173,11 +172,9 @@ export default function RegisterPage() {
       const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.res ? response.data.res.length : 0;
 
-      setAccessCodeCondition(count)
+      setAccessCodeCondition(count);
       if (count <= 0) {
-
       }
-
     } catch (error) {
       console.log("Can't generate access code ", error);
     }
@@ -363,24 +360,30 @@ export default function RegisterPage() {
                         </Select>
                       </div>
 
-                <div className="mt-5">
-                  <div className="mb-1 block">
-                    <Label value="GradeLevel" />
-                  </div>
-                  <Select
-                    id="gradeLevel"
-                    required
-                    onChange={handleGradeLevelChange}
-                  >
-                    <option value="ป.ตรี">ป.ตรี</option>
-                    <option value="ป.โท">ป.โท</option>
-                    <option value="ป.เอก">ป.เอก</option>
-                    <option value="อาจารย์">อาจารย์</option>
-                    <option value="บุคลากร">บุคลากร</option>
-                    <option value="ผู้ปกครอง">ผู้ปกครอง</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                  </Select>
-                </div>
+                      <div className="mt-5">
+                        <div className="mb-1 block">
+                          <Label value="GradeLevel" />
+                        </div>
+                        <Select
+                          id="gradeLevel"
+                          required
+                          onChange={handleGradeLevelChange}
+                        >
+                          <option value="ชั้นปี 1">ชั้นปี 1</option>
+                          <option value="ชั้นปี 2">ชั้นปี 2</option>
+                          <option value="ชั้นปี 3">ชั้นปี 3</option>
+                          <option value="ชั้นปี 4">ชั้นปี 4</option>
+                          <option value="มากกว่าชั้นปี 4">
+                            มากกว่าชั้นปี 4
+                          </option>
+                          <option value="ป.โท">ป.โท</option>
+                          <option value="ป.เอก">ป.เอก</option>
+                          <option value="อาจารย์">อาจารย์</option>
+                          <option value="บุคลากร">บุคลากร</option>
+                          <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+                          <option value="อื่นๆ">อื่นๆ</option>
+                        </Select>
+                      </div>
 
                       <div className="mt-5">
                         <input
@@ -411,80 +414,65 @@ export default function RegisterPage() {
 
                         {/* Condition for registered */}
 
-                  <Modal
-                    dismissible
-                    show={!!showModal}
-                    onClose={handleClose}
-                  >
-                    <Modal.Body>
-                      <div className="space-y-6">
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                          คุณได้ทำการลงทะเบียนเเล้ว
-                        </p>
+                        <Modal
+                          dismissible
+                          show={!!showModal}
+                          onClose={handleClose}
+                        >
+                          <Modal.Body>
+                            <div className="space-y-6">
+                              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                คุณได้ทำการลงทะเบียนเเล้ว
+                              </p>
+                            </div>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              gradientMonochrome="failure"
+                              onClick={handleClose}
+                            >
+                              Close
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
+
+                        {/* Condition for request access code */}
+                        <Modal
+                          dismissible
+                          show={!!showModalAccessCode}
+                          onClose={handleCloseAccessCode}
+                        >
+                          <Modal.Body>
+                            <div className="space-y-6">
+                              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                คุณต้องขอรหัสเพื่อลงทะเบียนครั้งแรก
+                              </p>
+                            </div>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              gradientMonochrome="failure"
+                              onClick={handleCloseAccessCode}
+                            >
+                              Close
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button
-                        gradientMonochrome="failure"
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-
-                  {/* Condition for request access code */}
-                  <Modal
-                    dismissible
-                    show={!!showModalAccessCode}
-                    onClose={handleCloseAccessCode}
-                  >
-                    <Modal.Body>
-                      <div className="space-y-6">
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                          คุณต้องขอรหัสเพื่อลงทะเบียนครั้งแรก
-                        </p>
-                      </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button
-                        gradientMonochrome="failure"
-                        onClick={handleCloseAccessCode}
-                      >
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-
-
-                  <Modal
-                    dismissible
-                    show={!!showModalFull}
-                    onClose={handleCloseFull}
-                  >
-                    <Modal.Body>
-                      <div className="space-y-6">
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                          โปรดกรอกข้อมูลให้ครบ
-                        </p>
-                      </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button
-                        gradientMonochrome="failure"
-                        onClick={handleCloseFull}
-                      >
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-
+                    </form>
+                  </div>
                 </div>
-              </form>
+              </div>
+            </div>
+            <div
+              className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+              aria-hidden="true"
+            >
+              {/* <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] clip-custom"></div> */}
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
