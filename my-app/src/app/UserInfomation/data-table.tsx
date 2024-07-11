@@ -26,7 +26,9 @@ import { Input } from "@/components/ui/input";
 // Define a custom filter function
 const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
   return (
-    row.original.firstname_lastname.toLowerCase().includes(filterValue.toLowerCase()) ||
+    row.original.firstname_lastname
+      .toLowerCase()
+      .includes(filterValue.toLowerCase()) ||
     row.original.studentid.toLowerCase().includes(filterValue.toLowerCase()) ||
     row.original.phone.toLowerCase().includes(filterValue.toLowerCase()) ||
     row.original.major.toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -47,7 +49,7 @@ export type Information = {
   mental_health_checklist: string | null;
   start_datetime: string;
   room: string;
-  event_id:string;
+  event_id: string;
 };
 
 interface DataTableProps {
@@ -94,7 +96,7 @@ export function DataTable({ columns, data }: DataTableProps) {
           className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -120,19 +122,27 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => (window.location.href = `/EditInformation?id=${row.original.event_id}`)}
+                  onClick={() =>
+                    (window.location.href = `/EditInformation?id=${row.original.event_id}`)
+                  }
                   style={{ cursor: "pointer" }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
