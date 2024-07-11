@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Foot } from "../component/Footer";
-import Nav from "../component/Nav";
 import { Navbar } from "../component/์Navbar";
 
 const style: React.CSSProperties = { background: "#FFFFFF", padding: "30px" };

@@ -1,20 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
-import Nav from "../component/Nav";
 import { Button, Card, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
-import { format } from 'date-fns';
+import { format } from "date-fns";
+import { Navbar } from "../component/์Navbar";
 
 type Props = {};
 
-export default function Page({ }: Props) {
+export default function Page({}: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [openModal2, setOpenModal2] = useState(false);
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
 
-  async function insertInformation(details: string, infor_id: string, health: string) {
+  async function insertInformation(
+    details: string,
+    infor_id: string,
+    health: string
+  ) {
     const apiUrl = "http://localhost:3000/api/informationusers";
     try {
       const response = axios.put(apiUrl, { details, infor_id, health });
@@ -27,7 +31,11 @@ export default function Page({ }: Props) {
     const apiUrl = "http://localhost:3000/api/informationusers";
     try {
       const response = await axios.get(apiUrl);
-      const sortedData = response.data.sort((a: any, b: any) => new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
+      const sortedData = response.data.sort(
+        (a: any, b: any) =>
+          new Date(b.start_datetime).getTime() -
+          new Date(a.start_datetime).getTime()
+      );
       setInformationUsers(sortedData);
     } catch (error) {
       console.log("Can't get information user ", error);
@@ -36,8 +44,8 @@ export default function Page({ }: Props) {
 
   const convertISOToReadable = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
-    return format(date, 'yyyy-MM-dd HH:mm:ss');
-  }
+    return format(date, "yyyy-MM-dd HH:mm:ss");
+  };
 
   useEffect(() => {
     Getinfor();
@@ -45,34 +53,106 @@ export default function Page({ }: Props) {
 
   return (
     <div>
-      <Nav />
+      <Navbar />
       <form className="max-w-lg mx-auto mt-7">
         <div className="flex justify-start w-full">
-          <label htmlFor="search-dropdown" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
-          <button id="dropdown-button" data-dropdown-toggle="dropdown" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All categories <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-          </svg></button>
-          <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+          <label
+            htmlFor="search-dropdown"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >
+            Your Email
+          </label>
+          <button
+            id="dropdown-button"
+            data-dropdown-toggle="dropdown"
+            className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+            type="button"
+          >
+            All categories{" "}
+            <svg
+              className="w-2.5 h-2.5 ms-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+          <div
+            id="dropdown"
+            className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          >
+            <ul
+              className="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="dropdown-button"
+            >
               <li>
-                <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
+                <button
+                  type="button"
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Mockups
+                </button>
               </li>
               <li>
-                <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
+                <button
+                  type="button"
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Templates
+                </button>
               </li>
               <li>
-                <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
+                <button
+                  type="button"
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Design
+                </button>
               </li>
               <li>
-                <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logos</button>
+                <button
+                  type="button"
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Logos
+                </button>
               </li>
             </ul>
           </div>
           <div className="relative w-full">
-            <input type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required />
-            <button type="submit" className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            <input
+              type="search"
+              id="search-dropdown"
+              className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+              placeholder="Search Mockups, Logos, Design Templates..."
+              required
+            />
+            <button
+              type="submit"
+              className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <svg
+                className="w-4 h-4"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
               </svg>
               <span className="sr-only">Search</span>
             </button>
@@ -86,7 +166,10 @@ export default function Page({ }: Props) {
         </h1>
       </div>
       {informationUsers.map((user, index) => (
-        <Card key={index} className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative ">
+        <Card
+          key={index}
+          className="border-r-4 border-l-4 border-x-cyan-300 mt-7 mb-4 p-4 relative "
+        >
           <h5 className="grid content-start text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             รหัสนักศึกษา : {user.studentid}
           </h5>
@@ -121,26 +204,24 @@ export default function Page({ }: Props) {
                 <div className="space-y-5">
                   <h2>ประเด็นที่ต้องการปรึกษา</h2>
                   <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts
-                    new consumer privacy laws for its citizens, companies around
-                    the world are updating their terms of service agreements to
-                    comply.
+                    With less than a month to go before the European Union
+                    enacts new consumer privacy laws for its citizens, companies
+                    around the world are updating their terms of service
+                    agreements to comply.
                   </p>
                   <h2>รายละเอียดการปรึกษา</h2>
                   <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                     The European Union’s General Data Protection Regulation
-                    (G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-                    common set of data rights in the European Union. It requires
-                    organizations to notify users as soon as possible of high-risk
-                    data breaches that could personally affect them.
+                    (G.D.P.R.) goes into effect on May 25 and is meant to ensure
+                    a common set of data rights in the European Union. It
+                    requires organizations to notify users as soon as possible
+                    of high-risk data breaches that could personally affect
+                    them.
                   </p>
                 </div>
               </Modal.Body>
               <Modal.Footer>
-                <Button
-                  color="light"
-                  onClick={() => setOpenModal2(false)}
-                >
+                <Button color="light" onClick={() => setOpenModal2(false)}>
                   Edit
                 </Button>
               </Modal.Footer>

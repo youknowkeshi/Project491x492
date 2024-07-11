@@ -50,37 +50,42 @@ export function Navbar() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="/dashboard"
-                    className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-                    aria-current="page"
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="/register"
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Register
-                  </a>
-                  <a
-                    href="/appointment"
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Appointment
-                  </a>
-                  <a
-                    href="/report"
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Reports
-                  </a>
-                  <a
-                    href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Login
-                  </a>
+                  {isLoggedIn ? (
+                    <>
+                      <a
+                        href="/dashboard"
+                        className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                        aria-current="page"
+                      >
+                        Home
+                      </a>
+                      <a
+                        href="/register"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        Register
+                      </a>
+                      <a
+                        href="/appointment"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        Appointment
+                      </a>
+                      <a
+                        href="/report"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        Reports
+                      </a>
+                    </>
+                  ) : (
+                    <a
+                      href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      Login
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

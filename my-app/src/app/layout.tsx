@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Foot } from "./component/Footer";
+import { Navbar } from "./component/์Navbar";
 
 const style: React.CSSProperties = { background: "#FFFFFF", padding: "30px" };
 const outfit = Outfit({ subsets: ["latin"] });
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className="">
@@ -23,5 +24,5 @@ export default function RootLayout({
         <div className="mx-auto">{children}</div>
       </body>
     </html>
-  )
+  );
 }
