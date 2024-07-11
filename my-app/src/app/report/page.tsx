@@ -50,32 +50,32 @@ export default function page() {
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
                     <a
-                      href="#"
+                      href="/dashboard"
                       className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
                       aria-current="page"
                     >
-                      Dashboard
+                      Home
                     </a>
                     <a
-                      href="#"
+                      href="/register"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
-                      Team
+                      Register
                     </a>
                     <a
-                      href="#"
+                      href="/appointment"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
-                      Projects
+                      Appointment
                     </a>
                     <a
-                      href="#"
+                      href="/artical"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
-                      Calendar
+                      Artical
                     </a>
                     <a
-                      href="#"
+                      href="/report"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
                       Reports
@@ -212,7 +212,7 @@ export default function page() {
                 className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
                 aria-current="page"
               >
-                Dashboard
+                Dashboards
               </a>
               <a
                 href="#"
