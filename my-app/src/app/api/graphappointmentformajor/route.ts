@@ -7,9 +7,11 @@ import { pool } from "../../lib/db";
 export async function PUT(req: NextRequest) {
     try {
         const request = await req.json();
-        const { start, end } = request;
+        const { startdate, enddate } = request;
 
-        if (!start && !end) {
+        console.log(request);
+
+        if (!startdate && !enddate) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
         }
 
@@ -22,7 +24,10 @@ export async function PUT(req: NextRequest) {
             GROUP BY u.major;
         `;
 
-        const values = [start, end]
+        const values = [startdate, enddate]
+
+
+
 
         const client = await pool.connect();
         const result = await client.query(text, values); // Using parameterized query for security

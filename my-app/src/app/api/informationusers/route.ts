@@ -69,7 +69,7 @@ export async function PUT(req: NextRequest) {
 
         // Parameterized query to prevent SQL injection
         const queryText = `
-          select ir.details_consultation 
+          select ir.details_consultation ,ucr.start_datetime
         from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id
         WHERE u.studentid = $1 ORDER BY ucr.start_datetime desc ;
         `;

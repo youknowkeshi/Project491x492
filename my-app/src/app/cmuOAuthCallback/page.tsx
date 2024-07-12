@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
+import Loading from "../loading";
 
 export default function CMUOAuthCallback() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function CMUOAuthCallback() {
   const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
@@ -90,6 +93,7 @@ export default function CMUOAuthCallback() {
             handleShow();
           }
         }
+        setIsLoading(false); // Stop loading
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
         if (!error.response) {
@@ -103,6 +107,7 @@ export default function CMUOAuthCallback() {
         } else {
           setErrorMessage("Unknown error occurred. Please try again later");
         }
+        setIsLoading(false); // Stop loading
       });
   }
 
@@ -160,7 +165,11 @@ export default function CMUOAuthCallback() {
 
   return (
     <div className="p-3">
-      {message || "loading..."}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        message || errorMessage
+      )}
       <Modal dismissible show={!!showModal} onClose={handleClose}>
         <Modal.Body>
           <div className="space-y-6">
