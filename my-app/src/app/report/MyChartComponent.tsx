@@ -111,6 +111,7 @@ export function MyChartComponents({
         </CardFooter>
       </Card>
       <Card className="grid grid-rows-8 gap-1">
+        <div className = "ml-10 mt-10">
         {chartData.length > 0 ? (
           chartData.map((data, index) => (
             <div key={index}>
@@ -118,8 +119,10 @@ export function MyChartComponents({
             </div>
           ))
         ) : (
-          '-'
+          'Nothing'
         )}
+        </div>
+       
       </Card>
     </div>
   );

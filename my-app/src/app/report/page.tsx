@@ -4,6 +4,9 @@ import { MyChartComponents } from "./MyChartComponent";
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { MyChartComponentsList } from "./MyChartComponentList";
+import { ComponentDrawer } from "./Drawer";
+
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -221,11 +224,12 @@ export default function Page() {
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-                Dashboard
+                รูปแบบกราฟแสดงจำนวนผู้รับบริการแต่ละชั้นปี
               </h1>
             </div>
           </header>
           <main>
+
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               <div className="flex justify-center">
                 <div className="flex flex-wrap gap-4">
@@ -243,7 +247,7 @@ export default function Page() {
                       variant={"outline"}
                       type="button"
                     >
-                      Dropdown search
+                      ภาควิชา
                       <svg
                         className="w-2.5 h-2.5 ms-2.5"
                         aria-hidden="true"
@@ -343,7 +347,7 @@ export default function Page() {
                       </div>
                     )}
                   </div>
-                  <Button>sadas</Button>
+                  <Button> เลือก </Button>
                 </div>
               </div>
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
@@ -351,10 +355,15 @@ export default function Page() {
                   startDate={startDate ?? null}
                   endDate={endDate ?? null}
                 />
-
-               
               </div>
+              {/* <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                <MyChartComponentsList
+                  startDate={startDate ?? null}
+                  endDate={endDate ?? null}
+                />
+              </div> */}
             </div>
+            <ComponentDrawer />
           </main>
         </div>
       </div>

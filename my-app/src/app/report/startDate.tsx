@@ -39,7 +39,7 @@ export function StartDatePicker({
               {startDate ? (
                 format(startDate, "EEE, d MMM, yyyy")
               ) : (
-                <span>ไป</span>
+                <span>เริ่มต้น</span>
               )}
             </Button>
           </PopoverTrigger>
@@ -66,7 +66,7 @@ export function StartDatePicker({
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {endDate ? format(endDate, "EEE, d MMM, yyyy") : <span>กลับ</span>}
+              {endDate ? format(endDate, "EEE, d MMM, yyyy") : <span>สิ้นสุด</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[280px] p-0"> {/* กำหนดความกว้างที่เหมาะสม */}

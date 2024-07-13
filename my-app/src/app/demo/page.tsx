@@ -13,6 +13,7 @@ import {
     Select,
     Modal,
 } from "flowbite-react";
+import {ComponentDrawer} from "../report/Drawer"
 
 
 
@@ -100,6 +101,7 @@ export default function MyPage() {
 
 
         <div>
+            <ComponentDrawer/>
         <div className="mt-5">
             <div className="mb-1 block">
                 <Label value="Access Code" />
@@ -117,5 +119,6 @@ export default function MyPage() {
             <Button onClick={() => afterUseAccesscode(Id)}>Test</Button>
         </div>
     </div>
+
     );
 }
