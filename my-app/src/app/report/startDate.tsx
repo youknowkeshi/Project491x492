@@ -24,7 +24,7 @@ export function StartDatePicker({
   setEndDate,
 }: StartDatePickerProps) {
   return (
-    <div className="flex">
+    <div className="flex gap-0">
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -57,8 +57,10 @@ export function StartDatePicker({
             variant={"outline"}
             className={cn(
               "w-[140px] justify-start text-left font-normal",
-              !endDate && "text-muted-foreground ml-4"
+              !endDate && "text-muted-foreground"
             )}
+            // Ensure margin-left only for endDate Button
+            style={{ marginLeft: "1rem" }}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {endDate ? format(endDate, "EEE, d MMM, yyyy") : <span>กลับ</span>}
