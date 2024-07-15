@@ -298,7 +298,7 @@ function BookAppointment({ room }: { room: any }) {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            className="mt-5 text-white border-[#FFFFFF] bg-[#25CAAC]"
+            className="mt-5 text-white border-[#FFFFFF] bg-[#4338ca]"
             type="button"
           >จองคิวนัดปรึกษาที่ห้อง {room}</Button>
         </DialogTrigger>
@@ -373,7 +373,7 @@ function BookAppointment({ room }: { room: any }) {
             </DialogClose>
 
             <Button
-              className="bg-blue-500 text-white border-blue-500"
+              className="bg-[#4338ca] text-white border-blue-500"
               type="button"
               disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}

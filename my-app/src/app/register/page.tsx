@@ -211,9 +211,9 @@ export default function RegisterPage() {
             </div>
             <div
               className="min-h-screen py-20  rounded-md"
-              // style={{
-              //   backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
-              // }}
+               style={{
+                 backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
+               }}
             >
               <div className="container mx-auto">
                 <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">

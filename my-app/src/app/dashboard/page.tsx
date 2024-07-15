@@ -10,15 +10,15 @@ export default function DashBoard({}: Props) {
     <>
       <Navbar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <header className="bg-white shadow">
+        <header className="bg-white">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Home
             </h1>
           </div>
         </header>
-        <main>
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <main className="bg-[#f2f3f5]">
+          <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
             <div className="relative isolate px-6 pt-14 lg:px-8">
               <div
                 className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -32,7 +32,7 @@ export default function DashBoard({}: Props) {
                     ติดต่อสอบถามเพิ่มเติม.{" "}
                     <a
                       href="https://www.facebook.com/EntaneerMindFriendCMU"
-                      className="font-semibold text-[#eb5b6c]"
+                      className="font-semibold text-[#4338ca]"
                     >
                       <span
                         className="absolute inset-0"
@@ -57,7 +57,7 @@ export default function DashBoard({}: Props) {
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a
                       href="/register"
-                      className="rounded-md bg-[#eb5b6c] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#fad5d6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-[#4338ca] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#fad5d6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                       ลงทะเบียน
                     </a>
