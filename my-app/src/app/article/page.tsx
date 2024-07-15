@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Nav from "../component/Nav";
-import { Card, Carousel } from "flowbite-react";
+import {  Carousel } from "flowbite-react";
 import axios from "axios";
 
 type Props = {};

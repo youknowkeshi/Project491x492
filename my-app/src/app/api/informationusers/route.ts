@@ -9,9 +9,9 @@ export async function GET(res: NextResponse, req: NextRequest) {
         const client = await pool.connect();
         const result = await client.query
             (`select u.personid ,u.firstname_lastname , u.studentid ,u.phone , u.major  , u.gender , 
-        ucr.topic , u.facebookurl ,ir.details_consultation ,ir.mental_health_checklist ,ucr.start_datetime, 
-        ucr.end_datetime ,ucr.room from users u join user_conseling_room1 ucr on u.personid = ucr.personid 
-        join informationusers_room1 ir on ucr.event_id = ir.event_id`);
+            ucr.topic , u.facebookurl ,ir.details_consultation ,ir.mental_health_checklist ,ucr.start_datetime, 
+            ucr.end_datetime ,ucr.room ,ucr.event_id from users u join user_conseling_room1 ucr on u.personid = ucr.personid 
+            join informationusers_room1 ir on ucr.event_id = ir.event_id ORDER BY ucr.start_datetime DESC;`);
         client.release(); // Release the client back to the pool 
         return NextResponse.json(result.rows);
     } catch (error) {
@@ -21,6 +21,7 @@ export async function GET(res: NextResponse, req: NextRequest) {
 
 }
 
+//ใชเช้ในการโชว์หน้า list
 export async function POST(req: NextRequest) {
     try {
         const requestBody = await req.json();
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
            select u.personid ,u.firstname_lastname , u.studentid ,u.phone , u.major  , u.gender , ucr.topic , u.facebookurl 
             ,ir.details_consultation ,ir.mental_health_checklist ,ucr.start_datetime, ucr.end_datetime ,ucr.room 
             from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id
-            WHERE DATE(ucr.start_datetime) = $1;
+            WHERE DATE(ucr.start_datetime) = $1 ORDER BY ucr.start_datetime;
         `;
 
         const result = await client.query(queryText, [date]);
@@ -53,32 +54,34 @@ export async function POST(req: NextRequest) {
     }
 }
 
-
-// edit  detail and checklist
-export async function PUT(request: NextResponse) {
+export async function PUT(req: NextRequest) {
     try {
-        const req = await request.json();
+        const requestBody = await req.json();
+        const { studentid } = requestBody;
 
-        const { details, health, infor_id } = req;
 
-        const text = 'UPDATE informationusers SET details_consultation =$1, mental_health_checklist= $2 WHERE infor_id = $3';
-        const values = [details, health, infor_id];
-
-        const client = await pool.connect();
-        try {
-            const res = await client.query(text, values);
-
-            if (res.rowCount === 0) {
-                return new Response('User not found', { status: 404 });
-            }
-
-            return Response.json({ res });
-        } finally {
-            client.release();
+        // Validate the date input
+        if (!studentid) {
+            return NextResponse.json({ error: 'Date is required' }, { status: 400 });
         }
 
-    } catch (error) {
-        console.log("put information error : ", error);
+        const client = await pool.connect();
 
+        // Parameterized query to prevent SQL injection
+        const queryText = `
+          select ir.details_consultation ,ucr.start_datetime
+        from users u join user_conseling_room1 ucr on u.personid = ucr.personid join informationusers_room1 ir on ucr.event_id = ir.event_id
+        WHERE u.studentid = $1 ORDER BY ucr.start_datetime desc ;
+        `;
+
+        const result = await client.query(queryText, [studentid]);
+
+        client.release(); // Release the client back to the pool
+
+        return NextResponse.json(result.rows, { status: 200 });
+    } catch (error) {
+        console.error('Error executing query:', error);
+        return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
     }
 }
+

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Foot } from "../component/Footer";
-import Nav from "../component/Nav";
+import { Navbar } from "../component/์Navbar";
 
 const style: React.CSSProperties = { background: "#FFFFFF", padding: "30px" };
 const inter = Inter({ subsets: ["latin"] });
@@ -18,7 +18,14 @@ export default function calendarv2Layout({
 }>) {
   return (
     <>
-      <Nav />
+      <Navbar />
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
+            Appointment
+          </h1>
+        </div>
+      </header>
       {children}
       <Foot />
     </>
