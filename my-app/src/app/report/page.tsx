@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MyChartComponents } from "./MyChartComponent";
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
@@ -13,16 +14,15 @@ export default function Page() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   };
@@ -33,6 +33,7 @@ export default function Page() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
 
   return (
     <>
@@ -183,6 +184,9 @@ export default function Page() {
                 />
               </div> */}
             </div>
+            <ComponentDrawer />
+          </main>
+        </div>
             <ComponentDrawer />
           </main>
         </div>

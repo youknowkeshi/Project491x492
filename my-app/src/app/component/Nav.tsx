@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Dropdown, Footer, Navbar } from "flowbite-react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getCookie } from "cookies-next";
+
 
 export function Nav() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;

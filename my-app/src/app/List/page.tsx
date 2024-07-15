@@ -15,15 +15,23 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import axios from "axios";
+import moment from 'moment-timezone';
 import { Navbar } from "../component/์Navbar";
 
 type Props = {};
 
-export default function Page({}: Props) {
+interface details {
+  details_consultation: string
+  start_datetime: string
+}
+
+export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
+  const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
+  const [pastDetail, setPastDetail] = useState("")
 
   async function informationUser(selectedDate: Date) {
     const apiUrl = "http://localhost:3000/api/informationusers";
@@ -32,7 +40,26 @@ export default function Page({}: Props) {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
       });
       setInformationUsers(response.data);
-      console.log(response.data);
+    } catch (error) {
+      console.log("Can't get information users");
+    }
+  }
+
+  async function detailUser(studentid: string, selectdete: string) {
+    const apiUrl = "http://localhost:3000/api/informationusers";
+    try {
+      const response = await axios.put<details[]>(apiUrl, {
+        studentid
+      });
+      const data = response.data
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].start_datetime == selectdete) {
+          setPastDetail(data[i + 1].details_consultation || '')
+        }
+      }
+
+      // setPastDetail(response.data[1]?.details_consultation || '');
     } catch (error) {
       console.log("Can't get information users");
     }
@@ -45,13 +72,19 @@ export default function Page({}: Props) {
     }
   };
 
-  const handleOpenModal2 = (user: any) => {
+  const handleOpenModal2 = async (user: any) => {
     setSelectedUser(user);
+    await detailUser(user.studentid, user.start_datetime);
   };
 
   const handleCloseModal2 = () => {
     setSelectedUser(null);
+    setPastDetail("");
   };
+
+  React.useEffect(() => {
+    informationUser(new Date(nowInThailand))
+  }, [])
 
   return (
     <div>
@@ -109,6 +142,9 @@ export default function Page({}: Props) {
             <p className="font-normal text-gray-700 dark:text-gray-400">
               Major: {user.major}
             </p>
+            <p className="font-normal text-gray-700 dark:text-gray-400">
+              หัวข้อที่ต้องการพูดคุย : {user.topic}
+            </p>
             <div className="flex flex-row gap-4 absolute bottom-4 right-4">
               <Button
                 outline
@@ -152,21 +188,24 @@ export default function Page({}: Props) {
         ))}
 
         {selectedUser && (
-          <Modal dismissible show={!!selectedUser} onClose={handleCloseModal2}>
-            <Modal.Header>Talk details</Modal.Header>
+          <Modal
+            dismissible
+            show={!!selectedUser}
+            onClose={handleCloseModal2}
+          >
+            <Modal.Header>รายละเอียดการปรึกษา</Modal.Header>
             <Modal.Body>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                  หัวข้อที่ต้องการพูดคุย : {selectedUser.topic}
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                  รายละเอียดการรับคำปรึกษาครั้งแรก :{" "}
-                  {selectedUser.details_consultation || "-"}
+                  บันทึกการปรึกษาก่อนหน้านี้ : {pastDetail || '-'}
                 </p>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button gradientMonochrome="failure" onClick={handleCloseModal2}>
+              <Button
+                gradientMonochrome="failure"
+                onClick={handleCloseModal2}
+              >
                 Close
               </Button>
             </Modal.Footer>

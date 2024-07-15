@@ -82,9 +82,16 @@ export function ProfileForm() {
         }
     }
 
-    // async function updatesingledata(params:type) {
-        
-    // }
+    async function updatesingledata(details_consultation:string, mental_health_checklist:string, mental_risk_level:string,event_id:string) {
+        const apiUrl = `/api/informationusers/${id}`
+        try{
+            await axios.put(apiUrl,{details_consultation,mental_health_checklist,mental_risk_level,event_id})
+
+        }catch(error){
+            console.log("",error);
+            
+        }
+    }
 
     useEffect(() => {
         if (id) {

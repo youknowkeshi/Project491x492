@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import React from "react";
 import Image from "next/image";
 import { Foot } from "./component/Footer";

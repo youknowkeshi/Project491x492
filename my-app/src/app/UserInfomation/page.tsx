@@ -1,9 +1,9 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+"use client"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Navbar } from "../component/์Navbar";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { Navbar } from "../component/์Navbar";
 
 export type Information = {
   personid: string;
@@ -24,7 +24,8 @@ export type Information = {
 function formatDatetime(start: string): string {
   const startDate = new Date(start);
 
-  const date = startDate.toISOString().split("T")[0]; // YYYY-MM-DD
+
+  const date = startDate.toISOString().split('T')[0]; // YYYY-MM-DD
 
   return `${date}`;
 }
@@ -40,7 +41,7 @@ export default function DemoPage() {
       // Format start_datetime and end_datetime, and reverse the data array
       const formattedData = response.data.map((item: Information) => ({
         ...item,
-        start_datetime: formatDatetime(item.start_datetime),
+        start_datetime: formatDatetime(item.start_datetime)
       }));
 
       setInformation(formattedData);
@@ -73,3 +74,4 @@ export default function DemoPage() {
     </>
   );
 }
+
