@@ -70,32 +70,6 @@ export function MyChartComponents({
     fetchData();
   }, [startDate, endDate]);
 
-};
-
-interface MyChartComponentsProps {
-  startDate: Date | null;
-  endDate: Date | null;
-}
-
-export function MyChartComponents({
-  startDate,
-  endDate,
-}: MyChartComponentsProps) {
-  const [chartData, setChartData] = useState<Major[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (startDate && endDate) {
-        const data = await graphmajor(
-          startDate.toISOString().split("T")[0],
-          endDate.toISOString().split("T")[0]
-        );
-        setChartData(data);
-      }
-    };
-    fetchData();
-  }, [startDate, endDate]);
-
   return (
     <div className="grid grid-cols-2 gap-10">
       <Card>

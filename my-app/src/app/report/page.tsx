@@ -1,19 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import React, { useState, useEffect, useRef } from "react";
 import { MyChartComponents } from "./MyChartComponent";
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MyChartComponentsList } from "./MyChartComponentList";
 import { ComponentDrawer } from "./Drawer";
-import { Navbar } from "../component/์Navbar";
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [startDate, setStartDate] = useState<Date | undefined>();
-  const [endDate, setEndDate] = useState<Date | undefined>();
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
 
@@ -22,7 +18,10 @@ export default function Page() {
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
       setIsOpen(false);
     }
   };
@@ -34,11 +33,195 @@ export default function Page() {
     };
   }, []);
 
-
   return (
     <>
       <div className="min-h-full">
-        <Navbar />
+        <nav className="bg-gray-800">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 items-center justify-between">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <img
+                    className="h-8 w-8"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                </div>
+                <div className="hidden md:block">
+                  <div className="ml-10 flex items-baseline space-x-4">
+                    <a
+                      href="/dashboard"
+                      className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                      aria-current="page"
+                    >
+                      Home
+                    </a>
+                    <a
+                      href="/register"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      Register
+                    </a>
+                    <a
+                      href="/appointment"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      Appointment
+                    </a>
+                    <a
+                      href="/artical"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      Artical
+                    </a>
+                    <a
+                      href="/report"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      Reports
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-4 flex items-center md:ml-6">
+                  <button
+                    type="button"
+                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <span className="sr-only">View notifications</span>
+                  </button>
+                  <div className="relative ml-3">
+                    <div>
+                      <Button
+                        className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        id="user-menu-button"
+                        aria-expanded={isOpen}
+                        aria-haspopup="true"
+                        onClick={toggleDropdown}
+                      >
+                        <span className="sr-only">Open user menu</span>
+                      </Button>
+                    </div>
+                    {/* {isOpen && (
+                      <div
+                        ref={dropdownRef}
+                        className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="user-menu-button"
+                        tabIndex={-1}
+                      >
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700"
+                          role="menuitem"
+                          tabIndex={-1}
+                          id="user-menu-item-0"
+                        >
+                          Your Profile
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700"
+                          role="menuitem"
+                          tabIndex={-1}
+                          id="user-menu-item-1"
+                        >
+                          Settings
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700"
+                          role="menuitem"
+                          tabIndex={-1}
+                          id="user-menu-item-2"
+                        >
+                          Sign out
+                        </a>
+                      </div>
+                    )} */}
+                  </div>
+                </div>
+              </div>
+              <div className="-mr-2 flex md:hidden">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  aria-controls="mobile-menu"
+                  aria-expanded="false"
+                >
+                  <span className="sr-only">Open main menu</span>
+                  <svg
+                    className="block h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16m-7 6h7"
+                    />
+                  </svg>
+                  <svg
+                    className="hidden h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="md:hidden" id="mobile-menu">
+            <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+              <a
+                href="/dashboard"
+                className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+                aria-current="page"
+              >
+                Home
+              </a>
+              <a
+                href="/register"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
+                Register
+              </a>
+              <a
+                href="/appointment"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
+                Appointment
+              </a>
+              <a
+                href="/artical"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
+                Artical
+              </a>
+              <a
+                href="/report"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
+                Reports
+              </a>
+            </div>
+          </div>
+        </nav>
         <div className="py-10">
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -48,7 +231,7 @@ export default function Page() {
             </div>
           </header>
           <main>
-            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5">
+            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               <div className="flex justify-center">
                 <div className="flex flex-wrap gap-4">
                   <StartDatePicker
@@ -171,7 +354,7 @@ export default function Page() {
                   <Button> เลือก </Button>
                 </div>
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 mt-5">
+              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
                 <MyChartComponents
                   startDate={startDate ?? null}
                   endDate={endDate ?? null}
@@ -184,9 +367,6 @@ export default function Page() {
                 />
               </div> */}
             </div>
-            <ComponentDrawer />
-          </main>
-        </div>
             <ComponentDrawer />
           </main>
         </div>
