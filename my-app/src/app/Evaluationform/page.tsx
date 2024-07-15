@@ -32,7 +32,7 @@ const Page: React.FC<Props> = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-start mt-10 mx-10">
+      <div className="flex justify-start mt-10 mx-10 mb-10">
         {/* Right block */}
         <Card
           className="hidden sm:flex max-w-lg items-center"
@@ -40,13 +40,12 @@ const Page: React.FC<Props> = () => {
             <Image width={500} height={500} src="/1.jpg" alt="image 1" />
           )}
         >
-          <div className="w-3/4">
+          <div className="w-2.5/4">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
+              แบบประเมินตนเอง
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order.
+              เพื่อทดสอบว่าช่วงนี้สภาพเราเป็นยังไงบ้าง สามารถทำแบบประเมินได้ตลอดเวลา
             </p>
           </div>
         </Card>

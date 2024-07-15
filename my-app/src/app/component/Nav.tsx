@@ -71,13 +71,7 @@ export function Nav() {
                     <Navbar.Link href="/article">บทความ</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-<<<<<<< HEAD
                     <Navbar.Link href="/accessCode">สร้าง ID สำหรับผู้รับบริการใหม่</Navbar.Link>
-=======
-                    <Navbar.Link href="/accessCode">
-                      สร้างรหัสสำหรับผู้รับบริการใหม่
-                    </Navbar.Link>
->>>>>>> origin/mhog-dev
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/List">รายการ</Navbar.Link>
