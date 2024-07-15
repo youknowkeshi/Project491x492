@@ -56,31 +56,31 @@ export function Nav() {
             {isLoggedIn ? (
               <>
                 <Navbar.Link href="/dashboard" active>
-                  Home
+                  หน้าหลัก
                 </Navbar.Link>
                 <Navbar.Link as={Link} href="/register">
-                  Register
+                  ลงทะเบียนครั้งแรก
                 </Navbar.Link>
-                <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-                <Navbar.Link href="/profile">Profile</Navbar.Link>
+                <Navbar.Link href="/appointment">จองห้องให้คำปรึกษา</Navbar.Link>
+                <Navbar.Link href="/profile">ข้อมูลผู้ใช้งาน</Navbar.Link>
                 <Dropdown label="Dropdown" inline>
                   <Dropdown.Item>
-                    <Navbar.Link href="/Evaluationform">Evaluation</Navbar.Link>
+                    <Navbar.Link href="/Evaluationform">แบบประเมินตนเอง</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/article">Article</Navbar.Link>
+                    <Navbar.Link href="/article">บทความ</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/accessCode">สร้างรหัสสำหรับผู้รับบริการใหม่</Navbar.Link>
+                    <Navbar.Link href="/accessCode">สร้าง ID สำหรับผู้รับบริการใหม่</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/List">List</Navbar.Link>
+                    <Navbar.Link href="/List">รายการ</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link href="/UserInfomation">UserInfo</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Navbar.Link href="/graph">graph</Navbar.Link>
+                    <Navbar.Link href="/graph">สร้างกราฟ</Navbar.Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
