@@ -203,7 +203,7 @@ export default function RegisterPage() {
             </h1>
           </div>
         </header>
-        <main className="bg-[#F7F9FB]">
+        <main className="bg-[#B9F3FC]">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="relative isolate px-6 pt-14 lg:px-8">
               <div
@@ -240,11 +240,11 @@ export default function RegisterPage() {
                     <div className="w-full lg:w-1/2 py-16 px-12">
                       <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
                       <p className="mb-4">
-                        Create your account. It’s free and only take a minute
+                        ลงทะเบียนสร้าง account เพื่อเข้ารับบริการ
                       </p>
                       <form action="#">
                         <div className="mb-1">
-                          <Label value="Fullname" />
+                          <Label value="ชื่อ-นามสกุล" />
                         </div>
                         <div>
                           <TextInput
@@ -256,10 +256,10 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5 grid grid-cols-2 gap-5">
                           <div className="">
-                            <Label value="Phone" />
+                            <Label value="เบอร์โทรศัพท์" />
                           </div>
                           <div className="">
-                            <Label value="StudentID" />
+                            <Label value="รหัสนักศึกษา" />
                           </div>
                         </div>
 
@@ -281,7 +281,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="max-w-md mt-5">
                           <div className="mb-1 block">
-                            <Label htmlFor="Major" value="Major" />
+                            <Label htmlFor="Major" value="เมเจอร์" />
                           </div>
                           <Select
                             id="Major"
@@ -317,11 +317,11 @@ export default function RegisterPage() {
 
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="Facebook Profile" />
+                            <Label value="โปรไฟล์ Facebook" />
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder="https://www.facebook.com/parinya.mungrod"
+                            placeholder=" เช่น https://www.facebook.com/entaneer"
                             required
                             color="gray"
                             value={facebookurl}
@@ -330,7 +330,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="Access Code" />
+                            <Label value="รหัสเข้ารับบริการ" />
                           </div>
                           <TextInput
                             id="input-gray"
@@ -343,7 +343,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="Gender" />
+                            <Label value="เพศ" />
                           </div>
                           <Select
                             id="gender"
@@ -359,7 +359,7 @@ export default function RegisterPage() {
 
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="GradeLevel" />
+                            <Label value="ชั้นปีที่ศึกษา" />
                           </div>
                           <Select
                             id="gradeLevel"
