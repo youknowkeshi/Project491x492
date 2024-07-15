@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { access } from "fs";
 import { Navbar } from "../component/์Navbar";
+import { Foot } from "../component/Footer";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -192,287 +193,285 @@ export default function RegisterPage() {
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Register
-          </h1>
-        </div>
-      </header>
-      <main>
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="relative isolate px-6 pt-14 lg:px-8">
-            <div
-              className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-              aria-hidden="true"
-            >
-              {/* <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] clip-custom"></div> */}
-            </div>
-            <div
-              className="min-h-screen py-20  rounded-md"
-               style={{
-                 backgroundImage: "linear-gradient(115deg, #B9F3FC,#F3F8FF,#F9F9F9)",
-               }}
-            >
-              <div className="container mx-auto">
-                <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-                  <div
-                    className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-                    }}
-                  >
-                    <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
-                    <div>
-                      <p className="text-purple">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Aenean suspendisse aliquam varius rutrum purus maecenas
-                        ac{" "}
-                        <a
-                          href="https://www.facebook.com/messages/t/100395738521698"
-                          className="text-#4F6F52 font-semibold text-[#B9F3FC]"
-                        >
-                          click
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-1/2 py-16 px-12">
-                    <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
-                    <p className="mb-4">
-                      Create your account. It’s free and only take a minute
-                    </p>
-                    <form action="#">
-                      <div className="mb-1">
-                        <Label value="Fullname" />
-                      </div>
+    <>
+      <div>
+        <Navbar />
+        <header className="bg-white shadow">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Register
+            </h1>
+          </div>
+        </header>
+        <main className="bg-[#F7F9FB]">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div className="relative isolate px-6 pt-14 lg:px-8">
+              <div
+                className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                aria-hidden="true"
+              >
+                {/* <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] clip-custom"></div> */}
+              </div>
+              <div>
+                <div className="container mx-auto">
+                  <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
+                    <div
+                      className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
+                      style={{
+                        backgroundImage:
+                          "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                      }}
+                    >
+                      <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
                       <div>
-                        <TextInput
-                          id="input-gray"
-                          color="gray"
-                          placeholder={fullName}
-                          disabled
-                        />
-                      </div>
-                      <div className="mt-5 grid grid-cols-2 gap-5">
-                        <div className="">
-                          <Label value="Phone" />
-                        </div>
-                        <div className="">
-                          <Label value="StudentID" />
-                        </div>
-                      </div>
-
-                      <div className="mb-1 grid grid-cols-2 gap-5">
-                        <TextInput
-                          id="input-gray"
-                          placeholder="091-345xxxx"
-                          required
-                          color="gray"
-                          value={phone}
-                          onChange={handlePhoneChange}
-                        />
-                        <TextInput
-                          id="input-gray"
-                          placeholder={studentId}
-                          disabled
-                          color="gray"
-                        />
-                      </div>
-                      <div className="max-w-md mt-5">
-                        <div className="mb-1 block">
-                          <Label htmlFor="Major" value="Major" />
-                        </div>
-                        <Select
-                          id="Major"
-                          required
-                          onChange={handleMajorChange}
-                        >
-                          <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
-                          <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
-                          <option value="วิศวกรรมเครื่องกล">
-                            วิศวกรรมเครื่องกล
-                          </option>
-                          <option value="วิศวกรรมสิ่งแวดล้อม">
-                            วิศวกรรมสิ่งแวดล้อม
-                          </option>
-                          <option value="วิศวกรรมอุตสาหการ">
-                            วิศวกรรมอุตสาหการ
-                          </option>
-                          <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">
-                            วิศวกรรมเหมืองแร่และปิโตรเลียม
-                          </option>
-                          <option value="วิศวกรรมคอมพิวเตอร์">
-                            วิศวกรรมคอมพิวเตอร์
-                          </option>
-                          <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">
-                            วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์
-                          </option>
-                          <option value="วิศวกรรมบูรณาการ">
-                            วิศวกรรมบูรณาการ
-                          </option>
-                          <option value="อื่นๆ">อื่นๆ</option>
-                        </Select>
-                      </div>
-
-                      <div className="mt-5">
-                        <div className="mb-1 block">
-                          <Label value="Facebook Profile" />
-                        </div>
-                        <TextInput
-                          id="input-gray"
-                          placeholder="https://www.facebook.com/parinya.mungrod"
-                          required
-                          color="gray"
-                          value={facebookurl}
-                          onChange={handleFacebookUrlChange}
-                        />
-                      </div>
-                      <div className="mt-5">
-                        <div className="mb-1 block">
-                          <Label value="Access Code" />
-                        </div>
-                        <TextInput
-                          id="input-gray"
-                          placeholder="Get the code from the psychiatrist"
-                          required
-                          color="gray"
-                          value={Id}
-                          onChange={handleIdChange}
-                        />
-                      </div>
-                      <div className="mt-5">
-                        <div className="mb-1 block">
-                          <Label value="Gender" />
-                        </div>
-                        <Select
-                          id="gender"
-                          required
-                          onChange={handleGenderChange}
-                        >
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="LGBTQ+">LGBTQ+</option>
-                          <option value="Not specified">Not specified</option>
-                        </Select>
-                      </div>
-
-                      <div className="mt-5">
-                        <div className="mb-1 block">
-                          <Label value="GradeLevel" />
-                        </div>
-                        <Select
-                          id="gradeLevel"
-                          required
-                          onChange={handleGradeLevelChange}
-                        >
-                          <option value="ชั้นปี 1">ชั้นปี 1</option>
-                          <option value="ชั้นปี 2">ชั้นปี 2</option>
-                          <option value="ชั้นปี 3">ชั้นปี 3</option>
-                          <option value="ชั้นปี 4">ชั้นปี 4</option>
-                          <option value="มากกว่าชั้นปี 4">
-                            มากกว่าชั้นปี 4
-                          </option>
-                          <option value="ป.โท">ป.โท</option>
-                          <option value="ป.เอก">ป.เอก</option>
-                          <option value="อาจารย์">อาจารย์</option>
-                          <option value="บุคลากร">บุคลากร</option>
-                          <option value="ผู้ปกครอง">ผู้ปกครอง</option>
-                          <option value="อื่นๆ">อื่นๆ</option>
-                        </Select>
-                      </div>
-
-                      <div className="mt-5">
-                        <input
-                          type="checkbox"
-                          className="border border-gray-400"
-                        />
-                        <span className="ml-3">
-                          I accept the{" "}
-                          <a className="text-[#B9F3FC] font-semibold">
-                            Terms of Use
-                          </a>{" "}
-                          &{" "}
-                          <a className="text-[#B9F3FC] font-semibold">
-                            Privacy Policy
+                        <p className="text-purple">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Aenean suspendisse aliquam varius rutrum purus
+                          maecenas ac{" "}
+                          <a
+                            href="https://www.facebook.com/messages/t/100395738521698"
+                            className="text-#4F6F52 font-semibold text-[#B9F3FC]"
+                          >
+                            click
                           </a>
-                        </span>
+                        </p>
                       </div>
-                      <div className="mt-5">
-                        <button
-                          className="w-full bg-[#B9F3FC] py-3 text-center text-white"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleSaveData();
-                          }}
-                        >
-                          Register Now
-                        </button>
+                    </div>
+                    <div className="w-full lg:w-1/2 py-16 px-12">
+                      <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
+                      <p className="mb-4">
+                        Create your account. It’s free and only take a minute
+                      </p>
+                      <form action="#">
+                        <div className="mb-1">
+                          <Label value="Fullname" />
+                        </div>
+                        <div>
+                          <TextInput
+                            id="input-gray"
+                            color="gray"
+                            placeholder={fullName}
+                            disabled
+                          />
+                        </div>
+                        <div className="mt-5 grid grid-cols-2 gap-5">
+                          <div className="">
+                            <Label value="Phone" />
+                          </div>
+                          <div className="">
+                            <Label value="StudentID" />
+                          </div>
+                        </div>
 
-                        {/* Condition for registered */}
+                        <div className="mb-1 grid grid-cols-2 gap-5">
+                          <TextInput
+                            id="input-gray"
+                            placeholder="091-345xxxx"
+                            required
+                            color="gray"
+                            value={phone}
+                            onChange={handlePhoneChange}
+                          />
+                          <TextInput
+                            id="input-gray"
+                            placeholder={studentId}
+                            disabled
+                            color="gray"
+                          />
+                        </div>
+                        <div className="max-w-md mt-5">
+                          <div className="mb-1 block">
+                            <Label htmlFor="Major" value="Major" />
+                          </div>
+                          <Select
+                            id="Major"
+                            required
+                            onChange={handleMajorChange}
+                          >
+                            <option value="วิศวกรรมโยธา">วิศวกรรมโยธา</option>
+                            <option value="วิศวกรรมไฟฟ้า">วิศวกรรมไฟฟ้า</option>
+                            <option value="วิศวกรรมเครื่องกล">
+                              วิศวกรรมเครื่องกล
+                            </option>
+                            <option value="วิศวกรรมสิ่งแวดล้อม">
+                              วิศวกรรมสิ่งแวดล้อม
+                            </option>
+                            <option value="วิศวกรรมอุตสาหการ">
+                              วิศวกรรมอุตสาหการ
+                            </option>
+                            <option value="วิศวกรรมเหมืองแร่และปิโตรเลียม">
+                              วิศวกรรมเหมืองแร่และปิโตรเลียม
+                            </option>
+                            <option value="วิศวกรรมคอมพิวเตอร์">
+                              วิศวกรรมคอมพิวเตอร์
+                            </option>
+                            <option value="วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์">
+                              วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์
+                            </option>
+                            <option value="วิศวกรรมบูรณาการ">
+                              วิศวกรรมบูรณาการ
+                            </option>
+                            <option value="อื่นๆ">อื่นๆ</option>
+                          </Select>
+                        </div>
 
-                        <Modal
-                          dismissible
-                          show={!!showModal}
-                          onClose={handleClose}
-                        >
-                          <Modal.Body>
-                            <div className="space-y-6">
-                              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                คุณได้ทำการลงทะเบียนเเล้ว
-                              </p>
-                            </div>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              gradientMonochrome="failure"
-                              onClick={handleClose}
-                            >
-                              Close
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
+                        <div className="mt-5">
+                          <div className="mb-1 block">
+                            <Label value="Facebook Profile" />
+                          </div>
+                          <TextInput
+                            id="input-gray"
+                            placeholder="https://www.facebook.com/parinya.mungrod"
+                            required
+                            color="gray"
+                            value={facebookurl}
+                            onChange={handleFacebookUrlChange}
+                          />
+                        </div>
+                        <div className="mt-5">
+                          <div className="mb-1 block">
+                            <Label value="Access Code" />
+                          </div>
+                          <TextInput
+                            id="input-gray"
+                            placeholder="Get the code from the psychiatrist"
+                            required
+                            color="gray"
+                            value={Id}
+                            onChange={handleIdChange}
+                          />
+                        </div>
+                        <div className="mt-5">
+                          <div className="mb-1 block">
+                            <Label value="Gender" />
+                          </div>
+                          <Select
+                            id="gender"
+                            required
+                            onChange={handleGenderChange}
+                          >
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="LGBTQ+">LGBTQ+</option>
+                            <option value="Not specified">Not specified</option>
+                          </Select>
+                        </div>
 
-                        {/* Condition for request access code */}
-                        <Modal
-                          dismissible
-                          show={!!showModalAccessCode}
-                          onClose={handleCloseAccessCode}
-                        >
-                          <Modal.Body>
-                            <div className="space-y-6">
-                              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                คุณต้องขอรหัสเพื่อลงทะเบียนครั้งแรก
-                              </p>
-                            </div>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              gradientMonochrome="failure"
-                              onClick={handleCloseAccessCode}
-                            >
-                              Close
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </div>
-                    </form>
+                        <div className="mt-5">
+                          <div className="mb-1 block">
+                            <Label value="GradeLevel" />
+                          </div>
+                          <Select
+                            id="gradeLevel"
+                            required
+                            onChange={handleGradeLevelChange}
+                          >
+                            <option value="ชั้นปี 1">ชั้นปี 1</option>
+                            <option value="ชั้นปี 2">ชั้นปี 2</option>
+                            <option value="ชั้นปี 3">ชั้นปี 3</option>
+                            <option value="ชั้นปี 4">ชั้นปี 4</option>
+                            <option value="มากกว่าชั้นปี 4">
+                              มากกว่าชั้นปี 4
+                            </option>
+                            <option value="ป.โท">ป.โท</option>
+                            <option value="ป.เอก">ป.เอก</option>
+                            <option value="อาจารย์">อาจารย์</option>
+                            <option value="บุคลากร">บุคลากร</option>
+                            <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+                            <option value="อื่นๆ">อื่นๆ</option>
+                          </Select>
+                        </div>
+
+                        <div className="mt-5">
+                          <input
+                            type="checkbox"
+                            className="border border-gray-400"
+                          />
+                          <span className="ml-3">
+                            I accept the{" "}
+                            <a className="text-[#B9F3FC] font-semibold">
+                              Terms of Use
+                            </a>{" "}
+                            &{" "}
+                            <a className="text-[#B9F3FC] font-semibold">
+                              Privacy Policy
+                            </a>
+                          </span>
+                        </div>
+                        <div className="mt-5">
+                          <button
+                            className="w-full bg-[#B9F3FC] py-3 text-center text-white"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleSaveData();
+                            }}
+                          >
+                            Register Now
+                          </button>
+
+                          {/* Condition for registered */}
+
+                          <Modal
+                            dismissible
+                            show={!!showModal}
+                            onClose={handleClose}
+                          >
+                            <Modal.Body>
+                              <div className="space-y-6">
+                                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                  คุณได้ทำการลงทะเบียนเเล้ว
+                                </p>
+                              </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                gradientMonochrome="failure"
+                                onClick={handleClose}
+                              >
+                                Close
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+
+                          {/* Condition for request access code */}
+                          <Modal
+                            dismissible
+                            show={!!showModalAccessCode}
+                            onClose={handleCloseAccessCode}
+                          >
+                            <Modal.Body>
+                              <div className="space-y-6">
+                                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                  คุณต้องขอรหัสเพื่อลงทะเบียนครั้งแรก
+                                </p>
+                              </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                gradientMonochrome="failure"
+                                onClick={handleCloseAccessCode}
+                              >
+                                Close
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-              aria-hidden="true"
-            >
-              {/* <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] clip-custom"></div> */}
+              <div
+                className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                aria-hidden="true"
+              >
+                {/* <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] clip-custom"></div> */}
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+      <Foot />
+    </>
   );
 }

@@ -12,12 +12,12 @@ export default function DashBoard({}: Props) {
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <header className="bg-white">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
               Home
             </h1>
           </div>
         </header>
-        <main className="bg-[#f2f3f5]">
+        <main className="bg-[#F7F9FB]">
           <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
             <div className="relative isolate px-6 pt-14 lg:px-8">
               <div
@@ -32,7 +32,7 @@ export default function DashBoard({}: Props) {
                     ติดต่อสอบถามเพิ่มเติม.{" "}
                     <a
                       href="https://www.facebook.com/EntaneerMindFriendCMU"
-                      className="font-semibold text-[#4338ca]"
+                      className="font-semibold text-[#8FC1E3]"
                     >
                       <span
                         className="absolute inset-0"
@@ -44,7 +44,7 @@ export default function DashBoard({}: Props) {
                   </div>
                 </div>
                 <div className="text-center">
-                  <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                  <h1 className="text-4xl font-bold tracking-tight text-[#8FC1E3] sm:text-6xl">
                     Entaneer Mind Friend
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -57,7 +57,7 @@ export default function DashBoard({}: Props) {
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a
                       href="/register"
-                      className="rounded-md bg-[#5044e4] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                       ลงทะเบียน
                     </a>

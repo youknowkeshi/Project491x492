@@ -44,7 +44,7 @@ export function Navbar() {
 
   return (
     <div>
-      <nav className="bg-[#5044e4]">
+      <nav className="bg-[#bbd9ee]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -61,32 +61,32 @@ export function Navbar() {
                     <>
                       <a
                         href="/dashboard"
-                        className="rounded-md bg-[#4338ca] px-3 py-2 text-sm font-medium text-white"
+                        className="rounded-md bg-[#8FC1E3] px-3 py-2 text-sm font-medium text-white"
                         aria-current="page"
                       >
                         หน้าแรก
                       </a>
                       <a
                         href="/register"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#4338ca] hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                       >
                         ลงทะเบียน
                       </a>
                       <a
                         href="/appointment"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#4338ca] hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                       >
                         จองคิว
                       </a>
                       <a
                         href="/report"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#4338ca] hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                       >
                         รายงานประจำเดือน
                       </a>
                       <a
                         href="/List"
-                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#4338ca] hover:text-white"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                       >
                         รายการนัด
                       </a>
@@ -94,7 +94,7 @@ export function Navbar() {
                   ) : (
                     <a
                       href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-                      className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#4338ca] hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                     >
                       Login
                     </a>
@@ -106,7 +106,7 @@ export function Navbar() {
               <div className="ml-4 flex items-center md:ml-6">
                 <button
                   type="button"
-                  className="relative rounded-full bg-[#5044e4] p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-full bg-[#1B9CB5] p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5"></span>
                   <span className="sr-only">View notifications</span>
@@ -189,7 +189,7 @@ export function Navbar() {
             <div className="-mr-2 flex md:hidden">
               <button
                 type="button"
-                className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-[#4338ca] hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="relative inline-flex items-center justify-center rounded-md bg[-gray-800] p-2 text-gray-400 hover:bg-[#8FC1E3] hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
@@ -232,38 +232,38 @@ export function Navbar() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/dashboard"
-              className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+              className="block rounded-md bg-[#8FC1E3] px-3 py-2 text-base font-medium text-white"
               aria-current="page"
             >
               หน้าแรก
             </a>
             <a
               href="/register"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#4338ca] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               ลงทะเบียน
             </a>
             <a
               href="/appointment"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#4338ca] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               จองคิว
             </a>
             <a
               href="/artical"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#4338ca] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               Artical
             </a>
             <a
               href="/report"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#4338ca] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               รายงานประจำเดือน
             </a>
             <a
               href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#4338ca] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               Login
             </a>
@@ -310,19 +310,19 @@ export function Navbar() {
             <div className="mt-3 space-y-1 px-2">
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#4338ca] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#8FC1E3] hover:text-white"
               >
                 Your Profile
               </a>
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#4338ca] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#8FC1E3] hover:text-white"
               >
                 Settings
               </a>
               <a
                 href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#4338ca] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-[#8FC1E3] hover:text-white"
               >
                 Sign out
               </a>
