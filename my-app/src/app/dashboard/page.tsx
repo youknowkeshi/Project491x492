@@ -57,7 +57,7 @@ export default function DashBoard({}: Props) {
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a
                       href="/register"
-                      className="rounded-md bg-[#4338ca] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#fad5d6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-[#5044e4] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                       ลงทะเบียน
                     </a>
