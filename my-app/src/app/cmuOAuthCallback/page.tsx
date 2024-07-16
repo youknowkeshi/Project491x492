@@ -68,7 +68,7 @@ export default function CMUOAuthCallback() {
                 home();
               } else {
                 axios
-                  .get("http://localhost:3000/api/checkdata")
+                  .get("/api/checkdata")
                   .then((response) => {
                     console.log(response.data);
 
@@ -119,7 +119,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      await axios.post("http://localhost:3000/api/users", {
+      await axios.post("/api/users", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,
@@ -139,7 +139,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      axios.post("http://localhost:3000/api/admin", {
+      axios.post("/api/admin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,

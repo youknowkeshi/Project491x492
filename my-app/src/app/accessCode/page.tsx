@@ -27,7 +27,7 @@ export default function MePage() {
   };
 
   async function addAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "/api/accesscode/auto-delete";
     try {
       await axios.post(apiUrl, { accesscode });
     } catch (error) {
@@ -36,7 +36,7 @@ export default function MePage() {
   }
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "/api/accesscode/auto-delete";
     try {
       await axios.delete(apiUrl);
     } catch (error) {

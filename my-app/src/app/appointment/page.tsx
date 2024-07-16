@@ -20,7 +20,7 @@ type Props = {};
 
 export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
 
     try {
       await axios.post(apiUrl);
@@ -33,7 +33,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
 
     try {
       await axios.delete(apiUrl);
@@ -43,7 +43,7 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "http://localhost:3000/api/events2";
+    const apiUrl = "/api/events2";
 
     try {
       await axios.post(apiUrl);
@@ -56,7 +56,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "http://localhost:3000/api/events2";
+    const apiUrl = "/api/events2";
 
     try {
       await axios.delete(apiUrl);

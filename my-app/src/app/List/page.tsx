@@ -34,7 +34,7 @@ export default function Page({ }: Props) {
   const [pastDetail, setPastDetail] = useState("")
 
   async function informationUser(selectedDate: Date) {
-    const apiUrl = "http://localhost:3000/api/informationusers";
+    const apiUrl = "/api/informationusers";
     try {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
@@ -46,7 +46,7 @@ export default function Page({ }: Props) {
   }
 
   async function detailUser(studentid: string, selectdete: string) {
-    const apiUrl = "http://localhost:3000/api/informationusers";
+    const apiUrl = "/api/informationusers";
     try {
       const response = await axios.put<details[]>(apiUrl, {
         studentid

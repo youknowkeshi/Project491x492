@@ -53,7 +53,7 @@ export default function RegisterPage() {
     gradelevel: string
   ) {
     try {
-      const response = await axios.put("http://localhost:3000/api/register", {
+      const response = await axios.put("/api/register", {
         personid,
         phone,
         major,
@@ -79,7 +79,7 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register";
+    const apiUrl = "/api/register";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -150,7 +150,7 @@ export default function RegisterPage() {
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "/api/accesscode/auto-delete";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -159,7 +159,7 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete";
+    const apiUrl = "/api/accesscode/manual-delete";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -168,7 +168,7 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "/api/accesscode/auto-delete";
     try {
       const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.res ? response.data.res.length : 0;

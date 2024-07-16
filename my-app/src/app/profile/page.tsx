@@ -10,7 +10,7 @@ function Profile() {
   const [events, setEvents] = useState([]);
 
   const fetchEvents = async () => {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
 
     try {
       const response = await axios.post(apiUrl);

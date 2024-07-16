@@ -23,7 +23,7 @@ function BookingList() {
   const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
 
   const fetchEvents = async () => {
-    const apiUrl = 'http://localhost:3000/api/events';
+    const apiUrl = '/api/events';
     try {
       await axios.post(apiUrl);
     } catch (error) {
@@ -32,7 +32,7 @@ function BookingList() {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = 'http://localhost:3000/api/events2';
+    const apiUrl = '/api/events2';
     try {
       await axios.post(apiUrl);
     } catch (error) {
@@ -54,14 +54,14 @@ function BookingList() {
   };
 
   const getPersonId = () => {
-    axios.get('http://localhost:3000/api/checkdata')
+    axios.get('/api/checkdata')
       .then(response => setPersonId(response.data.temp.studentid))
       .catch(error => console.log("getPersonId failed: ", error));
   };
 
   const appointment = async (studentid: string) => {
     try {
-      const response = await axios.put('http://localhost:3000/api/appointment', { studentid });
+      const response = await axios.put('/api/appointment', { studentid });
       console.log("Appointment data from API 1:", response.data);
       setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
     } catch (error) {
@@ -71,7 +71,7 @@ function BookingList() {
 
   const appointment2 = async (studentid: string) => {
     try {
-      const response = await axios.put('http://localhost:3000/api/appointment2', { studentid });
+      const response = await axios.put('/api/appointment2', { studentid });
       console.log("Appointment data from API 2:", response.data);
       setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
     } catch (error) {
@@ -80,7 +80,7 @@ function BookingList() {
   };
 
   async function DeleteEvents(event_id: string) {
-    const apiUrl = "http://localhost:3000/api/conseling_room1";
+    const apiUrl = "/api/conseling_room1";
     try {
       await axios.delete(apiUrl, {
         data: { event_id }
@@ -92,7 +92,7 @@ function BookingList() {
   }
 
   async function DeleteEvents2(event_id: string) {
-    const apiUrl = "http://localhost:3000/api/conseling_room2";
+    const apiUrl = "/api/conseling_room2";
     try {
       await axios.delete(apiUrl, {
         data: { event_id }
@@ -104,7 +104,7 @@ function BookingList() {
   }
 
   async function DeleteEventsCalendar(event_id: string) {
-    const apiUrl = "http://localhost:3000/api/createevents";
+    const apiUrl = "/api/createevents";
     try {
       await axios.put(apiUrl, {
         event_id 
@@ -116,7 +116,7 @@ function BookingList() {
   }
   
   async function DeleteEventsCalendar2(event_id: string) {
-    const apiUrl = "http://localhost:3000/api/createevents2";
+    const apiUrl = "/api/createevents2";
     try {
       await axios.put(apiUrl, {
         event_id 
@@ -128,7 +128,7 @@ function BookingList() {
   }
 
   async function GetEventIdCalendar(start_datetime: string, end_datetime: string) {
-    const apiUrl = "http://localhost:3000/api/admin_conselling_room2";
+    const apiUrl = "/api/admin_conselling_room2";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id;
@@ -141,7 +141,7 @@ function BookingList() {
   }
 
   async function GetEventIdCalendar2(start_datetime: string, end_datetime: string) {
-    const apiUrl = "http://localhost:3000/api/admin_conselling_room2";
+    const apiUrl = "/api/admin_conselling_room2";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id;
