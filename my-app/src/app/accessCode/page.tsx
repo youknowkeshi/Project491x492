@@ -57,9 +57,9 @@ export default function MePage() {
 
   return (
     <>
-      <Nav />
+      <Navbar />
       <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
-        <div className="grid shadow-lg shadow-indigo-500/40 border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
+        <div className="grid shadow-xl shadow-indigo-500/40 border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
           <p className="text-lg font-semibold mb-4">
             หน้านี้สำหรับการสร้าง ID ผู้เข้ารับบริการครั้งแรก
           </p>
