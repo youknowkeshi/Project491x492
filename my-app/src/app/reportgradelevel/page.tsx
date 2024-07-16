@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { MyChartComponents } from "./MyChartComponent";
+
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MyChartComponentsList } from "../reportchecklist/MyChartComponentList";
+import { MyChartComponentgradelevel } from "./MyChartComponentgradelevel";
 import { ComponentDrawer } from "../component/Drawer";
 import { Navbar } from "../component/์Navbar";
+import {MyChartComponentbachelordegre} from "./MyChartComponentgradelevel"
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +43,7 @@ export default function Page() {
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-                กราฟแสดงจำนวนผู้รับบริการแต่ละสาขา
+                กราฟแสดงจำนวนผู้รับบริการแต่ละชั้นปี
               </h1>
             </div>
           </header>
@@ -64,7 +65,7 @@ export default function Page() {
                       variant={"outline"}
                       type="button"
                     >
-                      เลือกภาควิชา
+                      เลือกชั้นปี
                       <svg
                         className="w-2.5 h-2.5 ms-2.5"
                         aria-hidden="true"
@@ -170,13 +171,18 @@ export default function Page() {
                   <Button className="bg-[#5044e4]"> เลือก </Button>
                 </div>
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 mt-1">
-                <MyChartComponents
+              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                <MyChartComponentgradelevel
                   startDate={startDate ?? null}
                   endDate={endDate ?? null}
                 />
               </div>
-
+              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                <MyChartComponentbachelordegre
+                  startDate={startDate ?? null}
+                  endDate={endDate ?? null}
+                />
+              </div>
             </div>
             <ComponentDrawer />
           </main>

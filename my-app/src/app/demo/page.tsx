@@ -13,7 +13,7 @@ import {
     Select,
     Modal,
 } from "flowbite-react";
-import {ComponentDrawer} from "../report/Drawer"
+import {ComponentDrawer} from "../component/Drawer"
 
 
 

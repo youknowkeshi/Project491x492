@@ -7,19 +7,24 @@ import { message } from "antd";
 export async function PUT(req: NextRequest) {
     try {
         const request = await req.json();
-        const { date, topic } = request;
+        const { startdate, enddate } = request;
+        
 
-        if (!date || !topic) {
+        if (!startdate || !enddate) {
             return NextResponse.json({ message: "Request not found" }, { status: 400 });
         }
+      
+        
 
         const text = `
-            SELECT COUNT(click) AS click_count
+           SELECT topic, COUNT(click) AS click_count
             FROM clicksevaluationform cf
-            WHERE cf.topic = $1 AND cf.datestimestamp LIKE $2;
+            WHERE datestimestamp BETWEEN $1 AND $2
+            GROUP BY topic;
         `;
 
-        const values = [topic, `${date}%`];
+        const values = [startdate, enddate];
+        
         const client = await pool.connect();
         try {
             const res = await client.query(text, values);
@@ -28,7 +33,7 @@ export async function PUT(req: NextRequest) {
                 return NextResponse.json({ message: 'clicksevaluationform not found' }, { status: 404 });
             }
 
-            return NextResponse.json(res.rows[0]);
+            return NextResponse.json(res.rows);
         } finally {
             client.release();
         }
