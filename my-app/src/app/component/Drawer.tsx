@@ -5,18 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import {
   HiChartPie,
-  HiClipboard,
-  HiCollection,
-  HiInformationCircle,
-  HiLogin,
-  HiPencil,
-  HiSearch,
-  HiShoppingBag,
-  HiUsers,
 } from "react-icons/hi";
 import { FaChartBar } from "react-icons/fa";
 import { MdOutlineChecklist } from "react-icons/md";
 import { PiStudent } from "react-icons/pi";
+import { FaWpforms } from "react-icons/fa6";
 
 export function ComponentDrawer() {
   const [isOpen, setIsOpen] = useState(true);
@@ -26,7 +19,7 @@ export function ComponentDrawer() {
   return (
     <>
       <div className="flex items-center justify-end mr-10">
-        <Button onClick={() => setIsOpen(true)}>Show Menu</Button>
+        <Button className="bg-[#5044e4]" onClick={() => setIsOpen(true)}>Show Menu</Button>
       </div>
       <Drawer backdrop={false} open={isOpen} onClose={handleClose}>
         <Drawer.Header title="รูปแบบของกราฟ" titleIcon={FaChartBar} />
@@ -40,22 +33,27 @@ export function ComponentDrawer() {
                 <form className="pb-3 md:hidden"></form>
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item href="/" icon={HiChartPie}>
+                    <Sidebar.Item href="/report" icon={HiChartPie}>
                       รูปแบบกราฟแสดงจำนวน
                       <br />
                       ผู้รับบริการแต่ละสาขา
                     </Sidebar.Item>
-                    <Sidebar.Item href="/e-commerce/products" icon={PiStudent}>
+                    <Sidebar.Item href="/reportgradelevel" icon={PiStudent}>
                       รูปแบบกราฟแสดงจำนวน
                       <br />
                       ผู้รับบริการแต่ละชั้นปี
                     </Sidebar.Item>
-                    <Sidebar.Item href="/users/list" icon={MdOutlineChecklist}>
+                    <Sidebar.Item href="/reportchecklist" icon={MdOutlineChecklist}>
                       รูปแบบกราฟแสดง
                       <br />
                       จำนวนผู้รับบริการแต่ละ
                       <br />
                       ชนิดของสุขภาพจิต
+                    </Sidebar.Item>
+                    <Sidebar.Item href="/reportevaluation" icon={FaWpforms}>
+                      จำนวนผู้ที่กดแบบประเมิน
+                     
+                      
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>

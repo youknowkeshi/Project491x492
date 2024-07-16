@@ -9,7 +9,6 @@ export async function PUT(req: NextRequest) {
         const request = await req.json();
         const { startdate, enddate } = request;
 
-        console.log(request);
 
         if (!startdate && !enddate) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
@@ -25,9 +24,6 @@ export async function PUT(req: NextRequest) {
         `;
 
         const values = [startdate, enddate]
-
-
-
 
         const client = await pool.connect();
         const result = await client.query(text, values); // Using parameterized query for security

@@ -20,7 +20,6 @@ export async function PUT(req: NextRequest) {
         `;
 
         const values = [startdate, enddate];
-
         const client = await pool.connect();
         const result = await client.query(text, values); // Using parameterized query for security
         client.release();

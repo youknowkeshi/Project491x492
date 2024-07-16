@@ -30,7 +30,7 @@ export function StartDatePicker({
           <Button
             variant={"outline"}
             className={cn(
-              "w-[160px] justify-start text-left font-normal",
+              "w-[140px] justify-start text-left font-normal",
               !startDate && "text-muted-foreground"
             )}
           >
@@ -56,7 +56,7 @@ export function StartDatePicker({
           <Button
             variant={"outline"}
             className={cn(
-              "w-[160px] justify-start text-left font-normal",
+              "w-[140px] justify-start text-left font-normal",
               !endDate && "text-muted-foreground"
             )}
             // Ensure margin-left only for endDate Button

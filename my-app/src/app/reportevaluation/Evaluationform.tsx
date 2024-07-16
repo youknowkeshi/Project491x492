@@ -17,13 +17,15 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-interface Major {
-    mental_health_checklist: string;
-    checklist_count: number;
+interface CheckList {
+    topic: string;
+    click_count: number;
 }
 
-async function graphmajor(startdate: string, enddate: string): Promise<Major[]> {
-    const apiUrl = `/api/graphmental_health_checklist`;
+async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
+    const apiUrl = `/api/clickevaluationform`;
+
+
 
     try {
         const response = await axios.put(apiUrl, {
@@ -32,7 +34,7 @@ async function graphmajor(startdate: string, enddate: string): Promise<Major[]> 
         });
         return response.data;
     } catch (error) {
-        console.error("Can't get graphmajor", error);
+        console.error("Can't get evaluationform", error);
         return [];
     }
 }
@@ -48,16 +50,16 @@ interface MyChartComponentsProps {
     endDate: Date | null;
 }
 
-export function MyChartComponentsList({
+export function Evaluationform({
     startDate,
     endDate,
 }: MyChartComponentsProps) {
-    const [chartData, setChartData] = useState<Major[]>([]);
+    const [chartData, setChartData] = useState<CheckList[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             if (startDate && endDate) {
-                const data = await graphmajor(
+                const data = await evaluationform(
                     startDate.toISOString().split("T")[0],
                     endDate.toISOString().split("T")[0]
                 );
@@ -71,7 +73,7 @@ export function MyChartComponentsList({
         <div className="grid grid-cols-2 gap-10">
             <Card>
                 <CardHeader>
-                    <CardTitle>Bar Chart - Multiple</CardTitle>
+                    <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
                     <CardDescription>
                         {startDate && endDate && (
                             <>
@@ -87,7 +89,7 @@ export function MyChartComponentsList({
                         <BarChart accessibilityLayer data={chartData}>
                             <CartesianGrid vertical={false} />
                             <XAxis
-                                dataKey="major"
+                                dataKey="topic"
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
@@ -97,29 +99,21 @@ export function MyChartComponentsList({
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
                             />
-                            <Bar dataKey="checklist_count" fill="var(--color-desktop)" radius={4} />
+                            <Bar dataKey="click_count" fill="var(--color-desktop)" radius={4} />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>
-                <CardFooter className="flex-col items-start gap-2 text-sm">
-                    <div className="flex gap-2 font-medium leading-none">
-                        Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                    </div>
-                    <div className="leading-none text-muted-foreground">
-                        Showing total visitors for the last 6 months
-                    </div>
-                </CardFooter>
             </Card>
-            <Card className="grid grid-rows-8 gap-1">
+            <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
                 <div className="ml-10 mt-10">
                     {chartData.length > 0 ? (
                         chartData.map((data, index) => (
                             <div key={index}>
-                                {data.mental_health_checklist}: {data.checklist_count}
+                                {data.topic}: {data.click_count}
                             </div>
                         ))
                     ) : (
-                        'Nothing'
+                        ''
                     )}
                 </div>
             </Card>

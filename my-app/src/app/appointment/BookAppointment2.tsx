@@ -392,7 +392,7 @@ function BookAppointment({ room }: { room: any }) {
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button
-                className="text-red-500 border-red-500"
+                className="text-red-500 border-red-500 hover:bg-[#ffffff]"
                 type="button"
                 variant="outline"
               >
