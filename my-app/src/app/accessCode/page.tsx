@@ -59,7 +59,7 @@ export default function MePage() {
     <>
       <Nav />
       <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
-        <div className="grid shadow border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
+        <div className="grid shadow-lg shadow-indigo-500/40 border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
           <p className="text-lg font-semibold mb-4">
             หน้านี้สำหรับการสร้าง ID ผู้เข้ารับบริการครั้งแรก
           </p>
@@ -67,7 +67,7 @@ export default function MePage() {
             <li>เมื่อผู้เข้ารับบริการขอ ID</li>
             <li>กดที่ generate เพื่อสร้าง ID</li>
             <li>
-              สามารถ copy ID ได้ที่ button ข้างล่าง ID ของผู้รับบริการใหม่
+              สามารถ copy ID ได้ที่ ปุ่ม ข้างล่าง ID ของผู้รับบริการใหม่
             </li>
           </ol>
         </div>
