@@ -216,7 +216,7 @@ export default function RegisterPage() {
                 <div className="container mx-auto">
                   <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
                     <div
-                      className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
+                      className="w-full lg:w-1/2 flex-col justify-center p-12 bg-no-repeat bg-cover bg-center hidden sm:flex max-w-lg items-center"
                       style={{
                         backgroundImage:
                           "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -224,10 +224,8 @@ export default function RegisterPage() {
                     >
                       <h1 className="text-[#6cd6e7] text-3xl mb-3">Welcome</h1>
                       <div>
-                        <p className="text-purple">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Aenean suspendisse aliquam varius rutrum purus
-                          maecenas ac{" "}
+                        <p className="text-purple ">
+                          ลงทะเบียนเพื่อเข้ารับบริการให้คำปรึกษาจากนักจิตวิทยา
                           <a
                             href="https://www.facebook.com/messages/t/100395738521698"
                             className="text-#4F6F52 font-semibold text-[#B9F3FC]"
