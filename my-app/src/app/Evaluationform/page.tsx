@@ -9,7 +9,6 @@ import { Navbar } from "../component/์Navbar";
 type Props = {};
 
 const Page: React.FC<Props> = () => {
-
   async function countevaluationform(topic: string) {
     const apiUrl = "/api/clickevaluationform";
     try {
@@ -40,7 +39,8 @@ const Page: React.FC<Props> = () => {
               แบบประเมินตนเอง
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
-              เพื่อทดสอบว่าช่วงนี้สภาพเราเป็นยังไงบ้าง สามารถทำแบบประเมินได้ตลอดเวลา
+              เพื่อทดสอบว่าช่วงนี้สภาพเราเป็นยังไงบ้าง
+              สามารถทำแบบประเมินได้ตลอดเวลา
             </p>
           </div>
         </Card>
@@ -82,9 +82,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-             
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
           <Card className="flex flex-col">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -120,8 +118,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
           <Card className="flex flex-col">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -156,8 +153,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
         </div>
       </div>
