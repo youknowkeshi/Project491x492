@@ -74,7 +74,7 @@ export function MyChartComponents({
     <div className="grid grid-cols-2 gap-10">
       <Card>
         <CardHeader>
-          <CardTitle>Bar Chart - Multiple</CardTitle>
+          <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -120,16 +120,8 @@ export function MyChartComponents({
             </BarChart>
           </ChartContainer>
         </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="flex gap-2 font-medium leading-none">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="leading-none text-muted-foreground">
-            Showing total visitors for the last 6 months
-          </div>
-        </CardFooter>
       </Card>
-      <Card className="grid grid-rows-8 gap-1">
+      <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
         <div className="ml-10 mt-10">
           {chartData.length > 0
             ? chartData.map((data, index) => (
@@ -137,7 +129,7 @@ export function MyChartComponents({
                   {data.major}: {data.major_count}
                 </div>
               ))
-            : "Nothing"}
+            : ""}
         </div>
       </Card>
     </div>
