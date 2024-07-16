@@ -18,7 +18,8 @@ import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
-import { Button, Modal } from "flowbite-react";
+import {  Modal } from "flowbite-react";
+import { Button } from "@/components/ui/button";
 
 interface Appointment {
   firstname_lastname: string;
@@ -399,7 +400,7 @@ function BookAppointment({ room }: { room: any }) {
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button className="text-red-500 border-red-500" type="button">
+              <Button className="text-red-500 border-red-500 hover:bg-[#ffffff] " type="button" variant="outline"  >
                 Close
               </Button>
             </DialogClose>

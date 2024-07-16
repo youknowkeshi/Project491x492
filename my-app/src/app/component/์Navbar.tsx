@@ -90,6 +90,12 @@ export function Navbar() {
                       >
                         รายการนัด
                       </a>
+                      <a
+                        href="/UserInfomation"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+                      >
+                        ข้อมูลผู้รับบริการ
+                      </a>
                     </>
                   ) : (
                     <a
