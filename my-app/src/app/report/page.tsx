@@ -4,7 +4,6 @@ import { MyChartComponents } from "./MyChartComponent";
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MyChartComponentsList } from "../reportchecklist/MyChartComponentList";
 import { ComponentDrawer } from "../component/Drawer";
 import { Navbar } from "../component/์Navbar";
 
