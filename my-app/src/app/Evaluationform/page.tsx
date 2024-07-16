@@ -9,12 +9,6 @@ import { Navbar } from "../component/์Navbar";
 type Props = {};
 
 const Page: React.FC<Props> = () => {
-  const [clickCounts, setClickCounts] = useState({
-    mind: 0,
-    stress: 0,
-    self: 0,
-  });
-
   async function countevaluationform(topic: string) {
     const apiUrl = "/api/clickevaluationform";
     try {
@@ -88,11 +82,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                จำนวนคลิก: {clickCounts.mind}
-              </p>
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
           <Card className="flex flex-col">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -128,11 +118,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                จำนวนคลิก: {clickCounts.stress}
-              </p>
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
           <Card className="flex flex-col">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -167,11 +153,7 @@ const Page: React.FC<Props> = () => {
                 </Button>
               </Link>
             </div>
-            <div className="mt-2 text-right">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                จำนวนคลิก: {clickCounts.self}
-              </p>
-            </div>
+            <div className="mt-2 text-right"></div>
           </Card>
         </div>
       </div>
