@@ -231,14 +231,17 @@ function BookAppointment({ room }: { room: any }) {
   async function checkregister(studentId: string) {
     const apiUrl = "/api/register";
 
+    
     try {
       const response = await axios.post(apiUrl, { studentId });
 
-      setCheckPhone(response.data.data[0].phone);
-      setCheckMajor(response.data.data[0].major);
-      setCheckGender(response.data.data[0].gender);
-      setCheckFacebookUrl(response.data.data[0].facebookurl);
-      setCheckGradeLevel(response.data.data[0].gradelevel);
+      setCheckPhone(response.data[0].phone);
+      setCheckMajor(response.data[0].major);
+      setCheckGender(response.data[0].gender);
+      setCheckFacebookUrl(response.data[0].facebookurl);
+      setCheckGradeLevel(response.data[0].gradelevel);
+      console.log();
+      
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -276,6 +279,7 @@ function BookAppointment({ room }: { room: any }) {
   };
 
   const appointment = async (studentid: string) => {
+    const currentDateTime = new Date();
     try {
       const response = await axios.put(
         "/api/appointment",
@@ -283,7 +287,16 @@ function BookAppointment({ room }: { room: any }) {
       );
       const len = response.data.length - 1;
       const latestApppoint = response.data[len].start_datetime;
-      checkLatestAppointment(latestApppoint);
+
+      const appointmentDateTime = new Date(latestApppoint);
+
+      if (appointmentDateTime > currentDateTime) {
+        setCheckAppointmented(true);
+      }
+      setCheckAppointmented(false);
+
+
+      // checkLatestAppointment(latestApppoint);
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -299,15 +312,16 @@ function BookAppointment({ room }: { room: any }) {
       .catch((error) => console.log("getPersonId fail: ", error));
   }
 
-  const checkLatestAppointment = (appointments: string) => {
-    const currentDateTime = new Date();
+  // ต้องไปเช็คฟังก์ชันใหม่
+  // const checkLatestAppointment = (appointments: string) => {
+  //   const currentDateTime = new Date();
 
-    const appointmentDateTime = new Date(appointments);
-    if (appointmentDateTime > currentDateTime) {
-      setCheckAppointmented(false);
-    }
-    setCheckAppointmented(true);
-  };
+  //   const appointmentDateTime = new Date(appointments);
+  //   if (appointmentDateTime > currentDateTime) {
+  //     setCheckAppointmented(false);
+  //   }
+  //   setCheckAppointmented(true);
+  // };
 
   useEffect(() => {
     getPersonId();

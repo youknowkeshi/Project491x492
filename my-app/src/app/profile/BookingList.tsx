@@ -20,7 +20,6 @@ function BookingList() {
   const [personId, setPersonId] = useState("");
   const [make_An_Appointment, setMake_An_Appointment] = useState<Appointment[]>([]);
   const [sortedAppointments, setSortedAppointments] = useState<Appointment[]>([]);
-  const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
 
   const fetchEvents = async () => {
     const apiUrl = '/api/events';
@@ -40,14 +39,14 @@ function BookingList() {
     }
   };
 
-  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
-    fetchEvents();
-    fetchEvents2();
-    if (room === 'conseling_room1') {
-      await GetEventIdCalendar(start_datetime, end_datetime);
+  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => { 
+    // fetchEvents();
+    // fetchEvents2();
+    if (room == 'conseling_room1') {
+      GetEventIdCalendar(start_datetime, end_datetime);
       await DeleteEvents(event_id);
-    } else if (room === 'conseling_room2') {
-      await GetEventIdCalendar2(start_datetime, end_datetime);
+    } else if (room == 'conseling_room2') {
+      GetEventIdCalendar2(start_datetime, end_datetime);
       await DeleteEvents2(event_id);
     }
     await router.push("/appointment");
@@ -62,7 +61,6 @@ function BookingList() {
   const appointment = async (studentid: string) => {
     try {
       const response = await axios.put('/api/appointment', { studentid });
-      console.log("Appointment data from API 1:", response.data);
       setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
     } catch (error) {
       console.log("Can't get appointment", error);
@@ -72,7 +70,6 @@ function BookingList() {
   const appointment2 = async (studentid: string) => {
     try {
       const response = await axios.put('/api/appointment2', { studentid });
-      console.log("Appointment data from API 2:", response.data);
       setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
     } catch (error) {
       console.log("Can't get appointment", error);
@@ -107,19 +104,19 @@ function BookingList() {
     const apiUrl = "/api/createevents";
     try {
       await axios.put(apiUrl, {
-        event_id 
+        event_id
       });
       console.log("EventCalendar successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
   }
-  
+
   async function DeleteEventsCalendar2(event_id: string) {
     const apiUrl = "/api/createevents2";
     try {
       await axios.put(apiUrl, {
-        event_id 
+        event_id
       });
       console.log("EventCalendar successfully deleted!");
     } catch (error) {
@@ -128,11 +125,13 @@ function BookingList() {
   }
 
   async function GetEventIdCalendar(start_datetime: string, end_datetime: string) {
-    const apiUrl = "/api/admin_conselling_room2";
+    const apiUrl = "/api/admin_conselling_room1";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
+        console.log("test");
+        
         DeleteEventsCalendar(eventsid);
       }
     } catch (error) {
@@ -165,9 +164,7 @@ function BookingList() {
   }, [personId]);
 
   useEffect(() => {
-    console.log("make_An_Appointment:", make_An_Appointment);
     const sorted = [...make_An_Appointment].sort((a, b) => new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
-    console.log("Sorted Appointments:", sorted);
     setSortedAppointments(sorted);
   }, [make_An_Appointment]);
 
@@ -196,14 +193,13 @@ function BookingList() {
             <h2>Time: {new Date(appointment.start_datetime).toLocaleTimeString()} - {new Date(appointment.end_datetime).toLocaleTimeString()}</h2>
             <h2>Appointment: {new Date(appointment.start_datetime).toLocaleDateString()}</h2>
           </div>
-          {new Date(appointment.start_datetime).toLocaleDateString() === nowInThailand ? (
+          {new Date(moment(appointment.start_datetime).format('YYYY/MM/DD')) >= new Date(moment().tz('Asia/Bangkok').format('YYYY/MM/DD')) ? (
             index === 0 && !isCurrentAppointment(appointment.start_datetime) && (
               <Button
                 type="primary"
                 danger
                 className="absolute bottom-4 right-4"
                 onClick={() => handleCancel(appointment.start_datetime, appointment.end_datetime, appointment.event_id, appointment.room)}
-                disabled
               >
                 Cancel
               </Button>

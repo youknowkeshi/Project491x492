@@ -52,7 +52,7 @@ export async function PUT(req: NextRequest) {
   
       client.release();
   
-      console.log("show data of bug : ",result.rows);
+      console.log("show data  : ",result.rows);
       
       return NextResponse.json(result.rows);
     } catch (error) {
