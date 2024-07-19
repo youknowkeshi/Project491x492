@@ -41,7 +41,7 @@ async function evaluationform(startdate: string, enddate: string): Promise<Check
 
 const chartConfig: ChartConfig = {
     checklist_count: {
-        color: "#2563eb",
+        color: "#6B84F4",
     },
 };
 
@@ -70,7 +70,7 @@ export function Evaluationform({
     }, [startDate, endDate]);
 
     return (
-        <div className="grid grid-cols-2 gap-10">
+        <div >
             <Card>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
@@ -93,29 +93,20 @@ export function Evaluationform({
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 3)}
+                                tickFormatter={(value) => value.slice(0, 50)  } 
+                                interval={0} 
+                                angle={30} 
+                                textAnchor="start" 
+                                height={140} 
                             />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
                             />
-                            <Bar dataKey="click_count" fill="var(--color-desktop)" radius={4} />
+                            <Bar dataKey="click_count" fill={chartConfig.checklist_count.color}  radius={4} />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>
-            </Card>
-            <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
-                <div className="ml-10 mt-10">
-                    {chartData.length > 0 ? (
-                        chartData.map((data, index) => (
-                            <div key={index}>
-                                {data.topic}: {data.click_count}
-                            </div>
-                        ))
-                    ) : (
-                        ''
-                    )}
-                </div>
             </Card>
         </div>
     );

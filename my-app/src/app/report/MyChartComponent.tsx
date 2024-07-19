@@ -41,7 +41,7 @@ async function graphmajor(
 
 const chartConfig: ChartConfig = {
   major_count: {
-    color: "#2563eb",
+    color: "#6B84F4",
   },
 };
 
@@ -70,7 +70,7 @@ export function MyChartComponents({
   }, [startDate, endDate]);
 
   return (
-    <div className="grid grid-cols-2 gap-10">
+    <div >
       <Card>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
@@ -105,7 +105,11 @@ export function MyChartComponents({
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
+                tickFormatter={(value) => value.slice(0, 50)  } 
+                interval={0} 
+                angle={30} 
+                textAnchor="start" 
+                height={140} 
               />
               <ChartTooltip
                 cursor={false}
@@ -113,24 +117,14 @@ export function MyChartComponents({
               />
               <Bar
                 dataKey="major_count"
-                fill="var(--color-desktop)"
+                fill={chartConfig.major_count.color}
                 radius={4}
               />
             </BarChart>
           </ChartContainer>
         </CardContent>
       </Card>
-      <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
-        <div className="ml-10 mt-10">
-          {chartData.length > 0
-            ? chartData.map((data, index) => (
-                <div key={index}>
-                  {data.major}: {data.major_count}
-                </div>
-              ))
-            : ""}
-        </div>
-      </Card>
+
     </div>
   );
 }

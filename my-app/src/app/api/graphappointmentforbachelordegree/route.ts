@@ -7,31 +7,41 @@ export async function PUT(req: NextRequest) {
         const request = await req.json();
         const { startdate, enddate } = request;
 
-        if (!startdate && !enddate) {
+        if (!startdate || !enddate) {
             return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
         }
 
         const text = `SELECT 
-                    CONCAT('ชั้นปี ', 
-                        CASE
-                            WHEN (date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544) > 4
-                            THEN 'มากกว่า 4'
-                            ELSE to_char(date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544, '9999')
-                        END
-                    ) AS class_year,
+                    CASE
+                        WHEN (date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544) > 4
+                        THEN 'มากกว่าปี 4'
+                        ELSE 
+                            CASE
+                                WHEN (date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544) < 4
+                                THEN CONCAT('นักศึกษา ', SUBSTR(u.studentid, 1, 2)) -- Show the first 2 digits of studentid
+                                ELSE to_char(date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544, '9999')
+                            END
+                    END AS class_year,
                     COUNT(*) AS count_class_year
-                FROM users u JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
+                FROM users u
+                JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
                 JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
-                WHERE ucr.start_datetime BETWEEN $1 AND $2 AND u.gradelevel = 'ป.ตรี'
+                WHERE ucr.start_datetime BETWEEN $1 AND $2 
+                AND u.gradelevel = 'ป.ตรี'
                 GROUP BY 
                     CASE
                         WHEN (date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544) > 4
-                        THEN 'มากกว่า 4'
-                        ELSE to_char(date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544, '9999')
+                        THEN 'มากกว่าปี 4'
+                        ELSE 
+                            CASE
+                                WHEN (date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544) < 4
+                                THEN CONCAT('นักศึกษา ', SUBSTR(u.studentid, 1, 2))
+                                ELSE to_char(date_part('year', now()) - (CAST('25' || SUBSTR(u.studentid, 1, 2) AS INTEGER)) + 544, '9999')
+                            END
                     END;
         `;
 
-        const values = [startdate, enddate]
+        const values = [startdate, enddate];
 
         const client = await pool.connect();
         const result = await client.query(text, values); // Using parameterized query for security
