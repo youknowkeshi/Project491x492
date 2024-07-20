@@ -30,3 +30,34 @@ export async function PUT(req: NextRequest) {
         return new Error('Failed to fetch users');
     }
 }
+
+
+export async function POST(req: NextRequest) {
+    try {
+        const request = await req.json();
+        const { startdatepast, enddatepast , startdatecurrent, enddatecurrent } = request;
+
+        if (!startdatepast && !enddatepast && !startdatecurrent&& !enddatecurrent) {
+            return NextResponse.json({ message: "Please provide a date" }, { status: 400 });
+        }
+
+        const text = `SELECT ir.mental_health_checklist,
+                    COUNT(CASE WHEN ucr.start_datetime BETWEEN $1 AND $2 THEN 1 ELSE NULL END) AS checklist_count_past,
+                    COUNT(CASE WHEN ucr.start_datetime BETWEEN $3 AND $4 THEN 1 ELSE NULL END) AS checklist_count_current
+                    FROM users u
+                    JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
+                    JOIN informationusers_room1 ir ON ucr.event_id = ir.event_id
+                    GROUP BY ir.mental_health_checklist;
+        `;
+
+        const values = [startdatepast, enddatepast ,startdatecurrent ,enddatecurrent];
+        const client = await pool.connect();
+        const result = await client.query(text, values); // Using parameterized query for security
+        client.release();
+
+        return NextResponse.json(result.rows);
+    } catch (error) {
+        console.error('Error executing query:', error);
+        return new Error('Failed to fetch users');
+    }
+}

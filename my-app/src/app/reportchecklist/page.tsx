@@ -7,12 +7,18 @@ import { Button } from "@/components/ui/button";
 import { MyChartComponentsList } from "./MyChartComponentList";
 import { ComponentDrawer } from "../component/Drawer";
 import { Navbar } from "../component/์Navbar";
+import { AreaChartList } from "./AreaChart";
+import { StartDatePicker2 } from "./startDatecompare"
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const [startDatePast, setStartDatePast] = useState<Date | undefined>();
+  const [endDatePast, setEndDatePast] = useState<Date | undefined>();
+  const [startDateCurrent, setStartDateCurrent] = useState<Date | undefined>();
+  const [endDateCurrent, setEndDateCurrent] = useState<Date | undefined>();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -171,12 +177,41 @@ export default function Page() {
                 </div>
               </div>
 
+
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
                 <MyChartComponentsList
                   startDate={startDate ?? null}
                   endDate={endDate ?? null}
                 />
+
               </div>
+              <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
+                <div className="mx-auto flex justify-center">
+                  <div className="flex flex-wrap gap-10">
+                    <StartDatePicker2
+                      startDatePast={startDatePast}
+                      setStartDatePast={setStartDatePast}
+                      endDatePast={endDatePast}
+                      setEndDatePast={setEndDatePast}
+                      startDateCurrent={startDateCurrent}
+                      setStartDateCurrent={setStartDateCurrent}
+                      endDateCurrent={endDateCurrent}
+                      setEndDateCurrent={setEndDateCurrent}
+                    />
+                  </div>
+                </div>
+              </div>
+
+
+              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                <AreaChartList
+                  startDatePast={startDatePast ?? null}
+                  endDatePast={endDatePast ?? null}
+                  startDateCurrent={startDateCurrent ?? null}
+                  endDateCurrent={endDateCurrent ?? null}
+                />
+              </div >
+
             </div>
             <ComponentDrawer />
           </main>
