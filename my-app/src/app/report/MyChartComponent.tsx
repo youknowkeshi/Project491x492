@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Major {
   major: string;
@@ -55,6 +56,19 @@ export function MyChartComponents({
   endDate,
 }: MyChartComponentsProps) {
   const [chartData, setChartData] = useState<Major[]>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.major_count - b.major_count; // Ascending
+      } else {
+        return b.major_count - a.major_count; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +85,13 @@ export function MyChartComponents({
 
   return (
     <div >
-      <Card>
+       <div>
+          <Button onClick={toggleSort} className="bg-[#5044e4]" >
+        {isSorted ? "Sort Ascending" : "Sort Descending"}
+      </Button>
+      </div>
+
+      <Card style={{ margin: '10px 30px 0 0' }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
           <CardDescription>

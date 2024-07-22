@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface CheckList {
     topic: string;
@@ -24,8 +25,6 @@ interface CheckList {
 
 async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
     const apiUrl = `/api/clickevaluationform`;
-
-
 
     try {
         const response = await axios.put(apiUrl, {
@@ -55,6 +54,20 @@ export function Evaluationform({
     endDate,
 }: MyChartComponentsProps) {
     const [chartData, setChartData] = useState<CheckList[]>([]);
+    const [isSorted, setIsSorted] = useState<boolean>(false);
+
+    const toggleSort = () => {
+        const sortedData = [...chartData].sort((a, b) => {
+            if (isSorted) {
+                return a.click_count - b.click_count; // Ascending
+            } else {
+                return b.click_count - a.click_count; // Descending
+            }
+        });
+        setChartData(sortedData);
+        setIsSorted(!isSorted);
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,7 +84,13 @@ export function Evaluationform({
 
     return (
         <div >
-            <Card>
+            <div>
+                <Button onClick={toggleSort} className="bg-[#5044e4]" >
+                    {isSorted ? "Sort Ascending" : "Sort Descending"}
+                </Button>
+            </div>
+
+            <Card style={{ margin: '10px 30px 0 0' }}>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
                     <CardDescription>
@@ -93,17 +112,17 @@ export function Evaluationform({
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 50)  } 
-                                interval={0} 
-                                angle={30} 
-                                textAnchor="start" 
-                                height={140} 
+                                tickFormatter={(value) => value.slice(0, 50)}
+                                interval={0}
+                                angle={30}
+                                textAnchor="start"
+                                height={140}
                             />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
                             />
-                            <Bar dataKey="click_count" fill={chartConfig.checklist_count.color}  radius={4} />
+                            <Bar dataKey="click_count" fill={chartConfig.checklist_count.color} radius={4} />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>
