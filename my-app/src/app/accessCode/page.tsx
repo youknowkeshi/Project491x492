@@ -58,36 +58,14 @@ export default function MePage() {
   return (
     <>
       <Navbar />
-<<<<<<< HEAD
-      <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
-        <div className="grid shadow-xl border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
-          <div className="container mx-auto columns-3">
-            <img className="w-full max-w-md " src="/Group2.png" />
+      <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7" >
+        <div className="grid shadow-xl border-spacing-10 bg-white rounded-lg p-7 mb-7 bg-gradient-to-r from-cyan-200 to-blue-400">
+          <div className="container mx-auto ">
+            <div className="flex justify-center">
+              <img className="max-w-screen-md rounded-lg" src="/Group 2.png" />
+            </div>
           </div>
         </div>
-=======
-      <header className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
-            สร้างรหัสให้ผู้รับบริการครั้งแรก
-          </h1>
-        </div>
-      </header>
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* <div className="relative isolate px-6 pt-14 lg:px-8"> */}
-        <div className="grid shadow  bg-white rounded-lg p-7 mb-7 ">
-          <p className="text-lg font-semibold mb-4">
-            หน้านี้สำหรับการสร้าง ID ผู้เข้ารับบริการครั้งแรก
-          </p>
-          <ol className="list-decimal pl-5 space-y-2">
-            <li>เมื่อผู้เข้ารับบริการขอ ID</li>
-            <li>กดที่ generate เพื่อสร้าง ID</li>
-            <li>
-              สามารถ copy ID ได้ที่ button ข้างล่าง ID ของผู้รับบริการใหม่
-            </li>
-          </ol>
-        </div>
->>>>>>> origin/mhog-dev
 
         <h2 className="text-2xl font-semibold mb-4">
           สร้าง ID สำหรับผู้รับบริการใหม่
