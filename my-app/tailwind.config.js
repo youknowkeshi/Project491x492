@@ -15,6 +15,7 @@ module.exports = {
    },
    plugins: [
       flowbite.plugin(),
+      
    ],
  };
 //  const { fontFamily } = require("tailwindcss/defaultTheme")

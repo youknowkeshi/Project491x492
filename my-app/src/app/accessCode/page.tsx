@@ -59,17 +59,10 @@ export default function MePage() {
     <>
       <Navbar />
       <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
-        <div className="grid shadow-xl shadow-indigo-500/40 border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
-          <p className="text-lg font-semibold mb-4">
-            หน้านี้สำหรับการสร้าง ID ผู้เข้ารับบริการครั้งแรก
-          </p>
-          <ol className="list-decimal pl-5 space-y-2">
-            <li>เมื่อผู้เข้ารับบริการขอ ID</li>
-            <li>กดที่ generate เพื่อสร้าง ID</li>
-            <li>
-              สามารถ copy ID ได้ที่ ปุ่ม ข้างล่าง ID ของผู้รับบริการใหม่
-            </li>
-          </ol>
+        <div className="grid shadow-xl border-spacing-10 bg-white rounded-lg p-7 mb-7 ">
+          <div className="container mx-auto columns-3">
+            <img className="w-full max-w-md " src="/Group2.png" />
+          </div>
         </div>
 
         <h2 className="text-2xl font-semibold mb-4">
