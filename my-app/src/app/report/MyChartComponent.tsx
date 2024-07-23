@@ -114,7 +114,7 @@ export function MyChartComponents({
               />
               <Bar
                 dataKey="major_count"
-                fill="var(--color-desktop)"
+                fill="var(--color-major_count)"
                 radius={4}
               />
             </BarChart>

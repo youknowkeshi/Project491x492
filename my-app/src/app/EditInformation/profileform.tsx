@@ -114,7 +114,11 @@ export function ProfileForm() {
     }
   }, [id]);
 
+<<<<<<< HEAD
   if (!infor) return <div>Loading...</div>; // Handle case where data is still loading or `infor` is null
+=======
+  if (!infor) return <div></div>; // Handle case where data is still loading or `infor` is null
+>>>>>>> origin/mhog-dev
 
   return (
     <>
@@ -147,7 +151,11 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel>Major</FormLabel>
                   <FormControl>
+<<<<<<< HEAD
                     <Input placeholder={infor.major} {...field} disabled />
+=======
+                    <Input placeholder={infor.major} {...field} />
+>>>>>>> origin/mhog-dev
                   </FormControl>
                   {/* <FormDescription>
                                         This is your surname.
