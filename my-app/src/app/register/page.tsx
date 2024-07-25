@@ -11,7 +11,7 @@ import {
 } from "flowbite-react";
 
 import React, { useState, useEffect } from "react";
-import Nav from "../component/Nav";
+
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { access } from "fs";

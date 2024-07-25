@@ -9,12 +9,23 @@ import {
   FormField,
   FormItem,
   FormLabel,
+
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import {
+
+  Card,
+  Checkbox,
+  Label,
+  TextInput,
+  Textarea,
+  Select,
+  Modal,
+} from "flowbite-react";
 
 interface Information {
   personid: string;
@@ -42,7 +53,7 @@ const formSchema = z.object({
   studentId: z.string().min(5).max(10), // Example validation for student ID
   room: z.string().min(2).max(50),
   topic: z.string().min(2).max(50),
-  textEditorContent: z.string(), // Validation for text editor content
+
 });
 
 export function ProfileForm() {
@@ -51,6 +62,9 @@ export function ProfileForm() {
   const searchParams = useSearchParams();
   const id = searchParams ? searchParams.get("id") || null : null;
   const [infor, setInfor] = useState<Information | null>(null); // Change to single object instead of array
+  const [checkList, setCheckList] = useState("คะแนนแบบวัดพลังใจสูง")
+  const [riskLevel, setRiskLevel] = useState("1")
+
 
   // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -61,18 +75,10 @@ export function ProfileForm() {
       phone: "",
       facebookUrl: "",
       date: "",
-      studentId: "",
-      textEditorContent: "",
+      studentId: ""
     },
   });
 
-  // Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    console.log("Text Editor Content:", textEditorContent); // Log the text editor content
-  }
 
   // Function to handle text editor content change
   function handleTextEditorChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -108,6 +114,16 @@ export function ProfileForm() {
     }
   }
 
+  const handlechecklistChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCheckList(event.target.value);
+  };
+
+  const handlerisklevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRiskLevel(event.target.value);
+  };
+
+
+
   useEffect(() => {
     if (id) {
       Getsingledata();
@@ -119,7 +135,7 @@ export function ProfileForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form className="space-y-8">
           <div className="grid grid-cols-2 gap-7">
             <FormField
               control={form.control}
@@ -147,11 +163,8 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel>Major</FormLabel>
                   <FormControl>
-                    <Input placeholder={infor.major} {...field} />
+                    <Input placeholder={infor.major} {...field} disabled />
                   </FormControl>
-                  {/* <FormDescription>
-                                        This is your surname.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -164,9 +177,6 @@ export function ProfileForm() {
                   <FormControl>
                     <Input placeholder={infor.phone} {...field} disabled />
                   </FormControl>
-                  {/* <FormDescription>
-                                        Please enter your phone number.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -183,9 +193,6 @@ export function ProfileForm() {
                       disabled
                     />
                   </FormControl>
-                  {/* <FormDescription>
-                                        Please enter your Facebook profile URL.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -202,9 +209,6 @@ export function ProfileForm() {
                       disabled
                     />
                   </FormControl>
-                  {/* <FormDescription>
-                                        Please enter a date in the format YYYY-MM-DD.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -217,9 +221,6 @@ export function ProfileForm() {
                   <FormControl>
                     <Input placeholder={infor.studentid} {...field} disabled />
                   </FormControl>
-                  {/* <FormDescription>
-                                        Please enter your student ID.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -232,9 +233,6 @@ export function ProfileForm() {
                   <FormControl>
                     <Input placeholder={infor.room} {...field} disabled />
                   </FormControl>
-                  {/* <FormDescription>
-                                        This is your surname.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
@@ -247,15 +245,72 @@ export function ProfileForm() {
                   <FormControl>
                     <Input placeholder={infor.topic} {...field} disabled />
                   </FormControl>
-                  {/* <FormDescription>
-                                        This is your surname.
-                                    </FormDescription> */}
                 </FormItem>
               )}
             />
-            <FormItem>
-              {" "}
-              {/* Text Editor Field */}
+          </div>
+          <div className="grid grid-cols-2 gap-7">
+            <div>
+              <div className="max-w-md mt-5">
+                <div className="mb-1 block">
+                  <Label htmlFor="ระดับความเสี่ยง" value="ระดับความเสี่ยง" />
+                </div>
+                <Select
+                  id="ระดับความเสี่ยง"
+                  required
+                  value={riskLevel}
+                  onChange={handlerisklevelChange}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">
+                    3
+                  </option>
+                  <option value="4">
+                    4
+                  </option>
+                  <option value="5">
+                    5
+                  </option>
+
+                </Select>
+              </div>
+            </div>
+            <div>
+              <div className="max-w-md mt-5">
+                <div className="mb-1 block">
+                  <Label htmlFor="ประเภทของสุขภาพจิต" value="ประเภทของสุขภาพจิต" />
+                </div>
+                <Select
+                  id="ประเภทของสุขภาพจิต"
+                  required
+                  value={checkList}
+                  onChange={handlechecklistChange}
+                >
+                  <option value="คะแนนแบบวัดพลังใจสูง">คะแนนแบบวัดพลังใจสูง</option>
+                  <option value="มีอารมณ์เศร้าอย่างต่อเนื่องหรือเป็นโรคซึมเศร้า(วินิจฉัยโดยแพทย์)">มีอารมณ์เศร้าอย่างต่อเนื่องหรือเป็นโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</option>
+                  <option value="ความเศร้าโศกจากการสูญเสีย(ทั้งระยะสั้นและเรื้อรัง)"> ความเศร้าโศกจากการสูญเสีย(ทั้งระยะสั้นและเรื้อรัง)</option>
+                  <option value="บาดแผลทางใจ/ประสบการณ์เลวร้ายในวัยเด็ก">บาดแผลทางใจ/ประสบการณ์เลวร้ายในวัยเด็ก</option>
+                  <option value="มีความคิดฆ่าตัวตาย/คิดเกี่ยวกับความตาย/ความคิดทำร้ายตัวเอง">มีความคิดฆ่าตัวตาย/คิดเกี่ยวกับความตาย/ความคิดทำร้ายตัวเอง</option>
+                  <option value="ปัญหาการปรับตัว/ ขาดทักษะทางสังคม">ปัญหาการปรับตัว/ ขาดทักษะทางสังคม</option>
+                  <option value="ปัญาหาความสัมพันธ์ภายในครอบครัว">ปัญหาความสัมพันธ์ภายในครอบครัว</option>
+                  <option value="ปัญาหาความสัมพันธ์กับคนรัก">ปัญหาความสัมพันธ์กับคนรัก</option>
+                  <option value="ปัญาหาความสัมพันธ์เพื่อน">ปัญหาความสัมพันธ์เพื่อน</option>
+                  <option value="พฤติกรรมเสพติด(สารเสพติด, การพนัน, เพศสัมพันธ์)">พฤติกรรมเสพติด(สารเสพติด, การพนัน, เพศสัมพันธ์)</option>
+                  <option value="ปัญหาสุขภาพจิตที่มีอาการในกลุ่มวิตกกังวล">ปัญหาสุขภาพจิตที่มีอาการในกลุ่มวิตกกังวล</option>
+                  <option value="มีอาการเจ็บป่วยทางกายซึ่งเป็นผลมาจากปัญหาทางจิตใจ">มีอาการเจ็บป่วยทางกายซึ่งเป็นผลมาจากปัญหาทางจิตใจ</option>
+                  <option value="ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ">ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ</option>
+                  <option value="ต้องการเข้าใจหรือพัฒนาตนเอง/ค้นหาเป้าหมายหรือความหมายชีวิต">ต้องการเข้าใจหรือพัฒนาตนเอง/ค้นหาเป้าหมายหรือความหมายชีวิต</option>
+                  <option value="ปัญหาบุคลิกภาพ">ปัญหาบุคลิกภาพ</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+
+          <FormItem>
+            <div>
               <FormLabel>รายละเอียดการพูดคุย</FormLabel>
               <FormControl>
                 <textarea
@@ -267,15 +322,25 @@ export function ProfileForm() {
                   value={textEditorContent}
                   onChange={handleTextEditorChange}
                   className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-                  rows={4}
+                  rows={8}
                 />
               </FormControl>
               <FormDescription>
                 Edit and save text content here.
               </FormDescription>
-              <Button type="submit">Submit</Button>
-            </FormItem>
-          </div>
+            </div>
+
+            <Button
+              type="submit"
+              onClick={() => {
+                if (id) {
+                  updatesingledata(textEditorContent , checkList  ,riskLevel , id);
+                } 
+              }}
+            >
+              บันทึก
+            </Button>
+          </FormItem>
         </form>
       </Form>
     </>

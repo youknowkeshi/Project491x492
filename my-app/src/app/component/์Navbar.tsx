@@ -5,13 +5,14 @@ import React from "react";
 
 export function Navbar() {
 
-  async function signOut() {
+  const signOut = () => {
     try {
-      await axios.post("/api/signOut");
+         axios.post("/api/signOut");
+        // Additional actions after signing out, if needed.
     } catch (error) {
-      console.error("Error signing out:", error);
-    } 
-  }
+        console.error("Error signing out:", error);
+    }
+};
 
   return (
     <div>
