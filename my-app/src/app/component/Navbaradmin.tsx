@@ -3,7 +3,7 @@ import axios from "axios";
 import React from "react";
 
 
-export function Navbar() {
+export function Navbaradmin() {
 
   async function signOut() {
     try {
@@ -29,45 +29,38 @@ export function Navbar() {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
-                    href="/dashboard"
+                    href="/List"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                     aria-current="page"
                   >
-                    หน้าแรก
+                    รายการนัด
                   </a>
                   <a
-                    href="/register"
+                    href="/UserInfomation"
                     className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
-                    ลงทะเบียน
+                    ข้อมูลผู้รับบริการ
                   </a>
                   <a
-                    href="/appointment"
+                    href="/report"
                     className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
-                    จองคิว
+                    รายงานประจำเดือน
                   </a>
-                  <a
-                    href="/profile"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
-                  >
-                    ประวัติการพบนักจิตทางคณะ
-                  </a>
-                  <a
+                  {/* <a
                   href="/Evaluationform"
                   className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                   aria-current="page"
                 >
                   แบบประเมิน
-                </a>
+                </a> */}
                 <a
-                  href="/article"
+                  href="/articleadmin"
                   className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                 >
                   บทความ
                 </a>
-                  
-
+    
                 </div>
               </div>
             </div>

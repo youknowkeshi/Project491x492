@@ -1,102 +1,42 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { Dropdown, Footer, Navbar } from "flowbite-react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-
 
 export function Nav() {
-  const admin = process.env.NEXT_PUBLIC_ADMIN as string;
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const router = useRouter();
-
-  function signOut() {
-    axios.post("/api/signOut").finally(() => {
-      router.push("/");
-    });
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/register");
-        const token = response.data.ok;
-        if (token) {
-          setIsLoggedIn(true);
-        }
-        // if (adminCMUAccount === admin) {
-        //   setIsAdmin(true);
-        // }
-      } catch (err) {
-        console.log("This is error: ", err);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
-    <>
-      <Navbar fluid rounded>
-        <div className="flex items-center md">
-          <Footer.Brand
-            href="https://flowbite.com"
-            src="/logo.svg"
-            alt="Flowbite Logo"
-            name="Entaneer Mind"
-          />
+    <div>
+    <nav className="bg-[#95BDFF]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-20 items-center justify-between">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <img
+                className="h-20 w-20"
+                src="/logoent.png"
+                alt="Your Company"
+              />
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <a
+                  href="/Evaluationform"
+                  className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                  aria-current="page"
+                >
+                  แบบประเมิน
+                </a>
+                <a
+                  href="/article"
+                  className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                >
+                  บทความ
+                </a>
+              </div>
+            </div>
+          </div>
+          
         </div>
-        <Navbar.Toggle />
-        <Navbar fluid rounded>
-          <Navbar.Collapse>
-            {isLoggedIn ? (
-              <>
-                <Navbar.Link href="/dashboard" active>
-                  Home
-                </Navbar.Link>
-                <Navbar.Link as={Link} href="/register">
-                  Register
-                </Navbar.Link>
-                <Navbar.Link href="/appointment">Appointment</Navbar.Link>
-                <Navbar.Link href="/profile">Profile</Navbar.Link>
-                <Dropdown label="Dropdown" inline>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/Evaluationform">Evaluation</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/article">Article</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/accessCode">
-                      สร้างรหัสสำหรับผู้รับบริการใหม่
-                    </Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/List">List</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/UserInfomation">UserInfo</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
-                  </Dropdown.Item>
-                </Dropdown>
-              </>
-            ) : (
-              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>
-                Login
-              </Navbar.Link>
-            )}
-          </Navbar.Collapse>
-        </Navbar>
-      </Navbar>
-      <div className="mt-4" />
-    </>
+      </div>
+
+    </nav>
+  </div>
   );
 }
-
-export default Nav;

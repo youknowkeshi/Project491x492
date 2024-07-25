@@ -19,12 +19,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
             const result = await client.query('SELECT * FROM admins WHERE cmuaccount = $1', [admin]);
 
-        
-
-
             if (result.rowCount === 0) {
                 console.log("result.rowCount=0");
-                
+
                 const res = await client.query(text, values);
 
                 if (res.rowCount === 0) {
@@ -33,9 +30,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
                 return NextResponse.json({ res });
             }
-
-
-
 
             return new NextResponse("Welcome to home");
         } finally {
@@ -48,21 +42,33 @@ export async function POST(request: NextRequest, response: NextResponse) {
 }
 
 
+type SuccessResponse = {
+    ok: true;
+};
 
+type ErrorResponse = {
+    ok: false;
+    message: string;
+};
 
 export async function PUT(request: NextRequest) {
-
     const req = await request.json();
-    const cmuaccount = req.cmuaccount
-
+    const cmuaccount: string = req.cmuaccount;
+  
     try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM admins WHERE cmuaccount = $1', [cmuaccount]);
-        client.release(); // Release the client back to the pool 
-        return NextResponse.json(result.rows);
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM admins WHERE cmuaccount = $1', [cmuaccount]);
+      client.release(); // Release the client back to the pool
+  
+      if (result.rows.length > 0) {
+        // cmuaccount exists
+        return NextResponse.json<SuccessResponse>({ ok: true });
+      } else {
+        // cmuaccount does not exist
+        return NextResponse.json<ErrorResponse>({ ok: false, message: 'Account not found' });
+      }
     } catch (error) {
-        console.error('Error executing query:', error);
-        return new Error('Failed to fetch users');
+      console.error('Error executing query:', error);
+      return NextResponse.json<ErrorResponse>({ ok: false, message: 'Failed to fetch users' });
     }
-
-}
+  }

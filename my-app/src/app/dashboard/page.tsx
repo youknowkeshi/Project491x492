@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { Foot } from "../component/Footer";

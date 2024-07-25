@@ -5,7 +5,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
-import Loading from "../loading";
+
+
+async function delay(timeout: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
+
+
 
 export default function CMUOAuthCallback() {
   const router = useRouter();
@@ -15,7 +23,7 @@ export default function CMUOAuthCallback() {
   const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
@@ -58,14 +66,21 @@ export default function CMUOAuthCallback() {
           if (organization_name == 'Faculty of Engineering') {
             if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
               if (admin === cmuAccount) {
-                logadmin(
-                  fullName,
-                  cmuAccount,
-                  studentId,
-                  organization_name,
-                  itaccounttype_EN
-                );
-                home();
+                axios
+                  .put("/api/admin",{cmuAccount}).then((response)=>{
+                    if(response.data.ok){
+                      homeadmin();
+                    }else{
+                      logadmin(
+                        fullName,
+                        cmuAccount,
+                        studentId,
+                        organization_name,
+                        itaccounttype_EN
+                      );
+                      homeadmin();
+                    }
+                  })
               } else {
                 axios
                   .get("/api/checkdata")
@@ -93,7 +108,6 @@ export default function CMUOAuthCallback() {
             handleShow();
           }
         }
-        setIsLoading(false); // Stop loading
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
         if (!error.response) {
@@ -107,7 +121,6 @@ export default function CMUOAuthCallback() {
         } else {
           setErrorMessage("Unknown error occurred. Please try again later");
         }
-        setIsLoading(false); // Stop loading
       });
   }
 
@@ -159,17 +172,22 @@ export default function CMUOAuthCallback() {
     router.push("/dashboard");
   }
 
+  function homeadmin() {
+    router.push("/List");
+  }
+
   useEffect(() => {
-    LogIn();
+    async function delayedLogIn() {
+      await delay(1000); // Delay of 1 second
+      LogIn();
+    }
+
+    delayedLogIn();
   }, []);
 
   return (
     <div className="p-3">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        message || errorMessage
-      )}
+      
       <Modal dismissible show={!!showModal} onClose={handleClose}>
         <Modal.Body>
           <div className="space-y-6">

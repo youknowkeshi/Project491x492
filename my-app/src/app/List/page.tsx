@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import Nav from "../component/Nav";
 import { Button, Card, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -16,7 +15,7 @@ import {
 import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 import moment from 'moment-timezone';
-import { Navbar } from "../component/์Navbar";
+import { Navbaradmin } from "../component/Navbaradmin";
 
 type Props = {};
 
@@ -88,7 +87,7 @@ export default function Page({ }: Props) {
 
   return (
     <div>
-      <Navbar />
+      <Navbaradmin />
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">

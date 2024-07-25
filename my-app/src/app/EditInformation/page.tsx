@@ -1,5 +1,3 @@
-// AnotherComponent.tsx
-
 import React from "react";
 import { ProfileForm } from "./profileform";
 import { Navbar } from "../component/์Navbar";
