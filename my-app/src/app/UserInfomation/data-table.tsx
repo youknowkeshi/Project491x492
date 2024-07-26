@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import  Loading from "../loading"
 
 // Define a custom filter function
 const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
@@ -83,7 +84,7 @@ export function DataTable({ columns, data }: DataTableProps) {
   });
 
   if (!isClient) {
-    return null;
+    return  <Loading /> ;
   }
 
   return (

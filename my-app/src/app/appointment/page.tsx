@@ -2,18 +2,7 @@
 import React, { useEffect } from "react";
 import BookAppointment from "./BookAppointment";
 import BookAppointment2 from "./BookAppointment2";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import axios from "axios";
 
 type Props = {};

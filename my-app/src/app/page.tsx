@@ -4,7 +4,7 @@ import { Foot } from "./component/Footer";
 import { Nav } from "./component/Nav";
 
 type Props = {};
-await delay(1000);
+// await delay(1000);
 
 export default function Home({ }: Props) {
   return (

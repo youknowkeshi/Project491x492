@@ -5,11 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
+import  Loading  from "../loading"
 
 
-async function delay(timeout: number) {
+async function delay() {
   return new Promise((resolve) => {
-    setTimeout(resolve, timeout);
+    setTimeout(resolve);
   });
 }
 
@@ -23,6 +24,7 @@ export default function CMUOAuthCallback() {
   const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   const handleShow = () => setShowModal(true);
@@ -81,6 +83,7 @@ export default function CMUOAuthCallback() {
                       homeadmin();
                     }
                   })
+                  setIsLoading(false);
               } else {
                 axios
                   .get("/api/checkdata")
@@ -101,6 +104,7 @@ export default function CMUOAuthCallback() {
                       register();
                     }
                   });
+                  setIsLoading(false);
               }
             }
           } else {
@@ -177,13 +181,12 @@ export default function CMUOAuthCallback() {
   }
 
   useEffect(() => {
-    async function delayedLogIn() {
-      await delay(1000); // Delay of 1 second
-      LogIn();
-    }
-
-    delayedLogIn();
+    LogIn();
   }, []);
+
+  if (isLoading) {
+    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
+  }
 
   return (
     <div className="p-3">

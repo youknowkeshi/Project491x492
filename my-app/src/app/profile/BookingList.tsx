@@ -5,6 +5,8 @@ import { Card, Button } from "antd";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import moment from 'moment-timezone';
+import Loading from "../loading";
+
 
 interface Appointment {
   firstname_lastname: string;
@@ -20,24 +22,25 @@ function BookingList() {
   const [personId, setPersonId] = useState("");
   const [make_An_Appointment, setMake_An_Appointment] = useState<Appointment[]>([]);
   const [sortedAppointments, setSortedAppointments] = useState<Appointment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchEvents = async () => {
-    const apiUrl = '/api/events';
-    try {
-      await axios.post(apiUrl);
-    } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
-    }
-  };
+  // const fetchEvents = async () => {
+  //   const apiUrl = '/api/events';
+  //   try {
+  //     await axios.post(apiUrl);
+  //   } catch (error) {
+  //     console.error('Oh no! An error has arisen from the depths of the internet:', error);
+  //   }
+  // };
 
-  const fetchEvents2 = async () => {
-    const apiUrl = '/api/events2';
-    try {
-      await axios.post(apiUrl);
-    } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
-    }
-  };
+  // const fetchEvents2 = async () => {
+  //   const apiUrl = '/api/events2';
+  //   try {
+  //     await axios.post(apiUrl);
+  //   } catch (error) {
+  //     console.error('Oh no! An error has arisen from the depths of the internet:', error);
+  //   }
+  // };
 
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => { 
     // fetchEvents();
@@ -61,20 +64,20 @@ function BookingList() {
   const appointment = async (studentid: string) => {
     try {
       const response = await axios.put('/api/appointment', { studentid });
-      setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
+      setMake_An_Appointment(response.data);      
     } catch (error) {
       console.log("Can't get appointment", error);
     }
   };
 
-  const appointment2 = async (studentid: string) => {
-    try {
-      const response = await axios.put('/api/appointment2', { studentid });
-      setMake_An_Appointment(prevAppointments => [...prevAppointments, ...response.data]);
-    } catch (error) {
-      console.log("Can't get appointment", error);
-    }
-  };
+  // const appointment2 = async (studentid: string) => {
+  //   try {
+  //     const response = await axios.put('/api/appointment2', { studentid });
+  //     setMake_An_Appointment(response.data);
+  //   } catch (error) {
+  //     console.log("Can't get appointment", error);
+  //   }
+  // };
 
   async function DeleteEvents(event_id: string) {
     const apiUrl = "/api/conseling_room1";
@@ -82,7 +85,7 @@ function BookingList() {
       await axios.delete(apiUrl, {
         data: { event_id }
       });
-      console.log("Event successfully deleted!");
+      // console.log("Event successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
@@ -94,7 +97,7 @@ function BookingList() {
       await axios.delete(apiUrl, {
         data: { event_id }
       });
-      console.log("Event successfully deleted!");
+      // console.log("Event successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
@@ -159,14 +162,16 @@ function BookingList() {
   useEffect(() => {
     if (personId) {
       appointment(personId);
-      appointment2(personId);
+      setIsLoading(false);
+      // appointment2(personId);
     }
   }, [personId]);
 
-  useEffect(() => {
-    const sorted = [...make_An_Appointment].sort((a, b) => new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
-    setSortedAppointments(sorted);
-  }, [make_An_Appointment]);
+  // useEffect(() => {
+  //   const sorted = [...make_An_Appointment].sort((a, b) => new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
+  //   setSortedAppointments(sorted);
+    
+  // }, [make_An_Appointment]);
 
   const isCurrentAppointment = (start_datetime: string) => {
     const now = new Date();
@@ -174,20 +179,26 @@ function BookingList() {
     return now.toISOString() === appointmentDate.toISOString();
   };
 
+    if (isLoading) {
+    return <Loading/>; // ข้อความหรือ spinner เมื่อกำลังโหลด
+  }
   return (
     <Card className="mt-7 relative">
-      {sortedAppointments.map((appointment, index) => (
+
+      
+      {make_An_Appointment.map((appointment, index) => (
         <div key={index} className="flex flex-col md:flex-row items-center mb-5 border p-4 rounded-lg relative">
           <img
-            src="https://www.wellingtonregional.com/sites/wellingtonregional.com/files/doctors_visit_1200x900.jpg"
-            alt="Doctor Visit"
+            src="/Pop.png"
+            alt="pop"
             className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
           />
           <div className="flex flex-col gap-4 p-5 text-center md:text-left">
             {appointment.room === 'conseling_room1' ? (
-              <h2 className="font-bold text-[18px]">psychologist of room 1</h2>
+              <h2 className="font-bold text-[18px]">นักจิตวิทยาห้องที่ 1 (พี่ป็อป)</h2>
+
             ) : (
-              <h2 className="font-bold text-[18px]">psychologist of room 2</h2>
+              <h2 className="font-bold text-[18px]">นักจิตวิทยาห้องที่ 2</h2>
             )}
             <h2>Room: {appointment.room}</h2>
             <h2>Time: {new Date(appointment.start_datetime).toLocaleTimeString()} - {new Date(appointment.end_datetime).toLocaleTimeString()}</h2>

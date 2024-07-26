@@ -36,7 +36,7 @@ export async function PUT(req: NextRequest) {
             SELECT u.firstname_lastname, u.studentid, ucr.start_datetime, ucr.end_datetime, ucr.room ,ucr.event_id
             FROM users u
             INNER JOIN user_conseling_room2 ucr ON u.personid = ucr.personid
-            WHERE u.studentid = $1;
+            WHERE u.studentid = $1 ORDER BY ucr.start_datetime desc;
         `;
 
         const result = await client.query(query, [studentid]);

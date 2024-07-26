@@ -1,5 +1,3 @@
-"use client";
-
 import { Footer } from "flowbite-react";
 
 export function Foot() {

@@ -16,6 +16,7 @@ import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 import moment from 'moment-timezone';
 import { Navbaradmin } from "../component/Navbaradmin";
+import  loading  from "../loading"
 
 type Props = {};
 
@@ -122,76 +123,76 @@ export default function Page({ }: Props) {
           </Popover>
         </div>
 
-        {informationUsers.map((user, index) => (
-          <Card
-            key={index}
-            className="border-r-4 border-l-4 border-x-cyan-300 mt-11 mb-4 p-4 relative"
-          >
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Time: {format(new Date(user.start_datetime), "HH:mm")} -{" "}
-              {format(new Date(user.end_datetime), "HH:mm")}
-            </h5>
-            <hr />
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Name: {user.firstname_lastname}
-            </p>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Student ID: {user.studentid}
-            </p>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Major: {user.major}
-            </p>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              หัวข้อที่ต้องการพูดคุย : {user.topic}
-            </p>
-            <div className="flex flex-row gap-4 absolute bottom-4 right-4">
-              <Button
-                outline
-                gradientDuoTone="cyanToBlue"
-                onClick={() => handleOpenModal2(user)}
-              >
-                Details
-              </Button>
-              <Button
-                gradientMonochrome="failure"
-                onClick={() => setOpenModal(true)}
-              >
-                Cancel
-              </Button>
-            </div>
-            <Modal
-              show={openModal}
-              size="md"
-              onClose={() => setOpenModal(false)}
-              popup
+        {informationUsers.length === 0 ? (
+          <h5 className="mt-11 mb-4 p-4 relative text-center text-xl font-bold">วันนี้ไม่มีรายการนัด</h5>
+        ) : (
+          informationUsers.map((user, index) => (
+            <Card
+              key={index}
+              className="border-r-4 border-l-4 border-x-cyan-300 mt-11 mb-4 p-4 relative"
             >
-              <Modal.Header />
-              <Modal.Body>
-                <div className="text-center">
-                  <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                    Are you sure you want to delete this product?
-                  </h3>
-                  <div className="flex justify-center gap-4">
-                    <Button color="failure" onClick={() => setOpenModal(false)}>
-                      {"Yes, I'm sure"}
-                    </Button>
-                    <Button color="gray" onClick={() => setOpenModal(false)}>
-                      No, cancel
-                    </Button>
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Time: {format(new Date(user.start_datetime), "HH:mm")} -{" "}
+                {format(new Date(user.end_datetime), "HH:mm")}
+              </h5>
+              <hr />
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Name: {user.firstname_lastname}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Student ID: {user.studentid}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Major: {user.major}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                หัวข้อที่ต้องการพูดคุย : {user.topic}
+              </p>
+              <div className="flex flex-row gap-4 absolute bottom-4 right-4">
+                <Button
+                  outline
+                  gradientDuoTone="cyanToBlue"
+                  onClick={() => handleOpenModal2(user)}
+                >
+                  Details
+                </Button>
+                <Button
+                  gradientMonochrome="failure"
+                  onClick={() => setOpenModal(true)}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <Modal
+                show={openModal}
+                size="md"
+                onClose={() => setOpenModal(false)}
+                popup
+              >
+                <Modal.Header />
+                <Modal.Body>
+                  <div className="text-center">
+                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                      Are you sure you want to delete this product?
+                    </h3>
+                    <div className="flex justify-center gap-4">
+                      <Button color="failure" onClick={() => setOpenModal(false)}>
+                        {"Yes, I'm sure"}
+                      </Button>
+                      <Button color="gray" onClick={() => setOpenModal(false)}>
+                        No, cancel
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          </Card>
-        ))}
+                </Modal.Body>
+              </Modal>
+            </Card>
+          ))
+        )}
 
         {selectedUser && (
-          <Modal
-            dismissible
-            show={!!selectedUser}
-            onClose={handleCloseModal2}
-          >
+          <Modal dismissible show={!!selectedUser} onClose={handleCloseModal2}>
             <Modal.Header>รายละเอียดการปรึกษา</Modal.Header>
             <Modal.Body>
               <div className="space-y-6">
@@ -201,10 +202,7 @@ export default function Page({ }: Props) {
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button
-                gradientMonochrome="failure"
-                onClick={handleCloseModal2}
-              >
+              <Button gradientMonochrome="failure" onClick={handleCloseModal2}>
                 Close
               </Button>
             </Modal.Footer>

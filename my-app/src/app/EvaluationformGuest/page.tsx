@@ -4,7 +4,7 @@ import { Button, Card } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { Navbar } from "../component/์Navbar";
+import { Nav } from "../component/Nav";
 
 type Props = {};
 
@@ -26,7 +26,7 @@ const Page: React.FC<Props> = () => {
 
   return (
     <>
-      <Navbar />
+      <Nav />
       <div className="flex justify-start mt-10 mx-10">
         {/* Right block */}
         <Card
