@@ -26,10 +26,10 @@ async function graphmajor(
   startdate: string,
   enddate: string
 ): Promise<Major[]> {
-  const apiUrl = `/api/graphappointmentformajor`;
+  const apiUrl = `http://localhost:3001/api/graph/graphappointmentformajor`;
 
   try {
-    const response = await axios.put(apiUrl, {
+    const response = await axios.post(apiUrl, {
       startdate,
       enddate,
     });

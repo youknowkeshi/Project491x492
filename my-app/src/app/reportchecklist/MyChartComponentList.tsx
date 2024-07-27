@@ -23,13 +23,14 @@ interface CheckList {
 }
 
 async function graphlist(startdate: string, enddate: string): Promise<CheckList[]> {
-  const apiUrl = `/api/graphmental_health_checklist`;
+  const apiUrl = `http://localhost:3001/api/graph/mental-health-checklist`;
 
   try {
-    const response = await axios.put(apiUrl, {
+    const response = await axios.post(apiUrl, {
       startdate,
       enddate,
     });
+
     return response.data;
   } catch (error) {
     console.error("Can't get graphlist", error);

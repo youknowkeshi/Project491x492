@@ -86,10 +86,11 @@ export function ProfileForm() {
   }
 
   async function Getsingledata() {
-    const apiUrl = `/api/informationusers/${id}`;
+    const apiUrl = `http://localhost:3001/api/infor/detailinfor/${id}`;
     try {
-      const response = await axios.get(apiUrl);
-      setInfor(response.data); // Assuming you expect only one object
+      const response = await axios.post(apiUrl,{id});
+   
+      setInfor(response.data[0]); // Assuming you expect only one object
     } catch (error) {
       console.log("Can't get data", error);
     }
@@ -101,7 +102,7 @@ export function ProfileForm() {
     mental_risk_level: string,
     event_id: string
   ) {
-    const apiUrl = `/api/informationusers/${id}`;
+    const apiUrl = `http://localhost:3001/api/infor/editinfor/${id}`;
     try {
       await axios.put(apiUrl, {
         details_consultation,

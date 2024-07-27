@@ -20,10 +20,10 @@ import  loading  from "../loading"
 
 type Props = {};
 
-interface details {
-  details_consultation: string
-  start_datetime: string
-}
+// interface details {
+//   details_consultation: string
+//   start_datetime: string
+// }
 
 export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
@@ -34,7 +34,7 @@ export default function Page({ }: Props) {
   const [pastDetail, setPastDetail] = useState("")
 
   async function informationUser(selectedDate: Date) {
-    const apiUrl = "/api/informationusers";
+    const apiUrl = "http://localhost:3001/api/infor/list";
     try {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
@@ -46,18 +46,15 @@ export default function Page({ }: Props) {
   }
 
   async function detailUser(studentid: string, selectdete: string) {
-    const apiUrl = "/api/informationusers";
+    const apiUrl = "http://localhost:3001/api/infor/listdetail";
     try {
-      const response = await axios.put<details[]>(apiUrl, {
+      const response = await axios.post(apiUrl, {
         studentid
       });
-      const data = response.data
-
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].start_datetime == selectdete) {
-          setPastDetail(data[i + 1].details_consultation || '')
-        }
-      }
+      console.log(response.data);
+      
+      setPastDetail(response.data[0].details_consultation)
+     
 
       // setPastDetail(response.data[1]?.details_consultation || '');
     } catch (error) {

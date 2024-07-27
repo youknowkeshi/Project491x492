@@ -24,10 +24,10 @@ interface CheckList {
 }
 
 async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
-    const apiUrl = `/api/clickevaluationform`;
+    const apiUrl = `http://localhost:3001/api/graph/graphevaluation`;
 
     try {
-        const response = await axios.put(apiUrl, {
+        const response = await axios.post(apiUrl, {
             startdate,
             enddate,
         });

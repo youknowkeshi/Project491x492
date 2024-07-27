@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MyChartComponentsList } from "./MyChartComponentList";
 import { ComponentDrawer } from "../component/Drawer";
-import { Navbar } from "../component/์Navbar";
+import { Navbaradmin } from "../component/Navbaradmin";
 import { AreaChartList } from "./AreaChart";
 import { StartDatePicker2 } from "./startDatecompare"
 
@@ -43,7 +43,7 @@ export default function Page() {
   return (
     <>
       <div className="min-h-full">
-        <Navbar />
+        <Navbaradmin />
         <div className="py-10">
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">

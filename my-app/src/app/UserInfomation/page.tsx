@@ -34,7 +34,7 @@ export default function DemoPage() {
   const [information, setInformation] = useState<Information[]>([]);
 
   async function fetchData() {
-    const apiUrl = `/api/informationusers`;
+    const apiUrl = `http://localhost:3001/api/infor/getinformationusers`;
     try {
       const response = await axios.get(apiUrl);
 
