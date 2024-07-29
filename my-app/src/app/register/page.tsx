@@ -14,10 +14,8 @@ import React, { useState, useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { access } from "fs";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
-import { log } from "console";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -140,29 +138,28 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
-    if (
-      checkFacebookurl &&
-      checkGender &&
-      checkGradeLevel &&
-      checkMajor &&
-      checkPhone
-    ) {
-      handleShow();
-    } else if (accessCodeCondition == "0") {
-      handleShowAccessCode();
-    } else {
-      if(Id && phone&& major&& gender&& facebookurl&& gradeLevel){
-        updatedataUsers(Id, studentId ,phone, major, gender, facebookurl, gradeLevel).then(
-          () => {
-            appointment();
-            afterUseAccesscode(Id);
-          }
-        );
-      }else{
+    if(Id && phone&& major&& gender&& facebookurl&& gradeLevel){
+      if (
+        checkFacebookurl &&
+        checkGender &&
+        checkGradeLevel &&
+        checkMajor &&
+        checkPhone
+      ) {
+        handleShow();
+      } else if (accessCodeCondition == "0") {
+        handleShowAccessCode();
+      } else {
+          updatedataUsers(Id, studentId ,phone, major, gender, facebookurl, gradeLevel).then(
+            () => {
+              appointment();
+              afterUseAccesscode(Id);
+            }
+          );  
+      }
+    }else{
         handleShowEmpty();
       }
-      
-    }
   };
 
   async function deleteAccessCode() {
@@ -489,7 +486,7 @@ export default function RegisterPage() {
                             <Modal.Footer>
                               <Button
                                 gradientMonochrome="failure"
-                                onClick={handleCloseAccessCode}
+                                onClick={handleCloseEmpty}
                               >
                                 Close
                               </Button>

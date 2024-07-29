@@ -132,7 +132,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "/api/conseling_room1";
+    const apiUrl = "http://localhost:3001/api/appointment/addtimeappointment";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -220,28 +220,24 @@ function BookAppointment({ room }: { room: any }) {
   async function getdatausers() {
     try {
       const response = await axios.get("/api/register");
-      const studentId = response.data.studentId;
-      checkregister(studentId);
-      appointment(studentId);
+      checkregister(response.data.studentId);
+      appointment(response.data.studentId);
+      getPersonId(response.data.studentId)
     } catch (err) {
       console.log("This is error: ", err);
     }
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "/api/register";
+    const apiUrl = "http://localhost:3001/api/user/checkuser";
 
-    
     try {
       const response = await axios.post(apiUrl, { studentId });
-
       setCheckPhone(response.data[0].phone);
       setCheckMajor(response.data[0].major);
       setCheckGender(response.data[0].gender);
       setCheckFacebookUrl(response.data[0].facebookurl);
       setCheckGradeLevel(response.data[0].gradelevel);
-      console.log();
-      
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -282,11 +278,10 @@ function BookAppointment({ room }: { room: any }) {
     const currentDateTime = new Date();
     try {
       const response = await axios.put(
-        "/api/appointment",
+        "http://localhost:3001/api/appointment/checkappointment",
         { studentid }
       );
-      const len = response.data.length - 1;
-      const latestApppoint = response.data[len].start_datetime;
+      const latestApppoint = response.data[0].start_datetime;
 
       const appointmentDateTime = new Date(latestApppoint);
 
@@ -295,38 +290,23 @@ function BookAppointment({ room }: { room: any }) {
       }
       setCheckAppointmented(false);
 
-
-      // checkLatestAppointment(latestApppoint);
     } catch (error) {
       console.log("Can't get appointment", error);
     }
   };
 
-  function getPersonId() {
+  function getPersonId(studentId: string) {
     axios
-      .get("/api/checkdata")
+      .post("http://localhost:3001/api/user/checkuser", { studentId })
       .then((response) => {
-        const personId = response.data.temp.personid;
-        setPersonId(personId);
+        setPersonId(response.data[0].personid);
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
-
-  // ต้องไปเช็คฟังก์ชันใหม่
-  // const checkLatestAppointment = (appointments: string) => {
-  //   const currentDateTime = new Date();
-
-  //   const appointmentDateTime = new Date(appointments);
-  //   if (appointmentDateTime > currentDateTime) {
-  //     setCheckAppointmented(false);
-  //   }
-  //   setCheckAppointmented(true);
-  // };
-
+  
   useEffect(() => {
-    getPersonId();
-    getEvents();
     getdatausers();
+    getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
 
