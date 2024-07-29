@@ -2,9 +2,8 @@
 import { useEffect, useState } from "react";
 import uniqueString from "unique-string";
 import { Carousel } from "flowbite-react";
-import { apiBaseUrl } from "next-auth/client/_utils";
 import axios from "axios";
-import { Navbar } from "../component/์Navbar";
+import { Navbaradmin } from "../component/Navbaradmin";
 
 export default function MePage() {
   const [generatedString, setGeneratedString] = useState("");
@@ -27,7 +26,7 @@ export default function MePage() {
   };
 
   async function addAccessCode(accesscode: string) {
-    const apiUrl = "/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/insertaccesscode";
     try {
       await axios.post(apiUrl, { accesscode });
     } catch (error) {
@@ -36,7 +35,7 @@ export default function MePage() {
   }
 
   async function deleteAccessCode() {
-    const apiUrl = "/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -46,17 +45,11 @@ export default function MePage() {
 
   useEffect(() => {
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
-
-    const interval = setInterval(() => {
-      deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
-    }, 300000); // 300 วินาที
-
-    return () => clearInterval(interval); // เมื่อ Component ถูก unmount ให้ clear interval
   }, []);
 
   return (
     <>
-      <Navbar />
+      <Navbaradmin />
       <div className=" rounded p-8">
         <div className=" h-16 sm:h-24 xl:h-30 2xl:h-36">
           <Carousel>

@@ -8,6 +8,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
     try {
         const req = await request.json()
         const { name, cmuaccount, studentid, organization_name, accounttype } = req;
+
+        
         const personid = uniqueString()
         const role = "admin"
 

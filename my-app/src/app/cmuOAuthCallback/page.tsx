@@ -69,7 +69,7 @@ export default function CMUOAuthCallback() {
             if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
               if (admin === cmuAccount) {
                 axios
-                  .put("/api/admin",{cmuAccount}).then((response)=>{
+                  .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
                     if(response.data.ok){
                       homeadmin();
                     }else{
@@ -88,10 +88,8 @@ export default function CMUOAuthCallback() {
                 axios
                   .get("/api/checkdata")
                   .then((response) => {
-                    console.log(response.data);
 
                     if (response.data) {
-                      console.log(response.data.temp.studentid);
                       home();
                     } else {
                       addUsers(
@@ -136,7 +134,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      await axios.post("/api/users", {
+      await axios.post("http://localhost:3001/api/user/afterlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,
@@ -156,7 +154,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      axios.post("/api/admin", {
+      axios.post("http://localhost:3001/api/admin/firstlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,

@@ -11,7 +11,7 @@ type Props = {};
 const Page: React.FC<Props> = () => {
 
   async function countevaluationform(topic: string) {
-    const apiUrl = "/api/clickevaluationform";
+    const apiUrl = "http://localhost:3001/api/user/clickevaluation";
     try {
       await axios.post(apiUrl, { topic });
     } catch (err) {

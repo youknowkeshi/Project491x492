@@ -21,7 +21,7 @@ function BookingList() {
   const router = useRouter();
   const [personId, setPersonId] = useState("");
   const [make_An_Appointment, setMake_An_Appointment] = useState<Appointment[]>([]);
-  const [sortedAppointments, setSortedAppointments] = useState<Appointment[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   // const fetchEvents = async () => {
@@ -63,7 +63,7 @@ function BookingList() {
 
   const appointment = async (studentid: string) => {
     try {
-      const response = await axios.put('/api/appointment', { studentid });
+      const response = await axios.put('http://localhost:3001/api/appointment/listhistory', { studentid });
       setMake_An_Appointment(response.data);      
     } catch (error) {
       console.log("Can't get appointment", error);
@@ -80,7 +80,7 @@ function BookingList() {
   // };
 
   async function DeleteEvents(event_id: string) {
-    const apiUrl = "/api/conseling_room1";
+    const apiUrl = "http://localhost:3001/api/appointment/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id }
@@ -92,12 +92,11 @@ function BookingList() {
   }
 
   async function DeleteEvents2(event_id: string) {
-    const apiUrl = "/api/conseling_room2";
+    const apiUrl = "http://localhost:3001/api/appointment2/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id }
       });
-      // console.log("Event successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
@@ -109,7 +108,6 @@ function BookingList() {
       await axios.put(apiUrl, {
         event_id
       });
-      console.log("EventCalendar successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
@@ -121,20 +119,17 @@ function BookingList() {
       await axios.put(apiUrl, {
         event_id
       });
-      console.log("EventCalendar successfully deleted!");
     } catch (error) {
       console.log("Can't Delete Event ", error);
     }
   }
 
   async function GetEventIdCalendar(start_datetime: string, end_datetime: string) {
-    const apiUrl = "/api/admin_conselling_room1";
+    const apiUrl = "http://localhost:3001/api/appointment/getidcalendar";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id;
-      if (eventsid) {
-        console.log("test");
-        
+      if (eventsid) {     
         DeleteEventsCalendar(eventsid);
       }
     } catch (error) {
@@ -143,7 +138,7 @@ function BookingList() {
   }
 
   async function GetEventIdCalendar2(start_datetime: string, end_datetime: string) {
-    const apiUrl = "/api/admin_conselling_room2";
+    const apiUrl = "http://localhost:3001/api/appointment2/getidcalendar";
     try {
       const response = await axios.put(apiUrl, { start_datetime, end_datetime });
       const eventsid = response.data[0].event_id;
@@ -167,11 +162,7 @@ function BookingList() {
     }
   }, [personId]);
 
-  // useEffect(() => {
-  //   const sorted = [...make_An_Appointment].sort((a, b) => new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
-  //   setSortedAppointments(sorted);
-    
-  // }, [make_An_Appointment]);
+
 
   const isCurrentAppointment = (start_datetime: string) => {
     const now = new Date();
