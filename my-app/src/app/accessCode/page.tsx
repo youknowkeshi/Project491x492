@@ -61,11 +61,8 @@ export default function MePage() {
       <Navbar />
       <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
         <div className="grid shadow-xl border-spacing-10 bg-white rounded-lg p-7 mb-7 bg-gradient-to-r from-cyan-200 to-blue-400">
-          <div className="container mx-auto flex justify-center">
-              <img
-                className="max-w-screen-md rounded-lg w-full h-full object-cover"
-                src="/Group6.png"
-              />
+          <div className="container mx-auto flex justify-center w-full h-full">
+            <img className="w-full h-full object-cover" src="/Group6.png" />
           </div>
         </div>
 
