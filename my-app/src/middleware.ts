@@ -38,7 +38,7 @@ export const config = {
     "/article/:path*",
     "/about/:path*",
     "/appointment/:path*",
-    "/accessCode/:path*",
+    // "/accessCode/:path*",
     "/dashboard/:path*",
     "/EditInformation/:path*",
     "/Evaluationform/:path*",

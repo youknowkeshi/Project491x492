@@ -263,10 +263,14 @@ function BookAppointment({ room }: { room: any }) {
       ) {
         if (checkAppointmented) {
           handleShowAppointmented();
+          console.log("sfsds");
+          
         } else {
-          AddTimeAppointment(start_datetime, end_datetime, personId, message);
-          AddAppointmentGoogle(message, start_datetime, end_datetime);
-          setIsConfirmationModalOpen(true);
+          // AddTimeAppointment(start_datetime, end_datetime, personId, message);
+          // AddAppointmentGoogle(message, start_datetime, end_datetime);
+          // setIsConfirmationModalOpen(true);
+          console.log("dfdf");
+          
         }
       } else {
         handleShow();
@@ -282,11 +286,15 @@ function BookAppointment({ room }: { room: any }) {
         { studentid }
       );
       const latestApppoint = response.data[0].start_datetime;
+      // console.log("dfdf",response.data[0].start_datetime);
+      
+      
 
       const appointmentDateTime = new Date(latestApppoint);
 
+      
       if (appointmentDateTime > currentDateTime) {
-        setCheckAppointmented(true);
+        setCheckAppointmented(true);       
       }
       setCheckAppointmented(false);
 
@@ -319,6 +327,7 @@ function BookAppointment({ room }: { room: any }) {
             type="button"
           >
             จองคิวนัดปรึกษาที่ห้อง {room}
+           
           </Button>
         </DialogTrigger>
         <DialogContent>

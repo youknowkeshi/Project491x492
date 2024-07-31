@@ -57,58 +57,64 @@ export default function CMUOAuthCallback() {
     axios
       .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
       .then((response) => {
+        console.log(response.data);
+        
         if (response.data.ok) {
           const fullName =
             response.data.firstName + " " + response.data.lastName;
-          const studentId = response.data.studentId;
+            const studentId = response.data.studentId ?? '';
+
           const cmuAccount = response.data.cmuAccount;
           const organization_name = response.data.organization_name_EN;
           const itaccounttype_EN = response.data.itaccounttype_EN;
 
-          if (organization_name == 'Faculty of Engineering') {
-            if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
-              if (admin === cmuAccount) {
-                axios
-                  .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
-                    if(response.data.ok){
-                      homeadmin();
-                    }else{
-                      logadmin(
-                        fullName,
-                        cmuAccount,
-                        studentId,
-                        organization_name,
-                        itaccounttype_EN
-                      );
-                      homeadmin();
-                    }
-                  })
-                  setIsLoading(false);
-              } else {
-                axios
-                  .get("/api/checkdata")
-                  .then((response) => {
+          if ( fullName && cmuAccount && organization_name && itaccounttype_EN) {
+            if (admin === cmuAccount) {
+              axios
+                .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
+                  if(response.data.ok){
+                    homeadmin();
+                  }else{
+                    logadmin(
+                      fullName,
+                      cmuAccount,
+                      studentId,
+                      organization_name,
+                      itaccounttype_EN
+                    );
+                    homeadmin();
+                  }
+                })
+                setIsLoading(false);
+            } else {
+              axios
+                .get("/api/checkdata")
+                .then((response) => {
 
-                    if (response.data) {
-                      home();
-                    } else {
-                      addUsers(
-                        fullName,
-                        cmuAccount,
-                        studentId,
-                        organization_name,
-                        itaccounttype_EN
-                      );
-                      register();
-                    }
-                  });
-                  setIsLoading(false);
-              }
+                  if (response.data) {
+                    home();
+                  } else {
+                    addUsers(
+                      fullName,
+                      cmuAccount,
+                      studentId,
+                      organization_name,
+                      itaccounttype_EN
+                    );
+                    register();
+                  }
+                });
+                setIsLoading(false);
             }
-          } else {
-            // Faculty that not Engineering
-            handleShow();
           }
+
+
+          // if (organization_name == 'Faculty of Engineering') {
+            
+          // } else {
+          //   // Faculty that not Engineering
+          //   handleShow();
+          // }
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {

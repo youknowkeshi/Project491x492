@@ -77,7 +77,7 @@ export function Foot() {
 
             <li>
               <a
-                href="#"
+                href="https://www.facebook.com/messages/t/7055596771186507/"
                 rel="noreferrer"
                 target="_blank"
                 className="text-gray-700 transition hover:opacity-75"
@@ -101,7 +101,7 @@ export function Foot() {
 
             <li>
               <a
-                href="#"
+                href="https://www.facebook.com/messages/e2ee/t/7734069076686638"
                 rel="noreferrer"
                 target="_blank"
                 className="text-gray-700 transition hover:opacity-75"
