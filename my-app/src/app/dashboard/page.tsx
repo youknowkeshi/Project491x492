@@ -59,10 +59,10 @@ export default function DashBoard({}: Props) {
                       href="/register"
                       className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      ลงทะเบียน
+                      ล็อคอิน
                     </a>
                     <a
-                      href="#"
+                      href="/dashboard2"
                       className="text-sm font-semibold leading-6 text-gray-900"
                     >
                       วิธีการจองสำหรับรับบริการครั้งแรก{" "}
