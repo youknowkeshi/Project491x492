@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import * as Minio from 'minio'
 
 
 const pool = new Pool({
@@ -12,5 +13,13 @@ const pool = new Pool({
     },
   });
 
+  const minioClient = new Minio.Client({
+    endPoint: 'localhost',
+    port: 9011,
+    useSSL: false,
+    accessKey: 'Entaneer_mind',
+    secretKey: 'ILoveYou300AndMind',
+  })
 
-  export {pool} ;
+
+  export {pool,minioClient} ;

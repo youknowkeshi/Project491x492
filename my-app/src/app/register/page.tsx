@@ -11,10 +11,9 @@ import {
 } from "flowbite-react";
 
 import React, { useState, useEffect } from "react";
-import Nav from "../component/Nav";
+
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { access } from "fs";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
 
@@ -39,13 +38,22 @@ export default function RegisterPage() {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
+  //if user not use accesscode for admin
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
-  const handleCloseAccessCode = () => setShowModalAccessCode(false);
+  const handleCloseAccessCode = () => setShowModalAccessCode(false)
+
+  //if empty text
+  const [showModalEmpty, setShowModalEmpty] = useState(false);
+  const handleShowEmpty = () => setShowModalEmpty(true);
+  const handleCloseEmpty= () => setShowModalEmpty(false)
+  
+
   const [accessCodeCondition, setAccessCodeCondition] = useState("");
 
   async function updatedataUsers(
     personid: string,
+    studentId:string,
     phone: string,
     major: string,
     gender: string,
@@ -53,15 +61,16 @@ export default function RegisterPage() {
     gradelevel: string
   ) {
     try {
-      const response = await axios.put("http://localhost:3000/api/register", {
+      await axios.put("http://localhost:3001/api/user/firstlogin", {
         personid,
+        studentId,
         phone,
         major,
         gender,
         facebookurl,
         gradelevel,
       });
-      console.log("front: ", response);
+
     } catch (error) {
       console.log("This is error: ", error);
     }
@@ -79,16 +88,16 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register";
+    const apiUrl = "http://localhost:3001/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
 
-      setCheckPhone(response.data.data[0].phone);
-      setCheckMajor(response.data.data[0].major);
-      setCheckGender(response.data.data[0].gender);
-      setCheckFacebookUrl(response.data.data[0].facebookurl);
-      setCheckGradeLevel(response.data.data[0].gradelevel);
+      setCheckPhone(response.data[0].phone);
+      setCheckMajor(response.data[0].major);
+      setCheckGender(response.data[0].gender);
+      setCheckFacebookUrl(response.data[0].facebookurl);
+      setCheckGradeLevel(response.data[0].gradelevel);
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -96,6 +105,7 @@ export default function RegisterPage() {
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
+    checkAccessCode(event.target.value)
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,29 +138,32 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
-    checkAccessCode(Id);
-    if (
-      checkFacebookurl &&
-      checkGender &&
-      checkGradeLevel &&
-      checkMajor &&
-      checkPhone
-    ) {
-      handleShow();
-    } else if (accessCodeCondition == "0") {
-      handleShowAccessCode();
-    } else {
-      updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(
-        () => {
-          appointment();
-          afterUseAccesscode(Id);
-        }
-      );
-    }
+    if(Id && phone&& major&& gender&& facebookurl&& gradeLevel){
+      if (
+        checkFacebookurl &&
+        checkGender &&
+        checkGradeLevel &&
+        checkMajor &&
+        checkPhone
+      ) {
+        handleShow();
+      } else if (accessCodeCondition == "0") {
+        handleShowAccessCode();
+      } else {
+          updatedataUsers(Id, studentId ,phone, major, gender, facebookurl, gradeLevel).then(
+            () => {
+              appointment();
+              afterUseAccesscode(Id);
+            }
+          );  
+      }
+    }else{
+        handleShowEmpty();
+      }
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -159,7 +172,7 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/deletemulaccesscode";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -168,10 +181,10 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
-      const count = response.data.res ? response.data.res.length : 0;
+      const count = response.data.length;
 
       setAccessCodeCondition(count);
       if (count <= 0) {
@@ -450,6 +463,30 @@ export default function RegisterPage() {
                               <Button
                                 gradientMonochrome="failure"
                                 onClick={handleCloseAccessCode}
+                              >
+                                Close
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+
+
+                           {/* Condition for empty text*/}
+                           <Modal
+                            dismissible
+                            show={!!showModalEmpty}
+                            onClose={handleCloseEmpty}
+                          >
+                            <Modal.Body>
+                              <div className="space-y-6">
+                                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                  โปรดกรอกข้อมูลให้ครบถ้วน
+                                </p>
+                              </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                gradientMonochrome="failure"
+                                onClick={handleCloseEmpty}
                               >
                                 Close
                               </Button>

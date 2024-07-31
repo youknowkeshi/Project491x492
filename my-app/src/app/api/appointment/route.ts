@@ -33,10 +33,16 @@ export async function PUT(req: NextRequest) {
         const client = await pool.connect();
 
         const query = `
-            SELECT u.firstname_lastname, u.studentid, ucr.start_datetime, ucr.end_datetime, ucr.room ,ucr.event_id
-            FROM users u
-            INNER JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
-            WHERE u.studentid = $1;
+            SELECT u.firstname_lastname, u.studentid, ucr.start_datetime, ucr.end_datetime, ucr.room, ucr.event_id
+FROM users u
+INNER JOIN user_conseling_room1 ucr ON u.personid = ucr.personid
+WHERE u.studentid = $1
+UNION ALL
+SELECT u.firstname_lastname, u.studentid, ucr2.start_datetime, ucr2.end_datetime, ucr2.room, ucr2.event_id
+FROM users u
+INNER JOIN user_conseling_room2 ucr2 ON u.personid = ucr2.personid
+WHERE u.studentid = $1
+ORDER BY start_datetime DESC;
         `;
 
         const result = await client.query(query, [studentid]);

@@ -1,11 +1,11 @@
-"use client";
+"use client"
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { Foot } from "../component/Footer";
 import { Navbar } from "../component/์Navbar";
-type Props = {};
 
-export default function DashBoard({}: Props) {
+
+export default function DashBoard() {
   return (
     <>
       <Navbar />

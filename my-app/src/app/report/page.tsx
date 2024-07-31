@@ -4,9 +4,8 @@ import { MyChartComponents } from "./MyChartComponent";
 import { StartDatePicker } from "./startDate";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MyChartComponentsList } from "../reportchecklist/MyChartComponentList";
 import { ComponentDrawer } from "../component/Drawer";
-import { Navbar } from "../component/์Navbar";
+import { Navbaradmin } from "../component/Navbaradmin";
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +36,7 @@ export default function Page() {
   return (
     <>
       <div className="min-h-full">
-        <Navbar />
+        <Navbaradmin />
         <div className="py-10">
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
