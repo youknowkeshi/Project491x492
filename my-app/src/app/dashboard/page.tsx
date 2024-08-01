@@ -1,16 +1,15 @@
-"use client"
+"use client";
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { Foot } from "../component/Footer";
 import { Navbar } from "../component/์Navbar";
-
 
 export default function DashBoard() {
   return (
     <>
       <Navbar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <header className="bg-white">
+        <header className="bg-whit shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
               หน้าแรก
