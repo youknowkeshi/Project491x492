@@ -54,12 +54,12 @@ export default function Home({ }: Props) {
                   มหาวิทยาลัยเชียงใหม่
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <a
+                  {/* <a
                     href="/register"
                     className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     ลงทะเบียน
-                  </a>
+                  </a> */}
                   <a
                     href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
                     className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
