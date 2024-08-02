@@ -56,9 +56,7 @@ export default function CMUOAuthCallback() {
   function getUsers() {
     axios
       .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
-      .then((response) => {
-        console.log(response.data);
-        
+      .then((response) => {      
         if (response.data.ok) {
           const fullName =
             response.data.firstName + " " + response.data.lastName;

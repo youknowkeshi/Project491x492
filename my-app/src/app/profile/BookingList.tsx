@@ -187,7 +187,7 @@ function BookingList() {
             <h2>Appointment: {new Date(appointment.start_datetime).toLocaleDateString()}</h2>
           </div>
           {new Date(moment(appointment.start_datetime).format('YYYY/MM/DD')) >= new Date(moment().tz('Asia/Bangkok').format('YYYY/MM/DD')) ? (
-            index === 0 && !isCurrentAppointment(appointment.start_datetime) && (
+            !isCurrentAppointment(appointment.start_datetime) && (
               <Button
                 type="primary"
                 danger

@@ -1,44 +1,80 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { Navbaradmin } from "../component/Navbaradmin";
-import { Carousel, FileInput, Label } from "flowbite-react";
+import { Carousel, FileInput, Label, Button } from "flowbite-react";
 import axios from "axios";
 
 type Props = {};
 
 interface Article {
-    text: string
-    img_url: string
+    text: string;
+    img_url: string;
 }
 
+export default function Page({}: Props) {
+    const [articles, setArticles] = useState<Article[]>([]);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-export default function page({ }: Props) {
-    const [article, setArticle] = useState<Article[]>([]);
-
-    async function showarticle() {
-        const apiUrl = `/api/article`;
-        try {
-            const response = await axios.get(apiUrl)
-            setArticle(response.data)
-        } catch (error) {
-            console.log("Can't show article : ", error);
-
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setSelectedFile(event.target.files[0]);
         }
-    }
+    };
 
-    async function Addarticle(text: string, img_url: string) {
-        const apiUrl = `/api/article`;
+    const showArticles = async () => {
+        const apiUrl = '/api/article';
         try {
-            await axios.post(apiUrl, { text, img_url })
+            const response = await axios.get(apiUrl);
+            setArticles(response.data);
         } catch (error) {
-            console.log("Can't show article : ", error);
-
+            console.log("Can't show articles: ", error);
         }
-    }
+    };
 
+    const addArticle = async (text: string, img_url: string) => {
+        const apiUrl = '/api/article';
+        try {
+            await axios.post(apiUrl, { text, img_url });
+            showArticles(); // Refresh the article list after adding a new one
+        } catch (error) {
+            console.log("Can't add article: ", error);
+        }
+    };
+
+   
+
+    const addimg = async (sourceFile:File) => {
+        const apiUrl = 'http://localhost:3001/api/admin/addimg';
+        const formData = new FormData();
+        formData.append('file', sourceFile);
+        console.log("dffdf",formData);
+        
+    
+        try {
+            await axios.put(apiUrl, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log("File uploaded successfully");
+        } catch (error) {
+            console.log("Can't add image: ", error);
+        }
+    };
+    
+    const handleSubmit = async () => {
+        if (selectedFile) {
+            await addimg(selectedFile);
+        } else {
+            console.log("No file selected");
+        }
+    };
+    
     useEffect(() => {
-        //showarticle()
-    }, [])
+        // showArticles();
+        console.log("hello",selectedFile);
+        
+    }, [selectedFile]);
 
     return (
         <>
@@ -56,7 +92,13 @@ export default function page({ }: Props) {
                     <div>
                         <Label htmlFor="file-upload-helper-text" value="Upload file" />
                     </div>
-                    <FileInput id="file-upload-helper-text" helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)." />
+                    <FileInput
+                        id="file-upload-helper-text"
+                        helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)."
+                        onChange={handleFileChange}
+                    />
+                    {selectedFile && <p>Selected file: {selectedFile.type}</p>}
+                    <Button onClick={handleSubmit} className="mt-4">Submit</Button>
                 </div>
                 <div>
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -64,23 +106,6 @@ export default function page({ }: Props) {
                     </h5>
                     <p className="font-normal text-gray-700 dark:text-gray-400 mt-5">
                         Here are the biggest enterprise technology acquisitions of 2021 so
-                        far, in reverse chronological order.Contrary to popular belief,
-                        Lorem Ipsum is not simply random text. It has roots in a piece of
-                        classical Latin literature from 45 BC, making it over 2000 years
-                        old. Richard McClintock, a Latin professor at Hampden-Sydney College
-                        in Virginia, looked up one of the more obscure Latin words,
-                        consectetur, from a Lorem Ipsum passage, and going through the cites
-                        of the word in classical literature, discovered the undoubtable
-                        source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de
-                        Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by
-                        Cicero, written in 45 BC. This book is a treatise on the theory of
-                        ethics, very popular during the Renaissance. The first line of Lorem
-                        Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
-                        1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is
-                        reproduced below for those interested. Sections 1.10.32 and 1.10.33
-                        from "de Finibus Bonorum et Malorum" by Cicero are also reproduced
-                        in their exact original form, accompanied by English versions from
-                        the 1914 translation by H. Rackham.
                     </p>
                 </div>
             </div>
