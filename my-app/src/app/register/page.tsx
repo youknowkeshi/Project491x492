@@ -1,6 +1,5 @@
 "use client";
 import {
-  Button,
   Card,
   Checkbox,
   Label,
@@ -16,6 +15,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
+import { Button } from "@/components/ui/button";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -41,19 +42,18 @@ export default function RegisterPage() {
   //if user not use accesscode for admin
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
-  const handleCloseAccessCode = () => setShowModalAccessCode(false)
+  const handleCloseAccessCode = () => setShowModalAccessCode(false);
 
   //if empty text
   const [showModalEmpty, setShowModalEmpty] = useState(false);
   const handleShowEmpty = () => setShowModalEmpty(true);
-  const handleCloseEmpty= () => setShowModalEmpty(false)
-  
+  const handleCloseEmpty = () => setShowModalEmpty(false);
 
   const [accessCodeCondition, setAccessCodeCondition] = useState("");
 
   async function updatedataUsers(
     personid: string,
-    studentId:string,
+    studentId: string,
     phone: string,
     major: string,
     gender: string,
@@ -70,7 +70,6 @@ export default function RegisterPage() {
         facebookurl,
         gradelevel,
       });
-
     } catch (error) {
       console.log("This is error: ", error);
     }
@@ -105,7 +104,7 @@ export default function RegisterPage() {
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
-    checkAccessCode(event.target.value)
+    checkAccessCode(event.target.value);
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,7 +137,7 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
-    if(Id && phone&& major&& gender&& facebookurl&& gradeLevel){
+    if (Id && phone && major && gender && facebookurl && gradeLevel) {
       if (
         checkFacebookurl &&
         checkGender &&
@@ -150,16 +149,22 @@ export default function RegisterPage() {
       } else if (accessCodeCondition == "0") {
         handleShowAccessCode();
       } else {
-          updatedataUsers(Id, studentId ,phone, major, gender, facebookurl, gradeLevel).then(
-            () => {
-              appointment();
-              afterUseAccesscode(Id);
-            }
-          );  
+        updatedataUsers(
+          Id,
+          studentId,
+          phone,
+          major,
+          gender,
+          facebookurl,
+          gradeLevel
+        ).then(() => {
+          appointment();
+          afterUseAccesscode(Id);
+        });
       }
-    }else{
-        handleShowEmpty();
-      }
+    } else {
+      handleShowEmpty();
+    }
   };
 
   async function deleteAccessCode() {
@@ -218,7 +223,7 @@ export default function RegisterPage() {
         </header>
         <main className="bg-[#F7F9FB]">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <div className="relative isolate px-6 pt-14 lg:px-8">
+            <div className="relative isolate px-6 pt-14 pb-14 lg:px-8">
               <div
                 className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"
@@ -238,9 +243,8 @@ export default function RegisterPage() {
                       <h1 className="text-[#B9F3FC] text-3xl mb-3">Welcome</h1>
                       <div>
                         <p className="text-purple">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Aenean suspendisse aliquam varius rutrum purus
-                          maecenas ac{" "}
+                          ก่อนลงทะเบียนกรุณาติดต่อนักจิตผ่านเพจ Entaneer mind
+                          เพื่อพูดคุยเบื้องต้นและรับรหัสเข้ารับบริการ{" "}
                           <a
                             href="https://www.facebook.com/messages/t/100395738521698"
                             className="text-#4F6F52 font-semibold text-[#B9F3FC]"
@@ -251,13 +255,15 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div className="w-full lg:w-1/2 py-16 px-12">
-                      <h2 className="text-3xl mb-4 text-[#B9F3FC]">Register</h2>
+                      <h2 className="text-3xl mb-4 text-[#B9F3FC]">
+                        ลงทะเบียน
+                      </h2>
                       <p className="mb-4">
-                        Create your account. It’s free and only take a minute
+                        สร้างบัญชีของคุณ ฟรีและใช้เวลาเพียงไม่กี่นาที
                       </p>
                       <form action="#">
                         <div className="mb-1">
-                          <Label value="Fullname" />
+                          <Label value="ชื่อ-สกุล" />
                         </div>
                         <div>
                           <TextInput
@@ -269,17 +275,17 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5 grid grid-cols-2 gap-5">
                           <div className="">
-                            <Label value="Phone" />
+                            <Label value="เบอร์โทรศัพท์" />
                           </div>
                           <div className="">
-                            <Label value="StudentID" />
+                            <Label value="รหัสนักศึกษา" />
                           </div>
                         </div>
 
                         <div className="mb-1 grid grid-cols-2 gap-5">
                           <TextInput
                             id="input-gray"
-                            placeholder="091-345xxxx"
+                            placeholder="xxx-xxxxxxx"
                             required
                             color="gray"
                             value={phone}
@@ -294,7 +300,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="max-w-md mt-5">
                           <div className="mb-1 block">
-                            <Label htmlFor="Major" value="Major" />
+                            <Label htmlFor="Major" value="เมเจอร์" />
                           </div>
                           <Select
                             id="Major"
@@ -343,7 +349,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="Access Code" />
+                            <Label value="รหัสเข้ารับบริการ" />
                           </div>
                           <TextInput
                             id="input-gray"
@@ -356,7 +362,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="Gender" />
+                            <Label value="เพศ" />
                           </div>
                           <Select
                             id="gender"
@@ -372,7 +378,7 @@ export default function RegisterPage() {
 
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="GradeLevel" />
+                            <Label value="ชั้นปี" />
                           </div>
                           <Select
                             id="gradeLevel"
@@ -401,19 +407,19 @@ export default function RegisterPage() {
                             className="border border-gray-400"
                           />
                           <span className="ml-3">
-                            I accept the{" "}
+                            ฉันยอมรับข้อ{" "}
                             <a className="text-[#B9F3FC] font-semibold">
-                              Terms of Use
+                              กำหนดการใช้งาน นโยบาย
                             </a>{" "}
                             &{" "}
                             <a className="text-[#B9F3FC] font-semibold">
-                              Privacy Policy
+                              ความเป็นส่วนตัว
                             </a>
                           </span>
                         </div>
                         <div className="mt-5">
                           <button
-                            className="w-full bg-[#B9F3FC] py-3 text-center text-white"
+                            className="w-full bg-[#B9F3FC] py-3 text-center text-white hover:bg-[#8FC1E3]"
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();
@@ -437,12 +443,7 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button
-                                gradientMonochrome="failure"
-                                onClick={handleClose}
-                              >
-                                Close
-                              </Button>
+                              <Button onClick={handleClose}>Close</Button>
                             </Modal.Footer>
                           </Modal>
 
@@ -460,37 +461,37 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button
-                                gradientMonochrome="failure"
-                                onClick={handleCloseAccessCode}
-                              >
+                              <Button onClick={handleCloseAccessCode}>
                                 Close
                               </Button>
                             </Modal.Footer>
                           </Modal>
 
-
-                           {/* Condition for empty text*/}
-                           <Modal
+                          {/* Condition for empty text*/}
+                          <Modal
                             dismissible
                             show={!!showModalEmpty}
                             onClose={handleCloseEmpty}
                           >
+                            <Modal.Header />
                             <Modal.Body>
-                              <div className="space-y-6">
-                                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                              <div className="text-center">
+                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                   โปรดกรอกข้อมูลให้ครบถ้วน
-                                </p>
+                                </h3>
+                              </div>
+
+                              <div className="flex justify-center gap-4">
+                                <Button
+                                  className="flex justify-center"
+                                  variant="destructive"
+                                  onClick={handleCloseEmpty}
+                                >
+                                  Close
+                                </Button>
                               </div>
                             </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                gradientMonochrome="failure"
-                                onClick={handleCloseEmpty}
-                              >
-                                Close
-                              </Button>
-                            </Modal.Footer>
                           </Modal>
                         </div>
                       </form>
@@ -508,7 +509,6 @@ export default function RegisterPage() {
           </div>
         </main>
       </div>
-      <Foot />
     </>
   );
 }

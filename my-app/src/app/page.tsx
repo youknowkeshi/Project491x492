@@ -6,17 +6,17 @@ import { Nav } from "./component/Nav";
 type Props = {};
 // await delay(1000);
 
-export default function Home({ }: Props) {
+export default function Home({}: Props) {
   return (
     <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
       <Nav />
-      {/* <header className="bg-white shadow">
+      <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
             หน้าแรก
           </h1>
         </div>
-      </header> */}
+      </header>
       <main className="bg-[#F7F9FB]">
         <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
           <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -54,12 +54,12 @@ export default function Home({ }: Props) {
                   มหาวิทยาลัยเชียงใหม่
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <a
+                  {/* <a
                     href="/register"
                     className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     ลงทะเบียน
-                  </a>
+                  </a> */}
                   <a
                     href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
                     className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

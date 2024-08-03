@@ -56,9 +56,9 @@ export default function DashBoard() {
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a
                       href="/register"
-                      className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#B9F3FC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      ล็อคอิน
+                      ลงทะเบียน
                     </a>
                     <a
                       href="/dashboard2"

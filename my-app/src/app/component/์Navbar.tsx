@@ -28,14 +28,14 @@ export function Navbar() {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
                     href="/dashboard"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-700"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
                     href="/register"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-indigo-500 hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     ลงทะเบียน
                   </a>
@@ -53,7 +53,7 @@ export function Navbar() {
                   </a>
                   <a
                     href="/Evaluationform"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-700"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     แบบประเมิน
@@ -72,7 +72,7 @@ export function Navbar() {
                 <div className="relative ml-3">
                   <a
                     href="/"
-                    className="bg-indigo-500 rounded-md px-3 py-2 text-sm font-semibold text-white hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="bg-[#8FC1E3] rounded-md px-3 py-2 text-sm font-semibold text-white hover:bg-[#8FC1E3] hover:text-zinc-100"
                     role="menuitem"
                     tabIndex={-1}
                     id="user-menu-item-2"
