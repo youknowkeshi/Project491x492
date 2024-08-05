@@ -203,7 +203,7 @@ export default function RegisterPage() {
             </h1>
           </div>
         </header>
-        <main className="bg-[#B9F3FC]">
+        <main className="bg-[#95BDFF]">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="relative isolate px-6 pt-14 lg:px-8">
               <div
@@ -332,7 +332,7 @@ export default function RegisterPage() {
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder="ขอรับ ID จากนักจิตวิทยา"
+                            placeholder="ขอรับรหัสจากนักจิตวิทยา"
                             required
                             color="gray"
                             value={Id}
