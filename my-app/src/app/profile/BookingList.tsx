@@ -27,17 +27,33 @@ function BookingList() {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
+  const [idcancel,setidcancel] =useState("");
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleCancel = async (
-    start_datetime: string,
-    end_datetime: string,
-    event_id: string,
-    room: string
-  ) => {
-    // fetchEvents();
-    // fetchEvents2();
-    if (room === "conseling_room1") {
+
+  const fetchEvents = async () => {
+    const apiUrl = 'http://localhost:3000/api/events';
+    try {
+      await axios.post(apiUrl);
+    } catch (error) {
+      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+    }
+  };
+
+  const fetchEvents2 = async () => {
+    const apiUrl = 'http://localhost:3000/api/events2';
+    try {
+      await axios.post(apiUrl);
+    } catch (error) {
+      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+    }
+  };
+
+  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
+    fetchEvents();
+    fetchEvents2();
+    if (room === 'conseling_room1') {
       GetEventIdCalendar(start_datetime, end_datetime);
       await DeleteEvents(event_id);
     } else if (room === "conseling_room2") {
@@ -225,32 +241,37 @@ function BookingList() {
               {new Date(appointment.start_datetime).toLocaleDateString()}
             </h2>
           </div>
-          {new Date(moment(appointment.start_datetime).format("YYYY/MM/DD")) >=
-          new Date(moment().tz("Asia/Bangkok").format("YYYY/MM/DD"))
-            ? index === 0 &&
-              !isCurrentAppointment(appointment.start_datetime) && (
-                <Button
-                  type="primary"
-                  danger
-                  className="absolute bottom-4 right-4"
-                  onClick={handleShow}
-                >
-                  Cancel
-                </Button>
-              )
-            : index === 0 &&
-              !isCurrentAppointment(appointment.start_datetime) && (
-                <Button
-                  type="primary"
-                  danger
-                  className="absolute bottom-4 right-4"
-                  disabled
-                >
-                  Cancel
-                </Button>
-              )}
+          {new Date(moment(appointment.start_datetime).format('YYYY/MM/DD')) >= new Date(moment().tz('Asia/Bangkok').format('YYYY/MM/DD')) ? (
+            !isCurrentAppointment(appointment.start_datetime) && (
+              <Button
+                type="primary"
+                danger
+                className="absolute bottom-4 right-4"
+                onClick={() => {
+                  setidcancel(appointment.event_id);
+                  handleShow();
+                }}
+              >
+                ยกเลิกนัด
+              </Button>
+            )
+          ) : (
+            index === 0 && !isCurrentAppointment(appointment.start_datetime) && (
+              <Button
+                type="primary"
+                danger
+                className="absolute bottom-4 right-4"
+                disabled
+              >
+                Cancel
+              </Button>
+            )
+          )}
 
-          <Modal dismissible show={!!showModal} onClose={handleClose}>
+          <Modal
+            dismissible
+            show={!!showModal}
+          >
             <Modal.Body>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
@@ -268,14 +289,8 @@ function BookingList() {
             </Modal.Body>
             <Modal.Footer>
               <Button
-                onClick={() =>
-                  handleCancel(
-                    appointment.start_datetime,
-                    appointment.end_datetime,
-                    appointment.event_id,
-                    appointment.room
-                  )
-                }
+                onClick={() => handleCancel(appointment.start_datetime, appointment.end_datetime, idcancel, appointment.room)}
+               
               >
                 ยืนยัน
               </Button>
