@@ -242,14 +242,9 @@ export default function RegisterPage() {
                     >
                       <h1 className="text-[#6cd6e7] text-3xl mb-3">Welcome</h1>
                       <div>
-<<<<<<< HEAD
-                        <p className="text-purple ">
-                          ลงทะเบียนเพื่อเข้ารับบริการให้คำปรึกษาจากนักจิตวิทยา
-=======
                         <p className="text-purple">
                           ก่อนลงทะเบียนกรุณาติดต่อนักจิตผ่านเพจ Entaneer mind
                           เพื่อพูดคุยเบื้องต้นและรับรหัสเข้ารับบริการ{" "}
->>>>>>> origin/mhog-dev
                           <a
                             href="https://www.facebook.com/messages/t/100395738521698"
                             className="text-#4F6F52 font-semibold text-[#B9F3FC]"
@@ -260,15 +255,6 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div className="w-full lg:w-1/2 py-16 px-12">
-<<<<<<< HEAD
-                      <h2 className="text-3xl mb-4 text-[#57e4f9]">Register</h2>
-                      <p className="mb-4">
-                        ลงทะเบียนสร้าง account เพื่อเข้ารับบริการ
-                      </p>
-                      <form action="#">
-                        <div className="mb-1">
-                          <Label value="ชื่อ-นามสกุล" />
-=======
                       <h2 className="text-3xl mb-4 text-[#B9F3FC]">
                         ลงทะเบียน
                       </h2>
@@ -278,7 +264,6 @@ export default function RegisterPage() {
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-สกุล" />
->>>>>>> origin/mhog-dev
                         </div>
                         <div>
                           <TextInput
@@ -393,11 +378,7 @@ export default function RegisterPage() {
 
                         <div className="mt-5">
                           <div className="mb-1 block">
-<<<<<<< HEAD
-                            <Label value="ชั้นปีที่ศึกษา" />
-=======
                             <Label value="ชั้นปี" />
->>>>>>> origin/mhog-dev
                           </div>
                           <Select
                             id="gradeLevel"
