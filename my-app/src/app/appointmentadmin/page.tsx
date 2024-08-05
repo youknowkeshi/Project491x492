@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Navbaradmin } from "../component/Navbaradmin";
 import { DatePicker } from "./datepicker";
 import { Button } from "@/components/ui/button";
-import { Label, Select } from "flowbite-react";
+import { Label, Select, TextInput } from "flowbite-react";
 import axios from "axios";
 
 type Props = {};
@@ -14,6 +14,7 @@ export default function Page({ }: Props) {
   const [startTime, setStartTime] = useState("-");
   const [endTime, setEndTime] = useState("-");
   const [personId, setPersonId] = useState("");
+  const [description, setDescription] = useState("");
 
   const handlestarttimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartTime(event.target.value);
@@ -23,17 +24,21 @@ export default function Page({ }: Props) {
     setEndTime(event.target.value);
   };
 
+  const handledescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(event.target.value);
+  };
+
   const formatDateTime = (date: Date, time: string): string => {
     // Create a new Date object to avoid mutating the original date
     const newDate = new Date(date);
     // Add one day to the date
     newDate.setDate(newDate.getDate() + 1);
-  
+
     const isoString = newDate.toISOString().split('T')[0]; // Get YYYY-MM-DD part
     const formattedDateTime = `${isoString}T${time}`;
     return formattedDateTime;
   };
-  
+
   async function getdata() {
     const apiurl = `/api/register`;
     const response = await axios.get(apiurl);
@@ -49,9 +54,23 @@ export default function Page({ }: Props) {
     axios.post(apiurl, { start_datetime, end_datetime, personid });
   }
 
+  async function AddAppointmentGoogle(
+    description: string,
+    startDateTime: string,
+    endDateTime: string
+  ) {
+    const apiUrl = "/api/createevents";
+    try {
+      await axios.post(apiUrl, { description, startDateTime, endDateTime });
+    } catch (error) {
+      console.log("Can't add appointment to googlecalendar : ", error);
+    }
+  }
+
   const submit = () => {
     if (startDate && endDate) {
       closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId);
+      AddAppointmentGoogle(description,formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
     } else {
       alert("Please select both start and end dates.");
     }
@@ -59,7 +78,7 @@ export default function Page({ }: Props) {
 
   useEffect(() => {
     getdata();
-  }, []);
+  }, [personId]);
 
   return (
     <div>
@@ -103,7 +122,7 @@ export default function Page({ }: Props) {
           <div className="mx-auto grid max-w-screen-lg  pb-10">
             <p className="text-xl font-bold text-blue-900">เลือกเวลา</p>
             <div className="mt-4 grid grid-cols-2 gap-2 lg:max-w-xl">
-              <div className="max-w-md mt-5">
+              <div className="max-w-md mt-1">
                 <div className="mb-1 block">
                   <Label htmlFor="เวลาเริ่มต้น" value="เวลาเริ่มต้น" />
                 </div>
@@ -121,7 +140,7 @@ export default function Page({ }: Props) {
                   <option value="15:00:00+07:00">15:00 น.</option>
                 </Select>
               </div>
-              <div className="max-w-md mt-5">
+              <div className="max-w-md mt-1">
                 <div className="mb-1 block">
                   <Label htmlFor="เวลาสิ้นสุด" value="เวลาสิ้นสุด" />
                 </div>
@@ -140,13 +159,25 @@ export default function Page({ }: Props) {
                 </Select>
               </div>
             </div>
+
+            <div className="max-w-md mt-3 ">
+              <Label value="รายละเอียดการปิดนัด" />
+            </div>
+
+            <div className="mt-2 grid grid-cols-2 gap-5">
+              <TextInput
+                id="input-gray"
+                placeholder="รายละเอียด"
+                required
+                color="gray"
+                value={description}
+                onChange={handledescriptionChange}
+              />
+
+            </div>
             <div className="text-center">
               <Button className="mt-7 bg-indigo-700" onClick={submit}>Submit</Button>
             </div>
-          </div>
-
-          <div>
-            <h1>{startDate ? formatDateTime(startDate, startTime) : ""}</h1>
           </div>
         </main>
       </div>
