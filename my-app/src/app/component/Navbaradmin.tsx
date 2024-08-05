@@ -60,6 +60,13 @@ export function Navbaradmin() {
                                     >
                                         รหัสสำหรับผู้เข้ารับบริการครั้งแรก
                                     </a>
+                                    <a
+                                        href="/appointmentadmin"
+                                        className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                                    >
+                                        ปิดเวลานัด
+                                    </a>
+                                    
                                 </div>
                             </div>
                         </div>
