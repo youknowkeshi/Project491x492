@@ -18,7 +18,7 @@ import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
-import {  Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
 
 interface Appointment {
@@ -222,7 +222,7 @@ function BookAppointment({ room }: { room: any }) {
       const response = await axios.get("/api/register");
       checkregister(response.data.studentId);
       appointment(response.data.studentId);
-      getPersonId(response.data.studentId)
+      getPersonId(response.data.studentId);
     } catch (err) {
       console.log("This is error: ", err);
     }
@@ -289,7 +289,6 @@ function BookAppointment({ room }: { room: any }) {
         setCheckAppointmented(true);
       }
       setCheckAppointmented(false);
-
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -303,7 +302,7 @@ function BookAppointment({ room }: { room: any }) {
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
-  
+
   useEffect(() => {
     getdatausers();
     getEvents();
@@ -363,7 +362,7 @@ function BookAppointment({ room }: { room: any }) {
                             }
                             className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
                               selectedTimeSlot === timeSlot
-                                ? "bg-green-500 text-white"
+                                ? "bg-[#8FC1E3] text-white"
                                 : !isAvailable
                                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 : ""
@@ -394,7 +393,11 @@ function BookAppointment({ room }: { room: any }) {
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button className="text-red-500 border-red-500 hover:bg-[#ffffff] " type="button" variant="outline"  >
+              <Button
+                className="text-red-500 border-red-500 hover:bg-[#ffffff] "
+                type="button"
+                variant="outline"
+              >
                 Close
               </Button>
             </DialogClose>
