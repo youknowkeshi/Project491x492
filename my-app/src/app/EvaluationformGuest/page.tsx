@@ -27,12 +27,12 @@ const Page: React.FC<Props> = () => {
   return (
     <>
       <Nav />
-      <div className="flex justify-start mt-10 mx-10">
+      <div className="flex justify-start mt-8 mx-8 mb-8 ">
         {/* Right block */}
         <Card
           className="hidden sm:flex max-w-lg items-center"
           renderImage={() => (
-            <Image width={500} height={500} src="/1.jpg" alt="image 1" />
+            <Image width={500} height={400} src="/doctor.png" alt="image 1" />
           )}
         >
           <div >

@@ -41,59 +41,9 @@ export function Nav() {
           </div>
           
         </div>
-<<<<<<< HEAD
-        <Navbar.Toggle />
-        <Navbar fluid rounded>
-          <Navbar.Collapse>
-            {isLoggedIn ? (
-              <>
-                <Navbar.Link href="/dashboard" active>
-                  หน้าหลัก
-                </Navbar.Link>
-                <Navbar.Link as={Link} href="/register">
-                  ลงทะเบียนครั้งแรก
-                </Navbar.Link>
-                <Navbar.Link href="/appointment">จองห้องให้คำปรึกษา</Navbar.Link>
-                <Navbar.Link href="/profile">ข้อมูลผู้ใช้งาน</Navbar.Link>
-                <Dropdown label="Dropdown" inline>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/Evaluationform">แบบประเมินตนเอง</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/article">บทความ</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/accessCode">สร้าง ID สำหรับผู้รับบริการใหม่</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/List">รายการ</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/UserInfomation">UserInfo</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link href="/graph">สร้างกราฟ</Navbar.Link>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Navbar.Link onClick={signOut}>Logout</Navbar.Link>
-                  </Dropdown.Item>
-                </Dropdown>
-              </>
-            ) : (
-              <Navbar.Link href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}>
-                Login
-              </Navbar.Link>
-            )}
-          </Navbar.Collapse>
-        </Navbar>
-      </Navbar>
-      <div className="mt-4" />
-    </>
-=======
       </div>
 
     </nav>
   </div>
->>>>>>> origin/mhog-dev
   );
 }
