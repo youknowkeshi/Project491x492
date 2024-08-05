@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
 
 interface Appointment {
@@ -233,13 +234,18 @@ function BookAppointment({ room }: { room: any }) {
 
     try {
       const response = await axios.post(apiUrl, { studentId });
-      setCheckPhone(response.data[0].phone);
-      setCheckMajor(response.data[0].major);
-      setCheckGender(response.data[0].gender);
-      setCheckFacebookUrl(response.data[0].facebookurl);
-      setCheckGradeLevel(response.data[0].gradelevel);
+  
+      // ตรวจสอบว่า response.data มีค่าหรือไม่และมีอาเรย์ที่มีสมาชิก
+      if (response.data && response.data.length > 0) {
+        const userData = response.data[0];
+        setCheckPhone(userData.phone);
+        setCheckMajor(userData.major);
+        setCheckGender(userData.gender);
+        setCheckFacebookUrl(userData.facebookurl);
+        setCheckGradeLevel(userData.gradelevel);
+      } 
     } catch (error) {
-      console.log("Can't check resgister users ", error);
+      console.log("Can't check register users ", error);
     }
   }
 
@@ -261,12 +267,15 @@ function BookAppointment({ room }: { room: any }) {
         checkMajor &&
         checkPhone
       ) {
+        console.log("find", checkAppointmented);
+
         if (checkAppointmented) {
           handleShowAppointmented();
         } else {
           AddTimeAppointment(start_datetime, end_datetime, personId, message);
           AddAppointmentGoogle(message, start_datetime, end_datetime);
           setIsConfirmationModalOpen(true);
+
         }
       } else {
         handleShow();
@@ -281,7 +290,24 @@ function BookAppointment({ room }: { room: any }) {
         "http://localhost:3001/api/appointment/checkappointment",
         { studentid }
       );
-      const latestApppoint = response.data[0].start_datetime;
+      // Check if response.data is null or undefined
+      if (response.data && response.data.length > 0) {
+        const latestApppoint = response.data[0].start_datetime || null;
+
+        if (latestApppoint) {
+          const appointmentDateTime = new Date(latestApppoint);
+          if (appointmentDateTime > currentDateTime) {
+            setCheckAppointmented(true);
+          } else {
+            setCheckAppointmented(false);
+          }
+        } else {
+          setCheckAppointmented(false);
+        }
+      } else {
+        // Handle the case where response.data is null or empty
+        setCheckAppointmented(false);
+      }
 
       const appointmentDateTime = new Date(latestApppoint);
 
@@ -303,6 +329,7 @@ function BookAppointment({ room }: { room: any }) {
       .catch((error) => console.log("getPersonId fail: ", error));
   }
 
+
   useEffect(() => {
     getdatausers();
     getEvents();
@@ -318,6 +345,7 @@ function BookAppointment({ room }: { room: any }) {
             type="button"
           >
             จองคิวนัดปรึกษาที่ห้อง {room}
+
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -360,13 +388,15 @@ function BookAppointment({ room }: { room: any }) {
                             onClick={() =>
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
+                                ? "bg-green-500 text-white"
                             className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
                               selectedTimeSlot === timeSlot
                                 ? "bg-[#8FC1E3] text-white"
                                 : !isAvailable
-                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                : ""
-                            }`}
+                                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                  : ""
+                              }`}
                             key={index}
                           >
                             {timeSlot}

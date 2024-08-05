@@ -38,7 +38,8 @@ export const config = {
     "/article/:path*",
     "/about/:path*",
     "/appointment/:path*",
-    "/accessCode/:path*",
+     "/appointmentadmin/:path*",
+    // "/accessCode/:path*",
     "/dashboard/:path*",
     "/EditInformation/:path*",
     "/Evaluationform/:path*",
@@ -52,5 +53,6 @@ export const config = {
     "/reportgradelevel/:path*",
     "/UserInfomation/:path*",
     // Add more paths as needed
+   
   ],
 };

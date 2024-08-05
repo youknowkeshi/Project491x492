@@ -26,6 +26,7 @@ export function Navbar() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
+
                   <a
                     href="/dashboard"
                     className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
@@ -82,6 +83,67 @@ export function Navbar() {
                   </a>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="md:hidden" id="mobile-menu">
+          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+            <a
+              href="/dashboard"
+               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-blue"
+              // aria-current="page"
+            >
+              หน้าแรก
+            </a>
+            <a
+              href="/register"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+            >
+              ลงทะเบียน
+            </a>
+            <a
+              href="/appointment"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+            >
+              จองคิว
+            </a>
+            <a
+              href="/profile"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+            >
+              ประวัติการพบนักจิตทางคณะ
+            </a>
+            <a
+              href="/Evaluationform"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+            >
+              แบบประเมิน
+            </a>
+
+            <a
+              href="/artical"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+            >
+              บทความ
+            </a>
+
+
+          </div>
+          <div className="border-t border-gray-700 pb-3 pt-4">
+            <div className="flex items-center px-5">
+
+
+            </div>
+            <div className="mt-3 space-y-1 px-2">
+
+              <a
+                href="/"
+                className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
+                onClick={signOut}
+              >
+                ออกจากระบบ
+              </a>
             </div>
           </div>
         </div>

@@ -13,31 +13,71 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
+interface StartDatePickerProps {
+  startDate: Date | undefined;
+  setStartDate: (date: Date | undefined) => void;
+  endDate: Date | undefined;
+  setEndDate: (date: Date | undefined) => void;
+}
 
+export function DatePicker({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}: StartDatePickerProps) {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
+    <div className="flex gap-0">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[160px] justify-start text-left font-normal",
+              !startDate && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {startDate ? (
+              format(startDate, "EEE, d MMM, yyyy")
+            ) : (
+              <span>เริ่มต้น</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={startDate}
+            onSelect={setStartDate}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[160px] justify-start text-left font-normal",
+              !endDate && "text-muted-foreground"
+            )}
+            // Ensure margin-left only for endDate Button
+            style={{ marginLeft: "1rem" }}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {endDate ? format(endDate, "EEE, d MMM, yyyy") : <span>สิ้นสุด</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={endDate}
+            onSelect={setEndDate}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

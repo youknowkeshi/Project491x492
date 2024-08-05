@@ -67,7 +67,7 @@ export default function Home({}: Props) {
                     Login
                   </a>
                   <a
-                    href="#"
+                    href="/dashboard2"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     วิธีการจองสำหรับรับบริการครั้งแรก{" "}
