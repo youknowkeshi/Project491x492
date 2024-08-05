@@ -131,11 +131,7 @@ export function ProfileForm() {
     }
   }, [id]);
 
-<<<<<<< HEAD
-  if (!infor) return <div>Loading...</div>; // Handle case where data is still loading or `infor` is null
-=======
   if (!infor) return <div></div>; // Handle case where data is still loading or `infor` is null
->>>>>>> origin/mhog-dev
 
   return (
     <>

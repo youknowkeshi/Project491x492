@@ -26,31 +26,12 @@ const Page: React.FC<Props> = () => {
   return (
     <>
       <Navbar />
-<<<<<<< HEAD
-      <div className="flex justify-start mt-10 mx-10 mb-10">
-        {/* Right block */}
-        <Card
-          className="hidden sm:flex max-w-lg items-center"
-          renderImage={() => (
-            <Image width={500} height={500} src="/1.jpg" alt="image 1" />
-          )}
-        >
-          <div className="w-2.5/4">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              แบบประเมินตนเอง
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              เพื่อทดสอบว่าช่วงนี้สภาพเราเป็นยังไงบ้าง
-              สามารถทำแบบประเมินได้ตลอดเวลา
-            </p>
-=======
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
               แบบประเมินความเครียด
             </h1>
->>>>>>> origin/mhog-dev
           </div>
         </header>
         <main>
@@ -63,103 +44,6 @@ const Page: React.FC<Props> = () => {
                   <Image width={500} height={500} src="/1.jpg" alt="image 1" />
                 )}
               >
-<<<<<<< HEAD
-                <Button
-                  className="w-full sm:w-auto"
-                  onClick={() => handleClick("แบบวัดพลังใจ")}
-                  aria-label="Mind Survey"
-                >
-                  แบบวัดพลังใจ
-                  <svg
-                    className="-mr-1 ml-2 h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
-              </Link>
-            </div>
-            <div className="mt-2 text-right"></div>
-          </Card>
-          <Card className="flex flex-col">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              วัดความเครียด
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              ความเครียดในระดับที่เหมาะสมจะเป็นแรงผลักดันให้เราสามารถทำในสิ่งที่ตั้งใจให้ประสบความสำเร็จมากขึ้น
-              มาประเมินกันว่าความเครียดของเราอยู่ในระดับไหน
-            </p>
-            <div className="flex justify-end">
-              <Link
-                href="https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress"
-                passHref
-              >
-                <Button
-                  className="w-full sm:w-auto"
-                  onClick={() => handleClick("วัดความเครียด")}
-                  aria-label="Stress Survey"
-                >
-                  แบบประเมินความเครียด
-                  <svg
-                    className="-mr-1 ml-2 h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
-              </Link>
-            </div>
-            <div className="mt-2 text-right"></div>
-          </Card>
-          <Card className="flex flex-col">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              สำรวจตัวเอง
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              มารู้จักตนเองให้มากขึ้นโดยทำแบบสำรวจตนเองได้เลย
-            </p>
-            <div className="flex justify-end">
-              <Link
-                href="https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList"
-                passHref
-              >
-                <Button
-                  className="w-full sm:w-auto"
-                  onClick={() => handleClick("สำรวจตัวเอง")}
-                  aria-label="Self Survey"
-                >
-                  แบบสำรวจตัวเอง
-                  <svg
-                    className="-mr-1 ml-2 h-4 w-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
-              </Link>
-            </div>
-            <div className="mt-2 text-right"></div>
-          </Card>
-        </div>
-=======
                 <div>
                   <h5 className="text-2xl font-bold text-center">
                     ช่วงนี้เราเป็นอย่างไรบ้างนะ ?
@@ -290,7 +174,6 @@ const Page: React.FC<Props> = () => {
             </div>
           </div>
         </main>
->>>>>>> origin/mhog-dev
       </div>
     </>
   );
