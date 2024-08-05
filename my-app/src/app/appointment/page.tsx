@@ -2,25 +2,14 @@
 import React, { useEffect } from "react";
 import BookAppointment from "./BookAppointment";
 import BookAppointment2 from "./BookAppointment2";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import axios from "axios";
 
 type Props = {};
 
 export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
 
     try {
       await axios.post(apiUrl);
@@ -33,7 +22,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
 
     try {
       await axios.delete(apiUrl);
@@ -43,7 +32,7 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "http://localhost:3000/api/events2";
+    const apiUrl = "/api/events2";
 
     try {
       await axios.post(apiUrl);
@@ -56,7 +45,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "http://localhost:3000/api/events2";
+    const apiUrl = "/api/events2";
 
     try {
       await axios.delete(apiUrl);

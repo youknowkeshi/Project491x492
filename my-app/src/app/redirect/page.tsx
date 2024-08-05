@@ -30,7 +30,7 @@ export default function Home() {
 
     async function OAuth() {
 
-        const apiUrl = 'http://localhost:3000/api/redirect';
+        const apiUrl = '/api/redirect';
         const reqData = { code };
         // การเรียกใช้ฟังก์ชัน PUT ผ่าน Axios
         await axios.post(apiUrl, reqData)

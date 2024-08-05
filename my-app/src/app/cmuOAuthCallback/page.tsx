@@ -5,7 +5,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
-import Loading from "../loading";
+import  Loading  from "../loading"
+
+
+async function delay() {
+  return new Promise((resolve) => {
+    setTimeout(resolve);
+  });
+}
+
+
 
 export default function CMUOAuthCallback() {
   const router = useRouter();
@@ -15,7 +24,8 @@ export default function CMUOAuthCallback() {
   const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
@@ -58,22 +68,28 @@ export default function CMUOAuthCallback() {
           if (organization_name == 'Faculty of Engineering') {
             if (studentId && fullName && cmuAccount && organization_name && itaccounttype_EN) {
               if (admin === cmuAccount) {
-                logadmin(
-                  fullName,
-                  cmuAccount,
-                  studentId,
-                  organization_name,
-                  itaccounttype_EN
-                );
-                home();
+                axios
+                  .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
+                    if(response.data.ok){
+                      homeadmin();
+                    }else{
+                      logadmin(
+                        fullName,
+                        cmuAccount,
+                        studentId,
+                        organization_name,
+                        itaccounttype_EN
+                      );
+                      homeadmin();
+                    }
+                  })
+                  setIsLoading(false);
               } else {
                 axios
-                  .get("http://localhost:3000/api/checkdata")
+                  .get("/api/checkdata")
                   .then((response) => {
-                    console.log(response.data);
 
                     if (response.data) {
-                      console.log(response.data.temp.studentid);
                       home();
                     } else {
                       addUsers(
@@ -86,6 +102,7 @@ export default function CMUOAuthCallback() {
                       register();
                     }
                   });
+                  setIsLoading(false);
               }
             }
           } else {
@@ -93,7 +110,6 @@ export default function CMUOAuthCallback() {
             handleShow();
           }
         }
-        setIsLoading(false); // Stop loading
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
         if (!error.response) {
@@ -107,7 +123,6 @@ export default function CMUOAuthCallback() {
         } else {
           setErrorMessage("Unknown error occurred. Please try again later");
         }
-        setIsLoading(false); // Stop loading
       });
   }
 
@@ -119,7 +134,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      await axios.post("http://localhost:3000/api/users", {
+      await axios.post("http://localhost:3001/api/user/afterlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,
@@ -139,7 +154,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      axios.post("http://localhost:3000/api/admin", {
+      axios.post("http://localhost:3001/api/admin/firstlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,
@@ -159,17 +174,21 @@ export default function CMUOAuthCallback() {
     router.push("/dashboard");
   }
 
+  function homeadmin() {
+    router.push("/List");
+  }
+
   useEffect(() => {
     LogIn();
   }, []);
 
+  if (isLoading) {
+    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
+  }
+
   return (
     <div className="p-3">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        message || errorMessage
-      )}
+      
       <Modal dismissible show={!!showModal} onClose={handleClose}>
         <Modal.Body>
           <div className="space-y-6">

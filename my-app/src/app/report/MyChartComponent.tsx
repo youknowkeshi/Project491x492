@@ -1,4 +1,3 @@
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Major {
   major: string;
@@ -26,10 +26,10 @@ async function graphmajor(
   startdate: string,
   enddate: string
 ): Promise<Major[]> {
-  const apiUrl = `/api/graphappointmentformajor`;
+  const apiUrl = `http://localhost:3001/api/graph/graphappointmentformajor`;
 
   try {
-    const response = await axios.put(apiUrl, {
+    const response = await axios.post(apiUrl, {
       startdate,
       enddate,
     });
@@ -42,7 +42,7 @@ async function graphmajor(
 
 const chartConfig: ChartConfig = {
   major_count: {
-    color: "#2563eb",
+    color: "#6B84F4",
   },
 };
 
@@ -56,6 +56,19 @@ export function MyChartComponents({
   endDate,
 }: MyChartComponentsProps) {
   const [chartData, setChartData] = useState<Major[]>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
+
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.major_count - b.major_count; // Ascending
+      } else {
+        return b.major_count - a.major_count; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,8 +84,14 @@ export function MyChartComponents({
   }, [startDate, endDate]);
 
   return (
-    <div className="grid grid-cols-2 gap-10">
-      <Card>
+    <div >
+       <div>
+          <Button onClick={toggleSort} className="bg-[#5044e4]" >
+        {isSorted ? "Sort Ascending" : "Sort Descending"}
+      </Button>
+      </div>
+
+      <Card style={{ margin: '10px 30px 0 0' }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
           <CardDescription>
@@ -106,7 +125,11 @@ export function MyChartComponents({
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
+                tickFormatter={(value) => value.slice(0, 50)  } 
+                interval={0} 
+                angle={30} 
+                textAnchor="start" 
+                height={140} 
               />
               <ChartTooltip
                 cursor={false}
@@ -114,24 +137,14 @@ export function MyChartComponents({
               />
               <Bar
                 dataKey="major_count"
-                fill="var(--color-major_count)"
+                fill={chartConfig.major_count.color}
                 radius={4}
               />
             </BarChart>
           </ChartContainer>
         </CardContent>
       </Card>
-      <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
-        <div className="ml-10 mt-10">
-          {chartData.length > 0
-            ? chartData.map((data, index) => (
-                <div key={index}>
-                  {data.major}: {data.major_count}
-                </div>
-              ))
-            : ""}
-        </div>
-      </Card>
+
     </div>
   );
 }

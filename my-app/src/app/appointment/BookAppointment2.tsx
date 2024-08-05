@@ -68,7 +68,7 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = "http://localhost:3000/api/events2";
+    const apiUrl = "/api/events2";
     try {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data.result.rows;
@@ -123,7 +123,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "http://localhost:3000/api/conseling_room2";
+    const apiUrl = "/api/conseling_room2";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -141,7 +141,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "http://localhost:3000/api/createevents2";
+    const apiUrl = "/api/createevents2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -220,7 +220,7 @@ function BookAppointment({ room }: { room: any }) {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register";
+    const apiUrl = "/api/register";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -269,7 +269,7 @@ function BookAppointment({ room }: { room: any }) {
   const appointment = async (studentid: string) => {
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/appointment2",
+        "/api/appointment2",
         { studentid }
       );
       const len = response.data.length - 1;
@@ -282,7 +282,7 @@ function BookAppointment({ room }: { room: any }) {
 
   function getPersonId() {
     axios
-      .get("http://localhost:3000/api/checkdata")
+      .get("/api/checkdata")
       .then((response) => {
         const personId = response.data.temp.personid;
         setPersonId(personId);

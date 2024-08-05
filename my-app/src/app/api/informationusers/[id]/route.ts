@@ -29,11 +29,16 @@ export async function GET(request: NextRequest, context: { params: { id: string 
 }
 
 // edit  detail and checklist
-export async function PUT(request: NextResponse) {
+export async function PUT(request: NextResponse, context: { params: { id: string } }) {
+    
     try {
+        const event_id = context.params.id
+        if (!event_id) {
+            return new Error('Failed to get id')
+        }
         const req = await request.json();
 
-        const { details_consultation, mental_health_checklist, mental_risk_level,event_id } = req;
+        const { details_consultation, mental_health_checklist, mental_risk_level } = req;
 
         if(!details_consultation && !mental_health_checklist && !mental_risk_level && !event_id){
             return NextResponse.json({message:"request some data null"},{status:400})

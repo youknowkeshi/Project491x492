@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const res = await client.query(text, values);
-      return NextResponse.json({ data: res.rows }); // Access rows from the result
+      return NextResponse.json( res.rows ); // Access rows from the result
     } finally {
       client.release(); // Release the client back to the pool
     }

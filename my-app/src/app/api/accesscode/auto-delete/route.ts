@@ -53,8 +53,6 @@ export async function DELETE(response: NextResponse) {
         const client = await pool.connect();
         try {
             const res = await client.query(`DELETE FROM accesscode WHERE expire_datetime < NOW() - INTERVAL '50 minute';`);
-            console.log(res.rowCount + ' rows deleted.');
-
             return NextResponse.json({ res })
         } finally {
             client.release();

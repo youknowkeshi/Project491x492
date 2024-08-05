@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import {Navbar} from "../component/์Navbar";
+import {Nav} from "../component/Nav";
 import {  Carousel} from "flowbite-react";
 import axios from "axios";
 
@@ -42,7 +42,7 @@ export default function page({ }: Props) {
 
   return (
     <>
-      <Navbar />
+      <Nav />
       <div className="mt-7 h-56 sm:h-64 xl:h-80 2xl:h-96">
         <Carousel>
           <img

@@ -23,10 +23,7 @@ export async function PUT(request: NextRequest) {
         const res = await client.query(text, values);
         client.release();
     
-        // ตรวจสอบว่ามีข้อมูลถูกลบหรือไม่
-        if (res.rowCount === 0) {
-            return new Response('accesscode not found', { status: 404 });
-        }
+
     
         // ส่งข้อความยืนยันการลบกลับไปใน response
         return new Response('accesscode deleted successfully');

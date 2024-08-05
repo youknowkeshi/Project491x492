@@ -1,6 +1,5 @@
 "use client";
 import {
-  Button,
   Card,
   Checkbox,
   Label,
@@ -11,12 +10,13 @@ import {
 } from "flowbite-react";
 
 import React, { useState, useEffect } from "react";
-import Nav from "../component/Nav";
+
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { access } from "fs";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
+import { Button } from "@/components/ui/button";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,13 +39,21 @@ export default function RegisterPage() {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
+  //if user not use accesscode for admin
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
   const handleCloseAccessCode = () => setShowModalAccessCode(false);
+
+  //if empty text
+  const [showModalEmpty, setShowModalEmpty] = useState(false);
+  const handleShowEmpty = () => setShowModalEmpty(true);
+  const handleCloseEmpty = () => setShowModalEmpty(false);
+
   const [accessCodeCondition, setAccessCodeCondition] = useState("");
 
   async function updatedataUsers(
     personid: string,
+    studentId: string,
     phone: string,
     major: string,
     gender: string,
@@ -53,15 +61,15 @@ export default function RegisterPage() {
     gradelevel: string
   ) {
     try {
-      const response = await axios.put("http://localhost:3000/api/register", {
+      await axios.put("http://localhost:3001/api/user/firstlogin", {
         personid,
+        studentId,
         phone,
         major,
         gender,
         facebookurl,
         gradelevel,
       });
-      console.log("front: ", response);
     } catch (error) {
       console.log("This is error: ", error);
     }
@@ -79,16 +87,16 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register";
+    const apiUrl = "http://localhost:3001/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
 
-      setCheckPhone(response.data.data[0].phone);
-      setCheckMajor(response.data.data[0].major);
-      setCheckGender(response.data.data[0].gender);
-      setCheckFacebookUrl(response.data.data[0].facebookurl);
-      setCheckGradeLevel(response.data.data[0].gradelevel);
+      setCheckPhone(response.data[0].phone);
+      setCheckMajor(response.data[0].major);
+      setCheckGender(response.data[0].gender);
+      setCheckFacebookUrl(response.data[0].facebookurl);
+      setCheckGradeLevel(response.data[0].gradelevel);
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -96,6 +104,7 @@ export default function RegisterPage() {
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
+    checkAccessCode(event.target.value);
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,29 +137,38 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
-    checkAccessCode(Id);
-    if (
-      checkFacebookurl &&
-      checkGender &&
-      checkGradeLevel &&
-      checkMajor &&
-      checkPhone
-    ) {
-      handleShow();
-    } else if (accessCodeCondition == "0") {
-      handleShowAccessCode();
-    } else {
-      updatedataUsers(Id, phone, major, gender, facebookurl, gradeLevel).then(
-        () => {
+    if (Id && phone && major && gender && facebookurl && gradeLevel) {
+      if (
+        checkFacebookurl &&
+        checkGender &&
+        checkGradeLevel &&
+        checkMajor &&
+        checkPhone
+      ) {
+        handleShow();
+      } else if (accessCodeCondition == "0") {
+        handleShowAccessCode();
+      } else {
+        updatedataUsers(
+          Id,
+          studentId,
+          phone,
+          major,
+          gender,
+          facebookurl,
+          gradeLevel
+        ).then(() => {
           appointment();
           afterUseAccesscode(Id);
-        }
-      );
+        });
+      }
+    } else {
+      handleShowEmpty();
     }
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -159,7 +177,7 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/manual-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/deletemulaccesscode";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -168,10 +186,10 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3000/api/accesscode/auto-delete";
+    const apiUrl = "http://localhost:3001/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
-      const count = response.data.res ? response.data.res.length : 0;
+      const count = response.data.length;
 
       setAccessCodeCondition(count);
       if (count <= 0) {
@@ -205,7 +223,7 @@ export default function RegisterPage() {
         </header>
         <main className="bg-[#95BDFF]">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <div className="relative isolate px-6 pt-14 lg:px-8">
+            <div className="relative isolate px-6 pt-14 pb-14 lg:px-8">
               <div
                 className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"
@@ -224,8 +242,14 @@ export default function RegisterPage() {
                     >
                       <h1 className="text-[#6cd6e7] text-3xl mb-3">Welcome</h1>
                       <div>
+<<<<<<< HEAD
                         <p className="text-purple ">
                           ลงทะเบียนเพื่อเข้ารับบริการให้คำปรึกษาจากนักจิตวิทยา
+=======
+                        <p className="text-purple">
+                          ก่อนลงทะเบียนกรุณาติดต่อนักจิตผ่านเพจ Entaneer mind
+                          เพื่อพูดคุยเบื้องต้นและรับรหัสเข้ารับบริการ{" "}
+>>>>>>> origin/mhog-dev
                           <a
                             href="https://www.facebook.com/messages/t/100395738521698"
                             className="text-#4F6F52 font-semibold text-[#B9F3FC]"
@@ -236,6 +260,7 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div className="w-full lg:w-1/2 py-16 px-12">
+<<<<<<< HEAD
                       <h2 className="text-3xl mb-4 text-[#57e4f9]">Register</h2>
                       <p className="mb-4">
                         ลงทะเบียนสร้าง account เพื่อเข้ารับบริการ
@@ -243,6 +268,17 @@ export default function RegisterPage() {
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-นามสกุล" />
+=======
+                      <h2 className="text-3xl mb-4 text-[#B9F3FC]">
+                        ลงทะเบียน
+                      </h2>
+                      <p className="mb-4">
+                        สร้างบัญชีของคุณ ฟรีและใช้เวลาเพียงไม่กี่นาที
+                      </p>
+                      <form action="#">
+                        <div className="mb-1">
+                          <Label value="ชื่อ-สกุล" />
+>>>>>>> origin/mhog-dev
                         </div>
                         <div>
                           <TextInput
@@ -264,7 +300,7 @@ export default function RegisterPage() {
                         <div className="mb-1 grid grid-cols-2 gap-5">
                           <TextInput
                             id="input-gray"
-                            placeholder="091-345xxxx"
+                            placeholder="xxx-xxxxxxx"
                             required
                             color="gray"
                             value={phone}
@@ -357,7 +393,11 @@ export default function RegisterPage() {
 
                         <div className="mt-5">
                           <div className="mb-1 block">
+<<<<<<< HEAD
                             <Label value="ชั้นปีที่ศึกษา" />
+=======
+                            <Label value="ชั้นปี" />
+>>>>>>> origin/mhog-dev
                           </div>
                           <Select
                             id="gradeLevel"
@@ -386,19 +426,19 @@ export default function RegisterPage() {
                             className="border border-gray-400"
                           />
                           <span className="ml-3">
-                            I accept the{" "}
+                            ฉันยอมรับข้อ{" "}
                             <a className="text-[#B9F3FC] font-semibold">
-                              Terms of Use
+                              กำหนดการใช้งาน นโยบาย
                             </a>{" "}
                             &{" "}
                             <a className="text-[#B9F3FC] font-semibold">
-                              Privacy Policy
+                              ความเป็นส่วนตัว
                             </a>
                           </span>
                         </div>
                         <div className="mt-5">
                           <button
-                            className="w-full bg-[#B9F3FC] py-3 text-center text-white"
+                            className="w-full bg-[#B9F3FC] py-3 text-center text-white hover:bg-[#8FC1E3]"
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();
@@ -422,12 +462,7 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button
-                                gradientMonochrome="failure"
-                                onClick={handleClose}
-                              >
-                                Close
-                              </Button>
+                              <Button onClick={handleClose}>Close</Button>
                             </Modal.Footer>
                           </Modal>
 
@@ -445,13 +480,37 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button
-                                gradientMonochrome="failure"
-                                onClick={handleCloseAccessCode}
-                              >
+                              <Button onClick={handleCloseAccessCode}>
                                 Close
                               </Button>
                             </Modal.Footer>
+                          </Modal>
+
+                          {/* Condition for empty text*/}
+                          <Modal
+                            dismissible
+                            show={!!showModalEmpty}
+                            onClose={handleCloseEmpty}
+                          >
+                            <Modal.Header />
+                            <Modal.Body>
+                              <div className="text-center">
+                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                  โปรดกรอกข้อมูลให้ครบถ้วน
+                                </h3>
+                              </div>
+
+                              <div className="flex justify-center gap-4">
+                                <Button
+                                  className="flex justify-center"
+                                  variant="destructive"
+                                  onClick={handleCloseEmpty}
+                                >
+                                  Close
+                                </Button>
+                              </div>
+                            </Modal.Body>
                           </Modal>
                         </div>
                       </form>
@@ -469,7 +528,6 @@ export default function RegisterPage() {
           </div>
         </main>
       </div>
-      <Foot />
     </>
   );
 }

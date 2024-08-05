@@ -19,7 +19,7 @@ export default function Page({}: Props) {
     infor_id: string,
     health: string
   ) {
-    const apiUrl = "http://localhost:3000/api/informationusers";
+    const apiUrl = "/api/informationusers";
     try {
       const response = axios.put(apiUrl, { details, infor_id, health });
     } catch (error) {
@@ -28,7 +28,7 @@ export default function Page({}: Props) {
   }
 
   async function Getinfor() {
-    const apiUrl = "http://localhost:3000/api/informationusers";
+    const apiUrl = "/api/informationusers";
     try {
       const response = await axios.get(apiUrl);
       const sortedData = response.data.sort(

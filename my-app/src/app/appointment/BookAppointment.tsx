@@ -77,7 +77,7 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = "http://localhost:3000/api/events";
+    const apiUrl = "/api/events";
     try {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data.result.rows;
@@ -132,7 +132,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "http://localhost:3000/api/conseling_room1";
+    const apiUrl = "http://localhost:3001/api/appointment/addtimeappointment";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -150,7 +150,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "http://localhost:3000/api/createevents";
+    const apiUrl = "/api/createevents";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -220,25 +220,24 @@ function BookAppointment({ room }: { room: any }) {
   async function getdatausers() {
     try {
       const response = await axios.get("/api/register");
-      const studentId = response.data.studentId;
-      checkregister(studentId);
-      appointment(studentId);
+      checkregister(response.data.studentId);
+      appointment(response.data.studentId);
+      getPersonId(response.data.studentId)
     } catch (err) {
       console.log("This is error: ", err);
     }
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3000/api/register";
+    const apiUrl = "http://localhost:3001/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
-
-      setCheckPhone(response.data.data[0].phone);
-      setCheckMajor(response.data.data[0].major);
-      setCheckGender(response.data.data[0].gender);
-      setCheckFacebookUrl(response.data.data[0].facebookurl);
-      setCheckGradeLevel(response.data.data[0].gradelevel);
+      setCheckPhone(response.data[0].phone);
+      setCheckMajor(response.data[0].major);
+      setCheckGender(response.data[0].gender);
+      setCheckFacebookUrl(response.data[0].facebookurl);
+      setCheckGradeLevel(response.data[0].gradelevel);
     } catch (error) {
       console.log("Can't check resgister users ", error);
     }
@@ -276,43 +275,38 @@ function BookAppointment({ room }: { room: any }) {
   };
 
   const appointment = async (studentid: string) => {
+    const currentDateTime = new Date();
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/appointment",
+        "http://localhost:3001/api/appointment/checkappointment",
         { studentid }
       );
-      const len = response.data.length - 1;
-      const latestApppoint = response.data[len].start_datetime;
-      checkLatestAppointment(latestApppoint);
+      const latestApppoint = response.data[0].start_datetime;
+
+      const appointmentDateTime = new Date(latestApppoint);
+
+      if (appointmentDateTime > currentDateTime) {
+        setCheckAppointmented(true);
+      }
+      setCheckAppointmented(false);
+
     } catch (error) {
       console.log("Can't get appointment", error);
     }
   };
 
-  function getPersonId() {
+  function getPersonId(studentId: string) {
     axios
-      .get("http://localhost:3000/api/checkdata")
+      .post("http://localhost:3001/api/user/checkuser", { studentId })
       .then((response) => {
-        const personId = response.data.temp.personid;
-        setPersonId(personId);
+        setPersonId(response.data[0].personid);
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
-
-  const checkLatestAppointment = (appointments: string) => {
-    const currentDateTime = new Date();
-
-    const appointmentDateTime = new Date(appointments);
-    if (appointmentDateTime > currentDateTime) {
-      setCheckAppointmented(false);
-    }
-    setCheckAppointmented(true);
-  };
-
+  
   useEffect(() => {
-    getPersonId();
-    getEvents();
     getdatausers();
+    getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
 

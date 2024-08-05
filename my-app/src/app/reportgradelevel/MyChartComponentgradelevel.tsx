@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface gradelevel {
     gradelevel: string;
@@ -58,10 +59,10 @@ async function graphbachelordegre(startdate: string, enddate: string): Promise<b
 
 const chartConfig: ChartConfig = {
     gradelevel_count: {
-        color: "#2563eb",
+        color: "#6B84F4",
     },
     bachelordegre: {
-        color: "#1a33eb",
+        color: "#a6b5f8",
     },
 };
 
@@ -75,6 +76,19 @@ export function MyChartComponentgradelevel({
     endDate,
 }: MyChartComponentsProps) {
     const [chartData, setChartData] = useState<gradelevel[]>([]);
+    const [isSorted, setIsSorted] = useState<boolean>(false);
+
+    const toggleSort = () => {
+        const sortedData = [...chartData].sort((a, b) => {
+            if (isSorted) {
+                return a.gradelevel_count - b.gradelevel_count; // Ascending
+            } else {
+                return b.gradelevel_count - a.gradelevel_count; // Descending
+            }
+        });
+        setChartData(sortedData);
+        setIsSorted(!isSorted);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,8 +104,14 @@ export function MyChartComponentgradelevel({
     }, [startDate, endDate]);
 
     return (
-        <div className="grid grid-cols-2 gap-10">
-            <Card>
+        <div >
+            <div>
+                <Button onClick={toggleSort} className="bg-[#5044e4]" >
+                    {isSorted ? "Sort Ascending" : "Sort Descending"}
+                </Button>
+            </div>
+
+            <Card style={{ margin: '10px 30px 0 0' }}>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
                     <CardDescription>
@@ -113,29 +133,20 @@ export function MyChartComponentgradelevel({
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 3)}
+                                tickFormatter={(value) => value.slice(0, 50)}
+                                interval={0}
+                                angle={30}
+                                textAnchor="start"
+                                height={140}
                             />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
                             />
-                            <Bar dataKey="gradelevel_count" fill="var(--color-desktop)" radius={4} />
+                            <Bar dataKey="gradelevel_count" fill={chartConfig.gradelevel_count.color} radius={4} />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>
-            </Card>
-            <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
-                <div className="ml-10 mt-10">
-                    {chartData.length > 0 ? (
-                        chartData.map((data, index) => (
-                            <div key={index}>
-                                {data.gradelevel}: {data.gradelevel_count}
-                            </div>
-                        ))
-                    ) : (
-                        ''
-                    )}
-                </div>
             </Card>
         </div>
     );
@@ -146,6 +157,19 @@ export function MyChartComponentbachelordegre({
     endDate,
 }: MyChartComponentsProps) {
     const [chartData, setChartData] = useState<bachelordegre[]>([]);
+    const [isSorted, setIsSorted] = useState<boolean>(false);
+
+    const toggleSort = () => {
+        const sortedData = [...chartData].sort((a, b) => {
+            if (isSorted) {
+                return a.count_class_year - b.count_class_year; // Ascending
+            } else {
+                return b.count_class_year - a.count_class_year; // Descending
+            }
+        });
+        setChartData(sortedData);
+        setIsSorted(!isSorted);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -161,8 +185,14 @@ export function MyChartComponentbachelordegre({
     }, [startDate, endDate]);
 
     return (
-        <div className="grid grid-cols-2 gap-10">
-            <Card>
+        <div >
+            <div>
+                <Button onClick={toggleSort} className="bg-[#5044e4]" >
+                    {isSorted ? "Sort Ascending" : "Sort Descending"}
+                </Button>
+            </div>
+
+            <Card style={{ margin: '10px 30px 0 0' }}>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
                     <CardDescription>
@@ -184,29 +214,20 @@ export function MyChartComponentbachelordegre({
                                 tickLine={false}
                                 tickMargin={10}
                                 axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 4)}
+                                tickFormatter={(value) => value.slice(0, 50)}
+                                interval={0}
+                                angle={30}
+                                textAnchor="start"
+                                height={140}
                             />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
                             />
-                            <Bar dataKey="count_class_year" fill="var(--color-desktop)" radius={4} />
+                            <Bar dataKey="count_class_year" fill={chartConfig.bachelordegre.color} radius={4} />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>
-            </Card>
-            <Card className="overflow-y-auto" style={{ maxHeight: "400px" }}>
-                <div className="ml-10 mt-10">
-                    {chartData.length > 0 ? (
-                        chartData.map((data, index) => (
-                            <div key={index}>
-                                {data.class_year}: {data.count_class_year}
-                            </div>
-                        ))
-                    ) : (
-                        ''
-                    )}
-                </div>
             </Card>
         </div>
     );
