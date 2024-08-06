@@ -75,7 +75,7 @@ export default function MePage() {
             />
           </Carousel>
         </div>
-        <h2 className="text-2xl mb-7 mt-7">สร้าง ID สำหรับผู้รับบริการใหม่</h2>
+        <h2 className="text-2xl mb-7 mt-7">สร้างรหัสรับบริการสำหรับผู้รับบริการใหม่</h2>
         <button
           onClick={generateNewString}
           className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-7"
@@ -85,11 +85,11 @@ export default function MePage() {
         <hr className="border-gray-400 mb-8" />
         <div className="flex flex-col items-start">
           <p className="text-lg mb-8">
-            ID ของผู้รับบริการใหม่ : {generatedString}
+            รหัสรับบริการของผู้รับบริการใหม่ : {generatedString}
           </p>
           <button
             onClick={copyToClipboard}
-            // className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+          // className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             <svg
               className="h-8 w-8  text-teal-700"

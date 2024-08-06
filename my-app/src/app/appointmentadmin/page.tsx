@@ -92,7 +92,7 @@ export default function Page({ }: Props) {
           </div>
         </header>
         <main>
-          <div className="w-screen">
+          {/* <div className="w-screen">
             <div className="relative mx-auto mt-10 mb-10 max-w-screen-lg overflow-hidden rounded-xl bg-indigo-700 py-32 text-center shadow-xl shadow-gray-300">
               <h1 className="mt-2 px-8 text-3xl font-bold text-white md:text-5xl">
                 Book an appointment
@@ -106,10 +106,10 @@ export default function Page({ }: Props) {
                 alt=""
               />
             </div>
-          </div>
+          </div> */}
 
-          <div className="mx-auto grid max-w-screen-lg  pb-10">
-            <p className=" text-xl font-bold text-blue-900">Select a date</p>
+          <div className="mx-auto grid max-w-screen-lg  pb-10 mt-10">
+            <p className=" text-xl font-bold text-blue-900">เลือกวัน</p>
             <div className="relative mt-4">
               <DatePicker
                 startDate={startDate}

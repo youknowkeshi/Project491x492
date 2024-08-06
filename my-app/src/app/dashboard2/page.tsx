@@ -1,13 +1,13 @@
 "use client"
 import React from "react";
-import { Navbar } from "../component/์Navbar";
+import { Nav } from "../component/Nav";
 
 type Props = {};
 
 const Page: React.FC<Props> = () => {
   return (
     <>
-      <Navbar />
+      <Nav />
       <div className="bg-[#F7F9FB]">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 pd-7">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 text-center">
@@ -54,7 +54,7 @@ const Page: React.FC<Props> = () => {
                 </div>
               </div>
             </div>
-            <div className="group relative">
+            {/* <div className="group relative">
               <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96 hover:-translate-y-1 hover:shadow-2xl">
                 <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-96 group-hover:bg-purple-500">
                   <img
@@ -73,7 +73,7 @@ const Page: React.FC<Props> = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

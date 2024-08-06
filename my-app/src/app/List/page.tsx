@@ -2,7 +2,6 @@
 import * as React from "react";
 import { Button, Card, Modal } from "flowbite-react";
 import { useState } from "react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
@@ -16,22 +15,23 @@ import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 import moment from 'moment-timezone';
 import { Navbaradmin } from "../component/Navbaradmin";
-import  loading  from "../loading"
+
 
 type Props = {};
 
-// interface details {
-//   details_consultation: string
-//   start_datetime: string
-// }
 
 export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
+  const handleShow = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
   const [pastDetail, setPastDetail] = useState("")
+  const [idcancel, setidcancel] = useState("");
+
+
 
   async function informationUser(selectedDate: Date) {
     const apiUrl = "http://localhost:3001/api/infor/list";
@@ -39,7 +39,11 @@ export default function Page({ }: Props) {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
       });
-      setInformationUsers(response.data);
+      if (response.data[0]) {
+        setInformationUsers(response.data);
+      }
+
+
     } catch (error) {
       console.log("Can't get information users");
     }
@@ -51,16 +55,109 @@ export default function Page({ }: Props) {
       const response = await axios.post(apiUrl, {
         studentid
       });
-      console.log(response.data);
-      
-      setPastDetail(response.data[0].details_consultation)
-     
+
+
+      if (response.data[0]) {
+        setPastDetail(response.data[0].details_consultation)
+      }
+
+
 
       // setPastDetail(response.data[1]?.details_consultation || '');
     } catch (error) {
       console.log("Can't get information users");
     }
   }
+
+  async function DeleteEvents(event_id: string) {
+    const apiUrl = "http://localhost:3001/api/appointment/cancel";
+    try {
+      await axios.delete(apiUrl, {
+        data: { event_id },
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEvents2(event_id: string) {
+    const apiUrl = "http://localhost:3001/api/appointment2/cancel";
+    try {
+      await axios.delete(apiUrl, {
+        data: { event_id },
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEventsCalendar(event_id: string) {
+    const apiUrl = "/api/createevents";
+    try {
+      await axios.put(apiUrl, {
+        event_id,
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEventsCalendar2(event_id: string) {
+    const apiUrl = "/api/createevents2";
+    try {
+      await axios.put(apiUrl, {
+        event_id,
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function GetEventIdCalendar(
+    start_datetime: string,
+    end_datetime: string
+  ) {
+    const apiUrl = "http://localhost:3001/api/appointment/getidcalendar";
+    try {
+      const response = await axios.put(apiUrl, {
+        start_datetime,
+        end_datetime,
+      });
+      const eventsid = response.data[0].event_id;
+      if (eventsid) {
+        DeleteEventsCalendar(eventsid);
+      }
+    } catch (error) {
+      console.log("Can't GET EventId ", error);
+    }
+  }
+
+  async function GetEventIdCalendar2(
+    start_datetime: string,
+    end_datetime: string
+  ) {
+    const apiUrl = "http://localhost:3001/api/appointment2/getidcalendar";
+    try {
+      const response = await axios.put(apiUrl, {
+        start_datetime,
+        end_datetime,
+      });
+      const eventsid = response.data[0].event_id;
+      if (eventsid) {
+        DeleteEventsCalendar2(eventsid);
+      }
+    } catch (error) {
+      console.log("Can't GET EventId ", error);
+    }
+  }
+
+  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string) => {
+
+
+    GetEventIdCalendar(start_datetime, end_datetime);
+    await DeleteEvents(event_id);
+    window.location.reload()
+  };
 
   const handleSelectDate = (selectedDate: Date | undefined) => {
     if (selectedDate) {
@@ -106,7 +203,7 @@ export default function Page({ }: Props) {
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {date ? format(date, "PPP") : <span>เลือกวัน</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -151,13 +248,17 @@ export default function Page({ }: Props) {
                   gradientDuoTone="cyanToBlue"
                   onClick={() => handleOpenModal2(user)}
                 >
-                  Details
+                  รายละเอียด
                 </Button>
                 <Button
                   gradientMonochrome="failure"
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setOpenModal(true)
+                    setidcancel(user.event_id)
+                  }
+                  }
                 >
-                  Cancel
+                  ยกเลิกนัด
                 </Button>
               </div>
               <Modal
@@ -168,21 +269,30 @@ export default function Page({ }: Props) {
               >
                 <Modal.Header />
                 <Modal.Body>
-                  <div className="text-center">
-                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Are you sure you want to delete this product?
-                    </h3>
-                    <div className="flex justify-center gap-4">
-                      <Button color="failure" onClick={() => setOpenModal(false)}>
-                        {"Yes, I'm sure"}
-                      </Button>
-                      <Button color="gray" onClick={() => setOpenModal(false)}>
-                        No, cancel
-                      </Button>
-                    </div>
+                  <div className="space-y-6">
+                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                      หากคุณต้องการยกเลิกนัดโปรดติดต่อที่ facebook ของ {user.facebookurl} ก่อน{" "}
+                      <a
+                        href={`https://www.facebook.com/${user.facebookurl}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        https://www.facebook.com/{user.facebookurl}
+                      </a>
+                    </p>
                   </div>
                 </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    onClick={() => handleCancel(user.start_datetime, user.end_datetime, idcancel)}
+                    color="failure"
+                  >
+                    ยืนยัน{idcancel}
+                  </Button>
+                  <Button onClick={handleClose}
+                    color="gray">ปิด</Button>
+                </Modal.Footer>
               </Modal>
             </Card>
           ))
@@ -200,7 +310,7 @@ export default function Page({ }: Props) {
             </Modal.Body>
             <Modal.Footer>
               <Button gradientMonochrome="failure" onClick={handleCloseModal2}>
-                Close
+                ปิด
               </Button>
             </Modal.Footer>
           </Modal>

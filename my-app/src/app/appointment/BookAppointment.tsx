@@ -233,7 +233,7 @@ function BookAppointment({ room }: { room: any }) {
 
     try {
       const response = await axios.post(apiUrl, { studentId });
-  
+
       // ตรวจสอบว่า response.data มีค่าหรือไม่และมีอาเรย์ที่มีสมาชิก
       if (response.data && response.data.length > 0) {
         const userData = response.data[0];
@@ -242,7 +242,7 @@ function BookAppointment({ room }: { room: any }) {
         setCheckGender(userData.gender);
         setCheckFacebookUrl(userData.facebookurl);
         setCheckGradeLevel(userData.gradelevel);
-      } 
+      }
     } catch (error) {
       console.log("Can't check register users ", error);
     }
@@ -342,13 +342,13 @@ function BookAppointment({ room }: { room: any }) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Book Appointment</DialogTitle>
+            <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3 items-baseline">
                   <h2 className="flex gap-2 mt-2 mb-1">
                     <CalendarDays className="text-primary h-5 w-5" />
-                    Select Date
+                    เลือกวัน
                   </h2>
                   <div>
                     <Calendar
@@ -366,7 +366,7 @@ function BookAppointment({ room }: { room: any }) {
                   <div className="mt-1 md:mt-0">
                     <h2 className="flex gap-2 items-center mb-3">
                       <Clock className="text-primary h-5 w-5" />
-                      Select Time Slot
+                      เลือกเวลา
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
                       {freeTimeSlots.map((timeSlot, index) => {
@@ -381,10 +381,10 @@ function BookAppointment({ room }: { room: any }) {
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
                             className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
-                                ? "bg-green-500 text-white"
-                                : !isAvailable
-                                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                  : ""
+                              ? "bg-green-500 text-white"
+                              : !isAvailable
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : ""
                               }`}
                             key={index}
                           >
@@ -396,7 +396,7 @@ function BookAppointment({ room }: { room: any }) {
                   </div>
                   <div className="grid w-full gap-1.5">
                     <div className="mt-3">
-                      <Label htmlFor="message-2">Your Message</Label>
+                      <Label htmlFor="message-2">หัวข้อที่ต้องการพูดคุย</Label>
                       <Textarea
                         className="mt-3"
                         placeholder="Type your message here."
@@ -413,7 +413,7 @@ function BookAppointment({ room }: { room: any }) {
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button className="text-red-500 border-red-500 hover:bg-[#ffffff] " type="button" variant="outline"  >
-                Close
+                ปิด
               </Button>
             </DialogClose>
 
@@ -423,7 +423,7 @@ function BookAppointment({ room }: { room: any }) {
               disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}
             >
-              Submit
+              ยืนยัน
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -436,9 +436,9 @@ function BookAppointment({ room }: { room: any }) {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Confirmation</DialogTitle>
+              <DialogTitle>ยืนยันนัดหมาย</DialogTitle>
               <DialogDescription>
-                Your appointment has been booked for{" "}
+                คุณได้ทำการนัดรับบริการวันที่{" "}
                 {date?.toLocaleDateString()} at {selectedTimeSlot}.
               </DialogDescription>
             </DialogHeader>
@@ -448,7 +448,7 @@ function BookAppointment({ room }: { room: any }) {
                   className="bg-blue-500 text-white border-blue-500"
                   type="button"
                 >
-                  Submit
+                  ยืนยัน
                 </Button>
               </Link>
             </DialogFooter>
@@ -460,7 +460,7 @@ function BookAppointment({ room }: { room: any }) {
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              คุณต้องลงทะเบียนที่หน้า register ก่อนจึงจำทำการนัดหมายได้
+              คุณต้องลงทะเบียนที่หน้า ลงทะเบียน ก่อนจึงจำทำการนัดหมายได้
             </p>
           </div>
         </Modal.Body>
@@ -469,7 +469,7 @@ function BookAppointment({ room }: { room: any }) {
             // gradientMonochrome="failure"
             onClick={handleClose}
           >
-            Close
+            ปิด
           </Button>
         </Modal.Footer>
       </Modal>
@@ -491,7 +491,7 @@ function BookAppointment({ room }: { room: any }) {
             // gradientMonochrome="failure"
             onClick={handleCloseAppointmented}
           >
-            Close
+            ปิด
           </Button>
         </Modal.Footer>
       </Modal>

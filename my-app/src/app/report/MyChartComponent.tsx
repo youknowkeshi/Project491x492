@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -85,10 +85,10 @@ export function MyChartComponents({
 
   return (
     <div >
-       <div>
-          <Button onClick={toggleSort} className="bg-[#5044e4]" >
-        {isSorted ? "Sort Ascending" : "Sort Descending"}
-      </Button>
+      <div>
+        <Button onClick={toggleSort} className="bg-[#5044e4]" >
+          เรียงลำดับ
+        </Button>
       </div>
 
       <Card style={{ margin: '10px 30px 0 0' }}>
@@ -125,12 +125,13 @@ export function MyChartComponents({
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 50)  } 
-                interval={0} 
-                angle={30} 
-                textAnchor="start" 
-                height={140} 
+                tickFormatter={(value) => value.slice(0, 50)}
+                interval={0}
+                angle={30}
+                textAnchor="start"
+                height={140}
               />
+              <YAxis />
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent indicator="dashed" />}

@@ -107,7 +107,7 @@ export function MyChartComponentgradelevel({
         <div >
             <div>
                 <Button onClick={toggleSort} className="bg-[#5044e4]" >
-                    {isSorted ? "Sort Ascending" : "Sort Descending"}
+                    เรียงลำดับ
                 </Button>
             </div>
 

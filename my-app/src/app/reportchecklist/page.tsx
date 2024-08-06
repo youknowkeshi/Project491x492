@@ -51,6 +51,7 @@ export default function Page() {
                 กราฟแสดงจำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต
               </h1>
             </div>
+            <ComponentDrawer />
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
@@ -63,7 +64,7 @@ export default function Page() {
                     setEndDate={setEndDate}
                   />
 
-                  <div className="relative" ref={dropdownRef}>
+                   {/* <div className="relative" ref={dropdownRef}>
                     <Button
                       id="dropdownSearchButton"
                       onClick={toggleDropdown}
@@ -172,10 +173,10 @@ export default function Page() {
                         </a>
                       </div>
                     )}
-                  </div>
-                  <Button className="bg-[#5044e4]"> เลือก </Button>
+                  </div> */}
+                  {/* <Button className="bg-[#5044e4]"> เลือก </Button> */}
                 </div>
-              </div>
+              </div> 
 
 
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
@@ -185,7 +186,7 @@ export default function Page() {
                 />
 
               </div>
-              <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
+              {/* <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
                 <div className="mx-auto flex justify-center">
                   <div className="flex flex-wrap gap-10">
                     <StartDatePicker2
@@ -210,10 +211,10 @@ export default function Page() {
                   startDateCurrent={startDateCurrent ?? null}
                   endDateCurrent={endDateCurrent ?? null}
                 />
-              </div >
+              </div >*/}
 
-            </div>
-            <ComponentDrawer />
+            </div> 
+           
           </main>
         </div>
       </div>

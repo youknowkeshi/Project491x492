@@ -46,6 +46,7 @@ export default function Page() {
                 กราฟแสดงจำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต
               </h1>
             </div>
+            <ComponentDrawer />
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
@@ -58,7 +59,7 @@ export default function Page() {
                     setEndDate={setEndDate}
                   />
 
-                  <div className="relative" ref={dropdownRef}>
+                  {/* <div className="relative" ref={dropdownRef}>
                     <Button
                       id="dropdownSearchButton"
                       onClick={toggleDropdown}
@@ -167,8 +168,8 @@ export default function Page() {
                         </a>
                       </div>
                     )}
-                  </div>
-                  <Button className="bg-[#5044e4]"> เลือก </Button>
+                  </div> */}
+                  {/* <Button className="bg-[#5044e4]"> เลือก </Button> */}
                 </div>
               </div>
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
@@ -178,7 +179,7 @@ export default function Page() {
                 />
               </div>
             </div>
-            <ComponentDrawer />
+
           </main>
         </div>
       </div>

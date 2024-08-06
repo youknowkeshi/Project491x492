@@ -54,12 +54,12 @@ export default function DashBoard() {
                     มหาวิทยาลัยเชียงใหม่
                   </p>
                   <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <a
+                    {/* <a
                       href="/register"
                       className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#B9F3FC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                       ลงทะเบียน
-                    </a>
+                    </a> */}
                     <a
                       href="/dashboard2"
                       className="text-sm font-semibold leading-6 text-gray-900"

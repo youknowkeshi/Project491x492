@@ -23,11 +23,11 @@ export default function RegisterPage() {
   const [Id, setId] = useState("");
   const [phone, setPhone] = useState("");
   const [major, setMajor] = useState("วิศวกรรมโยธา");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState("ชาย");
   const [facebookurl, setFacebookUrl] = useState("");
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
+  const [gradeLevel, setGradeLevel] = useState("ป.ตรี");
 
   const [checkPhone, setCheckPhone] = useState("");
   const [checkMajor, setCheckMajor] = useState("");
@@ -369,10 +369,10 @@ export default function RegisterPage() {
                             required
                             onChange={handleGenderChange}
                           >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
                             <option value="LGBTQ+">LGBTQ+</option>
-                            <option value="Not specified">Not specified</option>
+                            <option value="ไม่ระบุ">ไม่ระบุ</option>
                           </Select>
                         </div>
 
@@ -385,12 +385,8 @@ export default function RegisterPage() {
                             required
                             onChange={handleGradeLevelChange}
                           >
-                            <option value="ชั้นปี 1">ชั้นปี 1</option>
-                            <option value="ชั้นปี 2">ชั้นปี 2</option>
-                            <option value="ชั้นปี 3">ชั้นปี 3</option>
-                            <option value="ชั้นปี 4">ชั้นปี 4</option>
-                            <option value="มากกว่าชั้นปี 4">
-                              มากกว่าชั้นปี 4
+                            <option value="ป.ตรี">
+                            ป.ตรี
                             </option>
                             <option value="ป.โท">ป.โท</option>
                             <option value="ป.เอก">ป.เอก</option>
