@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
-import  Loading  from "../loading"
+import Loading from "../loading"
 
 
 async function delay() {
@@ -23,6 +23,7 @@ export default function CMUOAuthCallback() {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
+  const admin2 = process.env.NEXT_PUBLIC_ADMIN2 as string;
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,23 +57,23 @@ export default function CMUOAuthCallback() {
   function getUsers() {
     axios
       .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
-      .then((response) => {      
+      .then((response) => {
         if (response.data.ok) {
           const fullName =
             response.data.firstName + " " + response.data.lastName;
-            const studentId = response.data.studentId ?? '';
+          const studentId = response.data.studentId ?? '';
 
           const cmuAccount = response.data.cmuAccount;
           const organization_name = response.data.organization_name_EN;
           const itaccounttype_EN = response.data.itaccounttype_EN;
 
-          if ( fullName && cmuAccount && organization_name && itaccounttype_EN) {
+          if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount) {
               axios
-                .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
-                  if(response.data[0]){
+                .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+                  if (response.data[0]) {
                     homeadmin();
-                  }else{
+                  } else {
                     logadmin(
                       fullName,
                       cmuAccount,
@@ -83,8 +84,25 @@ export default function CMUOAuthCallback() {
                     homeadmin();
                   }
                 })
-                setIsLoading(false);
-            } else {
+              setIsLoading(false);
+            } else if (admin2 === cmuAccount) {
+              axios
+                .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+                  if (response.data[0]) {
+                    homeadmin2();
+                  } else {
+                    logadmin(
+                      fullName,
+                      cmuAccount,
+                      studentId,
+                      organization_name,
+                      itaccounttype_EN
+                    );
+                    homeadmin2();
+                  }
+                })
+            }
+            else {
               axios
                 .get("/api/checkdata")
                 .then((response) => {
@@ -102,13 +120,13 @@ export default function CMUOAuthCallback() {
                     register();
                   }
                 });
-                setIsLoading(false);
+              setIsLoading(false);
             }
           }
 
 
           // if (organization_name == 'Faculty of Engineering') {
-            
+
           // } else {
           //   // Faculty that not Engineering
           //   handleShow();
@@ -182,6 +200,10 @@ export default function CMUOAuthCallback() {
     router.push("/List");
   }
 
+  function homeadmin2() {
+    router.push("/Listroom2");
+  }
+
   useEffect(() => {
     LogIn();
   }, []);
@@ -192,7 +214,7 @@ export default function CMUOAuthCallback() {
 
   return (
     <div className="p-3">
-      
+
       <Modal dismissible show={!!showModal} onClose={handleClose}>
         <Modal.Body>
           <div className="space-y-6">

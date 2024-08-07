@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Navbaradmin } from "../component/Navbaradmin";
+import { Navbaradminroom2 } from "../component/Navbaradminroom2";
 import { DatePicker } from "./datepicker";
 import { Button } from "@/components/ui/button";
 import { Label, Select, TextInput } from "flowbite-react";
@@ -50,7 +50,7 @@ export default function Page({ }: Props) {
   }
 
   async function closetimeslot(start_datetime: string, end_datetime: string, personid: string) {
-    const apiurl = `http://localhost:3001/api/admin/closetimeslot`;
+    const apiurl = `http://localhost:3001/api/admin/closetimeslot2`;
     axios.post(apiurl, { start_datetime, end_datetime, personid });
   }
 
@@ -59,7 +59,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents2";
+    const apiUrl = "/api/createevents";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -82,7 +82,7 @@ export default function Page({ }: Props) {
 
   return (
     <div>
-      <Navbaradmin />
+      <Navbaradminroom2 />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

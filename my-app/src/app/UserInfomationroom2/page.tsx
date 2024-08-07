@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navbaradmin } from "../component/Navbaradmin";
+import { Navbaradminroom2 } from "../component/Navbaradminroom2";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
@@ -34,7 +34,7 @@ export default function DemoPage() {
   const [information, setInformation] = useState<Information[]>([]);
 
   async function fetchData() {
-    const apiUrl = `http://localhost:3001/api/infor/getinformationusers`;
+    const apiUrl = `http://localhost:3001/api/infor2/getinformationusers`;
     try {
       const response = await axios.get(apiUrl);
 
@@ -56,7 +56,7 @@ export default function DemoPage() {
 
   return (
     <>
-      <Navbaradmin />
+      <Navbaradminroom2 />
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">

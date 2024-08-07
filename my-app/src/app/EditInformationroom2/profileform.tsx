@@ -85,16 +85,7 @@ export function ProfileForm() {
     setTextEditorContent(e.target.value);
   }
 
-  async function Getsingledata() {
-    const apiUrl = `http://localhost:3001/api/infor/detailinfor/${id}`;
-    try {
-      const response = await axios.post(apiUrl,{id});
-   
-      setInfor(response.data[0]); // Assuming you expect only one object
-    } catch (error) {
-      console.log("Can't get data", error);
-    }
-  }
+
 
   async function Getsingledata2() {
     const apiUrl = `http://localhost:3001/api/infor2/detailinfor/${id}`;
@@ -107,13 +98,13 @@ export function ProfileForm() {
     }
   }
 
-  async function updatesingledata(
+  async function updatesingledata2(
     details_consultation: string,
     mental_health_checklist: string,
     mental_risk_level: string,
     event_id: string
   ) {
-    const apiUrl = `http://localhost:3001/api/infor/editinfor/${id}`;
+    const apiUrl = `http://localhost:3001/api/infor2/editinfor/${id}`;
     try {
       await axios.put(apiUrl, {
         details_consultation,
@@ -138,7 +129,7 @@ export function ProfileForm() {
 
   useEffect(() => {
     if (id) {
-      Getsingledata();
+      Getsingledata2();
     }
   }, [id]);
 
@@ -346,7 +337,7 @@ export function ProfileForm() {
               type="submit"
               onClick={() => {
                 if (id) {
-                  updatesingledata(textEditorContent , checkList  ,riskLevel , id);
+                  updatesingledata2(textEditorContent , checkList  ,riskLevel , id);
                 } 
               }}
             >
