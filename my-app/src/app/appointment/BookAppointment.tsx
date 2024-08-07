@@ -19,7 +19,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
-import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
 
 interface Appointment {
@@ -234,7 +233,7 @@ function BookAppointment({ room }: { room: any }) {
 
     try {
       const response = await axios.post(apiUrl, { studentId });
-  
+
       // ตรวจสอบว่า response.data มีค่าหรือไม่และมีอาเรย์ที่มีสมาชิก
       if (response.data && response.data.length > 0) {
         const userData = response.data[0];
@@ -243,7 +242,7 @@ function BookAppointment({ room }: { room: any }) {
         setCheckGender(userData.gender);
         setCheckFacebookUrl(userData.facebookurl);
         setCheckGradeLevel(userData.gradelevel);
-      } 
+      }
     } catch (error) {
       console.log("Can't check register users ", error);
     }
@@ -275,7 +274,6 @@ function BookAppointment({ room }: { room: any }) {
           AddTimeAppointment(start_datetime, end_datetime, personId, message);
           AddAppointmentGoogle(message, start_datetime, end_datetime);
           setIsConfirmationModalOpen(true);
-
         }
       } else {
         handleShow();
@@ -308,13 +306,6 @@ function BookAppointment({ room }: { room: any }) {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
-
-      const appointmentDateTime = new Date(latestApppoint);
-
-      if (appointmentDateTime > currentDateTime) {
-        setCheckAppointmented(true);
-      }
-      setCheckAppointmented(false);
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -328,7 +319,6 @@ function BookAppointment({ room }: { room: any }) {
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
-
 
   useEffect(() => {
     getdatausers();
@@ -345,7 +335,6 @@ function BookAppointment({ room }: { room: any }) {
             type="button"
           >
             จองคิวนัดปรึกษาที่ห้อง {room}
-
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -388,15 +377,13 @@ function BookAppointment({ room }: { room: any }) {
                             onClick={() =>
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
-                                ? "bg-green-500 text-white"
                             className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
                               selectedTimeSlot === timeSlot
-                                ? "bg-[#8FC1E3] text-white"
+                                ? "bg-green-500 text-white"
                                 : !isAvailable
-                                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                  : ""
-                              }`}
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : ""
+                            }`}
                             key={index}
                           >
                             {timeSlot}
