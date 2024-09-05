@@ -6,17 +6,17 @@ import { Nav } from "./component/Nav";
 type Props = {};
 // await delay(1000);
 
-export default function Home({ }: Props) {
+export default function Home({}: Props) {
   return (
     <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
       <Nav />
-      {/* <header className="bg-white shadow">
+      <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
             หน้าแรก
           </h1>
         </div>
-      </header> */}
+      </header>
       <main className="bg-[#F7F9FB]">
         <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
           <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -67,7 +67,7 @@ export default function Home({ }: Props) {
                     Login
                   </a>
                   <a
-                    href="#"
+                    href="/dashboard2"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     วิธีการจองสำหรับรับบริการครั้งแรก{" "}

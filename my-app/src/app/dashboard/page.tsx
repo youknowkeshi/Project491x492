@@ -1,16 +1,15 @@
-"use client"
+"use client";
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { Foot } from "../component/Footer";
 import { Navbar } from "../component/์Navbar";
-
 
 export default function DashBoard() {
   return (
     <>
       <Navbar />
       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <header className="bg-white">
+        <header className="bg-whit shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
               หน้าแรก
@@ -57,9 +56,9 @@ export default function DashBoard() {
                   <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a
                       href="/register"
-                      className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#B9F3FC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      ล็อคอิน
+                      ลงทะเบียน
                     </a>
                     <a
                       href="/dashboard2"
