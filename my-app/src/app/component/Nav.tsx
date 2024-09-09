@@ -18,21 +18,21 @@ export function Nav() {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
                     href="/"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
                     href="/Evaluationform"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     แบบประเมิน
                   </a>
                   <a
                     href="/article"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     บทความ
                   </a>
