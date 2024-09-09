@@ -5,16 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
-import  Loading  from "../loading"
-
+import Loading from "../loading";
 
 async function delay() {
   return new Promise((resolve) => {
     setTimeout(resolve);
   });
 }
-
-
 
 export default function CMUOAuthCallback() {
   const router = useRouter();
@@ -25,7 +22,6 @@ export default function CMUOAuthCallback() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
@@ -56,23 +52,26 @@ export default function CMUOAuthCallback() {
   function getUsers() {
     axios
       .get<{}, AxiosResponse<WhoAmIResponse>, {}>("/api/whoAmI")
-      .then((response) => {      
+      .then((response) => {
         if (response.data.ok) {
           const fullName =
             response.data.firstName + " " + response.data.lastName;
-            const studentId = response.data.studentId ?? '';
+          const studentId = response.data.studentId ?? "";
 
           const cmuAccount = response.data.cmuAccount;
           const organization_name = response.data.organization_name_EN;
           const itaccounttype_EN = response.data.itaccounttype_EN;
 
-          if ( fullName && cmuAccount && organization_name && itaccounttype_EN) {
+          if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount) {
               axios
-                .put("http://localhost:3001/api/admin/checkadmin",{cmuAccount}).then((response)=>{
-                  if(response.data[0]){
+                .put("http://localhost:3001/api/admin/checkadmin", {
+                  cmuAccount,
+                })
+                .then((response) => {
+                  if (response.data[0]) {
                     homeadmin();
-                  }else{
+                  } else {
                     logadmin(
                       fullName,
                       cmuAccount,
@@ -82,33 +81,29 @@ export default function CMUOAuthCallback() {
                     );
                     homeadmin();
                   }
-                })
-                setIsLoading(false);
-            } else {
-              axios
-                .get("/api/checkdata")
-                .then((response) => {
-
-                  if (response.data) {
-                    home();
-                  } else {
-                    addUsers(
-                      fullName,
-                      cmuAccount,
-                      studentId,
-                      organization_name,
-                      itaccounttype_EN
-                    );
-                    register();
-                  }
                 });
-                setIsLoading(false);
+              setIsLoading(false);
+            } else {
+              axios.get("/api/checkdata").then((response) => {
+                if (response.data) {
+                  home();
+                } else {
+                  addUsers(
+                    fullName,
+                    cmuAccount,
+                    studentId,
+                    organization_name,
+                    itaccounttype_EN
+                  );
+                  register();
+                }
+              });
+              setIsLoading(false);
             }
           }
 
-
           // if (organization_name == 'Faculty of Engineering') {
-            
+
           // } else {
           //   // Faculty that not Engineering
           //   handleShow();
@@ -175,7 +170,7 @@ export default function CMUOAuthCallback() {
   }
 
   function home() {
-    router.push("/dashboard");
+    router.push("/dashboard2");
   }
 
   function homeadmin() {
@@ -187,12 +182,11 @@ export default function CMUOAuthCallback() {
   }, []);
 
   if (isLoading) {
-    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
+    return <Loading />; // ข้อความหรือ spinner เมื่อกำลังโหลด
   }
 
   return (
     <div className="p-3">
-      
       <Modal dismissible show={!!showModal} onClose={handleClose}>
         <Modal.Body>
           <div className="space-y-6">

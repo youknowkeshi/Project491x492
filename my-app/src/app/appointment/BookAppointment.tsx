@@ -19,7 +19,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
-import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
 
 interface Appointment {
@@ -307,13 +306,6 @@ function BookAppointment({ room }: { room: any }) {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
-
-      const appointmentDateTime = new Date(latestApppoint);
-
-      if (appointmentDateTime > currentDateTime) {
-        setCheckAppointmented(true);
-      }
-      setCheckAppointmented(false);
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -387,7 +379,7 @@ function BookAppointment({ room }: { room: any }) {
                             }
                             className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
                               selectedTimeSlot === timeSlot
-                                ? "bg-[#8FC1E3] text-white"
+                                ? "bg-green-500 text-white"
                                 : !isAvailable
                                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 : ""
