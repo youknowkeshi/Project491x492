@@ -170,7 +170,7 @@ export default function CMUOAuthCallback() {
   }
 
   function home() {
-    router.push("/dashboard");
+    router.push("/dashboard2");
   }
 
   function homeadmin() {
