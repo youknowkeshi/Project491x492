@@ -1,65 +1,39 @@
-"use client"
-import { useRouter, useSearchParams } from 'next/navigation'
+"use client";
 import { useEffect, useState } from "react";
-import axios from "axios"
-
-
-
-
+import axios from "axios";
+import { useRouter,useSearchParams  } from 'next/navigation';
 
 
 export default function Home() {
-    const [mycode, setmycode] = useState('')
-    const router = useRouter();
+    const [mycode, setMyCode] = useState('');
     const searchParams = useSearchParams()
     const code = searchParams && searchParams.get('code')
-
-
-
-    async function getparam() {
-
-
-        if (code !== null) {
-            setmycode(code);
-        }else{
-            setmycode('')
-        }
-
-        OAuth()
-    }
-
-    async function OAuth() {
-
-        const apiUrl = '/api/redirect';
-        const reqData = { code };
-        // การเรียกใช้ฟังก์ชัน PUT ผ่าน Axios
-        await axios.post(apiUrl, reqData)
-        .then(response => {
-            console.log('Response:', response.data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-
-    }
-
+    const router = useRouter();
 
     useEffect(() => {
 
-        getparam()
 
+        if (code) {
+            setMyCode(code);
+            OAuth();
+        }
     }, []);
+
+    async function OAuth() {
+        const apiUrl = 'http://localhost:3001/api/google/redirect';
+
+        try {    
+            const response = await axios.post(apiUrl, { code });
+            console.log('Response:', response.data);
+            // router.push("/demo");
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
         <div className="p-3 vstack gap-3">
-
             <h1>Hello World</h1>
-
         </div>
     );
 }
-
-
-
-
-
-

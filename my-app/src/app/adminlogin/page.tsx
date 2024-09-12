@@ -1,0 +1,87 @@
+"use client"; 
+import React from "react";
+import Image from "next/image";
+import { Foot } from "../component/Footer";
+import { Nav } from "../component/Nav";
+import axios from "axios";
+
+const googlelogin = async () => {
+    const apiUrl = "http://localhost:3001/api/google/login";
+    try {
+        const response = await axios.get(apiUrl);
+        console.log(response.data);
+        // Redirect to the URL returned from the API
+        window.location.href = response.data;
+    } catch (error) {
+        console.log("error", error);
+    }
+};
+
+export default function Home() {
+  return (
+    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+      <Nav />
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
+            หน้าแรก
+          </h1>
+        </div>
+      </header>
+      <main className="bg-[#F7F9FB]">
+        <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
+          <div className="relative isolate px-6 pt-14 lg:px-8">
+            <div
+              className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+              aria-hidden="true"
+            >
+            </div>
+            <div className="mx-auto max-w-2xl py-32 ">
+              <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+                <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                  ติดต่อสอบถามเพิ่มเติม.{" "}
+                  <a
+                    href="https://www.facebook.com/EntaneerMindFriendCMU"
+                    className="font-semibold text-[#8FC1E3]"
+                  >
+                    <span
+                      className="absolute inset-0"
+                      aria-hidden="true"
+                    ></span>
+                    Facebook : Entaneer Mind Friend
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+              <div className="text-center">
+                <h1 className="text-4xl font-bold tracking-tight text-[#8FC1E3] sm:text-6xl">
+                  Entaneer Mind Friend
+                </h1>
+                <p className="mt-6 text-lg leading-8 text-gray-600">
+                  Entaneer Mind Friend - คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเชียงใหม่
+                  เว็บไซต์สำหรับการนัดคิวเพื่อบริการให้คำปรึกษาและดูและสุขภาพจิต
+                  งานบริการศึกษาและพัฒนาคุณภาพนักศึกษา คณะวิศวกรรมศาสตร์
+                  มหาวิทยาลัยเชียงใหม่
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <button
+                    onClick={googlelogin}
+                    className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Login
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+              aria-hidden="true"
+            >
+            </div>
+          </div>
+        </div>
+      </main>
+      <Foot />
+    </div>
+  );
+}

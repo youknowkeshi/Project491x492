@@ -399,7 +399,7 @@ function BookAppointment({ room }: { room: any }) {
                       <Label htmlFor="message-2">หัวข้อที่ต้องการพูดคุย</Label>
                       <Textarea
                         className="mt-3"
-                        placeholder="Type your message here."
+                        placeholder="รายละเอียด..."
                         id="message-2"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}

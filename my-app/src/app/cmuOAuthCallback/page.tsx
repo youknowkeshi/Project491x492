@@ -60,7 +60,7 @@ export default function CMUOAuthCallback() {
       .then((response) => {
         if (response.data.ok) {
           const fullName =
-            response.data.firstName + " " + response.data.lastName;
+          response.data.firstName + " " + response.data.lastName;
           const studentId = response.data.studentId ?? '';
 
           const cmuAccount = response.data.cmuAccount;
@@ -106,7 +106,6 @@ export default function CMUOAuthCallback() {
               axios
                 .get("/api/checkdata")
                 .then((response) => {
-
                   if (response.data) {
                     home();
                   } else {

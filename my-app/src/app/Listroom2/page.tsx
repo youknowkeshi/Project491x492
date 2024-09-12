@@ -57,8 +57,10 @@ export default function Page({ }: Props) {
       });
 
 
-      if (response.data[0]) {
-        setPastDetail(response.data[0].details_consultation)
+      if (response.data.length > 0) {
+        setInformationUsers(response.data);
+      } else {
+        setInformationUsers([])
       }
 
 

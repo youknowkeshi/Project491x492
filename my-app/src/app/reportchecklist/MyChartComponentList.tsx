@@ -31,6 +31,8 @@ async function graphlist(startdate: string, enddate: string): Promise<CheckList[
       enddate,
     });
 
+    console.log(response.data);
+    
     return response.data;
   } catch (error) {
     console.error("Can't get graphlist", error);
@@ -113,11 +115,12 @@ export function MyChartComponentsList({
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart data={chartData}>
+              <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="mental_health_checklist"
-                tickLine={false}
+                // tickLine={false}
                 tickMargin={10}
-                axisLine={false}
+                // axisLine={false}
                 tickFormatter={(value) => value.slice(0, 50)}
                 interval={0}
                 angle={30}
@@ -126,7 +129,11 @@ export function MyChartComponentsList({
 
               />
               <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dashed" />}
+              />
               <Bar
                 dataKey="checklist_count"
                 fill={chartConfig.checklist_count.color}

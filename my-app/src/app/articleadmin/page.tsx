@@ -24,6 +24,8 @@ interface Article {
 export default function Page({ }: Props) {
     const [articles, setArticles] = useState<Article[]>([]);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [image, setImage] = useState(null);
+    const [allImage, setAllImage] = useState(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -79,6 +81,7 @@ export default function Page({ }: Props) {
             console.log("No file selected");
         }
     };
+    
 
     useEffect(() => {
         // showArticles();
@@ -140,7 +143,7 @@ export default function Page({ }: Props) {
                         helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)."
                         onChange={handleFileChange}
                     />
-                    {selectedFile && <p>Selected file: {selectedFile.type}</p>}
+                    {/* {selectedFile && <p>Selected file: {selectedFile}</p>} */}
                     <Button onClick={handleSubmit} className="mt-4">Submit</Button>
                 </div>
                 <div>

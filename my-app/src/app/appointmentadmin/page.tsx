@@ -59,7 +59,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents2";
+    const apiUrl = "/api/createevents";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -71,6 +71,7 @@ export default function Page({ }: Props) {
     if (startDate && endDate) {
       closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId);
       AddAppointmentGoogle(description,formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+      window.location.reload();
     } else {
       alert("Please select both start and end dates.");
     }

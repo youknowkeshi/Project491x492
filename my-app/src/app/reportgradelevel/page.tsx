@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { MyChartComponentgradelevel } from "./MyChartComponentgradelevel";
 import { ComponentDrawer } from "../component/Drawer";
 import { Navbaradmin } from "../component/Navbaradmin";
-import {MyChartComponentbachelordegre} from "./MyChartComponentgradelevel"
+import { MyChartComponentbachelordegre } from "./MyChartComponentgradelevel"
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -172,18 +172,21 @@ export default function Page() {
                   <Button className="bg-[#5044e4]"> เลือก </Button> */}
                 </div>
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
-                <MyChartComponentgradelevel
-                  startDate={startDate ?? null}
-                  endDate={endDate ?? null}
-                />
+              <div >
+                <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                  <MyChartComponentgradelevel
+                    startDate={startDate ?? null}
+                    endDate={endDate ?? null}
+                  />
+                </div>
+                <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                  <MyChartComponentbachelordegre
+                    startDate={startDate ?? null}
+                    endDate={endDate ?? null}
+                  />
+                </div>
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
-                <MyChartComponentbachelordegre
-                  startDate={startDate ?? null}
-                  endDate={endDate ?? null}
-                />
-              </div>
+
             </div>
           </main>
         </div>

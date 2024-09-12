@@ -58,7 +58,7 @@ export function Navbaradmin() {
                                         href="/accessCode"
                                         className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                                     >
-                                        รหัสสำหรับผู้เข้ารับบริการครั้งแรก
+                                        สร้างรหัสสำหรับผู้เข้ารับบริการครั้งแรก
                                     </a>
                                     <a
                                         href="/appointmentadmin"
@@ -118,7 +118,7 @@ export function Navbaradmin() {
                             href="/accessCode"
                             className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
                         >
-                            รหัสสำหรับผู้เข้ารับบริการครั้งแรก
+                            สร้างรหัสสำหรับผู้เข้ารับบริการครั้งแรก
                         </a>
 
                         {/* <a

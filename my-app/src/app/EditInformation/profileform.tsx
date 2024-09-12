@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams ,useRouter} from "next/navigation";
+// import { useRouter } from 'next/router';
 import {
 
   Card,
@@ -26,6 +27,8 @@ import {
   Select,
   Modal,
 } from "flowbite-react";
+
+import Multiselect from 'multiselect-react-dropdown';
 
 interface Information {
   personid: string;
@@ -58,13 +61,66 @@ const formSchema = z.object({
 
 export function ProfileForm() {
   // State for text editor content
+  const router = useRouter();
   const [textEditorContent, setTextEditorContent] = useState("");
   const searchParams = useSearchParams();
   const id = searchParams ? searchParams.get("id") || null : null;
   const [infor, setInfor] = useState<Information | null>(null); // Change to single object instead of array
-  const [checkList, setCheckList] = useState("คะแนนแบบวัดพลังใจสูง")
-  const [riskLevel, setRiskLevel] = useState("1")
+  const [checkList, setCheckList] = useState<string>("")
+  const [riskLevel, setRiskLevel] = useState("-")
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
+  const optionsList = [
+    "คะแนนแบบวัดพลังใจสูง",
+    "มีอารมณ์เศร้าอย่างต่อเนื่องหรือเป็นโรคซึมเศร้า(วินิจฉัยโดยแพทย์)",
+    "ความเศร้าโศกจากการสูญเสีย(ทั้งระยะสั้นและเรื้อรัง)",
+    "บาดแผลทางใจ/ประสบการณ์เลวร้ายในวัยเด็ก",
+    "มีความคิดฆ่าตัวตาย/คิดเกี่ยวกับความตาย/ความคิดทำร้ายตัวเอง",
+    "ปัญหาการปรับตัว/ ขาดทักษะทางสังคม",
+    "ปัญหาความสัมพันธ์ภายในครอบครัว",
+    "ปัญหาความสัมพันธ์กับคนรัก",
+    "ปัญหาความสัมพันธ์เพื่อน",
+    "พฤติกรรมเสพติด(สารเสพติด/การพนัน/เพศสัมพันธ์)",
+    "ปัญหาสุขภาพจิตที่มีอาการในกลุ่มวิตกกังวล",
+    "มีอาการเจ็บป่วยทางกายซึ่งเป็นผลมาจากปัญหาทางจิตใจ",
+    "ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ",
+    "ต้องการเข้าใจหรือพัฒนาตนเอง/ค้นหาเป้าหมายหรือความหมายชีวิต",
+    "ปัญหาบุคลิกภาพ",
+    "อื่นๆ"
+  ];
+
+
+
+  const combineOptions = (options: string | null | undefined): string[] => {
+    // ตรวจสอบค่า options ว่าเป็น null หรือ undefined หรือไม่
+    if (options === null || options === undefined) {
+      return [];
+    }
+  
+    // ใช้ regex แยกตามช่องว่าง, คอมม่า, เครื่องหมายปีกกา, และเครื่องหมายคำพูด
+    const optionsArray = options.split(/[\s,{}"']+/);
+  
+    // กรองค่าออกจากอาร์เรย์ที่ไม่เป็นค่าว่าง
+    const filteredOptions = optionsArray.filter(option => option.trim() !== "");
+  
+    // คืนค่าเป็นอาร์เรย์ของคำที่กรองแล้ว
+    return filteredOptions;
+  };
+  
+  // ใช้ฟังก์ชัน combineOptions กับ optionsListdisable
+  const combinedOptions = combineOptions(checkList);
+
+
+  const onSelect = (selectedList: string[], selectedItem: string) => {
+    // ใช้ Set เพื่อให้ค่าไม่ซ้ำกัน
+    const updatedValues = Array.from(new Set([...selectedValues, ...selectedList]));
+    setSelectedValues(updatedValues);
+  };
+
+  const onRemove = (selectedList: string[], removedItem: string) => {
+    // ลบค่าที่ถูกลบออกจาก selectedValues
+    setSelectedValues(selectedList);
+  };
 
   // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,15 +138,20 @@ export function ProfileForm() {
 
   // Function to handle text editor content change
   function handleTextEditorChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+
     setTextEditorContent(e.target.value);
   }
 
   async function Getsingledata() {
     const apiUrl = `http://localhost:3001/api/infor/detailinfor/${id}`;
     try {
-      const response = await axios.post(apiUrl,{id});
-   
+      const response = await axios.post(apiUrl, { id });
+
       setInfor(response.data[0]); // Assuming you expect only one object
+      setTextEditorContent(response.data[0].details_consultation)
+      setCheckList(response.data[0].mental_health_checklist)
+      // setSelectedValues(response.data[0].mental_health_checklist)
+      setRiskLevel(response.data[0].mental_risk_level)
     } catch (error) {
       console.log("Can't get data", error);
     }
@@ -99,8 +160,8 @@ export function ProfileForm() {
   async function Getsingledata2() {
     const apiUrl = `http://localhost:3001/api/infor2/detailinfor/${id}`;
     try {
-      const response = await axios.post(apiUrl,{id});
-   
+      const response = await axios.post(apiUrl, { id });
+
       setInfor(response.data[0]); // Assuming you expect only one object
     } catch (error) {
       console.log("Can't get data", error);
@@ -109,7 +170,7 @@ export function ProfileForm() {
 
   async function updatesingledata(
     details_consultation: string,
-    mental_health_checklist: string,
+    mental_health_checklist: string[],
     mental_risk_level: string,
     event_id: string
   ) {
@@ -121,14 +182,16 @@ export function ProfileForm() {
         mental_risk_level,
         event_id,
       });
+      window.location.reload();
+
     } catch (error) {
       console.log("", error);
     }
   }
 
-  const handlechecklistChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCheckList(event.target.value);
-  };
+  // const handlechecklistChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setCheckList(event.target.value);
+  // };
 
   const handlerisklevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setRiskLevel(event.target.value);
@@ -273,6 +336,7 @@ export function ProfileForm() {
                   value={riskLevel}
                   onChange={handlerisklevelChange}
                 >
+                  <option value="-">-</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">
@@ -293,33 +357,24 @@ export function ProfileForm() {
                 <div className="mb-1 block">
                   <Label htmlFor="ประเภทของสุขภาพจิต" value="ประเภทของสุขภาพจิต" />
                 </div>
-                <Select
-                  id="ประเภทของสุขภาพจิต"
-                  required
-                  value={checkList}
-                  onChange={handlechecklistChange}
-                >
-                  <option value="คะแนนแบบวัดพลังใจสูง">คะแนนแบบวัดพลังใจสูง</option>
-                  <option value="มีอารมณ์เศร้าอย่างต่อเนื่องหรือเป็นโรคซึมเศร้า(วินิจฉัยโดยแพทย์)">มีอารมณ์เศร้าอย่างต่อเนื่องหรือเป็นโรคซึมเศร้า(วินิจฉัยโดยแพทย์)</option>
-                  <option value="ความเศร้าโศกจากการสูญเสีย(ทั้งระยะสั้นและเรื้อรัง)"> ความเศร้าโศกจากการสูญเสีย(ทั้งระยะสั้นและเรื้อรัง)</option>
-                  <option value="บาดแผลทางใจ/ประสบการณ์เลวร้ายในวัยเด็ก">บาดแผลทางใจ/ประสบการณ์เลวร้ายในวัยเด็ก</option>
-                  <option value="มีความคิดฆ่าตัวตาย/คิดเกี่ยวกับความตาย/ความคิดทำร้ายตัวเอง">มีความคิดฆ่าตัวตาย/คิดเกี่ยวกับความตาย/ความคิดทำร้ายตัวเอง</option>
-                  <option value="ปัญหาการปรับตัว/ ขาดทักษะทางสังคม">ปัญหาการปรับตัว/ ขาดทักษะทางสังคม</option>
-                  <option value="ปัญาหาความสัมพันธ์ภายในครอบครัว">ปัญหาความสัมพันธ์ภายในครอบครัว</option>
-                  <option value="ปัญาหาความสัมพันธ์กับคนรัก">ปัญหาความสัมพันธ์กับคนรัก</option>
-                  <option value="ปัญาหาความสัมพันธ์เพื่อน">ปัญหาความสัมพันธ์เพื่อน</option>
-                  <option value="พฤติกรรมเสพติด(สารเสพติด, การพนัน, เพศสัมพันธ์)">พฤติกรรมเสพติด(สารเสพติด, การพนัน, เพศสัมพันธ์)</option>
-                  <option value="ปัญหาสุขภาพจิตที่มีอาการในกลุ่มวิตกกังวล">ปัญหาสุขภาพจิตที่มีอาการในกลุ่มวิตกกังวล</option>
-                  <option value="มีอาการเจ็บป่วยทางกายซึ่งเป็นผลมาจากปัญหาทางจิตใจ">มีอาการเจ็บป่วยทางกายซึ่งเป็นผลมาจากปัญหาทางจิตใจ</option>
-                  <option value="ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ">ปัญหาการเรียน/หมดไฟในการเรียน/อยากเปลี่ยนคณะ</option>
-                  <option value="ต้องการเข้าใจหรือพัฒนาตนเอง/ค้นหาเป้าหมายหรือความหมายชีวิต">ต้องการเข้าใจหรือพัฒนาตนเอง/ค้นหาเป้าหมายหรือความหมายชีวิต</option>
-                  <option value="ปัญหาบุคลิกภาพ">ปัญหาบุคลิกภาพ</option>
-                  <option value="อื่นๆ">อื่นๆ</option>
-                </Select>
+
+                <div>
+                  <Multiselect
+                    isObject={false}
+                    onKeyPressFn={function noRefCheck() { }}
+                    onRemove={onRemove}
+                    onSearch={function noRefCheck() { }}
+                    onSelect={onSelect}
+                    options={optionsList}
+                    selectedValues={combinedOptions}
+
+                  />
+                </div>
+                <div>
+                </div>
               </div>
             </div>
           </div>
-
 
           <FormItem>
             <div>
@@ -335,19 +390,23 @@ export function ProfileForm() {
                   onChange={handleTextEditorChange}
                   className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                   rows={8}
+                  style={{
+                    resize: "none", // ปิดการขยายขนาดกล่อง
+                    overflowY: "auto", // แสดงแถบเลื่อนเมื่อข้อความยาวเกินกล่อง
+                    height: "150px", // กำหนดความสูงคงที่ของกล่อง
+                  }}
                 />
+
               </FormControl>
-              <FormDescription>
-                Edit and save text content here.
-              </FormDescription>
             </div>
 
             <Button
               type="submit"
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
                 if (id) {
-                  updatesingledata(textEditorContent , checkList  ,riskLevel , id);
-                } 
+                  updatesingledata(textEditorContent, selectedValues, riskLevel, id);
+                }
               }}
             >
               บันทึก

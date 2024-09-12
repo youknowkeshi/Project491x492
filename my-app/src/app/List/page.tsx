@@ -39,8 +39,10 @@ export default function Page({ }: Props) {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
       });
-      if (response.data[0]) {
+      if (response.data.length > 0) {
         setInformationUsers(response.data);
+      }else{
+        setInformationUsers([])
       }
 
 
@@ -226,21 +228,24 @@ export default function Page({ }: Props) {
               className="border-r-4 border-l-4 border-x-cyan-300 mt-11 mb-4 p-4 relative"
             >
               <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Time: {format(new Date(user.start_datetime), "HH:mm")} -{" "}
+                เวลา : {format(new Date(user.start_datetime), "HH:mm")} -{" "}
                 {format(new Date(user.end_datetime), "HH:mm")}
               </h5>
               <hr />
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Name: {user.firstname_lastname}
+                ชื่อ : {user.firstname_lastname}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Student ID: {user.studentid}
+                รหัสนักศึกษา : {user.studentid}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Major: {user.major}
+                เมเจอร์ : {user.major}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
                 หัวข้อที่ต้องการพูดคุย : {user.topic}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                ชื่อ facebook : {user.facebookurl}
               </p>
               <div className="flex flex-row gap-4 absolute bottom-4 right-4">
                 <Button

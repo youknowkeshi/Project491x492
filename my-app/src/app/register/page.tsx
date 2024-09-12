@@ -258,9 +258,9 @@ export default function RegisterPage() {
                       <h2 className="text-3xl mb-4 text-[#B9F3FC]">
                         ลงทะเบียน
                       </h2>
-                      <p className="mb-4">
+                      {/* <p className="mb-4">
                         สร้างบัญชีของคุณ ฟรีและใช้เวลาเพียงไม่กี่นาที
-                      </p>
+                      </p> */}
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-สกุล" />
@@ -340,7 +340,7 @@ export default function RegisterPage() {
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder="https://www.facebook.com/parinya.mungrod"
+                            placeholder="ชื่อ facebook"
                             required
                             color="gray"
                             value={facebookurl}
@@ -349,11 +349,11 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="รหัสเข้ารับบริการ" />
+                            <Label value="รหัสเข้ารับบริการครั้งแรก" />
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder="Get the code from the psychiatrist"
+                            placeholder="รับรหัสจากการพูดคุยกับนักจิตเบื้องต้น"
                             required
                             color="gray"
                             value={Id}
@@ -392,7 +392,7 @@ export default function RegisterPage() {
                             <option value="ป.เอก">ป.เอก</option>
                             <option value="อาจารย์">อาจารย์</option>
                             <option value="บุคลากร">บุคลากร</option>
-                            <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+                            {/* <option value="ผู้ปกครอง">ผู้ปกครอง</option> */}
                             <option value="อื่นๆ">อื่นๆ</option>
                           </Select>
                         </div>

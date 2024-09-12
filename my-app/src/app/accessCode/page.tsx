@@ -4,6 +4,7 @@ import uniqueString from "unique-string";
 import { Carousel } from "flowbite-react";
 import axios from "axios";
 import { Navbaradmin } from "../component/Navbaradmin";
+import { Button } from "@/components/ui/button";
 
 export default function MePage() {
   const [generatedString, setGeneratedString] = useState("");
@@ -51,7 +52,7 @@ export default function MePage() {
     <>
       <Navbaradmin />
       <div className=" rounded p-8">
-        <div className=" h-16 sm:h-24 xl:h-30 2xl:h-36">
+        {/* <div className=" h-16 sm:h-24 xl:h-30 2xl:h-36">
           <Carousel>
             <img
               src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
@@ -74,14 +75,14 @@ export default function MePage() {
               alt="..."
             />
           </Carousel>
-        </div>
+        </div> */}
         <h2 className="text-2xl mb-7 mt-7">สร้างรหัสรับบริการสำหรับผู้รับบริการใหม่</h2>
-        <button
+        <Button
           onClick={generateNewString}
-          className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-7"
+          className="text-white bg-[#5044e4] from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-7"
         >
           Generate
-        </button>
+        </Button>
         <hr className="border-gray-400 mb-8" />
         <div className="flex flex-col items-start">
           <p className="text-lg mb-8">
@@ -89,16 +90,16 @@ export default function MePage() {
           </p>
           <button
             onClick={copyToClipboard}
-          // className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+          // className="bg-[#5044e4] text-white px-4 py-2 rounded hover:bg-green-700"
           >
             <svg
               className="h-8 w-8  text-teal-700"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               {" "}
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />{" "}

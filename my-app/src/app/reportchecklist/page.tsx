@@ -15,10 +15,10 @@ export default function Page() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
-  const [startDatePast, setStartDatePast] = useState<Date | undefined>();
-  const [endDatePast, setEndDatePast] = useState<Date | undefined>();
-  const [startDateCurrent, setStartDateCurrent] = useState<Date | undefined>();
-  const [endDateCurrent, setEndDateCurrent] = useState<Date | undefined>();
+  // const [startDatePast, setStartDatePast] = useState<Date | undefined>();
+  // const [endDatePast, setEndDatePast] = useState<Date | undefined>();
+  // const [startDateCurrent, setStartDateCurrent] = useState<Date | undefined>();
+  // const [endDateCurrent, setEndDateCurrent] = useState<Date | undefined>();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -33,12 +33,12 @@ export default function Page() {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
     <>

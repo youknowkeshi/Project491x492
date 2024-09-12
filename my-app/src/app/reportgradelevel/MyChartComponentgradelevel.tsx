@@ -1,5 +1,5 @@
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis ,YAxis} from "recharts";
 import {
     Card,
     CardContent,
@@ -28,10 +28,10 @@ interface bachelordegre {
 }
 
 async function graphlist(startdate: string, enddate: string): Promise<gradelevel[]> {
-    const apiUrl = `/api/graphappointmentforgradelevl`;
+    const apiUrl = `http://localhost:3001/api/graph/appointment-for-grade-level`;
 
     try {
-        const response = await axios.put(apiUrl, {
+        const response = await axios.post(apiUrl, {
             startdate,
             enddate,
         });
@@ -43,10 +43,10 @@ async function graphlist(startdate: string, enddate: string): Promise<gradelevel
 }
 
 async function graphbachelordegre(startdate: string, enddate: string): Promise<bachelordegre[]> {
-    const apiUrl = `/api/graphappointmentforbachelordegree`;
+    const apiUrl = `http://localhost:3001/api/graph/graphappointmentforbachelordegree`;
 
     try {
-        const response = await axios.put(apiUrl, {
+        const response = await axios.post(apiUrl, {
             startdate,
             enddate,
         });
@@ -139,6 +139,7 @@ export function MyChartComponentgradelevel({
                                 textAnchor="start"
                                 height={140}
                             />
+                            <YAxis/>
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
@@ -192,7 +193,8 @@ export function MyChartComponentbachelordegre({
                 </Button>
             </div>
 
-            <Card style={{ margin: '10px 30px 0 0' }}>
+           
+                 <Card style={{ margin: '10px 30px 0 0' }}>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
                     <CardDescription>
@@ -220,6 +222,7 @@ export function MyChartComponentbachelordegre({
                                 textAnchor="start"
                                 height={140}
                             />
+                             <YAxis />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
@@ -229,6 +232,8 @@ export function MyChartComponentbachelordegre({
                     </ChartContainer>
                 </CardContent>
             </Card>
+          
+           
         </div>
     );
 }
