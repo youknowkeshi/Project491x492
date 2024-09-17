@@ -15,9 +15,7 @@ const googlelogin = async () => {
   }
 };
 
-// const cmulogin = () => {
-//   window.location.href = process.env.NEXT_PUBLIC_CMU_OAUTH_URL || '';
-// };
+
 
 export default function Home() {
   return (

@@ -74,7 +74,7 @@ export function Navbaradmin() {
                             <div className="ml-4 flex items-center md:ml-6">
                                 <div className="relative ml-3">
                                     <a
-                                        href="/"
+                                        href="/adminlogin"
                                         className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                                         onClick={signOut}
                                     >
@@ -133,7 +133,7 @@ export function Navbaradmin() {
                     <div className="border-t border-gray-700 pb-3 pt-4">
                         <div className="mt-3 space-y-1 px-2">
                             <a
-                                href="/"
+                                href="/adminlogin"
                                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
                                 onClick={signOut}
                             >

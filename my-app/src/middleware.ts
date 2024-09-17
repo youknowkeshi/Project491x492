@@ -8,17 +8,17 @@ export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("cmu-oauth-example-token")?.value;
   const token_google = req.cookies.get("google-oauth-example-token")?.value; 
   
-  if (!token || !token_google) {
-    return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
-  }
+  // if (!token || !token_google) {
+  //   return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
+  // }
 
-  // Verify the token
-  const response = await verifyAuth(token);
-  const response_google = await verifyAuthGoogle(token_google);
+  // // Verify the token
+  // const response = await verifyAuth(token);
+  // const response_google = await verifyAuthGoogle(token_google);
   
-  if (!response.ok || !response_google.ok) {
-    return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
-  }
+  // if (!response.ok || !response_google.ok) {
+  //   return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
+  // }
 }
 
 
