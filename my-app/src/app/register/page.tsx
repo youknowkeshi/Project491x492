@@ -158,8 +158,8 @@ export default function RegisterPage() {
           facebookurl,
           gradeLevel
         ).then(() => {
-          appointment();
           afterUseAccesscode(Id);
+          appointment();
         });
       }
     } else {
@@ -203,11 +203,6 @@ export default function RegisterPage() {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
 
-    const interval = setInterval(() => {
-      deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
-    }, 300000); // 300 วินาที
-
-    return () => clearInterval(interval); // เมื่อ Component ถูก unmount ให้ clear interval
   }, []);
 
   return (
