@@ -58,7 +58,7 @@ export default function Page({}: Props) {
     fetchEvents();
     deleteEvent();
     fetchEvents2();
-    deleteEvent2();
+    // deleteEvent2();
     // const intervalId = setInterval(() => {
     //   fetchEvents();
     //   deleteEvent();

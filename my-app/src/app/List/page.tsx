@@ -15,6 +15,7 @@ import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 import moment from 'moment-timezone';
 import { Navbaradmin } from "../component/Navbaradmin";
+import { useRouter } from 'next/navigation'; // นำเข้า useRouter
 
 
 type Props = {};
@@ -31,6 +32,8 @@ export default function Page({ }: Props) {
   const [pastDetail, setPastDetail] = useState("")
   const [idcancel, setidcancel] = useState("");
 
+  const router = useRouter(); // ใช้ useRouter เพื่อทำการเปลี่ยนเส้นทาง
+
 
 
   async function informationUser(selectedDate: Date) {
@@ -41,7 +44,7 @@ export default function Page({ }: Props) {
       });
       if (response.data.length > 0) {
         setInformationUsers(response.data);
-      }else{
+      } else {
         setInformationUsers([])
       }
 
@@ -50,6 +53,8 @@ export default function Page({ }: Props) {
       console.log("Can't get information users");
     }
   }
+
+  
 
   async function detailUser(studentid: string, selectdete: string) {
     const apiUrl = "http://localhost:3001/api/infor/listdetail";
@@ -178,6 +183,15 @@ export default function Page({ }: Props) {
     setPastDetail("");
   };
 
+  // ส่วนของปุ่ม room 1 และ room 2
+  const handleRoom1Click = () => {
+    router.push("/List"); // เปลี่ยนเส้นทางไปที่ /List
+  };
+
+  const handleRoom2Click = () => {
+    router.push("/List2"); // เปลี่ยนเส้นทางไปที่ /List2
+  };
+
   React.useEffect(() => {
     informationUser(new Date(nowInThailand))
   }, [])
@@ -193,7 +207,26 @@ export default function Page({ }: Props) {
         </div>
       </header>
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        {/* <div className="flex items-center justify-start space-x-5">
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3] w-30"
+            type="button">
+            room 1
+          </Button>
+
+         
+
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3] w-30"
+            type="button">
+            room 2
+          </Button>
+        </div> */}
+
+
+
         <div className="flex flex-row mt-7 gap-7">
+
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -246,6 +279,9 @@ export default function Page({ }: Props) {
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
                 ชื่อ facebook : {user.facebookurl}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                ห้องให้คำปรึกษาที่ : {user.room}
               </p>
               <div className="flex flex-row gap-4 absolute bottom-4 right-4">
                 <Button

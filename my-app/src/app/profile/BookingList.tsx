@@ -70,7 +70,7 @@ function BookingList() {
       .catch((error) => console.log("getPersonId failed: ", error));
   };
 
-  const appointment = async (studentid: string) => {
+  const appointment1 = async (studentid: string) => {
     try {
       const response = await axios.put(
         "http://localhost:3001/api/appointment/listhistory",
@@ -170,7 +170,7 @@ function BookingList() {
 
   useEffect(() => {
     if (personId) {
-      appointment(personId);
+      appointment1(personId);
       setIsLoading(false);
     }
   }, [personId]);

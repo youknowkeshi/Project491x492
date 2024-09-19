@@ -15,6 +15,7 @@ export default function Page({ }: Props) {
   const [endTime, setEndTime] = useState("-");
   const [personId, setPersonId] = useState("");
   const [description, setDescription] = useState("");
+  const [room, setRoom] = useState("-");
 
   const handlestarttimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartTime(event.target.value);
@@ -22,6 +23,10 @@ export default function Page({ }: Props) {
 
   const handleendtimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setEndTime(event.target.value);
+  };
+
+  const handleroomChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoom(event.target.value);
   };
 
   const handledescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,14 +49,16 @@ export default function Page({ }: Props) {
     const response = await axios.get(apiurl);
     const cmuAccount = response.data.cmuAccount;
     axios
-      .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {        
+      .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
         setPersonId(response.data[0].personid);
       });
   }
 
-  async function closetimeslot(start_datetime: string, end_datetime: string, personid: string) {
+  async function closetimeslot(start_datetime: string, end_datetime: string, personid: string,room:string) {
     const apiurl = `http://localhost:3001/api/admin/closetimeslot`;
-    axios.post(apiurl, { start_datetime, end_datetime, personid });
+    axios.post(apiurl, { start_datetime, end_datetime, personid ,room});
+   
+    
   }
 
   async function AddAppointmentGoogle(
@@ -67,14 +74,40 @@ export default function Page({ }: Props) {
     }
   }
 
-  const submit = () => {
-    if (startDate && endDate) {
-      closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId);
-      AddAppointmentGoogle(description,formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
-      window.location.reload();
-    } else {
-      alert("Please select both start and end dates.");
+  async function AddAppointmentGoogle2(
+    description: string,
+    startDateTime: string,
+    endDateTime: string
+  ) {
+    const apiUrl = "http://localhost:3001/api/google/createevent2";
+    try {
+      await axios.post(apiUrl, { description, startDateTime, endDateTime });
+    } catch (error) {
+      console.log("Can't add appointment to googlecalendar : ", error);
     }
+  }
+
+  const submit = () => {
+    if(room === 'conseling_room1'){
+      if (startDate && endDate) {
+        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
+        AddAppointmentGoogle(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        window.location.reload();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    }else if(room === 'conseling_room2'){
+      if (startDate && endDate) {
+        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
+        AddAppointmentGoogle2(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        window.location.reload();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    }else{
+      alert("Please select room.");
+    }
+   
   }
 
   useEffect(() => {
@@ -89,6 +122,7 @@ export default function Page({ }: Props) {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-indigo-700">
               Appointment
+              
             </h1>
           </div>
         </header>
@@ -135,7 +169,7 @@ export default function Page({ }: Props) {
                   onChange={handleendtimeChange}
                 >
                   <option value="-"> - </option>
-                  
+
                   <option value="10:00:00+07:00">10:00 น.</option>
                   <option value="11:00:00+07:00">11:00 น.</option>
                   <option value="13:00:00+07:00">13:00 น.</option>
@@ -144,6 +178,23 @@ export default function Page({ }: Props) {
                   <option value="16:00:00+07:00">16:00 น.</option>
                 </Select>
               </div>
+            </div>
+
+            <div className="max-w-md mt-1">
+              <div className="mb-1 block">
+                <Label htmlFor="ห้องที่ต้องการปิด" value="ห้องที่ต้องการปิด" />
+              </div>
+              <Select
+                id="ห้องที่ต้องการปิด"
+                required
+                onChange={handleroomChange}
+              >
+                <option value="-"> - </option>
+
+                <option value="conseling_room1">ห้องที่ 1</option>
+                <option value="conseling_room2">ห้องที่ 2</option>
+
+              </Select>
             </div>
 
             <div className="max-w-md mt-3 ">
@@ -161,6 +212,8 @@ export default function Page({ }: Props) {
               />
 
             </div>
+
+
             <div className="text-center">
               <Button className="mt-7 bg-indigo-700" onClick={submit}>Submit</Button>
             </div>
