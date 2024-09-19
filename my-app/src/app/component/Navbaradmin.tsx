@@ -3,16 +3,43 @@ import axios from "axios";
 import React from "react";
 
 
+
 export function Navbaradmin() {
 
-    const signOut = () => {
+    const getCookie = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            const cookieValue = parts.pop()?.split(';').shift();
+            if (cookieValue !== undefined) {
+                return cookieValue;
+            }
+        }
+        return undefined;
+    };
+    
+   
+    const signOut = async () => {
         try {
-            axios.post("/api/signOut");
+            const responese = await axios.get("api/register")
+            const token_google = getCookie("google-oauth-example-token");
+
+            if(responese.data.ok){
+                await axios.post("/api/signOut");
+                window.location.href = "/adminlogin";
+            }
+            else if(token_google){
+                await axios.post("api/signOutGoogle") 
+                window.location.href = "/adminlogin";        
+            }
+           
             // Additional actions after signing out, if needed.
         } catch (error) {
             console.error("Error signing out:", error);
         }
     };
+
+   
 
     return (
         <div>
@@ -74,7 +101,7 @@ export function Navbaradmin() {
                             <div className="ml-4 flex items-center md:ml-6">
                                 <div className="relative ml-3">
                                     <a
-                                        href="/adminlogin"
+                                        // href="/adminlogin"
                                         className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                                         onClick={signOut}
                                     >
@@ -133,7 +160,7 @@ export function Navbaradmin() {
                     <div className="border-t border-gray-700 pb-3 pt-4">
                         <div className="mt-3 space-y-1 px-2">
                             <a
-                                href="/adminlogin"
+                                // href="/adminlogin"
                                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
                                 onClick={signOut}
                             >

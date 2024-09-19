@@ -1,4 +1,4 @@
-import { NextResponse ,NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
 
@@ -6,19 +6,28 @@ import jwt from "jsonwebtoken";
 // This function can be marked async if using await inside
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("cmu-oauth-example-token")?.value;
-  const token_google = req.cookies.get("google-oauth-example-token")?.value; 
-  
-  // if (!token || !token_google) {
-  //   return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
-  // }
+  const token_google = req.cookies.get("google-oauth-example-token")?.value;
 
-  // // Verify the token
-  // const response = await verifyAuth(token);
-  // const response_google = await verifyAuthGoogle(token_google);
-  
-  // if (!response.ok || !response_google.ok) {
-  //   return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
-  // }
+  if (!token && !token_google) {
+    return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
+  }
+
+  // Verify the token
+  let response, response_google
+
+  if (token) {
+    response = await verifyAuth(token);
+  }
+
+  if (token_google) {
+    response_google = await verifyAuthGoogle(token_google);
+  }
+
+
+  if ((response && !response.ok) && (response_google && !response_google.ok)) {
+    return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
+  }
+
 }
 
 
@@ -30,7 +39,7 @@ export const verifyAuth = async (token: string) => {
     if (!decoded) {
       throw new Error("Invalid token");
     }
-    
+
     return Response.json({ ok: true, message: "Valid token" });
   } catch (error) {
     return Response.json({ ok: false, message: "Invalid token" });
@@ -43,7 +52,7 @@ export const verifyAuthGoogle = async (token: string) => {
     if (!decoded) {
       throw new Error("Invalid token");
     }
-    
+
     return Response.json({ ok: true, message: "Valid token" });
   } catch (error) {
     return Response.json({ ok: false, message: "Invalid token" });
@@ -52,11 +61,11 @@ export const verifyAuthGoogle = async (token: string) => {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher : [
+  matcher: [
     "/article/:path*",
     "/about/:path*",
     "/appointment/:path*",
-     "/appointmentadmin/:path*",
+    "/appointmentadmin/:path*",
     // "/accessCode/:path*",
     "/dashboard/:path*",
     "/EditInformation/:path*",
@@ -71,6 +80,6 @@ export const config = {
     "/reportgradelevel/:path*",
     "/UserInfomation/:path*",
     // Add more paths as needed
-   
+
   ],
 };

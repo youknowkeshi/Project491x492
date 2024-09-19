@@ -7,7 +7,7 @@ export default async function handler(
 ) {
 
   
-  deleteCookie("cmu-oauth-example-token", {
+  deleteCookie("google-oauth-example-token", {
     req,
     res,
     path: "/",

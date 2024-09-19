@@ -59,7 +59,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "http://localhost:3001/api/google/createevent2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {

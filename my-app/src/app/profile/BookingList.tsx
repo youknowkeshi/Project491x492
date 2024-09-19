@@ -33,18 +33,18 @@ function BookingList() {
 
 
   const fetchEvents = async () => {
-    const apiUrl = 'http://localhost:3000/api/events';
+    const apiUrl = 'http://localhost:3001/api/google/events';
     try {
-      await axios.post(apiUrl);
+      await axios.get(apiUrl);
     } catch (error) {
       console.error('Oh no! An error has arisen from the depths of the internet:', error);
     }
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = 'http://localhost:3000/api/events2';
+    const apiUrl = 'http://localhost:3001/api/google/events2';
     try {
-      await axios.post(apiUrl);
+      await axios.get(apiUrl);
     } catch (error) {
       console.error('Oh no! An error has arisen from the depths of the internet:', error);
     }
@@ -105,7 +105,7 @@ function BookingList() {
   }
 
   async function DeleteEventsCalendar(event_id: string) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "http://localhost:3001/api/google/deleteevent";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -116,7 +116,7 @@ function BookingList() {
   }
 
   async function DeleteEventsCalendar2(event_id: string) {
-    const apiUrl = "/api/createevents2";
+    const apiUrl = "http://localhost:3001/api/google/deleteevent2";
     try {
       await axios.put(apiUrl, {
         event_id,

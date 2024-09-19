@@ -71,6 +71,7 @@ export default function CMUOAuthCallback() {
             if (admin === cmuAccount) {
               axios
                 .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+                  
                   if (response.data[0]) {
                     homeadmin();
                   } else {

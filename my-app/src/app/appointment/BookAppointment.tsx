@@ -77,54 +77,63 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = "/api/events";
+    const apiUrl = 'http://localhost:3001/api/admin/gettimeroom';
     try {
-      const response = await axios.get(apiUrl);
-      const rows: EventRow[] = response.data.result.rows;
+        const response = await axios.get(apiUrl);
+        const rows: EventRow[] = response.data;
 
-      const slotsByDay: { [key: string]: string[] } = {};
+        const slotsByDay: { [key: string]: string[] } = {};
 
-      rows.forEach((event) => {
-        const startDateTime = event.start_datetime;
-        const endDateTime = event.end_datetime;
+        rows.forEach((event) => {
+            const startDateTime = event.start_datetime;
+            const endDateTime = event.end_datetime;
 
-        if (startDateTime && endDateTime) {
-          const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-          const start = moment(startDateTime);
-          const end = moment(endDateTime);
+            if (startDateTime && endDateTime) {
+                const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
+                const start = moment(startDateTime).startOf('hour');
+                const end = moment(endDateTime); // Do not round end time
 
-          const hours = [];
-          for (let m = start; m.isBefore(end); m.add(1, "hours")) {
-            hours.push(m.format("HH:mm"));
-          }
+                const hours = [];
+                for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
+                    hours.push(m.format('HH:mm'));
+                }
 
-          if (!slotsByDay[date]) {
-            slotsByDay[date] = [];
-          }
+                // Check if the last hour slot is within the end time and not after it
+                if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
+                    hours.push(end.startOf('hour').format('HH:mm'));
+                }
 
-          hours.forEach((hour) =>
-            slotsByDay[date].push(
-              `${hour} - ${moment(hour, "HH:mm")
-                .add(1, "hours")
-                .format("HH:mm")}`
-            )
-          );
+                if (!slotsByDay[date]) {
+                    slotsByDay[date] = [];
+                }
+
+                hours.forEach(hour => {
+                    const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
+                    if (nextHour.isSameOrBefore(end)) {
+                        slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
+                    }
+                });
+            }
+        });
+
+        const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+
+        for (const date in slotsByDay) {
+            if (slotsByDay[date].length > 0) {
+                newUnavailableSlotsByDay[date] = slotsByDay[date];
+            }
         }
-      });
 
-      const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+        // console.log(newUnavailableSlotsByDay);
+        
+        setUnavailableSlotsByDay(newUnavailableSlotsByDay);
 
-      for (const date in slotsByDay) {
-        if (slotsByDay[date].length > 0) {
-          newUnavailableSlotsByDay[date] = slotsByDay[date];
-        }
-      }
-
-      setUnavailableSlotsByDay(newUnavailableSlotsByDay);
     } catch (error) {
-      console.error("Can't get events: ", error);
+        console.error("Can't get events: ", error);
     }
-  }
+}
+
+
 
   async function AddTimeAppointment(
     start_datetime: string,
@@ -150,7 +159,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "http://localhost:3001/api/google/createevent";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -266,7 +275,7 @@ function BookAppointment({ room }: { room: any }) {
         checkMajor &&
         checkPhone
       ) {
-        console.log("find", checkAppointmented);
+
 
         if (checkAppointmented) {
           handleShowAppointmented();

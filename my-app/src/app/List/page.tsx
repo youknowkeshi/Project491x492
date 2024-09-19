@@ -94,7 +94,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEventsCalendar(event_id: string) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "http://localhost:3001/api/google/deleteevent";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -105,7 +105,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEventsCalendar2(event_id: string) {
-    const apiUrl = "/api/createevents2";
+    const apiUrl = "http://localhost:3001/api/google/deleteevent2";
     try {
       await axios.put(apiUrl, {
         event_id,

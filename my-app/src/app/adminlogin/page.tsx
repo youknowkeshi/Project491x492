@@ -22,16 +22,19 @@ export default function Home() {
     <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
       <div className="relative h-screen w-full">
         {/* Background image */}
+        import Image from 'next/image';
+
         <Image
           src="/adminbackground1.jpg"
           alt="background image"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
           quality={100}
         />
+
         {/* Content block with white background */}
         <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-gray-400 bg-opacity-90 p-10 rounded-lg shadow-lg max-w-xl w-full">
+          <div className="bg-gray-400 bg-opacity-90 p-10 rounded-lg shadow-lg max-w-xl w-full">
 
             <div className="text-center relative">
               {/* ปรับตำแหน่งของโลโก้ให้อยู่ทางขวา */}
@@ -58,18 +61,41 @@ export default function Home() {
                 เข้าสู่ระบบด้วย
               </p>
               <div className="mt-10 flex justify-center space-x-6">
+
+
                 <a
                   href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-                  className="rounded-full bg-[#8FC1E3] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4338ca] w-64"
+                  className="flex items-center rounded-full bg-[#8FC1E3] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4338ca] w-64 "
                 >
-                  CMU Account
+                  <img
+                    src="/Chiang_Mai_University.svg.png"
+                    alt="Logo"
+                    width={30} // ปรับขนาดตามที่ต้องการ
+                    className="mr-[10px]" // เพิ่มระยะห่างระหว่างโลโก้กับข้อความ
+                  />
+                  <p className="text-center">
+                    CMU Account
+                  </p>
+
                 </a>
+
+
                 <p className="font-medium text-gray-700 mt-2">หรือ</p>
+
                 <button
                   onClick={googlelogin}
-                  className="rounded-full bg-[#00AEEF] px-6 py-3 text-sm font-semibold text-white hover:bg-[#007B9E] w-64"
+                  className="flex items-center rounded-full bg-[#80adcc] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4338ca] w-64 ml-[50px]"
                 >
-                  Google
+                  <img
+                    src="/Google__G__logo.svg.png"
+                    alt="Logo"
+                    width={30} // ปรับขนาดตามที่ต้องการ
+                    className="mr-[30px] " // เพิ่มระยะห่างระหว่างโลโก้กับข้อความ
+                  />
+                  <p className="text-center">
+                    Google
+                  </p>
+
                 </button>
               </div>
             </div>

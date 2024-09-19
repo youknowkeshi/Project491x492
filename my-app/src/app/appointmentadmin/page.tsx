@@ -42,9 +42,9 @@ export default function Page({ }: Props) {
   async function getdata() {
     const apiurl = `/api/register`;
     const response = await axios.get(apiurl);
-    const cmuaccount = response.data.cmuAccount;
+    const cmuAccount = response.data.cmuAccount;
     axios
-      .put("http://localhost:3001/api/admin/checkadmin", { cmuaccount }).then((response) => {
+      .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {        
         setPersonId(response.data[0].personid);
       });
   }
@@ -59,7 +59,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "http://localhost:3001/api/google/createevent";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -135,12 +135,13 @@ export default function Page({ }: Props) {
                   onChange={handleendtimeChange}
                 >
                   <option value="-"> - </option>
-                  <option value="9:00:00+07:00">9:00 น.</option>
+                  
                   <option value="10:00:00+07:00">10:00 น.</option>
                   <option value="11:00:00+07:00">11:00 น.</option>
                   <option value="13:00:00+07:00">13:00 น.</option>
                   <option value="14:00:00+07:00">14:00 น.</option>
                   <option value="15:00:00+07:00">15:00 น.</option>
+                  <option value="16:00:00+07:00">16:00 น.</option>
                 </Select>
               </div>
             </div>
