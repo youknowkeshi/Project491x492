@@ -28,39 +28,39 @@ export function Navbar() {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
                     href="/dashboard"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
                     href="/register"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     ลงทะเบียน
                   </a>
                   <a
                     href="/appointment"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     จองคิว
                   </a>
                   <a
                     href="/profile"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     ประวัติการพบนักจิตทางคณะ
                   </a>
                   <a
                     href="/Evaluationform"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                     aria-current="page"
                   >
                     แบบประเมิน
                   </a>
                   <a
                     href="/article"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-slate-50 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     บทความ
                   </a>
@@ -127,9 +127,9 @@ export function Navbar() {
               บทความ
             </a>
           </div>
-          <div className="border-t border-gray-700 pb-3 pt-4">
+          <div className="border-t border-gray-200 pb-3 pt-4">
             <div className="flex items-center px-5"></div>
-            <div className="mt-3 space-y-1 px-2">
+            <div className=" px-2">
               <a
                 href="/"
                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"

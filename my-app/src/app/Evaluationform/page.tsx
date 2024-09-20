@@ -41,7 +41,13 @@ const Page: React.FC<Props> = () => {
               <Card
                 className="hidden sm:flex max-w-lg items-center"
                 renderImage={() => (
-                  <Image width={500} height={500} src="/1.jpg" alt="image 1" />
+                  <Image
+                    width={500}
+                    height={500}
+                    src="/1.jpg"
+                    alt="image 1"
+                    className="rounded-md mt-2 "
+                  />
                 )}
               >
                 <div>
@@ -60,7 +66,7 @@ const Page: React.FC<Props> = () => {
                 </div>
               </Card>
               {/* Vertical divider */}
-              <div className="w-0.5 bg-gray-200 mx-4 hidden sm:flex"></div>
+              <div className="w-0.5  mx-4 hidden sm:flex"></div>
               {/* Left block with 3 cards */}
               <div className="flex flex-col flex-grow space-y-4">
                 <Card className="flex flex-col">

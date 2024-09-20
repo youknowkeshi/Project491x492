@@ -240,14 +240,18 @@ export default function RegisterPage() {
                           "url('https://images.unsplash.com/photo-1487260211189-670c54da558d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
                       }}
                     >
+<<<<<<< HEAD
                       <h1 className="text-[#6cd6e7] text-3xl mb-3">Welcome</h1>
+=======
+                      <h1 className="text-[#8FC1E3] text-3xl mb-3">Welcome</h1>
+>>>>>>> origin/mhog-dev
                       <div>
                         <p className="text-purple">
                           ก่อนลงทะเบียนกรุณาติดต่อนักจิตผ่านเพจ Entaneer mind
                           เพื่อพูดคุยเบื้องต้นและรับรหัสเข้ารับบริการ{" "}
                           <a
                             href="https://www.facebook.com/messages/t/100395738521698"
-                            className="text-#4F6F52 font-semibold text-[#B9F3FC]"
+                            className="text-#4F6F52 font-semibold text-[#8FC1E3]"
                           >
                             click
                           </a>
@@ -255,7 +259,7 @@ export default function RegisterPage() {
                       </div>
                     </div>
                     <div className="w-full lg:w-1/2 py-16 px-12">
-                      <h2 className="text-3xl mb-4 text-[#B9F3FC]">
+                      <h2 className="text-3xl mb-4 text-[#8FC1E3]">
                         ลงทะเบียน
                       </h2>
                       <p className="mb-4">
@@ -408,18 +412,18 @@ export default function RegisterPage() {
                           />
                           <span className="ml-3">
                             ฉันยอมรับข้อ{" "}
-                            <a className="text-[#B9F3FC] font-semibold">
+                            <a className="text-[#8FC1E3] font-semibold">
                               กำหนดการใช้งาน นโยบาย
                             </a>{" "}
                             &{" "}
-                            <a className="text-[#B9F3FC] font-semibold">
+                            <a className="text-[#8FC1E3] font-semibold">
                               ความเป็นส่วนตัว
                             </a>
                           </span>
                         </div>
                         <div className="mt-5">
                           <button
-                            className="w-full bg-[#B9F3FC] py-3 text-center text-white hover:bg-[#8FC1E3]"
+                            className="w-full bg-[#8FC1E3] py-3 text-center text-white hover:bg-[#8FC1E3]"
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();

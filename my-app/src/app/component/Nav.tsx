@@ -1,6 +1,4 @@
-
 export function Nav() {
-
   return (
     <div>
       <nav className="bg-[#bbd9ee]">
@@ -18,14 +16,22 @@ export function Nav() {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
                     href="/"
+<<<<<<< HEAD
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
+=======
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+>>>>>>> origin/mhog-dev
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
                     href="/Evaluationform"
+<<<<<<< HEAD
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
+=======
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+>>>>>>> origin/mhog-dev
                     aria-current="page"
                   >
                     แบบประเมิน
@@ -47,7 +53,7 @@ export function Nav() {
             <a
               href="/"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-blue"
-            // aria-current="page"
+              // aria-current="page"
             >
               หน้าแรก
             </a>
@@ -65,10 +71,7 @@ export function Nav() {
             >
               บทความ
             </a>
-
-
           </div>
-
         </div>
       </nav>
     </div>
