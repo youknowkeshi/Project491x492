@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { MyChartComponentgradelevel } from "./MyChartComponentgradelevel";
 import { ComponentDrawer } from "../component/Drawer";
 import { Navbaradmin } from "../component/Navbaradmin";
-import {MyChartComponentbachelordegre} from "./MyChartComponentgradelevel"
+import { MyChartComponentbachelordegre } from "./MyChartComponentgradelevel";
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
