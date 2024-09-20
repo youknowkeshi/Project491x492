@@ -11,12 +11,13 @@ import {
 
 import React, { useState, useEffect } from "react";
 
-import { useRouter } from "next/navigation";
+import { useRouter ,useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
 import { Button } from "@/components/ui/button";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -48,6 +49,9 @@ export default function RegisterPage() {
   const [showModalEmpty, setShowModalEmpty] = useState(false);
   const handleShowEmpty = () => setShowModalEmpty(true);
   const handleCloseEmpty = () => setShowModalEmpty(false);
+
+  const searchParams = useSearchParams();
+  const idCode:string = searchParams ? searchParams.get("id") || "" : "";
 
   const [accessCodeCondition, setAccessCodeCondition] = useState("");
 
@@ -348,8 +352,8 @@ export default function RegisterPage() {
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder="รับรหัสจากการพูดคุยกับนักจิตเบื้องต้น"
-                            required
+                            placeholder={idCode}
+                            disabled
                             color="gray"
                             value={Id}
                             onChange={handleIdChange}

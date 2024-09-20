@@ -12,7 +12,7 @@ export default function MePage() {
 
   const generateNewString = () => {
     const code = uniqueString();
-    setGeneratedString(code);
+    setGeneratedString(`http://localhost:3000/register?id=${code}`);
     setCopySuccess("");
     addAccessCode(code);
   };
@@ -51,31 +51,7 @@ export default function MePage() {
   return (
     <>
       <Navbaradmin />
-      <div className=" rounded p-8">
-        {/* <div className=" h-16 sm:h-24 xl:h-30 2xl:h-36">
-          <Carousel>
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
-              alt="..."
-            />
-          </Carousel>
-        </div> */}
+      <div className="rounded p-8">
         <h2 className="text-2xl mb-7 mt-7">สร้างรหัสรับบริการสำหรับผู้รับบริการใหม่</h2>
         <Button
           onClick={generateNewString}
@@ -86,14 +62,16 @@ export default function MePage() {
         <hr className="border-gray-400 mb-8" />
         <div className="flex flex-col items-start">
           <p className="text-lg mb-8">
-            รหัสรับบริการของผู้รับบริการใหม่ : {generatedString}
+            รหัสรับบริการของผู้รับบริการใหม่:{" "}
+            <a
+              className="text-blue-600 underline"
+            >
+              {generatedString}
+            </a>
           </p>
-          <button
-            onClick={copyToClipboard}
-          // className="bg-[#5044e4] text-white px-4 py-2 rounded hover:bg-green-700"
-          >
+          <button onClick={copyToClipboard}>
             <svg
-              className="h-8 w-8  text-teal-700"
+              className="h-8 w-8 text-teal-700"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -101,8 +79,7 @@ export default function MePage() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              {" "}
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />{" "}
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
             </svg>
           </button>
@@ -111,4 +88,4 @@ export default function MePage() {
       </div>
     </>
   );
-}
+}  
