@@ -27,6 +27,7 @@ function App() {
     const [allImage, setAllImage] = useState<Array<{ image: string }> | null>([]);
     const [test, setTest] = useState([])
     const [event_id, setEvent_Id] = useState<Event[]>([]);
+    const imageUrl = "http://localhost:9011/demomind/AYegz0g6Gc9v57ZraY0R0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=Entaneer_mind%2F20240920%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240920T184015Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=5448b51a96c27fb765ad75ab8567c562f21b1ba58b6888a456e6398484c72cb5";
 
 
     const submitImage = async (e: FormEvent<HTMLFormElement>) => {
@@ -120,6 +121,10 @@ function App() {
                 ) : (
                     <p>No data</p>
                 )}
+            </div>
+            <div>
+                <h1>แสดงรูปภาพจากลิงก์</h1>
+                <img src={imageUrl} alt="Demo Image" />
             </div>
             {/* {allImage &&
                 allImage.map((data, index) => {

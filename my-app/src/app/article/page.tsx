@@ -1,82 +1,86 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import {Navbar} from "../component/์Navbar";
-import {  Carousel} from "flowbite-react";
+import { Navbar } from "../component/์Navbar";
+import { Carousel } from "flowbite-react";
 import axios from "axios";
 
 type Props = {};
 
 interface Article {
-  text: string
-  img_url: string
+  id: string;
+  text_content: string | null;
+  image_url: string | null;
 }
 
 
+
 export default function page({ }: Props) {
-  const [article, setArticle] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);;
 
   async function showarticle() {
-    const apiUrl = `/api/article`;
+    const apiUrl = `http://localhost:3001/api/img/get`;
     try {
-      const response = await axios.get(apiUrl)
-      setArticle(response.data)
+      const response = await axios.get(apiUrl);
+      setArticles(response.data);
     } catch (error) {
-      console.log("Can't show article : ", error);
-
+      console.log("Can't show article: ", error);
     }
   }
 
-  async function Addarticle(text: string, img_url: string) {
-    const apiUrl = `/api/article`;
-    try {
-      await axios.post(apiUrl,{text,img_url})
-    } catch (error) {
-      console.log("Can't show article : ", error);
 
-    }
-  }
 
-  useEffect(()=>{
-    //showarticle()
-  },[])
+  useEffect(() => {
+    showarticle()
+  }, [])
 
   return (
     <>
       <Navbar />
-      <div className="mt-7 h-56 sm:h-64 xl:h-80 2xl:h-96">
-        <Carousel>
-          <img
-            src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-            alt="..."
-          />
-        </Carousel>
-      </div>
-      <div className="grid grid-cols-2 justify-items-start gap-7 mt-7">
-        <div>2</div>
-        <div>
-          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Noteworthy technology acquisitions 2021
-          </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400 mt-5">
-            Here are the biggest enterprise technology acquisitions of 2021 so
-            far, in reverse chronological order.Contrary to popular belief,
-            Lorem Ipsum is not simply random text. It has roots in a piece of
-            classical Latin literature from 45 BC, making it over 2000 years
-            old. Richard McClintock, a Latin professor at Hampden-Sydney College
-            in Virginia, looked up one of the more obscure Latin words,
-            consectetur, from a Lorem Ipsum passage, and going through the cites
-            of the word in classical literature, discovered the undoubtable
-            source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de
-            Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by
-            Cicero, written in 45 BC. This book is a treatise on the theory of
-            ethics, very popular during the Renaissance. The first line of Lorem
-            Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
-            1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is
-            reproduced below for those interested. Sections 1.10.32 and 1.10.33
-            from "de Finibus Bonorum et Malorum" by Cicero are also reproduced
-            in their exact original form, accompanied by English versions from
-            the 1914 translation by H. Rackham.
-          </p>
+      <header className="bg-whit shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
+            บทความ
+          </h1>
+        </div>
+      </header>
+      <div className="max-w-7xl mx-auto">
+        <div >
+          {/* แสดงรายการบทความ */}
+          {articles.length > 0 ? (
+            articles.map((article) => (
+              <div
+                key={article.id}
+                className="bg-whit shadow mx-[100px] max-w-7xl border p-4 mb-4 rounded-lg shadow-md grid grid-cols-3 gap-4 mt-10"
+              >
+
+
+                <div className=" ">
+                  {article.image_url ? (
+                    <img
+                      src={article.image_url}
+                      alt={article.id}
+                      className="mt-4 rounded-lg shadow-md w-auto h-auto"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
+                    />
+                  ) : (
+                    <p>No image available</p>
+                  )}
+                </div>
+                <div className="col-span-2 ">
+                  <p className="font-normal text-gray-700 dark:text-gray-400 mt-5">
+                    {article.text_content || ""}
+                  </p>
+                </div>
+
+
+              </div>
+            ))
+          ) : (
+            <p>No articles available.</p>
+          )}
         </div>
       </div>
     </>
