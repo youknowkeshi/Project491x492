@@ -21,7 +21,7 @@ export default function page({}: Props) {
       imageSrc: "/student2.png",
       imageAlt:
         "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-      href: "#",
+      href: "/appointment",
     },
   ];
   return (
@@ -73,7 +73,7 @@ export default function page({}: Props) {
                     <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                       <a
                         href="#"
-                        className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-[#bbd9ee] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         Log in
                       </a>

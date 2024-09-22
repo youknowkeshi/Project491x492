@@ -111,15 +111,14 @@ export function MyChartComponentgradelevel({
 
   return (
     <div>
-      <div>
-        <Button onClick={toggleSort} className="bg-[#5044e4]">
-          เรียงลำดับ
-        </Button>
-      </div>
-
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+            </Button>
+          </div>
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -209,15 +208,15 @@ export function MyChartComponentbachelordegre({
 
   return (
     <div>
-      <div>
-        <Button onClick={toggleSort} className="bg-[#5044e4]">
-          {isSorted ? "Sort Ascending" : "Sort Descending"}
-        </Button>
-      </div>
-
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+            </Button>
+          </div>
+
           <CardDescription>
             {startDate && endDate && (
               <>

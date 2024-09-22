@@ -15,33 +15,34 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Assuming you have a Button component
 
-interface Major {
-  major: string;
-  major_count: number;
+interface CheckList {
+  mental_health_checklist: string;
+  checklist_count: number;
 }
 
-async function graphmajor(
+async function graphlist(
   startdate: string,
   enddate: string
-): Promise<Major[]> {
-  const apiUrl = `http://localhost:3001/api/graph/graphappointmentformajor`;
+): Promise<CheckList[]> {
+  const apiUrl = `http://localhost:3001/api/graph/mental-health-checklist`;
 
   try {
     const response = await axios.post(apiUrl, {
       startdate,
       enddate,
     });
+
     return response.data;
   } catch (error) {
-    console.error("Can't get graphmajor", error);
+    console.error("Can't get graphlist", error);
     return [];
   }
 }
 
 const chartConfig: ChartConfig = {
-  major_count: {
+  checklist_count: {
     color: "#6B84F4",
   },
 };
@@ -51,29 +52,17 @@ interface MyChartComponentsProps {
   endDate: Date | null;
 }
 
-export function MyChartComponents({
+export function MyChartComponentsList({
   startDate,
   endDate,
 }: MyChartComponentsProps) {
-  const [chartData, setChartData] = useState<Major[]>([]);
+  const [chartData, setChartData] = useState<CheckList[]>([]);
   const [isSorted, setIsSorted] = useState<boolean>(false);
-
-  const toggleSort = () => {
-    const sortedData = [...chartData].sort((a, b) => {
-      if (isSorted) {
-        return a.major_count - b.major_count; // Ascending
-      } else {
-        return b.major_count - a.major_count; // Descending
-      }
-    });
-    setChartData(sortedData);
-    setIsSorted(!isSorted);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
-        const data = await graphmajor(
+        const data = await graphlist(
           startDate.toISOString().split("T")[0],
           endDate.toISOString().split("T")[0]
         );
@@ -83,45 +72,52 @@ export function MyChartComponents({
     fetchData();
   }, [startDate, endDate]);
 
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.checklist_count - b.checklist_count; // Ascending
+      } else {
+        return b.checklist_count - a.checklist_count; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
+
   return (
     <div>
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
-          <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
+          <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
           <div>
             <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              เรียงลำดับ
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
             </Button>
           </div>
 
           <CardDescription>
             {startDate && endDate && (
               <>
-                {new Intl.DateTimeFormat("en-US", {
+                {new Intl.DateTimeFormat("th-TH", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })
-                  .format(startDate)
-                  .replace(",", "")}
+                }).format(startDate)}
                 {" - "}
-                {new Intl.DateTimeFormat("en-US", {
+                {new Intl.DateTimeFormat("th-TH", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })
-                  .format(endDate)
-                  .replace(",", "")}
+                }).format(endDate)}
               </>
             )}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-            <BarChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={false} />
+          <ChartContainer config={chartConfig}>
+            <BarChart data={chartData}>
               <XAxis
-                dataKey="major"
+                dataKey="mental_health_checklist"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
@@ -131,14 +127,11 @@ export function MyChartComponents({
                 textAnchor="start"
                 height={140}
               />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="dashed" />}
-              />
+              <CartesianGrid strokeDasharray="3 3" />
               <Bar
-                dataKey="major_count"
-                fill={chartConfig.major_count.color}
-                radius={4}
+                dataKey="checklist_count"
+                fill={chartConfig.checklist_count.color}
+                radius={1}
               />
             </BarChart>
           </ChartContainer>

@@ -62,12 +62,12 @@ export default function Home({}: Props) {
                   </a> */}
                   <a
                     href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
-                    className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4338ca] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#bbd9ee] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Login
                   </a>
                   <a
-                    href="/dashboard2"
+                    href="/dash3"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     วิธีการจองสำหรับรับบริการครั้งแรก{" "}

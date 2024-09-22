@@ -1,4 +1,5 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -17,16 +18,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-interface Major {
-  major: string;
-  major_count: number;
+interface CheckList {
+  topic: string;
+  click_count: number;
 }
 
-async function graphmajor(
+async function evaluationform(
   startdate: string,
   enddate: string
-): Promise<Major[]> {
-  const apiUrl = `http://localhost:3001/api/graph/graphappointmentformajor`;
+): Promise<CheckList[]> {
+  const apiUrl = `http://localhost:3001/api/graph/graphevaluation`;
 
   try {
     const response = await axios.post(apiUrl, {
@@ -35,13 +36,13 @@ async function graphmajor(
     });
     return response.data;
   } catch (error) {
-    console.error("Can't get graphmajor", error);
+    console.error("Can't get evaluationform", error);
     return [];
   }
 }
 
 const chartConfig: ChartConfig = {
-  major_count: {
+  checklist_count: {
     color: "#6B84F4",
   },
 };
@@ -51,19 +52,16 @@ interface MyChartComponentsProps {
   endDate: Date | null;
 }
 
-export function MyChartComponents({
-  startDate,
-  endDate,
-}: MyChartComponentsProps) {
-  const [chartData, setChartData] = useState<Major[]>([]);
+export function Evaluationform({ startDate, endDate }: MyChartComponentsProps) {
+  const [chartData, setChartData] = useState<CheckList[]>([]);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
   const toggleSort = () => {
     const sortedData = [...chartData].sort((a, b) => {
       if (isSorted) {
-        return a.major_count - b.major_count; // Ascending
+        return a.click_count - b.click_count; // Ascending
       } else {
-        return b.major_count - a.major_count; // Descending
+        return b.click_count - a.click_count; // Descending
       }
     });
     setChartData(sortedData);
@@ -73,7 +71,7 @@ export function MyChartComponents({
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
-        const data = await graphmajor(
+        const data = await evaluationform(
           startDate.toISOString().split("T")[0],
           endDate.toISOString().split("T")[0]
         );
@@ -87,13 +85,12 @@ export function MyChartComponents({
     <div>
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
-          <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
+          <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
           <div>
             <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
               เรียงลำดับ
             </Button>
           </div>
-
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -117,11 +114,11 @@ export function MyChartComponents({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+          <ChartContainer config={chartConfig}>
             <BarChart accessibilityLayer data={chartData}>
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="major"
+                dataKey="topic"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
@@ -136,8 +133,8 @@ export function MyChartComponents({
                 content={<ChartTooltipContent indicator="dashed" />}
               />
               <Bar
-                dataKey="major_count"
-                fill={chartConfig.major_count.color}
+                dataKey="click_count"
+                fill={chartConfig.checklist_count.color}
                 radius={4}
               />
             </BarChart>

@@ -352,9 +352,9 @@ function BookAppointment({ room }: { room: any }) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={(day) =>
-                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
-                      }
+                      // disabled={(day) =>
+                      //   isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                      // }
                       className="border rounded-lg"
                     />
                   </div>

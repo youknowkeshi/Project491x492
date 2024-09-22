@@ -7,16 +7,16 @@ export async function POST() {
   };
   const receipients = [
     {
-      name: "สวัสดี",
-      address: "nithikon_jansanitsri@cmu.ac.th", // ผู้รับ
+      name: "น้องพิ้ง",
+      address: "pongthanat_n@cmu.ac.th", // ผู้รับ
     },
   ];
   try {
     const result = await sendEmail({
       sender,
       receipients,
-      subject: "Test Email ",
-      message: "ไอ่โต้ง", // ข้อความ
+      subject: "pink",
+      message: "Text sent mail", // ข้อความ
     });
     return Response.json({
       accepted: result.accepted,
