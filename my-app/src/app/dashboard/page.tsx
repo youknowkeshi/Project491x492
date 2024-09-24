@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Carousel } from "flowbite-react";
+import { Carousel ,  Modal} from "flowbite-react";
 import { Foot } from "../component/Footer";
 import { Navbar } from "../component/์Navbar";
 

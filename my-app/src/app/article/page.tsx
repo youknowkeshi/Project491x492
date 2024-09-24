@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "../component/์Navbar";
 import { Carousel } from "flowbite-react";
 import axios from "axios";
+import { Button } from "flowbite-react";
 
 type Props = {};
 
 interface Article {
   id: string;
   text_content: string | null;
-  image_url: string | null;
+  image_url: string[] | null; // เปลี่ยนจาก image_url เป็น image_urls
 }
 
 
@@ -44,42 +45,35 @@ export default function page({ }: Props) {
         </div>
       </header>
       <div className="max-w-7xl mx-auto">
-        <div >
-          {/* แสดงรายการบทความ */}
+        {/* แสดงรายการบทความ */}
+        <div className="max-w-7xl mx-auto">
           {articles.length > 0 ? (
             articles.map((article) => (
-              <div
-                key={article.id}
-                className="bg-whit shadow mx-[100px] max-w-7xl border p-4 mb-4 rounded-lg shadow-md grid grid-cols-3 gap-4 mt-10"
-              >
+              <div key={article.id} className="bg-white shadow border p-4 mb-4 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+                <div>
+
+                  {article.image_url && article.image_url.length > 0 ? (
+                    article.image_url.map((url: string, index: number) => (
+                      // <p key={index}>{url}</p>
+                      <img
+                        key={index}
+                        src={url}
+                        alt={`Image ${index + 1} of article ${article.id}`}
+                        className="mt-4 rounded-lg shadow-md w-full h-auto object-cover"
+                      />
+                    ))
+                  ) : null}
 
 
-                <div className=" ">
-                  {article.image_url ? (
-                    <img
-                      src={article.image_url}
-                      alt={article.id}
-                      className="mt-4 rounded-lg shadow-md w-auto h-auto"
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                      }}
-                    />
-                  ) : (
-                    <p>No image available</p>
-                  )}
+
                 </div>
-                <div className="col-span-2 ">
-                  <p className="font-normal text-gray-700 dark:text-gray-400 mt-5">
-                    {article.text_content || ""}
-                  </p>
+                <div className="col-span-2 mx-8 my-8">
+                  <p className="font-normal text-gray-700 dark:text-gray-400 mt-5">{article.text_content || ""}</p>
                 </div>
-
-
               </div>
             ))
           ) : (
-            <p>No articles available.</p>
+            <p></p>
           )}
         </div>
       </div>
