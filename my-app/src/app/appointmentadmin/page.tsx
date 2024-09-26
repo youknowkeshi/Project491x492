@@ -49,13 +49,13 @@ export default function Page({ }: Props) {
     const response = await axios.get(apiurl);
     const cmuAccount = response.data.cmuAccount;
     axios
-      .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+      .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
         setPersonId(response.data[0].personid);
       });
   }
 
   async function closetimeslot(start_datetime: string, end_datetime: string, personid: string,room:string) {
-    const apiurl = `http://localhost:3001/api/admin/closetimeslot`;
+    const apiurl = `https://entaneermindbackend.onrender.com/api/admin/closetimeslot`;
     axios.post(apiurl, { start_datetime, end_datetime, personid ,room});
    
     
@@ -66,7 +66,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "http://localhost:3001/api/google/createevent";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -79,7 +79,7 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "http://localhost:3001/api/google/createevent2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {

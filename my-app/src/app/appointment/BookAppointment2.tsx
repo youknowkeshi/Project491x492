@@ -68,7 +68,7 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = 'http://localhost:3001/api/admin/gettimeroom2';
+    const apiUrl = 'https://entaneermindbackend.onrender.com/api/admin/gettimeroom2';
     try {
         const response = await axios.get(apiUrl);
         const rows: EventRow[] = response.data;
@@ -129,7 +129,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "http://localhost:3001/api/appointment2/addtimeappointment";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/addtimeappointment";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -147,7 +147,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "http://localhost:3001/api/google/createevent2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -228,7 +228,7 @@ function BookAppointment({ room }: { room: any }) {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3001/api/user/checkuser";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -282,7 +282,7 @@ function BookAppointment({ room }: { room: any }) {
     const currentDateTime = new Date();
     try {
       const response = await axios.put(
-        "http://localhost:3001/api/appointment2/checkappointment",
+        "https://entaneermindbackend.onrender.com/api/appointment2/checkappointment",
         { studentid }
       );
   
@@ -313,7 +313,7 @@ function BookAppointment({ room }: { room: any }) {
 
   function getPersonId(studentId: string) {
     axios
-      .post("http://localhost:3001/api/user/checkuser", { studentId })
+      .post("https://entaneermindbackend.onrender.com/api/user/checkuser", { studentId })
       .then((response) => {
         setPersonId(response.data[0].personid);
       })
@@ -321,7 +321,7 @@ function BookAppointment({ room }: { room: any }) {
   }
 
   const fetchEvents2 = async () => {
-    const apiUrl = "http://localhost:3001/api/google/events2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
 
     try {
       await axios.get(apiUrl);

@@ -23,7 +23,7 @@ interface CheckList {
 }
 
 async function graphlist(startdate: string, enddate: string): Promise<CheckList[]> {
-  const apiUrl = `http://localhost:3001/api/graph/mental-health-checklist`;
+  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/mental-health-checklist`;
 
   try {
     const response = await axios.post(apiUrl, {

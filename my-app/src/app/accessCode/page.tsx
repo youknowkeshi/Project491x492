@@ -27,7 +27,7 @@ export default function MePage() {
   };
 
   async function addAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3001/api/accesscode/insertaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/insertaccesscode";
     try {
       await axios.post(apiUrl, { accesscode });
     } catch (error) {
@@ -36,7 +36,7 @@ export default function MePage() {
   }
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {

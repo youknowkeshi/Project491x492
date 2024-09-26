@@ -143,7 +143,7 @@ export function ProfileForm() {
   }
 
   async function Getsingledata() {
-    const apiUrl = `http://localhost:3001/api/infor/detailinfor/${id}`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/infor/detailinfor/${id}`;
     try {
       const response = await axios.post(apiUrl, { id });
 
@@ -158,7 +158,7 @@ export function ProfileForm() {
   }
 
   async function Getsingledata2() {
-    const apiUrl = `http://localhost:3001/api/infor2/detailinfor/${id}`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/infor2/detailinfor/${id}`;
     try {
       const response = await axios.post(apiUrl, { id });
 
@@ -174,7 +174,7 @@ export function ProfileForm() {
     mental_risk_level: string,
     event_id: string
   ) {
-    const apiUrl = `http://localhost:3001/api/infor/editinfor/${id}`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/infor/editinfor/${id}`;
     try {
       await axios.put(apiUrl, {
         details_consultation,

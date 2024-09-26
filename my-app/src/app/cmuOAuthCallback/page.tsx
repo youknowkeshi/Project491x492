@@ -70,7 +70,7 @@ export default function CMUOAuthCallback() {
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount) {
               axios
-                .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+                .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
                   
                   if (response.data[0]) {
                     homeadmin();
@@ -88,7 +88,7 @@ export default function CMUOAuthCallback() {
               setIsLoading(false);
             } else if (admin2 === cmuAccount) {
               axios
-                .put("http://localhost:3001/api/admin/checkadmin", { cmuAccount }).then((response) => {
+                .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
                   if (response.data[0]) {
                     homeadmin2();
                   } else {
@@ -156,7 +156,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      await axios.post("http://localhost:3001/api/user/afterlogin", {
+      await axios.post("https://entaneermindbackend.onrender.com/api/user/afterlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,
@@ -176,7 +176,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      axios.post("http://localhost:3001/api/admin/firstlogin", {
+      axios.post("https://entaneermindbackend.onrender.com/api/admin/firstlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,

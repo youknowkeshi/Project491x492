@@ -9,7 +9,7 @@ type Props = {};
 
 export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = "http://localhost:3001/api/google/events";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
 
     try {
       await axios.get(apiUrl);
@@ -22,7 +22,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "http://localhost:3001/api/admin/deltimeroom";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom";
 
     try {
       await axios.delete(apiUrl);
@@ -32,7 +32,7 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "http://localhost:3001/api/google/events2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
 
     try {
       await axios.get(apiUrl);
@@ -45,7 +45,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "http://localhost:3001/api/admin/deltimeroom2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom2";
 
     try {
       await axios.delete(apiUrl);

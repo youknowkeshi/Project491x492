@@ -41,7 +41,7 @@ function BookingList() {
 
 
   // const fetchEvents = async () => {
-  //   const apiUrl = 'http://localhost:3001/api/google/events';
+  //   const apiUrl = 'https://entaneermindbackend.onrender.com/api/google/events';
   //   try {
   //     await axios.get(apiUrl);
   //   } catch (error) {
@@ -50,7 +50,7 @@ function BookingList() {
   // };
 
   // const fetchEvents2 = async () => {
-  //   const apiUrl = 'http://localhost:3001/api/google/events2';
+  //   const apiUrl = 'https://entaneermindbackend.onrender.com/api/google/events2';
   //   try {
   //     await axios.get(apiUrl);
   //   } catch (error) {
@@ -85,7 +85,7 @@ function BookingList() {
   const appointment1 = async (studentid: string) => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/api/appointment/listhistory",
+        "https://entaneermindbackend.onrender.com/api/appointment/listhistory",
         { studentid }
       );
       setMake_An_Appointment(response.data);
@@ -95,7 +95,7 @@ function BookingList() {
   };
 
   async function DeleteEvents(event_id: string) {
-    const apiUrl = "http://localhost:3001/api/appointment/cancel";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id },
@@ -106,7 +106,7 @@ function BookingList() {
   }
 
   async function DeleteEvents2(event_id: string) {
-    const apiUrl = "http://localhost:3001/api/appointment2/cancel";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id },
@@ -117,7 +117,7 @@ function BookingList() {
   }
 
   async function DeleteEventsCalendar(event_id: string) {
-    const apiUrl = "http://localhost:3001/api/google/deleteevent";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -128,7 +128,7 @@ function BookingList() {
   }
 
   async function DeleteEventsCalendar2(event_id: string) {
-    const apiUrl = "http://localhost:3001/api/google/deleteevent2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent2";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -143,7 +143,7 @@ function BookingList() {
     end_datetime: string,
     room:string
   ) {
-    const apiUrl = "http://localhost:3001/api/appointment/getidcalendar";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
@@ -166,7 +166,7 @@ function BookingList() {
     end_datetime: string,
     room:string
   ) {
-    const apiUrl = "http://localhost:3001/api/appointment2/getidcalendar";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
