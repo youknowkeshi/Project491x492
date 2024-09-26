@@ -12,7 +12,7 @@ export default function MePage() {
 
   const generateNewString = () => {
     const code = uniqueString();
-    setGeneratedString(`http://localhost:3000/register?id=${code}`);
+    setGeneratedString(`https://project491x492.vercel.app/register?id=${code}`);
     setCopySuccess("");
     addAccessCode(code);
   };

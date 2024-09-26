@@ -47,17 +47,17 @@ export default function Home() {
                     },
                     process.env.NEXT_PUBLIC_JWT_SECRET_GOOGLE!,
                     {
-                        expiresIn: "1h",
+                        expiresIn: "24h",
                     }
                 );
 
                 setCookie("google-oauth-example-token", token, {
                     maxAge: 3600,
-                    httpOnly: false, // ตั้งเป็น true ในการผลิต
+                    httpOnly: true, // ตั้งเป็น true ในการผลิต
                     sameSite: "lax",
                     secure: process.env.NODE_ENV === "production",
                     path: "/",
-                    domain: "localhost",
+                    domain: "https://project491x492.vercel.app",
                 });
 
                 router.push("/List");
