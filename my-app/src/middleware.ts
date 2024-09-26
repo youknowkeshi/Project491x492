@@ -11,9 +11,7 @@ export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("cmu-oauth-example-token")?.value;
   const token_google = req.cookies.get("google-oauth-example-token")?.value;
 
-  console.log("token_google",token_google);
-  console.log("verify",verify);
-  
+  console.log("Cookies:", req.cookies.getAll());
 
   if (!token && !token_google &&!verify) {
     return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
