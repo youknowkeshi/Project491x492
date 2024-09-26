@@ -45,7 +45,7 @@
     "dotenv": "^16.4.5",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
-    "googleapis": "^136.0.0",
+    "googleapis": "^144.0.0",
     "jsonwebtoken": "^8.5.1",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.378.0",

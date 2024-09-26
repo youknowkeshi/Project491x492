@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { Foot } from "./component/Footer";
 import { Nav } from "./component/Nav";
 
