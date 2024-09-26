@@ -24,43 +24,55 @@ function BookingList() {
     []
   );
   const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = async () => {
+    // await fetchEvents();
+    // await fetchEvents2();
+    await setShowModal(true);
+  }
+   
   const handleClose = () => setShowModal(false);
 
   const [idcancel, setidcancel] = useState("");
+  const [startCancle, setStartCancle] = useState("");
+  const [endCancle, setEndCancle] = useState("");
+  const [roomCancle, setRoomCancle] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
 
 
-  const fetchEvents = async () => {
-    const apiUrl = 'http://localhost:3001/api/google/events';
-    try {
-      await axios.get(apiUrl);
-    } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
-    }
-  };
+  // const fetchEvents = async () => {
+  //   const apiUrl = 'http://localhost:3001/api/google/events';
+  //   try {
+  //     await axios.get(apiUrl);
+  //   } catch (error) {
+  //     console.error('Oh no! An error has arisen from the depths of the internet:', error);
+  //   }
+  // };
 
-  const fetchEvents2 = async () => {
-    const apiUrl = 'http://localhost:3001/api/google/events2';
-    try {
-      await axios.get(apiUrl);
-    } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
-    }
-  };
+  // const fetchEvents2 = async () => {
+  //   const apiUrl = 'http://localhost:3001/api/google/events2';
+  //   try {
+  //     await axios.get(apiUrl);
+  //   } catch (error) {
+  //     console.error('Oh no! An error has arisen from the depths of the internet:', error);
+  //   }
+  // };
 
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
-    fetchEvents();
-    fetchEvents2();
+  
     if (room === 'conseling_room1') {
-      GetEventIdCalendar(start_datetime, end_datetime);
+      await GetEventIdCalendar(start_datetime, end_datetime,room);
       await DeleteEvents(event_id);
+      await router.push("/appointment");
+      // console.log("room1");
     } else if (room === "conseling_room2") {
-      GetEventIdCalendar2(start_datetime, end_datetime);
+      await GetEventIdCalendar2(start_datetime, end_datetime,room);
       await DeleteEvents2(event_id);
+      await router.push("/appointment"); 
+      // console.log("room2");
+      
     }
-    await router.push("/appointment");
+    
   };
 
   const getPersonId = () => {
@@ -128,16 +140,20 @@ function BookingList() {
 
   async function GetEventIdCalendar(
     start_datetime: string,
-    end_datetime: string
+    end_datetime: string,
+    room:string
   ) {
     const apiUrl = "http://localhost:3001/api/appointment/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
         end_datetime,
+        room,
       });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
+       
+        
         DeleteEventsCalendar(eventsid);
       }
     } catch (error) {
@@ -147,13 +163,15 @@ function BookingList() {
 
   async function GetEventIdCalendar2(
     start_datetime: string,
-    end_datetime: string
+    end_datetime: string,
+    room:string
   ) {
     const apiUrl = "http://localhost:3001/api/appointment2/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
         end_datetime,
+        room,
       });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
@@ -164,6 +182,8 @@ function BookingList() {
     }
   }
 
+
+
   useEffect(() => {
     getPersonId();
   }, []);
@@ -173,7 +193,9 @@ function BookingList() {
       appointment1(personId);
       setIsLoading(false);
     }
-  }, [personId]);
+    console.log(roomCancle);
+    
+  }, [personId,startCancle, endCancle, idcancel,roomCancle]);
 
   const isCurrentAppointment = (start_datetime: string) => {
     const now = new Date();
@@ -251,6 +273,9 @@ function BookingList() {
                   className="absolute bottom-4 right-4"
                   onClick={() => {
                     setidcancel(appointment.event_id);
+                    setStartCancle(appointment.start_datetime)
+                    setEndCancle(appointment.end_datetime)
+                    setRoomCancle(appointment.room)
                     handleShow();
                   }}
                 >
@@ -291,7 +316,7 @@ function BookingList() {
               </Modal.Body>
               <Modal.Footer>
                 <Button
-                  onClick={() => handleCancel(appointment.start_datetime, appointment.end_datetime, idcancel, appointment.room)}
+                  onClick={() => handleCancel(startCancle, endCancle, idcancel,roomCancle)}
 
                 >
                   ยืนยัน

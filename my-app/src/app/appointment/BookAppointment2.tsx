@@ -246,7 +246,7 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
-  const handleSubmit = () => {
+  async function handleSubmit () {
     if (date && selectedTimeSlot && message) {
       const formattedDate = formatDate(date);
       const [startHour, startMinute] = selectedTimeSlot
@@ -265,14 +265,15 @@ function BookAppointment({ room }: { room: any }) {
         checkPhone
       ) {
         if (checkAppointmented) {
-          handleShowAppointmented();
+          await handleShowAppointmented();
         } else {
-          AddTimeAppointment(start_datetime, end_datetime, personId, message);
-          AddAppointmentGoogle(message, start_datetime, end_datetime);
-          setIsConfirmationModalOpen(true);
+          await AddTimeAppointment(start_datetime, end_datetime, personId, message);
+          await AddAppointmentGoogle(message, start_datetime, end_datetime);
+          await fetchEvents2()
+          await setIsConfirmationModalOpen(true);
         }
       } else {
-        handleShow();
+        await handleShow();
       }
     }
   };
@@ -318,6 +319,19 @@ function BookAppointment({ room }: { room: any }) {
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
+
+  const fetchEvents2 = async () => {
+    const apiUrl = "http://localhost:3001/api/google/events2";
+
+    try {
+      await axios.get(apiUrl);
+    } catch (error) {
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
+    }
+  };
 
 
   useEffect(() => {

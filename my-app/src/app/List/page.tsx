@@ -31,6 +31,11 @@ export default function Page({ }: Props) {
   const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
   const [pastDetail, setPastDetail] = useState("")
   const [idcancel, setidcancel] = useState("");
+  const [startCancle, setStartCancle] = useState("");
+  const [endCancle, setEndCancle] = useState("");
+  const [roomCancle, setRoomCancle] = useState("");
+  const [facebookCancle, setFaceboolCancle] = useState("");
+  const [nameCancle, setNameCancle] = useState("");
 
   const router = useRouter(); // ใช้ useRouter เพื่อทำการเปลี่ยนเส้นทาง
 
@@ -54,7 +59,7 @@ export default function Page({ }: Props) {
     }
   }
 
-  
+
 
   async function detailUser(studentid: string, selectdete: string) {
     const apiUrl = "http://localhost:3001/api/infor/listdetail";
@@ -122,16 +127,20 @@ export default function Page({ }: Props) {
 
   async function GetEventIdCalendar(
     start_datetime: string,
-    end_datetime: string
+    end_datetime: string,
+    room: string
   ) {
     const apiUrl = "http://localhost:3001/api/appointment/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
         end_datetime,
+        room,
       });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
+
+
         DeleteEventsCalendar(eventsid);
       }
     } catch (error) {
@@ -141,13 +150,15 @@ export default function Page({ }: Props) {
 
   async function GetEventIdCalendar2(
     start_datetime: string,
-    end_datetime: string
+    end_datetime: string,
+    room: string
   ) {
     const apiUrl = "http://localhost:3001/api/appointment2/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
         end_datetime,
+        room,
       });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
@@ -158,12 +169,21 @@ export default function Page({ }: Props) {
     }
   }
 
-  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string) => {
+  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
 
+    if (room === 'conseling_room1') {
+      await GetEventIdCalendar(start_datetime, end_datetime, room);
+      await DeleteEvents(event_id);
+      await window.location.reload();
+    } else if (room === "conseling_room2") {
+      await GetEventIdCalendar2(start_datetime, end_datetime, room);
+      await DeleteEvents2(event_id);
+      await window.location.reload();
+    }
 
-    GetEventIdCalendar(start_datetime, end_datetime);
-    await DeleteEvents(event_id);
-    window.location.reload()
+    // GetEventIdCalendar(start_datetime, end_datetime);
+    // await DeleteEvents(event_id);
+    // window.location.reload()
   };
 
   const handleSelectDate = (selectedDate: Date | undefined) => {
@@ -194,6 +214,8 @@ export default function Page({ }: Props) {
 
   React.useEffect(() => {
     informationUser(new Date(nowInThailand))
+
+    
   }, [])
 
   return (
@@ -294,42 +316,45 @@ export default function Page({ }: Props) {
                 <Button
                   gradientMonochrome="failure"
                   onClick={() => {
-                    setOpenModal(true)
-                    setidcancel(user.event_id)
-                  }
-                  }
+                    setidcancel(user.event_id);
+                    setStartCancle(user.start_datetime);
+                    setEndCancle(user.end_datetime);
+                    setRoomCancle(user.room);
+                    setFaceboolCancle(user.facebookurl)
+                    setNameCancle(user.firstname_lastname)
+                    // ตั้งค่าเปิด Modal หลังจากตั้งค่าทั้งหมด
+                    handleShow();
+                  }}
                 >
                   ยกเลิกนัด
                 </Button>
               </div>
               <Modal
-                show={openModal}
-                size="md"
-                onClose={() => setOpenModal(false)}
-                popup
+                dismissible
+                show={!!openModal}
               >
                 <Modal.Header />
                 <Modal.Body>
                   <div className="space-y-6">
                     <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      หากคุณต้องการยกเลิกนัดโปรดติดต่อที่ facebook ของ {user.facebookurl} ก่อน{" "}
+                      หากคุณต้องการยกเลิกนัดโปรดติดต่อที่ facebook ของ {nameCancle} ก่อน{" "}
                       <a
-                        href={`https://www.facebook.com/${user.facebookurl}`}
+                        href={`https://www.facebook.com/${facebookCancle}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 underline"
                       >
-                        https://www.facebook.com/{user.facebookurl}
+                        https://www.facebook.com/{facebookCancle}
                       </a>
                     </p>
                   </div>
                 </Modal.Body>
                 <Modal.Footer>
                   <Button
-                    onClick={() => handleCancel(user.start_datetime, user.end_datetime, idcancel)}
+                    onClick={() => handleCancel(startCancle, endCancle, idcancel, roomCancle)}
                     color="failure"
                   >
-                    ยืนยัน{idcancel}
+                    ยืนยัน
                   </Button>
                   <Button onClick={handleClose}
                     color="gray">ปิด</Button>

@@ -58,16 +58,8 @@ export default function Page({}: Props) {
     fetchEvents();
     deleteEvent();
     fetchEvents2();
-    // deleteEvent2();
-    // const intervalId = setInterval(() => {
-    //   fetchEvents();
-    //   deleteEvent();
-    //   fetchEvents2();
-    //   deleteEvent2();
-    // }, 100000); // fetch and delete every 5 seconds
+    deleteEvent2();
 
-    // // Cleanup interval on component unmount
-    // return () => clearInterval(intervalId);
   }, []);
 
   return (
