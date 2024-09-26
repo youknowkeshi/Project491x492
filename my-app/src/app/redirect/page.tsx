@@ -57,7 +57,7 @@ export default function Home() {
                     sameSite: "lax",
                     secure: process.env.NODE_ENV === "production",
                     path: "/",
-                    domain: "https://project491x492.vercel.app",
+                    domain: "project491x492.vercel.app",
                 });
 
                 router.push("/List");
