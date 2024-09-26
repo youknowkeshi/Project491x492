@@ -52,10 +52,10 @@ export default function Home() {
                 );
 
                 setCookie("google-oauth-example-token", token, {
-                    maxAge: 3600*24,
+                    maxAge: 3600 * 24,
                     httpOnly: true, // ตั้งเป็น true ในการผลิต
-                    sameSite: "lax",
-                    secure: process.env.NODE_ENV === "production",
+                    secure: true,
+                    sameSite: 'none',
                     path: "/",
                     domain: "project491x492.vercel.app",
                 });
