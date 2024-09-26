@@ -58,10 +58,9 @@ export default function Home() {
                     secure: true,
                     sameSite: 'none',
                     path: "/",
-                    domain: "project491x492.vercel.app",
                 });
                 
-                setCookie("test-token", token)
+                // setCookie("test-token", token)
 
                
 
