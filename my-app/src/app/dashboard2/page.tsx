@@ -75,7 +75,7 @@ const Page: React.FC<Props> = () => {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div> 
           </div>
         </div>
       </div>

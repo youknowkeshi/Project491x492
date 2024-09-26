@@ -1,6 +1,5 @@
 "use client";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "axios";
 
 type Event = {
