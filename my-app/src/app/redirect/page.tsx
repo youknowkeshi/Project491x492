@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { setCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import Loading from "../loading"
-import { cookies } from "next/headers";
+
 
 
 export default function Home() {
@@ -58,17 +58,12 @@ export default function Home() {
                     secure: true,
                     sameSite: 'none',
                     path: "/",
-                    domain: ".project491x492.vercel.app",
+                    domain: "project491x492.vercel.app",
                 });
+                
+                setCookie("test-token", token)
 
-                cookies().set("test-token", token,{
-                    maxAge: 3600 * 24,
-                    httpOnly: true, // ตั้งเป็น true ในการผลิต
-                    secure: true,
-                    sameSite: 'none',
-                    path: "/",
-                    domain: ".project491x492.vercel.app",
-                });
+               
 
                 router.push("/List");
             } catch (error) {
