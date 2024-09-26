@@ -54,7 +54,7 @@ export default function Home() {
 
                 setCookie("google-oauth-example-token", token, {
                     maxAge: 3600 * 24,
-                    httpOnly: true, // ตั้งเป็น true ในการผลิต
+                    //httpOnly: true, // ตั้งเป็น true ในการผลิต
                     secure: true,
                     sameSite: 'none',
                     // path: "/",
