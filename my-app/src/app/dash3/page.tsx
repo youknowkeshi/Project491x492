@@ -9,21 +9,19 @@ export default function page({}: Props) {
   const callouts = [
     {
       name: "Desk and Office",
-      description: "First Time",
-      imageSrc:
-        "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+      description: "ยังไม่เคยรับบริการ",
+      imageSrc: "/student1.png",
       imageAlt:
         "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
-      href: "#",
+      href: "/register",
     },
     {
       name: "Self-Improvement",
-      description: "Have been here",
-      imageSrc:
-        "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg",
+      description: "เคยรับบริการแล้ว",
+      imageSrc: "/student2.png",
       imageAlt:
         "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-      href: "#",
+      href: "/appointment",
     },
   ];
   return (
@@ -32,8 +30,8 @@ export default function page({}: Props) {
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-indigo-500">
-              Dashboard
+            <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
+              หน้าแรก
             </h1>
           </div>
         </header>
@@ -62,7 +60,7 @@ export default function page({}: Props) {
                 </svg>
                 <div className="flex items-center">
                   <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-                    <h2 className="text-2xl font-bold tracking-tight text-indigo-500 sm:text-4xl ">
+                    <h2 className="text-2xl font-bold tracking-tight text-[#8FC1E3] sm:text-4xl ">
                       ENTANEER MIND FRIEND
                     </h2>
                     <p className="mt-6 text-lg leading-8 text-gray-900">
@@ -75,7 +73,7 @@ export default function page({}: Props) {
                     <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                       <a
                         href="#"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-[#bbd9ee] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         Log in
                       </a>
@@ -91,18 +89,18 @@ export default function page({}: Props) {
                 <div className="flex items-center">
                   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-                      <h2 className=" flex justify-center text-2xl font-bold text-gray-900 ">
-                        Collections
+                      <h2 className=" flex justify-center text-2xl font-bold text-[#8FC1E3] ">
+                        คุณเคยเข้ารับคำปรึกษาแล้วหรือยัง ?
                       </h2>
 
                       <div className="mt-6 space-y-12 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:space-y-0">
                         {callouts.map((callout) => (
                           <div key={callout.name} className="group relative">
-                            <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                            <div className="relative h-80 w-full overflow-hidden rounded-lg bg-transparent  sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 ">
                               <img
                                 alt={callout.imageAlt}
                                 src={callout.imageSrc}
-                                className="h-full w-full object-cover object-center"
+                                className="h-full w-full object-cover object-center "
                               />
                             </div>
                             <h3 className="mt-6 text-sm text-gray-500"></h3>
@@ -121,7 +119,7 @@ export default function page({}: Props) {
           <section className="dark:bg-gray-100 dark:text-gray-800 mt-7">
             <div className="container mx-auto flex flex-col p-6">
               <h2 className="py-4 text-3xl font-bold text-center">
-                Temporibus elit
+                วิธีการจองสำหรับรับบริการครั้งแรก
               </h2>
               <div className="divide-y dark:divide-gray-300">
                 <div className="grid justify-center grid-cols-4 p-8 mx-auto space-y-8 lg:space-y-0">
@@ -139,17 +137,16 @@ export default function page({}: Props) {
                   </div>
                   <div className="flex flex-col justify-center max-w-3xl text-center col-span-full lg:col-span-3 lg:text-left">
                     <span className="text-xs tracking-wider uppercase dark:text-violet-600">
-                      Step 1 - Nihil
+                      Step 1
                     </span>
-                    <span className="text-xl font-bold md:text-2xl">
-                      Veritatis dolores
+                    <span className="mt-2  font-bold text-[#8FC1E3]">
+                      ติดต่อ Entaneer Mind Friend - คณะวิศวกรรมศาสตร์
+                      มหาวิทยาลัยเชียงใหม่
                     </span>
-                    <span className="mt-4 dark:text-gray-700">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Aperiam facilis, voluptates error alias dolorem
-                      praesentium sit soluta iure incidunt labore explicabo
-                      eaque, quia architecto veritatis dolores, enim cons
-                      equatur nihil ipsum.
+                    <span className="mt-2 dark:text-gray-700">
+                      ผู้ใช้ต้องติดต่อเพจ Entaneer Mind Friend -
+                      คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเชียงใหม่
+                      ก่อนเข้ารับบริการเพื่อพูดคุยเบื้องต้น
                     </span>
                   </div>
                 </div>
@@ -169,15 +166,12 @@ export default function page({}: Props) {
                     <span className="text-xs tracking-wider uppercase dark:text-violet-600">
                       Step 2 - Explicabo
                     </span>
-                    <span className="text-xl font-bold md:text-2xl">
-                      Iure incidunt labore
+                    <span className="mt-2  font-bold text-[#8FC1E3]">
+                      นำรหัสที่ได้จากการรับมาจากนักจิตวิทยาไปลงทะเบียน
                     </span>
-                    <span className="mt-4 dark:text-gray-700">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Aperiam facilis, voluptates error alias dolorem
-                      praesentium sit soluta iure incidunt labore explicabo
-                      eaque, quia architecto veritatis dolores, enim cons
-                      equatur nihil ipsum.
+                    <span className="mt-2 dark:text-gray-700">
+                      หลังจากพูดคุยเบื้องต้นกับนักจิตวิทยาแล้วจะได้รับรหัสสำหรับเข้ารับบริการครั้งแรกมา
+                      ให้ผู้ใช้นำไปกรอกสำหรับการลงทะเบียน
                     </span>
                   </div>
                 </div>
@@ -197,15 +191,12 @@ export default function page({}: Props) {
                     <span className="text-xs tracking-wider uppercase dark:text-violet-600">
                       Step 3 - Facilis
                     </span>
-                    <span className="text-xl font-bold md:text-2xl">
-                      Dolorem praesentium
+                    <span className="mt-2  font-bold text-[#8FC1E3]">
+                      จองคิวนัดปรึกษา
                     </span>
-                    <span className="mt-4 dark:bg-gray-100 dark:text-gray-700">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Aperiam facilis, voluptates error alias dolorem
-                      praesentium sit soluta iure incidunt labore explicabo
-                      eaque, quia architecto veritatis dolores, enim cons
-                      equatur nihil ipsum.
+                    <span className="mt-2 dark:bg-gray-100 dark:text-gray-700">
+                      ผู้ใช้สามารถจองคิวตามวันที่ว่างได้ หมายเหตุ
+                      ไม่สามารถจองคิวซ้ำได้
                     </span>
                   </div>
                 </div>
@@ -226,15 +217,13 @@ export default function page({}: Props) {
                     <span className="text-xs tracking-wider uppercase dark:text-violet-600">
                       Step 4 - Aperiam
                     </span>
-                    <span className="text-xl font-bold md:text-2xl">
-                      Explicabo eaque
+                    <span className="mt-2 font-bold text-[#8FC1E3]">
+                      เช็คการจอง
                     </span>
-                    <span className="mt-4 dark:text-gray-700">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Aperiam facilis, voluptates error alias dolorem
-                      praesentium sit soluta iure incidunt labore explicabo
-                      eaque, quia architecto veritatis dolores, enim cons
-                      equatur nihil ipsum.
+                    <span className="mt-2 dark:text-gray-700">
+                      ผู้ใช้บริการสามารถเช็คการจองโดยไปที่เมนู ประวัติการจอง
+                      โดยก่อนวันนัด 1 วันจะมีเมลไปแจ้งเตือนผ่าน Gmail หรือ
+                      Outlook{" "}
                     </span>
                   </div>
                 </div>

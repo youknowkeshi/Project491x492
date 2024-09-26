@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import  Loading from "../loading"
+import Loading from "../loading";
 
 // Define a custom filter function
 const globalFilterFn: FilterFn<any> = (row, columnId, filterValue) => {
@@ -84,12 +84,12 @@ export function DataTable({ columns, data }: DataTableProps) {
   });
 
   if (!isClient) {
-    return  <Loading /> ;
+    return <Loading />;
   }
 
   return (
     <>
-      <div className="flex items-center py-7">
+      <div className="flex items-center py-10">
         <Input
           placeholder="Filter data..."
           value={globalFilter}

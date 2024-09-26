@@ -1,6 +1,6 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Navbaradmin } from "../component/Navbaradmin";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
@@ -24,8 +24,7 @@ export type Information = {
 function formatDatetime(start: string): string {
   const startDate = new Date(start);
 
-
-  const date = startDate.toISOString().split('T')[0]; // YYYY-MM-DD
+  const date = startDate.toISOString().split("T")[0]; // YYYY-MM-DD
 
   return `${date}`;
 }
@@ -41,7 +40,7 @@ export default function DemoPage() {
       // Format start_datetime and end_datetime, and reverse the data array
       const formattedData = response.data.map((item: Information) => ({
         ...item,
-        start_datetime: formatDatetime(item.start_datetime)
+        start_datetime: formatDatetime(item.start_datetime),
       }));
       
       setInformation(formattedData);
@@ -65,7 +64,7 @@ export default function DemoPage() {
         </div>
       </header>
       <main>
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8">
           <div className="container mx-auto ">
             <DataTable columns={columns} data={information} />
           </div>
@@ -74,4 +73,3 @@ export default function DemoPage() {
     </>
   );
 }
-

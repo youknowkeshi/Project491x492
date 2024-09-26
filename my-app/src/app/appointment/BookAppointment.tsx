@@ -231,7 +231,7 @@ function BookAppointment({ room }: { room: any }) {
       const response = await axios.get("/api/register");
       checkregister(response.data.studentId);
       appointment(response.data.studentId);
-      getPersonId(response.data.studentId)
+      getPersonId(response.data.studentId);
     } catch (err) {
       console.log("This is error: ", err);
     }
@@ -242,6 +242,7 @@ function BookAppointment({ room }: { room: any }) {
 
     try {
       const response = await axios.post(apiUrl, { studentId });
+
 
       // ตรวจสอบว่า response.data มีค่าหรือไม่และมีอาเรย์ที่มีสมาชิก
       if (response.data && response.data.length > 0) {
@@ -320,7 +321,6 @@ function BookAppointment({ room }: { room: any }) {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
-
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -363,7 +363,6 @@ function BookAppointment({ room }: { room: any }) {
             type="button"
           >
             จองคิวนัดปรึกษาที่ห้อง {room}
-
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -381,9 +380,9 @@ function BookAppointment({ room }: { room: any }) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={(day) =>
-                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
-                      }
+                      // disabled={(day) =>
+                      //   isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                      // }
                       className="border rounded-lg"
                     />
                   </div>

@@ -75,11 +75,11 @@ export default function Page({}: Props) {
           </div>
 
           <div className="lg:py-24">
-            <h2 className="text-3xl font-bold sm:text-4xl text-[neutral-950] font-sans">
+            <h2 className="text-3xl font-bold sm:text-4xl ">
               ห้องให้คำปรึกษาที่ 1
             </h2>
 
-            <p className="mt-4 text-gray-600 font-mono">
+            <p className="mt-4 text-gray-600 ">
               รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 1
               ไม่ว่าคุณจะกำลังเผชิญกับความท้าทายส่วนตัวหรือต้องการใครสักคนที่พร้อมรับฟัง
               พี่ป็อปพร้อมช่วยคุณในการแก้ไขปัญหา

@@ -27,34 +27,40 @@ interface bachelordegre {
   count_class_year: number;
 }
 
-async function graphlist(startdate: string, enddate: string): Promise<gradelevel[]> {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/appointment-for-grade-level`;
+async function graphlist(
+  startdate: string,
+  enddate: string
+): Promise<gradelevel[]> {
+  const apiUrl = `http://localhost:3001/api/graph/appointment-for-grade-level`;
 
-    try {
-        const response = await axios.post(apiUrl, {
-            startdate,
-            enddate,
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Can't get graphlist", error);
-        return [];
-    }
+  try {
+    const response = await axios.post(apiUrl, {
+      startdate,
+      enddate,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Can't get graphlist", error);
+    return [];
+  }
 }
 
-async function graphbachelordegre(startdate: string, enddate: string): Promise<bachelordegre[]> {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphappointmentforbachelordegree`;
+async function graphbachelordegre(
+  startdate: string,
+  enddate: string
+): Promise<bachelordegre[]> {
+  const apiUrl = `http://localhost:3001/api/graph/graphappointmentforbachelordegree`;
 
-    try {
-        const response = await axios.post(apiUrl, {
-            startdate,
-            enddate,
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Can't get graphlist", error);
-        return [];
-    }
+  try {
+    const response = await axios.post(apiUrl, {
+      startdate,
+      enddate,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Can't get graphlist", error);
+    return [];
+  }
 }
 
 const chartConfig: ChartConfig = {
@@ -103,17 +109,16 @@ export function MyChartComponentgradelevel({
     fetchData();
   }, [startDate, endDate]);
 
-    return (
-        <div >
-            <div>
-                <Button onClick={toggleSort} className="bg-[#5044e4]" >
-                    เรียงลำดับ
-                </Button>
-            </div>
-
+  return (
+    <div>
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+            </Button>
+          </div>
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -201,55 +206,68 @@ export function MyChartComponentbachelordegre({
     fetchData();
   }, [startDate, endDate]);
 
-    return (
-        <div >
-            <div>
-                <Button onClick={toggleSort} className="bg-[#5044e4]" >
-                    {isSorted ? "Sort Ascending" : "Sort Descending"}
-                </Button>
-            </div>
+  return (
+    <div>
+      <Card style={{ margin: "10px 30px 0 0" }}>
+        <CardHeader>
+          <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+            </Button>
+          </div>
 
-           
-                 <Card style={{ margin: '10px 30px 0 0' }}>
-                <CardHeader>
-                    <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
-                    <CardDescription>
-                        {startDate && endDate && (
-                            <>
-                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(startDate).replace(',', '')}
-                                {' - '}
-                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(endDate).replace(',', '')}
-                            </>
-                        )}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ChartContainer config={chartConfig}>
-                        <BarChart accessibilityLayer data={chartData}>
-                            <CartesianGrid vertical={false} />
-                            <XAxis
-                                dataKey="class_year"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 50)}
-                                interval={0}
-                                angle={30}
-                                textAnchor="start"
-                                height={140}
-                            />
-                             <YAxis />
-                            <ChartTooltip
-                                cursor={false}
-                                content={<ChartTooltipContent indicator="dashed" />}
-                            />
-                            <Bar dataKey="count_class_year" fill={chartConfig.bachelordegre.color} radius={4} />
-                        </BarChart>
-                    </ChartContainer>
-                </CardContent>
-            </Card>
-          
-           
-        </div>
-    );
+          <CardDescription>
+            {startDate && endDate && (
+              <>
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+                  .format(startDate)
+                  .replace(",", "")}
+                {" - "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+                  .format(endDate)
+                  .replace(",", "")}
+              </>
+            )}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <BarChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="class_year"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 50)}
+                interval={0}
+                angle={30}
+                textAnchor="start"
+                height={140}
+              />
+              <YAxis />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dashed" />}
+              />
+              <Bar
+                dataKey="count_class_year"
+                fill={chartConfig.bachelordegre.color}
+                radius={4}
+              />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

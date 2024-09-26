@@ -5,6 +5,7 @@ import { Carousel } from "flowbite-react";
 import axios from "axios";
 import { Navbaradmin } from "../component/Navbaradmin";
 import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function MePage() {
   const [generatedString, setGeneratedString] = useState("");

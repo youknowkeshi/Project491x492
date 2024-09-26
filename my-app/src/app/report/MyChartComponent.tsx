@@ -85,15 +85,21 @@ export function MyChartComponents({
 
   return (
     <div >
-      <div>
-        <Button onClick={toggleSort} className="bg-[#5044e4]" >
-          เรียงลำดับ
-        </Button>
+       <div>
+          <Button onClick={toggleSort} className="bg-[#5044e4]" >
+        {isSorted ? "Sort Ascending" : "Sort Descending"}
+      </Button>
       </div>
 
       <Card style={{ margin: '10px 30px 0 0' }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              เรียงลำดับ
+            </Button>
+          </div>
+
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -117,7 +123,7 @@ export function MyChartComponents({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig}>
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
             <BarChart accessibilityLayer data={chartData}>
               <CartesianGrid vertical={false} />
               <XAxis
@@ -145,7 +151,6 @@ export function MyChartComponents({
           </ChartContainer>
         </CardContent>
       </Card>
-
     </div>
   );
 }

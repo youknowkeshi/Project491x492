@@ -1,5 +1,4 @@
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -16,24 +15,28 @@ import {
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Assuming you have a Button component
 
 interface CheckList {
-  topic: string;
-  click_count: number;
+  mental_health_checklist: string;
+  checklist_count: number;
 }
 
-async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphevaluation`;
+async function graphlist(
+  startdate: string,
+  enddate: string
+): Promise<CheckList[]> {
+  const apiUrl = `http://localhost:3001/api/graph/mental-health-checklist`;
 
   try {
     const response = await axios.post(apiUrl, {
       startdate,
       enddate,
     });
+
     return response.data;
   } catch (error) {
-    console.error("Can't get evaluationform", error);
+    console.error("Can't get graphlist", error);
     return [];
   }
 }
@@ -49,26 +52,17 @@ interface MyChartComponentsProps {
   endDate: Date | null;
 }
 
-export function Evaluationform({ startDate, endDate }: MyChartComponentsProps) {
+export function MyChartComponentsList({
+  startDate,
+  endDate,
+}: MyChartComponentsProps) {
   const [chartData, setChartData] = useState<CheckList[]>([]);
   const [isSorted, setIsSorted] = useState<boolean>(false);
-
-  const toggleSort = () => {
-    const sortedData = [...chartData].sort((a, b) => {
-      if (isSorted) {
-        return a.click_count - b.click_count; // Ascending
-      } else {
-        return b.click_count - a.click_count; // Descending
-      }
-    });
-    setChartData(sortedData);
-    setIsSorted(!isSorted);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
-        const data = await evaluationform(
+        const data = await graphlist(
           startDate.toISOString().split("T")[0],
           endDate.toISOString().split("T")[0]
         );
@@ -78,44 +72,52 @@ export function Evaluationform({ startDate, endDate }: MyChartComponentsProps) {
     fetchData();
   }, [startDate, endDate]);
 
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.checklist_count - b.checklist_count; // Ascending
+      } else {
+        return b.checklist_count - a.checklist_count; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
+
   return (
     <div>
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
           <div>
-            <Button onClick={toggleSort} className="bg-[#5044e4]">
-              {isSorted ? "Sort Ascending" : "Sort Descending"}
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
             </Button>
           </div>
+
           <CardDescription>
             {startDate && endDate && (
               <>
-                {new Intl.DateTimeFormat("en-US", {
+                {new Intl.DateTimeFormat("th-TH", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })
-                  .format(startDate)
-                  .replace(",", "")}
+                }).format(startDate)}
                 {" - "}
-                {new Intl.DateTimeFormat("en-US", {
+                {new Intl.DateTimeFormat("th-TH", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
-                })
-                  .format(endDate)
-                  .replace(",", "")}
+                }).format(endDate)}
               </>
             )}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
-              <CartesianGrid vertical={false} />
+            <BarChart data={chartData}>
               <XAxis
-                dataKey="topic"
+                dataKey="mental_health_checklist"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
@@ -125,14 +127,11 @@ export function Evaluationform({ startDate, endDate }: MyChartComponentsProps) {
                 textAnchor="start"
                 height={140}
               />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="dashed" />}
-              />
+              <CartesianGrid strokeDasharray="3 3" />
               <Bar
-                dataKey="click_count"
+                dataKey="checklist_count"
                 fill={chartConfig.checklist_count.color}
-                radius={4}
+                radius={1}
               />
             </BarChart>
           </ChartContainer>

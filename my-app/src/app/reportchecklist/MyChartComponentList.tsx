@@ -85,15 +85,14 @@ export function MyChartComponentsList({
 
   return (
     <div>
-      <div>
-        <Button onClick={toggleSort} className="bg-[#5044e4]" >
-          เรียงลำดับ
-        </Button>
-      </div>
-
-      <Card style={{ margin: '10px 30px 0 0' }}>
+      <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4]">
+              {isSorted ? "Sort Ascending" : "Sort Descending"}
+            </Button>
+          </div>
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -126,7 +125,7 @@ export function MyChartComponentsList({
                 angle={30}
                 textAnchor="start"
                 height={140}
-
+                
               />
               <YAxis />
               {/* <CartesianGrid strokeDasharray="3 3" /> */}

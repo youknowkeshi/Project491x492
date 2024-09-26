@@ -23,8 +23,11 @@ interface CheckList {
   click_count: number;
 }
 
-async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphevaluation`;
+async function evaluationform(
+  startdate: string,
+  enddate: string
+): Promise<CheckList[]> {
+  const apiUrl = `http://localhost:3001/api/graph/graphevaluation`;
 
   try {
     const response = await axios.post(apiUrl, {
@@ -84,8 +87,8 @@ export function Evaluationform({ startDate, endDate }: MyChartComponentsProps) {
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
           <div>
-            <Button onClick={toggleSort} className="bg-[#5044e4]">
-              {isSorted ? "Sort Ascending" : "Sort Descending"}
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              เรียงลำดับ
             </Button>
           </div>
           <CardDescription>

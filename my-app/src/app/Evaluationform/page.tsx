@@ -35,13 +35,19 @@ const Page: React.FC<Props> = () => {
           </div>
         </header>
         <main>
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mb-7">
             <div className="flex justify-start mt-10 mx-10">
               {/* Right block */}
               <Card
                 className="hidden sm:flex max-w-lg items-center"
                 renderImage={() => (
-                  <Image width={500} height={500} src="/1.jpg" alt="image 1" />
+                  <Image
+                    width={500}
+                    height={500}
+                    src="/1.jpg"
+                    alt="image 1"
+                    className="rounded-md mt-2 "
+                  />
                 )}
               >
                 <div>
@@ -60,7 +66,7 @@ const Page: React.FC<Props> = () => {
                 </div>
               </Card>
               {/* Vertical divider */}
-              <div className="w-0.5 bg-gray-200 mx-4 hidden sm:flex"></div>
+              <div className="w-0.5  mx-4 hidden sm:flex"></div>
               {/* Left block with 3 cards */}
               <div className="flex flex-col flex-grow space-y-4">
                 <Card className="flex flex-col">
