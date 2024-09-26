@@ -39,13 +39,13 @@ export async function POST(request: NextRequest) {
 
         const client = await pool.connect();
         try {
-          // const res = await client.query(text, values);
+          const res = await client.query(text, values);
 
-          // if (res.rowCount === 0) {
-          //   return new NextResponse('tokens not found', { status: 404 });
-          // }
+          if (res.rowCount === 0) {
+            return new NextResponse('tokens not found', { status: 404 });
+          }
 
-          // return NextResponse.json({ res });
+          return NextResponse.json({ res });
         } finally {
           client.release();
         }

@@ -1,121 +1,147 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
-import moment from 'moment-timezone';
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "axios";
-import {
-    Button,
-    Card,
-    Checkbox,
-    Label,
-    TextInput,
-    Textarea,
-    Select,
-    Modal,
-} from "flowbite-react";
 
 
+type Event = {
+    event_id: string;
+    start_datetime: string;
+    end_datetime: string;
+    room: string;
+    personid: string;
+    topic: string;
+    firstname_lastname: string;
+    studentid: string;
+    phone: string;
+    major: string;
+    gender: string;
+    facebookurl: string;
+    role: string;
+    organization_name: string;
+    cmuaccount: string;
+    accounttype: string;
+    gradelevel: string;
+};
+function App() {
+    const [image, setImage] = useState<File | null>(null);
+    const [allImage, setAllImage] = useState<Array<{ image: string }> | null>([]);
+    const [test, setTest] = useState([])
+    const [event_id, setEvent_Id] = useState<Event[]>([]);
+    const imageUrl = "http://localhost:9011/demomind/AYegz0g6Gc9v57ZraY0R0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=Entaneer_mind%2F20240920%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240920T184015Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=5448b51a96c27fb765ad75ab8567c562f21b1ba58b6888a456e6398484c72cb5";
 
-export default function MyPage() {
-    const [date, setDate] = useState<Date | undefined>(new Date());
-    const [currentTime, setCurrentTime] = useState("")
-    const nowInThailand = moment().tz('Asia/Bangkok');
 
-    const [showModal, setShowModal] = useState(false);
-    const handleShow = () => setShowModal(true);
-    const handleClose = () => setShowModal(false);
-    const [Id, setId] = useState('');
+    const submitImage = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-    const formatDate = (date: Date | undefined): string => {
-        if (!date) {
-            return "No date selected";
+        if (!image) return;
+
+        const formData = new FormData();
+        formData.append("image", image); // "image" ต้องตรงกับใน multer
+
+        try {
+            const result = await axios.post(
+                "http://localhost:3001/addimg",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+            console.log(result.data);
+            setTest(result.data);
+
+        } catch (error) {
+            console.error("Error uploading image:", error);
         }
-
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const day = date.getDate().toString().padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
     };
 
-    async function afterUseAccesscode(accesscode: string) {
-        const apiUrl = "http://localhost:3000/api/accesscode/manual-delete"
-        try {
-            await axios.put(apiUrl, { accesscode })
-        } catch (error) {
-            console.log("Can't manual-delete access code : ", error);
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            console.log(e.target.files[0]);
+            setImage(e.target.files[0]);
+        }
+    };
 
+    async function OAuth(code: string) {
+        const apiUrl = 'http://localhost:3001/api/google/redirect';
+        try {
+            const response = await axios.post(apiUrl, { code });
+            console.log('Response:', response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    async function getinfo() {
+        const apiUrl = 'http://localhost:3001/api/google/getinfo';
+        try {
+            const response = await axios.get(apiUrl);
+            console.log('Response:', response.data);
+
+        } catch (error) {
+            console.error('Error:', error);
         }
     }
 
-    const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setId(event.target.value);
-    };
+    async function getmail() {
+        const apiUrl = 'http://localhost:3001/api/user/getmailandtime';
+        try {
+            const response = await axios.get(apiUrl);
+            console.log('Response:', response.data);
+            setEvent_Id(response.data)
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
 
     useEffect(() => {
-        setCurrentTime(nowInThailand.format('HH:mm:ss'))
-        console.log('Current time in Thailand:', currentTime);
+        getmail()
+
     }, [])
 
     return (
-        // <div>
-        //     <Calendar
-        //         mode="single"
-        //         selected={date}
-        //         onSelect={setDate}
-        //         className="rounded-md border"
-        //     />
-        //     <div>{formatDate(date)}</div>
-        // </div>
-
-        // <div>
-        //     <Button onClick={handleShow}>Open Modal</Button>
-
-        //     <Modal
-        //         dismissible
-        //         show={!!showModal}
-        //         onClose={handleClose}
-        //     >
-        //         <Modal.Header>Talk details</Modal.Header>
-        //         <Modal.Body>
-        //             <div className="space-y-6">
-        //                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-        //                     หัวข้อที่ต้องการพูดคุย :
-        //                 </p>
-        //                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-        //                     รายละเอียดการรับคำปรึกษาครั้งแรก
-        //                 </p>
-        //             </div>
-        //         </Modal.Body>
-        //         <Modal.Footer>
-        //             <Button
-        //                 gradientMonochrome="failure"
-        //                 onClick={handleClose}
-        //             >
-        //                 Close
-        //             </Button>
-        //         </Modal.Footer>
-        //     </Modal>
-        // </div>
-
-
         <div>
-        <div className="mt-5">
-            <div className="mb-1 block">
-                <Label value="Access Code" />
+            <form onSubmit={submitImage}>
+                <input type="file" accept="image/*" onChange={onInputChange}></input>
+                <button type="submit">Submit</button>
+            </form>
+            <div>
+                {event_id.length > 0 ? (
+                    event_id.map((event, index) => (
+                        <div key={index}>
+                            <p>{event.event_id}</p>
+                            <p>{event.start_datetime}</p>
+                            <p>{event.end_datetime}</p>
+                            <p>{event.firstname_lastname}</p>
+                            <p>{event.cmuaccount}</p>
+                            <p>{event.accounttype}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No data</p>
+                )}
             </div>
-            <TextInput
-                id="input-gray"
-                placeholder="Get the code from the psychiatrist"
-                required
-                color="gray"
-                value={Id}
-                onChange={handleIdChange}
-            />
+            <div>
+                <h1>แสดงรูปภาพจากลิงก์</h1>
+                <img src={imageUrl} alt="Demo Image" />
+            </div>
+            {/* {allImage &&
+                allImage.map((data, index) => {
+                    return (
+                        <img
+                            key={index}
+                            src={`http://localhost:3001/uploads/${data.image}`} // Adjust the URL to match your backend
+                            height={100}
+                            width={100}
+                            alt={`Uploaded ${index}`}
+                        />
+
+                    );
+
+                })} */}
         </div>
-        <div>
-            <Button onClick={() => afterUseAccesscode(Id)}>Test</Button>
-        </div>
-    </div>
     );
 }
+
+export default App;

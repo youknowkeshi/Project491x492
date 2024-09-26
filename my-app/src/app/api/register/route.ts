@@ -4,6 +4,7 @@ import { getCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
 import { JWTPayload } from "../../../../types/JWTPayload"
 import { ok } from "assert";
+import moment from 'moment-timezone';
 
 type SuccessResponse = {
   ok: true;
@@ -74,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const res = await client.query(text, values);
-      return NextResponse.json({ data: res.rows }); // Access rows from the result
+      return NextResponse.json( res.rows ); // Access rows from the result
     } finally {
       client.release(); // Release the client back to the pool
     }
@@ -99,6 +100,7 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
     const { personid, phone, major, gender, facebookurl ,gradelevel} = request;
     const studentId = decoded.studentId;
     const role = "users";
+    const date = moment().tz("Asia/Bangkok").format("YYYY-MM-DDTHH:mm:ssZ");
 
     if (!personid || !phone || !major || !gender || !facebookurl || !gradelevel) {
       return new Response('Missing required fields', { status: 400 });
@@ -108,8 +110,9 @@ export async function PUT(req: NextRequest, res: NextResponse<WhoAmIResponse>) {
       return new Response('Missing studentId', { status: 400 });
     }
 
-    const text = 'UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, facebookurl = $6 , role = $7 , gradelevel = $8 WHERE studentId = $2';
-    const values = [personid, studentId, phone, major, gender, facebookurl, role, gradelevel];
+    const text = `UPDATE users SET personid =$1, phone = $3, major = $4, gender = $5, facebookurl = $6 , role = $7 
+    , gradelevel = $8 ,timestamp_column = $9 WHERE studentId = $2;`;
+    const values = [personid, studentId, phone, major, gender, facebookurl, role, gradelevel, date];
 
     const client = await pool.connect();
 

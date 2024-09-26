@@ -2,81 +2,64 @@
 import React, { useEffect } from "react";
 import BookAppointment from "./BookAppointment";
 import BookAppointment2 from "./BookAppointment2";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import axios from "axios";
 
 type Props = {};
 
-export default function Page({ }: Props) {
-
+export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = 'http://localhost:3000/api/events';
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
 
     try {
-      await axios.post(apiUrl);
-
+      await axios.get(apiUrl);
     } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
     }
-  }
+  };
 
   const deleteEvent = async () => {
-    const apiUrl = 'http://localhost:3000/api/events'
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom";
 
     try {
-      await axios.delete(apiUrl)
+      await axios.delete(apiUrl);
     } catch (error) {
       console.log("This is : ", error);
     }
-  }
+  };
 
   const fetchEvents2 = async () => {
-    const apiUrl = 'http://localhost:3000/api/events2';
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
 
     try {
-      await axios.post(apiUrl);
-
+      await axios.get(apiUrl);
     } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
     }
-  }
+  };
 
   const deleteEvent2 = async () => {
-    const apiUrl = 'http://localhost:3000/api/events2'
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom2";
 
     try {
-      await axios.delete(apiUrl)
+      await axios.delete(apiUrl);
     } catch (error) {
       console.log("This is : ", error);
     }
-  }
-
+  };
 
   useEffect(() => {
     fetchEvents();
     deleteEvent();
     fetchEvents2();
     deleteEvent2();
-    const intervalId = setInterval(() => {
-      fetchEvents();
-      deleteEvent();
-      fetchEvents2();
-      deleteEvent2();
-    }, 100000); // fetch and delete every 5 seconds
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -92,8 +75,8 @@ export default function Page({ }: Props) {
           </div>
 
           <div className="lg:py-24">
-            <h2 className="text-3xl font-bold sm:text-4xl text-neutral-950 font-sans">
-            ห้องให้คำปรึกษาที่ 1
+            <h2 className="text-3xl font-bold sm:text-4xl text-[neutral-950] font-sans">
+              ห้องให้คำปรึกษาที่ 1
             </h2>
 
             <p className="mt-4 text-gray-600 font-mono">
@@ -123,11 +106,11 @@ export default function Page({ }: Props) {
 
           <div className="lg:py-24">
             <h2 className="text-3xl font-bold sm:text-4xl">
-            ห้องให้คำปรึกษาที่ 2
+              ห้องให้คำปรึกษาที่ 2
             </h2>
 
             <p className="mt-4 text-gray-600 text-justify">
-            รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 2
+              รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 2
               ไม่ว่าคุณจะกำลังเผชิญกับความท้าทายส่วนตัวหรือต้องการใครสักคนที่พร้อมรับฟัง
               พี่ป็อปพร้อมช่วยคุณในการแก้ไขปัญหา
               จองนัดวันนี้และเริ่มต้นก้าวแรกสู่ตัวคุณที่ดีกว่าเดิม

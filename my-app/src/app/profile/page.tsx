@@ -1,42 +1,29 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import Nav from "../component/Nav";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BookingList from "./BookingList";
-import axios from "axios";
+import { Navbar } from "../component/์Navbar";
 
 function Profile() {
-  const [events, setEvents] = useState([]);
-
-  const fetchEvents = async () => {
-    const apiUrl = 'http://localhost:3000/api/events';
-
-    try {
-      const response = await axios.post(apiUrl);
-      setEvents(response.data); // Assuming the API response contains event data
-    } catch (error) {
-      console.error('Oh no! An error has arisen from the depths of the internet:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
   return (
     <div>
-      <Nav />
-      <div className="mt-7">
-        <h2 className="font-bold text-2xl">My Booking</h2>
-        <Tabs defaultValue="account" className="w-full mt-5">
-          <TabsList className="w-full justify-start">
-            <TabsTrigger value="account">Account</TabsTrigger>
-          </TabsList>
-          <TabsContent value="account">
-            <BookingList />
-          </TabsContent>
-
-        </Tabs>
+      <Navbar />
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-[#8FC1E3]">
+            ประวัติการพบนักจิตทางคณะ
+          </h1>
+        </div>
+      </header>
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-row  gap-7">
+          <Tabs defaultValue="account" className="w-full mt-5">
+            <TabsContent value="account">
+              <BookingList />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );
