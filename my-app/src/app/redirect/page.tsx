@@ -34,7 +34,7 @@ export default function Home() {
             const Info = response.data.info;
             if (!Info) {
                 throw new Error('Info not found in API response');
-            }
+            }          
 
             try {
 
@@ -57,7 +57,7 @@ export default function Home() {
                     secure: true,
                     sameSite: 'none',
                     path: "/",
-                    domain: "project491x492.vercel.app",
+                    domain: ".project491x492.vercel.app",
                 });
 
                 router.push("/List");
