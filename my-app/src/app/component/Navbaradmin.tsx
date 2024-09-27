@@ -18,25 +18,11 @@ export function Navbaradmin() {
    
     const signOut = async () => {
         try {
-            const responese = await axios.get("api/register")
-            const token_cmu = getCookie("cmu-oauth-example-token");
-            const token_google = getCookie("google-oauth-example-token");
-            
-
+          
             await axios.post("api/signOutGoogle");
             await axios.post("/api/signOut");
-            window.location.href = "/adminlogin"; 
-            
-            if(token_cmu){
-                await axios.post("api/signOutGoogle") 
-                window.location.href = "/adminlogin";        
-            }
-            else if(token_google){
-              await axios.post("/api/signOut") 
-              window.location.href = "/adminlogin";        
-          }
-           
-            // Additional actions after signing out, if needed.
+            window.location.href = "/adminlogin";     
+        
         } catch (error) {
             console.error("Error signing out:", error);
         }
@@ -160,7 +146,6 @@ export function Navbaradmin() {
           <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="mt-3 space-y-1 px-2">
               <a
-                href="/"
                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
                 onClick={signOut}
               >
