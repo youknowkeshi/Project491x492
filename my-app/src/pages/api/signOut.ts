@@ -15,7 +15,7 @@ export default async function handler(
     res,
     path: "/",
     // change to your hostname in production
-    domain: "https://project491x492.vercel.app",
+    domain: "project491x492.vercel.app",
   });
 
   // deleteCookie("cmu-oauth-example-token")
