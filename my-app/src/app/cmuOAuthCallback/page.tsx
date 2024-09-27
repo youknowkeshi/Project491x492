@@ -39,6 +39,7 @@ export default function CMUOAuthCallback() {
     axios
       .post("/api/signIn", { authorizationCode: code })
       .then((resp) => {
+        console.log("cmu",resp.data);
         if (resp.data.ok) {
 
           console.log(resp.data);
