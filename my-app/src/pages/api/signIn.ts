@@ -95,6 +95,9 @@ export default async function handler(
   if (typeof process.env.JWT_SECRET !== "string")
     throw "Please assign jwt secret in .env!";
 
+  console.log("cmuBasicInfo",cmuBasicInfo);
+  
+
   const token = jwt.sign(
     {
       cmuAccount: cmuBasicInfo.cmuitaccount,
@@ -106,7 +109,7 @@ export default async function handler(
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "1h", // Token will last for one hour only
+      expiresIn: "24h", // Token will last for one hour only
     }
   );
 
@@ -115,10 +118,9 @@ export default async function handler(
   //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
   setCookie("cmu-oauth-example-token", token, {
     maxAge: 3600 * 24,
-    //httpOnly: true, // ตั้งเป็น true ในการผลิต
     secure: true,
     sameSite: 'none',
-    // path: "/",
+
   });
 
   return res.json({ ok: true });
