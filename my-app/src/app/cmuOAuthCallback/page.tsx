@@ -41,7 +41,7 @@ export default function CMUOAuthCallback() {
       .then((resp) => {
         if (resp.data.ok) {
 
-          console.log(resp.data.cmuBasicInfo);
+          console.log(resp.data);
           
           try {
               const token = jwt.sign(
@@ -74,7 +74,7 @@ export default function CMUOAuthCallback() {
               console.error('JWT Signing Error:', error);
             }
           
-          getUsers();
+          //getUsers();
           
         }
       })
