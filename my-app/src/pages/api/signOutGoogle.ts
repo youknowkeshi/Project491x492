@@ -15,10 +15,8 @@ export default async function handler(
     // change to your hostname in production
     domain: "project491x492.vercel.app",
   });
- // deleteCookie("google-oauth-example-token")
+  deleteCookie('google-oauth-example-token', { req, res });
 
-    // // Redirect to the homepagea
-    // res.writeHead(302, { Location: "/" });
-    // res.end();
+
   return res.json({ ok: true });
 }

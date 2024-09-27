@@ -18,11 +18,9 @@ export default async function handler(
     domain: "project491x492.vercel.app",
   });
 
-  // deleteCookie("cmu-oauth-example-token")
+  deleteCookie('cmu-oauth-example-token', { req, res });
 
-    // Redirect to the homepagea
-    // res.writeHead(302, { Location: "/" });
-    // res.end();
+   
   
   return res.json({ ok: true });
 }
