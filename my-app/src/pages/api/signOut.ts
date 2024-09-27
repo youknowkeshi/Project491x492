@@ -10,11 +10,15 @@ export default async function handler(
 
 
   
-  // deleteCookie("cmu-oauth-example-token", {
-  //   req,
-  //   res,
-  // });
-  deleteCookie("cmu-oauth-example-token")
+  deleteCookie("cmu-oauth-example-token", {
+    req,
+    res,
+    path: "/",
+    // change to your hostname in production
+    domain: "https://project491x492.vercel.app",
+  });
+
+  // deleteCookie("cmu-oauth-example-token")
 
     // Redirect to the homepagea
     // res.writeHead(302, { Location: "/" });

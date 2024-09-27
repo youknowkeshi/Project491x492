@@ -8,11 +8,14 @@ export default async function handler(
 ) {
 
   
-  // deleteCookie("google-oauth-example-token", {
-  //   req,
-  //   res,
-  // });
-  deleteCookie("google-oauth-example-token")
+  deleteCookie("google-oauth-example-token", {
+    req,
+    res,
+    path: "/",
+    // change to your hostname in production
+    domain: "https://project491x492.vercel.app",
+  });
+ // deleteCookie("google-oauth-example-token")
 
     // // Redirect to the homepagea
     // res.writeHead(302, { Location: "/" });
