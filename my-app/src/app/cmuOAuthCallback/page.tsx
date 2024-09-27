@@ -39,8 +39,9 @@ export default function CMUOAuthCallback() {
       .post<SignInResponse>("/api/signIn", { authorizationCode: code })
       .then((resp) => {
         if (resp.data.ok) {
-          getUsers();
           setCookie("cmu-oauth-example-token", 'value')
+          getUsers();
+          
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
