@@ -107,17 +107,22 @@ export default function CMUOAuthCallback() {
               axios
                 .get("/api/checkdata")
                 .then((response) => {
-                  if (response.data) {
-                    home();
+                  if (organization_name == 'Faculty of Engineering') {
+                    if (response.data) {
+                      home();
+                    } else {
+                      addUsers(
+                        fullName,
+                        cmuAccount,
+                        studentId,
+                        organization_name,
+                        itaccounttype_EN
+                      );
+                      register();
+                    }
                   } else {
-                    addUsers(
-                      fullName,
-                      cmuAccount,
-                      studentId,
-                      organization_name,
-                      itaccounttype_EN
-                    );
-                    register();
+                    // Faculty that not Engineering
+                    handleShow();
                   }
                 });
               setIsLoading(false);
@@ -125,12 +130,7 @@ export default function CMUOAuthCallback() {
           }
 
 
-          // if (organization_name == 'Faculty of Engineering') {
-
-          // } else {
-          //   // Faculty that not Engineering
-          //   handleShow();
-          // }
+    
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
