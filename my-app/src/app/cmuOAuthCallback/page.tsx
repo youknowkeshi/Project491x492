@@ -40,6 +40,9 @@ export default function CMUOAuthCallback() {
       .post("/api/signIn", { authorizationCode: code })
       .then((resp) => {
         if (resp.data.ok) {
+
+          console.log(resp.data.cmuBasicInfo);
+          
           try {
               const token = jwt.sign(
                 {
