@@ -114,18 +114,11 @@ export default async function handler(
   //Note that this is server side code. We can write client cookie from the server. This is normal.
   //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
   setCookie("cmu-oauth-example-token", token, {
-    req,
-    res,
-    maxAge: 3600,
-    //Set httpOnly to true so that client JavaScript cannot read or modify token
-    //And the created token can be read by server side only
-    httpOnly: true,
-    sameSite: "lax",
-    //force cookie to use HTTPS only in production code
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    //change to your hostname in production
-    domain: "localhost",
+    maxAge: 3600 * 24,
+    //httpOnly: true, // ตั้งเป็น true ในการผลิต
+    secure: true,
+    sameSite: 'none',
+    // path: "/",
   });
 
   return res.json({ ok: true });
