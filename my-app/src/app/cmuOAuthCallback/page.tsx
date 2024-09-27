@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
 import Loading from "../loading"
+import jwt from "jsonwebtoken";
 import { setCookie } from "cookies-next";
 
 
@@ -32,14 +33,44 @@ export default function CMUOAuthCallback() {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  function LogIn() {
+  async function LogIn() {
     if (!code) return;
 
     axios
-      .post<SignInResponse>("/api/signIn", { authorizationCode: code })
+      .post("/api/signIn", { authorizationCode: code })
       .then((resp) => {
         if (resp.data.ok) {
-          setCookie("cmu-oauth-example-token", 'value')
+          try {
+              const token = jwt.sign(
+                {
+                  cmuAccount: resp.data.cmuBasicInfo.cmuitaccount,
+                  firstName: resp.data.cmuBasicInfo.firstname_EN,
+                  lastName: resp.data.cmuBasicInfo.lastname_EN,
+                  studentId: resp.data.cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
+                  organization_name_EN: resp.data.cmuBasicInfo.organization_name_EN,
+                  itaccounttype_EN: resp.data.cmuBasicInfo.itaccounttype_EN,
+                },
+                process.env.JWT_SECRET!,
+                {
+                  expiresIn: "24h",
+                }
+              );
+          
+            // //Write token in cookie storage of client's browser
+            // //Note that this is server side code. We can write client cookie from the server. This is normal.
+            // //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
+              setCookie("cmu-oauth-example-token", token, {
+                maxAge: 3600 * 24,
+                secure: true,
+                sameSite: 'none',
+            
+              });
+          
+          
+            } catch (error) {
+              console.error('JWT Signing Error:', error);
+            }
+          
           getUsers();
           
         }
