@@ -23,11 +23,11 @@ export function Navbaradmin() {
             const token_google = getCookie("google-oauth-example-token");
             
 
-            if(responese.data.ok){
-                await axios.post("/api/signOut");
-                window.location.href = "/adminlogin";
-            }
-            else if(token_cmu){
+            await axios.post("api/signOutGoogle");
+            await axios.post("/api/signOut");
+            window.location.href = "/adminlogin"; 
+            
+            if(token_cmu){
                 await axios.post("api/signOutGoogle") 
                 window.location.href = "/adminlogin";        
             }
