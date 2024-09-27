@@ -21,7 +21,7 @@ async function getOAuthAccessTokenAsync(
   authorizationCode: string
 ): Promise<string | null> {
   try {
-    
+
     const response = await axios.post(
       process.env.CMU_OAUTH_GET_TOKEN_URL as string,
       {},
@@ -51,8 +51,8 @@ async function getCMUBasicInfoAsync(accessToken: string) {
       {
         headers: { Authorization: "Bearer " + accessToken },
       }
-      
-      
+
+
     );
     return response.data as CmuOAuthBasicInfo;
   } catch (err) {
@@ -95,35 +95,69 @@ export default async function handler(
   if (typeof process.env.JWT_SECRET !== "string")
     throw "Please assign jwt secret in .env!";
 
+  try {
 
-  const token = jwt.sign(
-    {
-      cmuAccount: cmuBasicInfo.cmuitaccount,
-      firstName: cmuBasicInfo.firstname_EN,
-      lastName: cmuBasicInfo.lastname_EN,
-      studentId: cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
-      organization_name_EN: cmuBasicInfo.organization_name_EN,
-      itaccounttype_EN: cmuBasicInfo.itaccounttype_EN,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "24h", // Token will last for one hour only
-    }
-  );
+    const token = jwt.sign(
+      {
 
-  setCookie("test-token", 'test')
+        cmuAccount: cmuBasicInfo.cmuitaccount,
+        firstName: cmuBasicInfo.firstname_EN,
+        lastName: cmuBasicInfo.lastname_EN,
+        studentId: cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
+        organization_name_EN: cmuBasicInfo.organization_name_EN,
+        itaccounttype_EN: cmuBasicInfo.itaccounttype_EN,
+      },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    setCookie("google-oauth-example-token", token, {
+      maxAge: 3600 * 24,
+      //httpOnly: true, // ตั้งเป็น true ในการผลิต
+      secure: true,
+      sameSite: 'none',
+      // path: "/",
+    });
+
+    // setCookie("test-token", token)
+    setCookie("cmu-oauth-example-token", token, {
+      maxAge: 3600 * 24,
+      secure: true,
+      sameSite: 'none',
+  
+    });
+
+
+  } catch (error) {
+    console.error('JWT Signing Error:', error);
+  }
+
+
+  // const token = jwt.sign(
+  //   {
+  //     cmuAccount: cmuBasicInfo.cmuitaccount,
+  //     firstName: cmuBasicInfo.firstname_EN,
+  //     lastName: cmuBasicInfo.lastname_EN,
+  //     studentId: cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
+  //     organization_name_EN: cmuBasicInfo.organization_name_EN,
+  //     itaccounttype_EN: cmuBasicInfo.itaccounttype_EN,
+  //   },
+  //   process.env.JWT_SECRET,
+  //   {
+  //     expiresIn: "24h", // Token will last for one hour only
+  //   }
+  // );
+
+  // setCookie("test-token", 'test')
 
   //Write token in cookie storage of client's browser
   //Note that this is server side code. We can write client cookie from the server. This is normal.
   //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
-  setCookie("cmu-oauth-example-token", token, {
-    maxAge: 3600 * 24,
-    secure: true,
-    sameSite: 'none',
+  
 
-  });
 
-   
   return res.json({ ok: true });
 }
 
