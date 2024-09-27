@@ -90,7 +90,7 @@ export default async function handler(
       .status(400)
       .json({ ok: false, message: "Cannot get cmu basic info" });
 
-
+  setCookie("test-token", 'value')
 
   if (typeof process.env.JWT_SECRET !== "string")
     throw "Please assign jwt secret in .env!";
@@ -113,15 +113,9 @@ export default async function handler(
       }
     );
 
-    setCookie("google-oauth-example-token", token, {
-      maxAge: 3600 * 24,
-      //httpOnly: true, // ตั้งเป็น true ในการผลิต
-      secure: true,
-      sameSite: 'none',
-      // path: "/",
-    });
 
-    // setCookie("test-token", token)
+
+
     setCookie("cmu-oauth-example-token", token, {
       maxAge: 3600 * 24,
       secure: true,
