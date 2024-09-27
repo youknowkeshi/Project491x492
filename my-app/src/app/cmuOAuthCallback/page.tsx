@@ -37,46 +37,46 @@ export default function CMUOAuthCallback() {
     if (!code) return;
 
     axios
-      .post("/api/signIn", { authorizationCode: code })
+      .post<SignInResponse>("/api/signIn", { authorizationCode: code })
       .then((resp) => {
-        console.log("cmu",resp.data);
+        console.log("cmu", resp.data);
         if (resp.data.ok) {
 
-          console.log(resp.data);
-          
+          console.log("if",resp.data);
+
           try {
-              const token = jwt.sign(
-                {
-                  cmuAccount: resp.data.cmuBasicInfo.cmuitaccount,
-                  firstName: resp.data.cmuBasicInfo.firstname_EN,
-                  lastName: resp.data.cmuBasicInfo.lastname_EN,
-                  studentId: resp.data.cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
-                  organization_name_EN: resp.data.cmuBasicInfo.organization_name_EN,
-                  itaccounttype_EN: resp.data.cmuBasicInfo.itaccounttype_EN,
-                },
-                process.env.JWT_SECRET!,
-                {
-                  expiresIn: "24h",
-                }
-              );
-          
-            // //Write token in cookie storage of client's browser
-            // //Note that this is server side code. We can write client cookie from the server. This is normal.
-            // //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
-              setCookie("cmu-oauth-example-token", token, {
-                maxAge: 3600 * 24,
-                secure: true,
-                sameSite: 'none',
-            
-              });
-          
-          
-            } catch (error) {
-              console.error('JWT Signing Error:', error);
-            }
-          
+            //   const token = jwt.sign(
+            //     {
+            //       cmuAccount: resp.data.cmuBasicInfo.cmuitaccount,
+            //       firstName: resp.data.cmuBasicInfo.firstname_EN,
+            //       lastName: resp.data.cmuBasicInfo.lastname_EN,
+            //       studentId: resp.data.cmuBasicInfo.student_id, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
+            //       organization_name_EN: resp.data.cmuBasicInfo.organization_name_EN,
+            //       itaccounttype_EN: resp.data.cmuBasicInfo.itaccounttype_EN,
+            //     },
+            //     process.env.JWT_SECRET!,
+            //     {
+            //       expiresIn: "24h",
+            //     }
+            //   );
+
+            // // //Write token in cookie storage of client's browser
+            // // //Note that this is server side code. We can write client cookie from the server. This is normal.
+            // // //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
+            //   setCookie("cmu-oauth-example-token", token, {
+            //     maxAge: 3600 * 24,
+            //     secure: true,
+            //     sameSite: 'none',
+
+            //   });
+
+
+          } catch (error) {
+            console.error('JWT Signing Error:', error);
+          }
+
           //getUsers();
-          
+
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
@@ -98,7 +98,7 @@ export default function CMUOAuthCallback() {
       .then((response) => {
         if (response.data.ok) {
           const fullName =
-          response.data.firstName + " " + response.data.lastName;
+            response.data.firstName + " " + response.data.lastName;
           const studentId = response.data.studentId ?? '';
 
           const cmuAccount = response.data.cmuAccount;
@@ -109,7 +109,7 @@ export default function CMUOAuthCallback() {
             if (admin === cmuAccount) {
               axios
                 .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
-                  
+
                   if (response.data[0]) {
                     homeadmin();
                   } else {
@@ -168,7 +168,7 @@ export default function CMUOAuthCallback() {
           }
 
 
-    
+
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
