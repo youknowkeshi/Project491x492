@@ -10,9 +10,6 @@ export default async function handler(
   deleteCookie("google-oauth-example-token", {
     req,
     res,
-    path: "/",
-    // change to your hostname in production
-    domain: "localhost",
   });
 
     // Redirect to the homepagea
