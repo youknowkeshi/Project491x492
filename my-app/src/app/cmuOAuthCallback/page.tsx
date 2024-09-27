@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { WhoAmIResponse } from "../../pages/api/whoAmI";
 import { Button, Modal } from "flowbite-react";
 import Loading from "../loading"
+import { setCookie } from "cookies-next";
 
 
 async function delay() {
@@ -39,6 +40,7 @@ export default function CMUOAuthCallback() {
       .then((resp) => {
         if (resp.data.ok) {
           getUsers();
+          setCookie("cmu-oauth-example-token", 'value')
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {

@@ -107,13 +107,11 @@ export default async function handler(
         organization_name_EN: cmuBasicInfo.organization_name_EN,
         itaccounttype_EN: cmuBasicInfo.itaccounttype_EN,
       },
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET,
       {
         expiresIn: "24h",
       }
     );
-
-
 
 
     setCookie("cmu-oauth-example-token", token, {
