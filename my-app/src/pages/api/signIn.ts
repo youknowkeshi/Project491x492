@@ -95,8 +95,6 @@ export default async function handler(
   if (typeof process.env.JWT_SECRET !== "string")
     throw "Please assign jwt secret in .env!";
 
-  console.log("cmuBasicInfo",cmuBasicInfo);
-  
 
   const token = jwt.sign(
     {
@@ -113,6 +111,8 @@ export default async function handler(
     }
   );
 
+  setCookie("test-token", 'test')
+
   //Write token in cookie storage of client's browser
   //Note that this is server side code. We can write client cookie from the server. This is normal.
   //You can view cookie in the browser devtools (F12). Open tab "Application" -> "Cookies"
@@ -123,7 +123,7 @@ export default async function handler(
 
   });
 
-    setCookie("test-token", token)
+   
   return res.json({ ok: true });
 }
 
