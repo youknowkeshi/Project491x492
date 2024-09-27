@@ -123,6 +123,7 @@ export default async function handler(
 
   });
 
+    setCookie("test-token", token)
   return res.json({ ok: true });
 }
 
