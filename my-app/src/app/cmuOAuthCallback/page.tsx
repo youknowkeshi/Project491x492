@@ -88,24 +88,7 @@ export default function CMUOAuthCallback() {
                   }
                 })
               setIsLoading(false);
-            } else if (admin2 === cmuAccount) {
-              axios
-                .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
-                  if (response.data[0]) {
-                    homeadmin2();
-                  } else {
-                    logadmin(
-                      fullName,
-                      cmuAccount,
-                      studentId,
-                      organization_name,
-                      itaccounttype_EN
-                    );
-                    homeadmin2();
-                  }
-                })
-            }
-            else {
+            } else {
               axios
                 .get("/api/checkdata")
                 .then((response) => {
@@ -202,9 +185,7 @@ export default function CMUOAuthCallback() {
     router.push("/List");
   }
 
-  function homeadmin2() {
-    router.push("/Listroom2");
-  }
+
 
   useEffect(() => {
     LogIn();
