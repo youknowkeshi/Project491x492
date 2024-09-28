@@ -3,19 +3,6 @@ import React from "react";
 
 export function Navbaradmin() {
 
-    const getCookie = (name: string): string | undefined => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) {
-            const cookieValue = parts.pop()?.split(';').shift();
-            if (cookieValue !== undefined) {
-                return cookieValue;
-            }
-        }
-        return undefined;
-    };
-    
-   
     const signOut = async () => {
         try {
           

@@ -37,12 +37,12 @@ export default function CMUOAuthCallback() {
     if (!code) return;
 
     axios
-    .post<SignInResponse>("/api/signIn", { authorizationCode: code })
-    .then((resp) => {
-      if (resp.data.ok) {
-        getUsers();
-      }
-    })
+      .post<SignInResponse>("/api/signIn", { authorizationCode: code })
+      .then((resp) => {
+        if (resp.data.ok) {
+          getUsers();
+        }
+      })
       .catch((error: AxiosError<SignInResponse>) => {
         if (!error.response) {
           setMessage(
@@ -88,7 +88,7 @@ export default function CMUOAuthCallback() {
                   }
                 })
               setIsLoading(false);
-            } else {
+            }else {
               axios
                 .get("/api/checkdata")
                 .then((response) => {

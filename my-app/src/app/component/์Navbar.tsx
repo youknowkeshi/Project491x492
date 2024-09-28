@@ -5,6 +5,7 @@ export function Navbar() {
   const signOut = () => {
     try {
       axios.post("/api/signOut");
+      window.location.href = "/adminlogin";
       // Additional actions after signing out, if needed.
     } catch (error) {
       console.error("Error signing out:", error);
@@ -91,39 +92,38 @@ export function Navbar() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/dashboard"
-              className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
-              // aria-current="page"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-blue"
             >
               หน้าแรก
             </a>
             <a
               href="/register"
-             className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+             className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               ลงทะเบียน
             </a>
             <a
               href="/appointment"
-             className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               จองคิว
             </a>
             <a
               href="/profile"
-             className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               ประวัติการพบนักจิตทางคณะ
             </a>
             <a
               href="/Evaluationform"
-             className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+             className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               แบบประเมิน
             </a>
 
             {/* <a
               href="/artical"
-             className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+             className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white""
             >
               บทความ
             </a> */}
@@ -138,7 +138,6 @@ export function Navbar() {
             <div className="mt-3 space-y-1 px-2">
 
               <a
-                href="/"
                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
                 onClick={signOut}
               >
