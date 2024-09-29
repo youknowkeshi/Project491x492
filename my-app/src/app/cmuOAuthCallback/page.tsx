@@ -71,22 +71,23 @@ export default function CMUOAuthCallback() {
 
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount) {
-              axios
-                .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
+              homeadmin();
+              // axios
+              //   .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
 
-                  if (response.data[0]) {
-                    homeadmin();
-                  } else {
-                    logadmin(
-                      fullName,
-                      cmuAccount,
-                      studentId,
-                      organization_name,
-                      itaccounttype_EN
-                    );
-                    homeadmin();
-                  }
-                })
+              //     if (response.data[0]) {
+                  
+              //     } else {
+              //       logadmin(
+              //         fullName,
+              //         cmuAccount,
+              //         studentId,
+              //         organization_name,
+              //         itaccounttype_EN
+              //       );
+              //       homeadmin();
+              //     }
+              //   })
 
             }else {
               axios
