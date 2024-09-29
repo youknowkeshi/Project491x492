@@ -70,25 +70,25 @@ export default function CMUOAuthCallback() {
           const itaccounttype_EN = response.data.itaccounttype_EN;
 
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
-            // if (admin === cmuAccount) {
-            //   axios
-            //     .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
+            if (admin === cmuAccount) {
+              axios
+                .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
 
-            //       if (response.data[0]) {
-            //         homeadmin();
-            //       } else {
-            //         logadmin(
-            //           fullName,
-            //           cmuAccount,
-            //           studentId,
-            //           organization_name,
-            //           itaccounttype_EN
-            //         );
-            //         homeadmin();
-            //       }
-            //     })
-              // setIsLoading(false);
-            // }else {
+                  if (response.data[0]) {
+                    homeadmin();
+                  } else {
+                    logadmin(
+                      fullName,
+                      cmuAccount,
+                      studentId,
+                      organization_name,
+                      itaccounttype_EN
+                    );
+                    homeadmin();
+                  }
+                })
+
+            }else {
               axios
                 .get("/api/checkdata")
                 .then((response) => {
@@ -110,9 +110,9 @@ export default function CMUOAuthCallback() {
                     handleShow();
                   }
                 });
-              // setIsLoading(false);
+
             }
-          // }
+          }
 
 
 
@@ -188,7 +188,7 @@ export default function CMUOAuthCallback() {
   useEffect(() => {
     LogIn();
   }, []);
-  
+
   return (
     <div className="p-3">
 
