@@ -27,7 +27,7 @@ export default function CMUOAuthCallback() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const admin2 = process.env.NEXT_PUBLIC_ADMIN2 as string;
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
 
 
   const handleShow = () => setShowModal(true);
@@ -183,10 +183,6 @@ export default function CMUOAuthCallback() {
 
   function homeadmin() {
     router.push("/List");
-  }
-
-  if (isLoading) {
-    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
   }
 
   return (
