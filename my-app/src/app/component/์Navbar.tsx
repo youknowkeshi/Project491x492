@@ -2,9 +2,9 @@ import axios from "axios";
 import React from "react";
 
 export function Navbar() {
-  const signOut = () => {
+  const signOut = async () => {
     try {
-      axios.post("/api/signOut");
+      await axios.post("/api/signOut");
       window.location.href = "/";
       // Additional actions after signing out, if needed.
     } catch (error) {

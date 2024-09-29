@@ -6,12 +6,9 @@ import { cookies } from 'next/headers';
 
 // This function can be marked async if using await inside
 export default async function middleware(req: NextRequest) {
-  // const cookieStore = cookies();
-  // const verify = cookieStore.get("google-oauth-example-token")?.value;
   const token = req.cookies.get("cmu-oauth-example-token")?.value;
   const token_google = req.cookies.get("google-oauth-example-token")?.value;
 
-  // console.log("Cookies:", req.cookies.getAll());
 
   if (!token && !token_google ) {
     return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
@@ -27,10 +24,6 @@ export default async function middleware(req: NextRequest) {
   if (token_google) {
     response_google = await verifyAuthGoogle(token_google);
   }
-
-  // if (verify) {
-  //   response_google = await verifyAuthGoogle(verify);
-  // }
 
 
   if ((response && !response.ok) && (response_google && !response_google.ok)) {
