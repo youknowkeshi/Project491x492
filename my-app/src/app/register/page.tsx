@@ -8,9 +8,7 @@ import {
   Select,
   Modal,
 } from "flowbite-react";
-
 import React, { useState, useEffect } from "react";
-
 import { useRouter ,useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Navbar } from "../component/์Navbar";
