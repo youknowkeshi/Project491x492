@@ -12,7 +12,8 @@ export default function MePage() {
 
   const generateNewString = () => {
     const code = uniqueString();
-    setGeneratedString(`https://project491x492.vercel.app/registe เเละรหัสรับบริการครั้งแรก: ${code}`);
+    setGeneratedString(`${code}`);
+
 
     setCopySuccess("");
     addAccessCode(code);

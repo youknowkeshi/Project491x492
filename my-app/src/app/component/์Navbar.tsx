@@ -35,12 +35,12 @@ export function Navbar() {
                   >
                     หน้าแรก
                   </a>
-                  <a
+                  {/* <a
                     href="/register"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                   >
                     ลงทะเบียน
-                  </a>
+                  </a> */}
                   <a
                     href="/appointment"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
@@ -95,12 +95,12 @@ export function Navbar() {
             >
               หน้าแรก
             </a>
-            <a
+            {/* <a
               href="/register"
              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               ลงทะเบียน
-            </a>
+            </a> */}
             <a
               href="/appointment"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
