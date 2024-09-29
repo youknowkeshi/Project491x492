@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
-import { cookies } from 'next/headers';
+
 
 
 
@@ -8,9 +8,10 @@ import { cookies } from 'next/headers';
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("cmu-oauth-example-token")?.value;
   const token_google = req.cookies.get("google-oauth-example-token")?.value;
+  const url = req.url;
 
 
-  if (!token && !token_google ) {
+  if (!token && !token_google && url.includes("/dashboard")) {
     return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_CMU_OAUTH_URL}`, req.url));
   }
 

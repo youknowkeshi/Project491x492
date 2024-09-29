@@ -87,7 +87,7 @@ export default function CMUOAuthCallback() {
                     homeadmin();
                   }
                 })
-              setIsLoading(false);
+              // setIsLoading(false);
             }else {
               axios
                 .get("/api/checkdata")
@@ -110,7 +110,7 @@ export default function CMUOAuthCallback() {
                     handleShow();
                   }
                 });
-              setIsLoading(false);
+              // setIsLoading(false);
             }
           }
 
@@ -184,12 +184,6 @@ export default function CMUOAuthCallback() {
   function homeadmin() {
     router.push("/List");
   }
-
-
-
-  useEffect(() => {
-    LogIn();
-  }, []);
 
   if (isLoading) {
     return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
