@@ -5,7 +5,7 @@ export function Navbar() {
   const signOut = () => {
     try {
       axios.post("/api/signOut");
-      window.location.href = "/adminlogin";
+      window.location.href = "/";
       // Additional actions after signing out, if needed.
     } catch (error) {
       console.error("Error signing out:", error);
@@ -73,7 +73,6 @@ export function Navbar() {
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative ml-3">
                   <a
-                    href="/"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                     role="menuitem"
                     tabIndex={-1}
