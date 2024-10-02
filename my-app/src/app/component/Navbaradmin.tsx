@@ -52,12 +52,12 @@ export function Navbaradmin() {
                   >
                     รายงานประจำเดือน
                   </a>
-                  <a
+                  {/* <a
                     href="/articleadmin"
                     className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
                   >
                     บทความ
-                  </a>
+                  </a> */}
                   <a
                     href="/accessCode"
                     className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
@@ -122,12 +122,12 @@ export function Navbaradmin() {
               รหัสสำหรับผู้เข้ารับบริการครั้งแรก
             </a>
 
-            <a
+            {/* <a
               href="/articleadmin"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               บทความ
-            </a>
+            </a> */}
           </div>
           <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="mt-3 space-y-1 px-2">

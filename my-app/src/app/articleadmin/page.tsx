@@ -77,10 +77,6 @@ export default function Page({ }: Props) {
         try {
             const response = await axios.get(apiUrl);
             setArticles(response.data);
-           
-            
-            // console.log(response.data);
-
         } catch (error) {
             console.log("Can't show article: ", error);
         }
