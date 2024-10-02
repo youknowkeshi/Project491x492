@@ -365,7 +365,7 @@ function BookAppointment({ room }: { room: any }) {
             จองคิวนัดปรึกษาที่ห้อง {room}
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="overflow-y-auto max-h-screen">
           <DialogHeader>
             <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
@@ -380,9 +380,9 @@ function BookAppointment({ room }: { room: any }) {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      // disabled={(day) =>
-                      //   isPastDay(day) || isWeekend(day) || isFullyBooked(day)
-                      // }
+                      disabled={(day) =>
+                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                      }
                       className="border rounded-lg"
                     />
                   </div>
@@ -459,7 +459,7 @@ function BookAppointment({ room }: { room: any }) {
           open={isConfirmationModalOpen}
           onOpenChange={setIsConfirmationModalOpen}
         >
-          <DialogContent>
+          <DialogContent className="overflow-y-auto max-h-screen">
             <DialogHeader>
               <DialogTitle>ยืนยันนัดหมาย</DialogTitle>
               <DialogDescription>
