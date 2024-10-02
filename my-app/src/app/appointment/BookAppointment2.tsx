@@ -352,7 +352,7 @@ function BookAppointment({ room }: { room: any }) {
             จองคิวนัดปรึกษาที่ห้อง {room}
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="overflow-y-auto max-h-[80vh] px-4 py-6 rounded-lg shadow-lg">
           <DialogHeader>
             <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
@@ -426,7 +426,7 @@ function BookAppointment({ room }: { room: any }) {
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button
-                className="text-red-500 border-red-500 hover:bg-[#ffffff]"
+                className="text-red-500 border-red-500 hover:bg-[#ffffff] mt-4"
                 type="button"
                 variant="outline"
               >
@@ -435,7 +435,7 @@ function BookAppointment({ room }: { room: any }) {
             </DialogClose>
 
             <Button
-              className="bg-[#4338ca] text-white border-blue-500"
+              className="bg-blue-500 text-white border-blue-500 mt-4"
               type="button"
               disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}

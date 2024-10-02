@@ -339,13 +339,13 @@ function BookAppointment({ room }: { room: any }) {
         </DialogTrigger>
         <DialogContent className="overflow-y-auto max-h-[80vh] px-4 py-6 rounded-lg shadow-lg">
           <DialogHeader >
-            <DialogTitle>Book Appointment</DialogTitle>
+            <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3 items-baseline">
                   <h2 className="flex gap-2 mt-2 mb-1">
                     <CalendarDays className="text-primary h-5 w-5" />
-                    Select Date
+                    เลือกวัน
                   </h2>
                   <div>
                     <Calendar
@@ -363,7 +363,7 @@ function BookAppointment({ room }: { room: any }) {
                   <div className="mt-1 md:mt-0">
                     <h2 className="flex gap-2 items-center mb-3">
                       <Clock className="text-primary h-5 w-5" />
-                      Select Time Slot
+                      เลือกเวลา
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
                       {freeTimeSlots.map((timeSlot, index) => {
@@ -377,13 +377,12 @@ function BookAppointment({ room }: { room: any }) {
                             onClick={() =>
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
-                              selectedTimeSlot === timeSlot
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
                                 ? "bg-green-500 text-white"
                                 : !isAvailable
-                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                : ""
-                            }`}
+                                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                  : ""
+                              }`}
                             key={index}
                           >
                             {timeSlot}
@@ -394,10 +393,10 @@ function BookAppointment({ room }: { room: any }) {
                   </div>
                   <div className="grid w-full gap-1.5">
                     <div className="mt-3">
-                      <Label htmlFor="message-2">Your Message</Label>
+                      <Label htmlFor="message-2">หัวข้อที่ต้องการพูดคุย</Label>
                       <Textarea
                         className="mt-3"
-                        placeholder="Type your message here."
+                        placeholder="รายละเอียด..."
                         id="message-2"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
@@ -415,7 +414,7 @@ function BookAppointment({ room }: { room: any }) {
                 type="button"
                 variant="outline"
               >
-                Close
+                ปิด
               </Button>
             </DialogClose>
 
@@ -425,7 +424,7 @@ function BookAppointment({ room }: { room: any }) {
               disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}
             >
-              Submit
+              ยืนยัน
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -438,9 +437,9 @@ function BookAppointment({ room }: { room: any }) {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Confirmation</DialogTitle>
+              <DialogTitle>ยืนยันนัดหมาย</DialogTitle>
               <DialogDescription>
-                Your appointment has been booked for{" "}
+                คุณได้ทำการนัดรับบริการวันที่{" "}
                 {date?.toLocaleDateString()} at {selectedTimeSlot}.
               </DialogDescription>
             </DialogHeader>
@@ -450,7 +449,7 @@ function BookAppointment({ room }: { room: any }) {
                   className="bg-blue-500 text-white border-blue-500"
                   type="button"
                 >
-                  Submit
+                  ยืนยัน
                 </Button>
               </Link>
             </DialogFooter>
