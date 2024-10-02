@@ -255,9 +255,7 @@ export default function RegisterPage() {
                       <h2 className="text-3xl mb-4 text-[#8FC1E3]">
                         ลงทะเบียน
                       </h2>
-                      {/* <p className="mb-4">
-                        สร้างบัญชีของคุณ ฟรีและใช้เวลาเพียงไม่กี่นาที
-                      </p> */}
+      
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-สกุล" />
@@ -351,7 +349,7 @@ export default function RegisterPage() {
                           <TextInput
                             id="input-gray"
                             placeholder={idCode}
-                            disabled
+                            required
                             color="gray"
                             value={Id}
                             onChange={handleIdChange}
