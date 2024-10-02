@@ -21,6 +21,7 @@ import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 interface Appointment {
   firstname_lastname: string;
@@ -78,6 +79,7 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
 
   async function getEvents() {
@@ -283,7 +285,7 @@ function BookAppointment({ room }: { room: any }) {
     }
   };
 
-  const [loading, setLoading] = useState(false);
+
 
   async function confirmhandleSubmit() {
     if (date && selectedTimeSlot && message) {
@@ -299,9 +301,9 @@ function BookAppointment({ room }: { room: any }) {
       setLoading(true); // เริ่มโหลด
 
       try {
-        await AddTimeAppointment(start_datetime, end_datetime, personId, message);
-        await AddAppointmentGoogle(message, start_datetime, end_datetime);
-        await fetchEvents();
+        AddTimeAppointment(start_datetime, end_datetime, personId, message);
+        AddAppointmentGoogle(message, start_datetime, end_datetime);
+        fetchEvents();
 
         router.push("/appointment"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
       } catch (error) {
@@ -361,6 +363,10 @@ function BookAppointment({ room }: { room: any }) {
     getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
+
+  if (loading) {
+    return <Loading />; // Loading message or spinner
+  }
 
 
   return (
@@ -487,7 +493,7 @@ function BookAppointment({ room }: { room: any }) {
                 disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
                 onClick={confirmhandleSubmit}
               >
-                {loading ? "กำลังประมวลผล..." : "ยืนยัน"} // แสดงสถานะโหลด
+                {loading ? "กำลังประมวลผล..." : "ยืนยัน"} 
               </Button>
             </DialogFooter>
           </DialogContent>

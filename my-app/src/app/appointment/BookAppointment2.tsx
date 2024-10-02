@@ -20,6 +20,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
+import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 //วันปัจจุบันถ้าไม่ว่างเเล้ววันที่ไม่ปิด เเต่ถ้าจองจน SlotTime เต็มจะกดไม่ได้
 function BookAppointment({ room }: { room: any }) {
@@ -67,61 +69,64 @@ function BookAppointment({ room }: { room: any }) {
     "15:00 - 16:00",
   ];
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   async function getEvents() {
     const apiUrl = 'https://entaneermindbackend.onrender.com/api/admin/gettimeroom2';
     try {
-        const response = await axios.get(apiUrl);
-        const rows: EventRow[] = response.data;
+      const response = await axios.get(apiUrl);
+      const rows: EventRow[] = response.data;
 
-        const slotsByDay: { [key: string]: string[] } = {};
+      const slotsByDay: { [key: string]: string[] } = {};
 
-        rows.forEach((event) => {
-            const startDateTime = event.start_datetime;
-            const endDateTime = event.end_datetime;
+      rows.forEach((event) => {
+        const startDateTime = event.start_datetime;
+        const endDateTime = event.end_datetime;
 
-            if (startDateTime && endDateTime) {
-                const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-                const start = moment(startDateTime).startOf('hour');
-                const end = moment(endDateTime); // Do not round end time
+        if (startDateTime && endDateTime) {
+          const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
+          const start = moment(startDateTime).startOf('hour');
+          const end = moment(endDateTime); // Do not round end time
 
-                const hours = [];
-                for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
-                    hours.push(m.format('HH:mm'));
-                }
+          const hours = [];
+          for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
+            hours.push(m.format('HH:mm'));
+          }
 
-                // Check if the last hour slot is within the end time and not after it
-                if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
-                    hours.push(end.startOf('hour').format('HH:mm'));
-                }
+          // Check if the last hour slot is within the end time and not after it
+          if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
+            hours.push(end.startOf('hour').format('HH:mm'));
+          }
 
-                if (!slotsByDay[date]) {
-                    slotsByDay[date] = [];
-                }
+          if (!slotsByDay[date]) {
+            slotsByDay[date] = [];
+          }
 
-                hours.forEach(hour => {
-                    const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
-                    if (nextHour.isSameOrBefore(end)) {
-                        slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
-                    }
-                });
+          hours.forEach(hour => {
+            const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
+            if (nextHour.isSameOrBefore(end)) {
+              slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
             }
-        });
-
-        const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
-
-        for (const date in slotsByDay) {
-            if (slotsByDay[date].length > 0) {
-                newUnavailableSlotsByDay[date] = slotsByDay[date];
-            }
+          });
         }
+      });
 
-        
-        setUnavailableSlotsByDay(newUnavailableSlotsByDay);
+      const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+
+      for (const date in slotsByDay) {
+        if (slotsByDay[date].length > 0) {
+          newUnavailableSlotsByDay[date] = slotsByDay[date];
+        }
+      }
+
+
+      setUnavailableSlotsByDay(newUnavailableSlotsByDay);
 
     } catch (error) {
-        console.error("Can't get events: ", error);
+      console.error("Can't get events: ", error);
     }
-}
+  }
 
   async function AddTimeAppointment(
     start_datetime: string,
@@ -218,10 +223,10 @@ function BookAppointment({ room }: { room: any }) {
     try {
       const response = await axios.get("/api/register");
       // const studentId = response.data.studentId;
-      
-      getPersonId( response.data.studentId);
-      checkregister( response.data.studentId);
-      appointment( response.data.studentId);
+
+      getPersonId(response.data.studentId);
+      checkregister(response.data.studentId);
+      appointment(response.data.studentId);
     } catch (err) {
       console.log("This is error: ", err);
     }
@@ -240,23 +245,14 @@ function BookAppointment({ room }: { room: any }) {
         setCheckGender(userData.gender);
         setCheckFacebookUrl(userData.facebookurl);
         setCheckGradeLevel(userData.gradelevel);
-      } 
+      }
     } catch (error) {
       console.log("Can't check register users ", error);
     }
   }
 
-  async function handleSubmit () {
+  async function handleSubmit() {
     if (date && selectedTimeSlot && message) {
-      const formattedDate = formatDate(date);
-      const [startHour, startMinute] = selectedTimeSlot
-        .split(" - ")[0]
-        .split(":");
-      const [endHour, endMinute] = selectedTimeSlot.split(" - ")[1].split(":");
-
-      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
-      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
-
       if (
         checkFacebookurl &&
         checkGender &&
@@ -267,16 +263,43 @@ function BookAppointment({ room }: { room: any }) {
         if (checkAppointmented) {
           await handleShowAppointmented();
         } else {
-          await AddTimeAppointment(start_datetime, end_datetime, personId, message);
-          await AddAppointmentGoogle(message, start_datetime, end_datetime);
-          await fetchEvents2()
-          await setIsConfirmationModalOpen(true);
+
+          setIsConfirmationModalOpen(true);
+
         }
       } else {
         await handleShow();
       }
     }
   };
+
+  async function confirmhandleSubmit() {
+    if (date && selectedTimeSlot && message) {
+      const formattedDate = formatDate(date);
+      const [startHour, startMinute] = selectedTimeSlot
+        .split(" - ")[0]
+        .split(":");
+      const [endHour, endMinute] = selectedTimeSlot.split(" - ")[1].split(":");
+
+      const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
+      const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
+
+      setLoading(true); // เริ่มโหลด
+
+      try {
+        await AddTimeAppointment(start_datetime, end_datetime, personId, message);
+        await AddAppointmentGoogle(message, start_datetime, end_datetime);
+        await fetchEvents2();
+
+        router.push("/appointment"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
+      } catch (error) {
+        console.error("Error while processing:", error);
+        // Handle error
+      } finally {
+        setLoading(false); // หยุดโหลดเมื่อทำทุกอย่างเสร็จ
+      }
+    }
+  }
 
   const appointment = async (studentid: string) => {
     const currentDateTime = new Date();
@@ -285,7 +308,7 @@ function BookAppointment({ room }: { room: any }) {
         "https://entaneermindbackend.onrender.com/api/appointment2/checkappointment",
         { studentid }
       );
-  
+
       // Check if response.data is null or undefined
       if (response.data && response.data.length > 0) {
         setCheckAppointmented(true)
@@ -293,12 +316,12 @@ function BookAppointment({ room }: { room: any }) {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
-      
+
     } catch (error) {
       console.log("Can't get appointment", error);
     }
   };
-  
+
 
   function getPersonId(studentId: string) {
     axios
@@ -330,7 +353,9 @@ function BookAppointment({ room }: { room: any }) {
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
 
-
+  if (loading) {
+    return <Loading />; // Loading message or spinner
+  }
   return (
     <>
       <Dialog>
@@ -382,13 +407,12 @@ function BookAppointment({ room }: { room: any }) {
                             onClick={() =>
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
-                              selectedTimeSlot === timeSlot
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
                                 ? "bg-green-500 text-white"
                                 : !isAvailable
-                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                : ""
-                            }`}
+                                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                  : ""
+                              }`}
                             key={index}
                           >
                             {timeSlot}
@@ -452,10 +476,12 @@ function BookAppointment({ room }: { room: any }) {
             <DialogFooter className="sm:justify-end">
               <Link href="/profile">
                 <Button
-                  className="bg-blue-500 text-white border-blue-500"
+                  className="bg-blue-500 text-white border-blue-500 mt-4"
                   type="button"
+                  disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
+                  onClick={confirmhandleSubmit}
                 >
-                  ยืนยัน
+                  {loading ? "กำลังประมวลผล..." : "ยืนยัน"}
                 </Button>
               </Link>
             </DialogFooter>
