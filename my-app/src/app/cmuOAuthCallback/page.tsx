@@ -25,6 +25,7 @@ export default function CMUOAuthCallback() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const admin2 = process.env.NEXT_PUBLIC_ADMIN2 as string;
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
 
@@ -39,10 +40,11 @@ export default function CMUOAuthCallback() {
       .then((resp) => {
         if (resp.data.ok) {
           getUsers();
+          setIsLoading(false);
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
-        throw new Error("Unknown error occurred. Please try again later",error);
+        throw new Error("Unknown error occurred. Please try again later", error);
       });
   }
 
@@ -60,11 +62,11 @@ export default function CMUOAuthCallback() {
           const itaccounttype_EN = response.data.itaccounttype_EN;
 
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
-            if (admin === cmuAccount) {
+            if (admin === cmuAccount || admin2 == cmuAccount) {
               homeadmin();
-            }else {
+            } else {
               axios
-                .put("https://entaneermindbackend.onrender.com/api/user/checklogin",{studentId})
+                .put("https://entaneermindbackend.onrender.com/api/user/checklogin", { studentId })
                 .then((response) => {
                   if (organization_name == 'Faculty of Engineering') {
                     if (response.data) {
@@ -90,7 +92,7 @@ export default function CMUOAuthCallback() {
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
-        throw new Error("Unknown error occurred. Please try again later",error);
+        throw new Error("Unknown error occurred. Please try again later", error);
       });
   }
 
@@ -124,6 +126,10 @@ export default function CMUOAuthCallback() {
 
   function homeadmin() {
     router.push("/List");
+  }
+
+  if (isLoading) {
+    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
   }
 
   useEffect(() => {
