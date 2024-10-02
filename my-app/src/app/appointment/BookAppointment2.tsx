@@ -341,6 +341,7 @@ function BookAppointment({ room }: { room: any }) {
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
 
+
   return (
     <>
       <Dialog>

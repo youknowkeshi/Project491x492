@@ -77,54 +77,63 @@ function BookAppointment({ room }: { room: any }) {
   ];
 
   async function getEvents() {
-    const apiUrl = "/api/events";
+    const apiUrl = 'https://entaneermindbackend.onrender.com/api/admin/gettimeroom';
     try {
-      const response = await axios.get(apiUrl);
-      const rows: EventRow[] = response.data.result.rows;
+        const response = await axios.get(apiUrl);
+        const rows: EventRow[] = response.data;
 
-      const slotsByDay: { [key: string]: string[] } = {};
+        const slotsByDay: { [key: string]: string[] } = {};
 
-      rows.forEach((event) => {
-        const startDateTime = event.start_datetime;
-        const endDateTime = event.end_datetime;
+        rows.forEach((event) => {
+            const startDateTime = event.start_datetime;
+            const endDateTime = event.end_datetime;
 
-        if (startDateTime && endDateTime) {
-          const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-          const start = moment(startDateTime);
-          const end = moment(endDateTime);
+            if (startDateTime && endDateTime) {
+                const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
+                const start = moment(startDateTime).startOf('hour');
+                const end = moment(endDateTime); // Do not round end time
 
-          const hours = [];
-          for (let m = start; m.isBefore(end); m.add(1, "hours")) {
-            hours.push(m.format("HH:mm"));
-          }
+                const hours = [];
+                for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
+                    hours.push(m.format('HH:mm'));
+                }
 
-          if (!slotsByDay[date]) {
-            slotsByDay[date] = [];
-          }
+                // Check if the last hour slot is within the end time and not after it
+                if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
+                    hours.push(end.startOf('hour').format('HH:mm'));
+                }
 
-          hours.forEach((hour) =>
-            slotsByDay[date].push(
-              `${hour} - ${moment(hour, "HH:mm")
-                .add(1, "hours")
-                .format("HH:mm")}`
-            )
-          );
+                if (!slotsByDay[date]) {
+                    slotsByDay[date] = [];
+                }
+
+                hours.forEach(hour => {
+                    const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
+                    if (nextHour.isSameOrBefore(end)) {
+                        slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
+                    }
+                });
+            }
+        });
+
+        const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+
+        for (const date in slotsByDay) {
+            if (slotsByDay[date].length > 0) {
+                newUnavailableSlotsByDay[date] = slotsByDay[date];
+            }
         }
-      });
 
-      const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
+        // console.log(newUnavailableSlotsByDay);
+        
+        setUnavailableSlotsByDay(newUnavailableSlotsByDay);
 
-      for (const date in slotsByDay) {
-        if (slotsByDay[date].length > 0) {
-          newUnavailableSlotsByDay[date] = slotsByDay[date];
-        }
-      }
-
-      setUnavailableSlotsByDay(newUnavailableSlotsByDay);
     } catch (error) {
-      console.error("Can't get events: ", error);
+        console.error("Can't get events: ", error);
     }
-  }
+}
+
+
 
   async function AddTimeAppointment(
     start_datetime: string,
@@ -132,7 +141,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "http://localhost:3001/api/appointment/addtimeappointment";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/addtimeappointment";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -150,7 +159,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -222,14 +231,14 @@ function BookAppointment({ room }: { room: any }) {
       const response = await axios.get("/api/register");
       checkregister(response.data.studentId);
       appointment(response.data.studentId);
-      getPersonId(response.data.studentId);
+      getPersonId(response.data.studentId)
     } catch (err) {
       console.log("This is error: ", err);
     }
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3001/api/user/checkuser";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -248,7 +257,7 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
-  const handleSubmit = () => {
+  async function handleSubmit ()   {
     if (date && selectedTimeSlot && message) {
       const formattedDate = formatDate(date);
       const [startHour, startMinute] = selectedTimeSlot
@@ -266,17 +275,22 @@ function BookAppointment({ room }: { room: any }) {
         checkMajor &&
         checkPhone
       ) {
-        console.log("find", checkAppointmented);
+
 
         if (checkAppointmented) {
-          handleShowAppointmented();
+          await handleShowAppointmented();
         } else {
-          AddTimeAppointment(start_datetime, end_datetime, personId, message);
-          AddAppointmentGoogle(message, start_datetime, end_datetime);
-          setIsConfirmationModalOpen(true);
+          
+          await AddTimeAppointment(start_datetime, end_datetime, personId, message);
+          await AddAppointmentGoogle(message, start_datetime, end_datetime);
+          await fetchEvents()
+          await setIsConfirmationModalOpen(true);
+          
+
+
         }
       } else {
-        handleShow();
+        await handleShow();
       }
     }
   };
@@ -285,7 +299,7 @@ function BookAppointment({ room }: { room: any }) {
     const currentDateTime = new Date();
     try {
       const response = await axios.put(
-        "http://localhost:3001/api/appointment/checkappointment",
+        "https://entaneermindbackend.onrender.com/api/appointment/checkappointment",
         { studentid }
       );
       // Check if response.data is null or undefined
@@ -306,6 +320,7 @@ function BookAppointment({ room }: { room: any }) {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
+
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -313,18 +328,32 @@ function BookAppointment({ room }: { room: any }) {
 
   function getPersonId(studentId: string) {
     axios
-      .post("http://localhost:3001/api/user/checkuser", { studentId })
+      .post("https://entaneermindbackend.onrender.com/api/user/checkuser", { studentId })
       .then((response) => {
         setPersonId(response.data[0].personid);
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
 
+  const fetchEvents = async () => {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
+
+    try {
+      await axios.get(apiUrl);
+    } catch (error) {
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
+    }
+  };
+
   useEffect(() => {
     getdatausers();
     getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
+
 
   return (
     <>
