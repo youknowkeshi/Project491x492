@@ -25,7 +25,7 @@ export default function CMUOAuthCallback() {
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const admin2 = process.env.NEXT_PUBLIC_ADMIN2 as string;
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
 
 
@@ -40,7 +40,7 @@ export default function CMUOAuthCallback() {
       .then((resp) => {
         if (resp.data.ok) {
           getUsers();
-          setIsLoading(false);
+
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
@@ -60,6 +60,8 @@ export default function CMUOAuthCallback() {
           const cmuAccount = response.data.cmuAccount;
           const organization_name = response.data.organization_name_EN;
           const itaccounttype_EN = response.data.itaccounttype_EN;
+
+
 
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount || admin2 == cmuAccount) {
@@ -126,10 +128,6 @@ export default function CMUOAuthCallback() {
 
   function homeadmin() {
     router.push("/List");
-  }
-
-  if (isLoading) {
-    return <Loading /> // ข้อความหรือ spinner เมื่อกำลังโหลด
   }
 
   useEffect(() => {
