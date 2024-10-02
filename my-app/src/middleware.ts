@@ -69,7 +69,7 @@ export const config = {
     "/about/:path*",
     "/appointment/:path*",
     "/appointmentadmin/:path*",
-    // "/accessCode/:path*",
+    "/accessCode/:path*",
     "/dashboard/:path*",
     "/EditInformation/:path*",
     "/Evaluationform/:path*",
