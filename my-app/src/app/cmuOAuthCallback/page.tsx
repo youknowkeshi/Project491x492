@@ -22,8 +22,6 @@ export default function CMUOAuthCallback() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams?.get("code");
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const admin = process.env.NEXT_PUBLIC_ADMIN as string;
   const admin2 = process.env.NEXT_PUBLIC_ADMIN2 as string;
   const [showModal, setShowModal] = useState(false);
@@ -44,15 +42,7 @@ export default function CMUOAuthCallback() {
         }
       })
       .catch((error: AxiosError<SignInResponse>) => {
-        if (!error.response) {
-          setMessage(
-            "Cannot connect to CMU OAuth Server. Please try again later."
-          );
-        } else if (!error.response.data.ok) {
-          setMessage(error.response.data.message);
-        } else {
-          setMessage("Unknown error occurred. Please try again later.");
-        }
+        throw new Error("Unknown error occurred. Please try again later",error);
       });
   }
 
@@ -72,23 +62,6 @@ export default function CMUOAuthCallback() {
           if (fullName && cmuAccount && organization_name && itaccounttype_EN) {
             if (admin === cmuAccount) {
               homeadmin();
-              // axios
-              //   .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
-
-              //     if (response.data[0]) {
-                  
-              //     } else {
-              //       logadmin(
-              //         fullName,
-              //         cmuAccount,
-              //         studentId,
-              //         organization_name,
-              //         itaccounttype_EN
-              //       );
-              //       homeadmin();
-              //     }
-              //   })
-
             }else {
               axios
                 .get("/api/checkdata")
@@ -114,23 +87,10 @@ export default function CMUOAuthCallback() {
 
             }
           }
-
-
-
         }
       })
       .catch((error: AxiosError<WhoAmIResponse>) => {
-        if (!error.response) {
-          setErrorMessage(
-            "Cannot connect to the network. Please try again later."
-          );
-        } else if (error.response.status === 401) {
-          setErrorMessage("Authentication failed");
-        } else if (error.response.data.ok === false) {
-          setErrorMessage(error.response.data.message);
-        } else {
-          setErrorMessage("Unknown error occurred. Please try again later");
-        }
+        throw new Error("Unknown error occurred. Please try again later",error);
       });
   }
 
@@ -151,26 +111,6 @@ export default function CMUOAuthCallback() {
       });
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  async function logadmin(
-    firstname_lastname: string,
-    cmuaccount: string,
-    studentid: string,
-    organization_name: string,
-    accounttype: string
-  ) {
-    try {
-      axios.post("https://entaneermindbackend.onrender.com/api/admin/firstlogin", {
-        name: firstname_lastname,
-        cmuaccount: cmuaccount,
-        studentid: studentid,
-        organization_name: organization_name,
-        accounttype: accounttype,
-      });
-    } catch (error) {
-      console.log("not found admin", error);
     }
   }
 
