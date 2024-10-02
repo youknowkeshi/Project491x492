@@ -365,7 +365,7 @@ function BookAppointment({ room }: { room: any }) {
             จองคิวนัดปรึกษาที่ห้อง {room}
           </Button>
         </DialogTrigger>
-        <DialogContent className="overflow-y-auto">
+        <DialogContent className="max-w-[90%] max-h-[80vh] p-4">
           <DialogHeader>
             <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
@@ -459,7 +459,7 @@ function BookAppointment({ room }: { room: any }) {
           open={isConfirmationModalOpen}
           onOpenChange={setIsConfirmationModalOpen}
         >
-          <DialogContent className="overflow-y-auto">
+          <DialogContent className="max-w-[90%] max-h-[80vh] p-4">
             <DialogHeader>
               <DialogTitle>ยืนยันนัดหมาย</DialogTitle>
               <DialogDescription>
