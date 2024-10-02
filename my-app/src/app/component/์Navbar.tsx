@@ -35,12 +35,12 @@ export function Navbar() {
                   >
                     หน้าแรก
                   </a>
-                  {/* <a
+                  <a
                     href="/register"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                   >
                     ลงทะเบียน
-                  </a> */}
+                  </a>
                   <a
                     href="/appointment"
                     className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
