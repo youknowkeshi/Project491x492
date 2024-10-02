@@ -304,18 +304,7 @@ function BookAppointment({ room }: { room: any }) {
       );
       // Check if response.data is null or undefined
       if (response.data && response.data.length > 0) {
-        const latestApppoint = response.data[0].start_datetime || null;
-
-        if (latestApppoint) {
-          const appointmentDateTime = new Date(latestApppoint);
-          if (appointmentDateTime > currentDateTime) {
-            setCheckAppointmented(true);
-          } else {
-            setCheckAppointmented(false);
-          }
-        } else {
-          setCheckAppointmented(false);
-        }
+        setCheckAppointmented(true)
       } else {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
