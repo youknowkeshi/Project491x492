@@ -301,9 +301,9 @@ function BookAppointment({ room }: { room: any }) {
       setLoading(true); // เริ่มโหลด
 
       try {
-        AddTimeAppointment(start_datetime, end_datetime, personId, message);
-        AddAppointmentGoogle(message, start_datetime, end_datetime);
-        fetchEvents();
+        await AddTimeAppointment(start_datetime, end_datetime, personId, message);
+        await AddAppointmentGoogle(message, start_datetime, end_datetime);
+        await fetchEvents();
 
         router.push("/profile"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
       } catch (error) {
