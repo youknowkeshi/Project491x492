@@ -458,10 +458,10 @@ function BookAppointment({ room }: { room: any }) {
             <Button
               className="bg-blue-500 text-white border-blue-500 mt-4"
               type="button"
-              disabled={loading || !(date && selectedTimeSlot && message)} // ปิดปุ่มเมื่อกำลังโหลด
-              onClick={confirmhandleSubmit}
+              disabled={!(date && selectedTimeSlot && message)}
+              onClick={handleSubmit}
             >
-              {loading ? "กำลังประมวลผล..." : "ยืนยัน"} // แสดงสถานะโหลด
+              ยืนยัน
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -482,11 +482,12 @@ function BookAppointment({ room }: { room: any }) {
             </DialogHeader>
             <DialogFooter className="sm:justify-end">
               <Button
-                className="bg-blue-500 text-white border-blue-500"
+                className="bg-blue-500 text-white border-blue-500 mt-4"
                 type="button"
+                disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
                 onClick={confirmhandleSubmit}
               >
-                ยืนยัน
+                {loading ? "กำลังประมวลผล..." : "ยืนยัน"} // แสดงสถานะโหลด
               </Button>
             </DialogFooter>
           </DialogContent>
