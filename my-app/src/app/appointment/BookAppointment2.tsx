@@ -291,7 +291,7 @@ function BookAppointment({ room }: { room: any }) {
         await AddAppointmentGoogle(message, start_datetime, end_datetime);
         await fetchEvents2();
 
-        router.push("/appointment"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
+        router.push("/profile"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
       } catch (error) {
         console.error("Error while processing:", error);
         // Handle error
