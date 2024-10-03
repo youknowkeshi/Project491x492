@@ -36,7 +36,7 @@ export function Foot() {
               </a>
             </li>
 
-            <li>
+            {/* <li>
               <a
                 href="https://www.facebook.com/messages/t/7055596771186507/"
                 rel="noreferrer"
@@ -126,7 +126,7 @@ export function Foot() {
                   />
                 </svg>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 

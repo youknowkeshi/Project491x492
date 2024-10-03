@@ -1,13 +1,13 @@
 "use client"
 import React from "react";
-import { Nav } from "../component/Nav";
+import { Navbar } from "../component/์Navbar";
 
 type Props = {};
 
 const Page: React.FC<Props> = () => {
   return (
     <>
-      <Nav />
+      <Navbar />
       <div className="bg-[#F7F9FB]">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 pd-7">

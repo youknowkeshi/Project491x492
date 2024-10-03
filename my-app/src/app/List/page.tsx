@@ -37,8 +37,6 @@ export default function Page({ }: Props) {
   const [facebookCancle, setFaceboolCancle] = useState("");
   const [nameCancle, setNameCancle] = useState("");
 
-  const router = useRouter(); // ใช้ useRouter เพื่อทำการเปลี่ยนเส้นทาง
-
 
 
   async function informationUser(selectedDate: Date) {
@@ -48,14 +46,16 @@ export default function Page({ }: Props) {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
       });
       if (response.data.length > 0) {
-        setInformationUsers(response.data);
+        setInformationUsers(response.data);   
+        console.log(response.data);
+         
       } else {
         setInformationUsers([])
       }
 
 
     } catch (error) {
-      console.log("Can't get information users");
+      console.log("Can't get information users",error);
     }
   }
 
@@ -190,7 +190,7 @@ export default function Page({ }: Props) {
     if (selectedDate) {
       setDate(selectedDate);
       informationUser(selectedDate);
-    }
+    }   
   };
 
   const handleOpenModal2 = async (user: any) => {
@@ -203,19 +203,14 @@ export default function Page({ }: Props) {
     setPastDetail("");
   };
 
-  // ส่วนของปุ่ม room 1 และ room 2
-  const handleRoom1Click = () => {
-    router.push("/List"); // เปลี่ยนเส้นทางไปที่ /List
+  const isWeekend = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
   };
 
-  const handleRoom2Click = () => {
-    router.push("/List2"); // เปลี่ยนเส้นทางไปที่ /List2
-  };
 
   React.useEffect(() => {
-    informationUser(new Date(nowInThailand))
-
-    
+    informationUser(new Date(nowInThailand))  
   }, [])
 
   return (
@@ -268,6 +263,9 @@ export default function Page({ }: Props) {
                 mode="single"
                 selected={date}
                 onSelect={handleSelectDate}
+                disabled={(day) =>
+                  isWeekend(day)
+                }
                 initialFocus
               />
             </PopoverContent>

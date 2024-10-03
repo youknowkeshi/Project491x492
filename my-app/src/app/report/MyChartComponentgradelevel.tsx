@@ -31,7 +31,7 @@ async function graphlist(
   startdate: string,
   enddate: string
 ): Promise<gradelevel[]> {
-  const apiUrl = `http://localhost:3001/api/graph/appointment-for-grade-level`;
+  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/appointment-for-grade-level`;
 
   try {
     const response = await axios.post(apiUrl, {
@@ -49,7 +49,7 @@ async function graphbachelordegre(
   startdate: string,
   enddate: string
 ): Promise<bachelordegre[]> {
-  const apiUrl = `http://localhost:3001/api/graph/graphappointmentforbachelordegree`;
+  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphappointmentforbachelordegree`;
 
   try {
     const response = await axios.post(apiUrl, {

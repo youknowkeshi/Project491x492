@@ -157,16 +157,6 @@ export function ProfileForm() {
     }
   }
 
-  async function Getsingledata2() {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/infor2/detailinfor/${id}`;
-    try {
-      const response = await axios.post(apiUrl, { id });
-
-      setInfor(response.data[0]); // Assuming you expect only one object
-    } catch (error) {
-      console.log("Can't get data", error);
-    }
-  }
 
   async function updatesingledata(
     details_consultation: string,

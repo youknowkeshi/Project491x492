@@ -14,30 +14,10 @@ import {
 } from "./MyChartComponentgradelevel";
 
 export default function Page() {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -50,7 +30,6 @@ export default function Page() {
                 แสดงกราฟ
               </h1>
             </div>
-            <ComponentDrawer />
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
@@ -96,7 +75,6 @@ export default function Page() {
                 />
               </div>
             </div>
-            <ComponentDrawer />
           </main>
         </div>
       </div>

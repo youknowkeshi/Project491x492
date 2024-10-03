@@ -5,8 +5,28 @@ import { DatePicker } from "./datepicker";
 import { Button } from "@/components/ui/button";
 import { Label, Select, TextInput } from "flowbite-react";
 import axios from "axios";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Modal } from "flowbite-react";
 
 type Props = {};
+
+interface checktime {
+  event_id: string
+  start_datetime: string
+  end_datetime: string
+  room: string,
+  personid: string
+  topic: string
+}
 
 export default function Page({ }: Props) {
   const [startDate, setStartDate] = useState<Date | undefined>();
@@ -16,6 +36,18 @@ export default function Page({ }: Props) {
   const [personId, setPersonId] = useState("");
   const [description, setDescription] = useState("");
   const [room, setRoom] = useState("-");
+  const [checkTime, setCheckTime] = useState<checktime[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+  const [showModalAppointmented, setShowModalAppointmented] = useState(false);
+  const handleShowAppointmented = () => setShowModalAppointmented(true);
+  const handleCloseAppointmented = () => setShowModalAppointmented(false);
+
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const handlestarttimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartTime(event.target.value);
@@ -44,21 +76,38 @@ export default function Page({ }: Props) {
     return formattedDateTime;
   };
 
-  async function getdata() {
-    const apiurl = `/api/register`;
-    const response = await axios.get(apiurl);
-    const cmuAccount = response.data.cmuAccount;
-    axios
-      .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
-        setPersonId(response.data[0].personid);
-      });
+  // async function getdata() {
+  //   const apiurl = `/api/register`;
+  //   const response = await axios.get(apiurl);
+  //   const cmuAccount = response.data.cmuAccount;
+  //   axios
+  //     .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
+  //       setPersonId(response.data[0].personid);
+  //     });
+  // }
+
+  async function checkclosetimeslot(start_datetime: string, end_datetime: string, room: string) {
+    const apiurl = `https://entaneermindbackend.onrender.com/api/admin/checkclosetimeslot`;
+
+    try {
+      const result = await axios.put(apiurl, { start_datetime, end_datetime, room });
+      if (result.data && result.data.length > 0) {
+        await setCheckTime(result.data);  // ใช้ result.data เพื่อใส่ข้อมูลลงใน setCheckTime
+        handleShow()
+      }
+
+    } catch (error) {
+      console.error('Error checking time slot:', error);
+    }
   }
 
-  async function closetimeslot(start_datetime: string, end_datetime: string, personid: string,room:string) {
+
+
+  async function closetimeslot(start_datetime: string, end_datetime: string, room: string) {
     const apiurl = `https://entaneermindbackend.onrender.com/api/admin/closetimeslot`;
-    axios.post(apiurl, { start_datetime, end_datetime, personid ,room});
-   
-    
+    axios.post(apiurl, { start_datetime, end_datetime, room });
+
+
   }
 
   async function AddAppointmentGoogle(
@@ -87,32 +136,89 @@ export default function Page({ }: Props) {
     }
   }
 
-  const submit = () => {
-    if(room === 'conseling_room1'){
+  const fetchEvents = async () => {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
+
+    try {
+      const reuslut =await axios.get(apiUrl);
+
+      
+    } catch (error) {
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
+    }
+  };
+
+  const fetchEvents2 = async () => {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
+
+    try {
+      await axios.get(apiUrl);
+    } catch (error) {
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
+    }
+  };
+
+  async function handleSubmit() {
+    if (startDate && endDate && startTime && endTime && room && description) {
+      checkclosetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), room)
+      setIsConfirmationModalOpen(true)
+    } else {
+      handleShowAppointmented();
+    }
+  };
+
+  const submit = async () => {
+    setLoading(true)
+    if (room == 'conseling_room1') {
       if (startDate && endDate) {
-        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
-        AddAppointmentGoogle(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
-        window.location.reload();
+        // await closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), room);
+        await AddAppointmentGoogle(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        await fetchEvents()
+        setLoading(false)
+        await window.location.reload();
       } else {
         alert("Please select both start and end dates.");
       }
-    }else if(room === 'conseling_room2'){
+    } else if (room == 'conseling_room2') {
       if (startDate && endDate) {
-        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
-        AddAppointmentGoogle2(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
-        window.location.reload();
+        // await closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), room);
+        await AddAppointmentGoogle2(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        await fetchEvents2()
+        setLoading(false)
+        await window.location.reload();
       } else {
         alert("Please select both start and end dates.");
       }
-    }else{
+      
+    } else {
       alert("Please select room.");
     }
-   
+    
   }
 
-  useEffect(() => {
-    getdata();
-  }, [personId]);
+  const isCurrentAppointment = (start_datetime: string) => {
+    const [date, timeWithZone] = start_datetime.split('T');
+    const time = timeWithZone.substring(0, 5); 
+    const formattedTime = time.startsWith('0') ? time.slice(1) : time;
+    const finalTime = formattedTime.endsWith(':') ? formattedTime.slice(0, -1) : formattedTime;
+
+    return `${date} ${finalTime}`;
+  };
+
+  // useEffect(() => {
+  //   if (startDate && endDate) {
+  //     checkclosetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), room)
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   getdata();
+  // }, [personId]);
 
   return (
     <div>
@@ -122,11 +228,13 @@ export default function Page({ }: Props) {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-indigo-700">
               Appointment
-              
+
             </h1>
           </div>
         </header>
         <main>
+
+
           <div className="mx-auto grid max-w-screen-lg  pb-10 mt-10">
             <p className=" text-xl font-bold text-blue-900">เลือกวัน</p>
             <div className="relative mt-4">
@@ -138,6 +246,36 @@ export default function Page({ }: Props) {
               />
             </div>
           </div>
+
+          {isConfirmationModalOpen && (
+            <Dialog
+              open={isConfirmationModalOpen}
+              onOpenChange={setIsConfirmationModalOpen}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>ปิดรับบริการ</DialogTitle>
+                  <DialogDescription>
+                    คุณได้เลือกการปิดรับบริการวันที่{"  "}
+                    {startDate && (isCurrentAppointment(formatDateTime(startDate, startTime)))} 
+                    {"  "} จนถึงวันที่ {endDate && (isCurrentAppointment(formatDateTime(endDate, endTime)))}
+                    {/* {date?.toLocaleDateString()} at {selectedTimeSlot}. */}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="sm:justify-end">
+                  <Button
+                    className="bg-blue-500 text-white border-blue-500 mt-4"
+                    type="button"
+                    disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
+                    onClick={submit}
+                  >
+                    {loading ? "กำลังประมวลผล..." : "ยืนยัน"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+
           <div className="mx-auto grid max-w-screen-lg  pb-10">
             <p className="text-xl font-bold text-blue-900">เลือกเวลา</p>
             <div className="mt-4 grid grid-cols-2 gap-2 lg:max-w-xl">
@@ -172,7 +310,7 @@ export default function Page({ }: Props) {
 
                   <option value="10:00:00+07:00">10:00 น.</option>
                   <option value="11:00:00+07:00">11:00 น.</option>
-                  <option value="13:00:00+07:00">13:00 น.</option>
+                  <option value="12:00:00+07:00">12:00 น.</option>
                   <option value="14:00:00+07:00">14:00 น.</option>
                   <option value="15:00:00+07:00">15:00 น.</option>
                   <option value="16:00:00+07:00">16:00 น.</option>
@@ -215,9 +353,62 @@ export default function Page({ }: Props) {
 
 
             <div className="text-center">
-              <Button className="mt-7 bg-indigo-700" onClick={submit}>Submit</Button>
+              <Button className="mt-7 bg-indigo-700" onClick={handleSubmit}>Submit</Button>
             </div>
           </div>
+
+          <Modal dismissible show={!!showModal} onClose={handleClose}>
+            <Modal.Body>
+              <div className="space-y-6">
+                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                  คุณมีนัดให้ปรึกษาในเวลาที่เลือกปิดรับบริการให้คำปรึกษาโปรดแจ้งให้ผู้รับบริการทราบก่อนที่จะยกเลิกนัด
+                  <p>โดยมีจำนวนนัด : {checkTime.length}</p>
+                  {checkTime.length > 0 && (
+                    <ul>
+                      {checkTime.map((time, index) => (
+                        <li key={index}>
+
+                          <strong>วันเวลา : </strong> {isCurrentAppointment(time.start_datetime)}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                // gradientMonochrome="failure"
+                onClick={handleClose}
+              >
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+
+          <Modal
+            dismissible
+            show={!!showModalAppointmented}
+            onClose={handleCloseAppointmented}
+          >
+            <Modal.Body>
+              <div className="space-y-6">
+                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                  โปรดกรอกรายละเอียดให้ครบถ้วน
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                // gradientMonochrome="failure"
+                onClick={handleCloseAppointmented}
+              >
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
         </main>
       </div>
     </div>

@@ -24,7 +24,7 @@ export function Navbaradmin() {
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <a href="/dash3">
+                <a href="/List">
                   <img
                     className="h-20 w-20"
                     src="/logoent.png"

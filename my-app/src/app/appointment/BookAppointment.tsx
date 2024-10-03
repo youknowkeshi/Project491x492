@@ -267,9 +267,6 @@ function BookAppointment({ room }: { room: any }) {
     if (date && selectedTimeSlot && message) {
       if (
         checkFacebookurl &&
-        checkGender &&
-        checkGradeLevel &&
-        checkMajor &&
         checkPhone
       ) {
         if (checkAppointmented) {
@@ -317,7 +314,7 @@ function BookAppointment({ room }: { room: any }) {
 
 
   const appointment = async (studentid: string) => {
-    const currentDateTime = new Date();
+
     try {
       const response = await axios.put(
         "https://entaneermindbackend.onrender.com/api/appointment/checkappointment",
@@ -363,11 +360,6 @@ function BookAppointment({ room }: { room: any }) {
     getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
-
-  if (loading) {
-    return <Loading />; // Loading message or spinner
-  }
-
 
   return (
     <>

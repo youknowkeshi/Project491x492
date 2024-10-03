@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import {useState}  from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
@@ -12,6 +12,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
+
 
 interface StartDatePickerProps {
   startDate: Date | undefined;
@@ -27,6 +29,8 @@ export function DatePicker({
   setEndDate,
 }: StartDatePickerProps) {
 
+
+
   const isPastDay = (day: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -37,6 +41,8 @@ export function DatePicker({
     const dayOfWeek = day.getDay();
     return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
   };
+
+  
   return (
     <div className="flex gap-0">
       <Popover>
