@@ -23,7 +23,7 @@ interface CheckList {
 }
 
 async function graphlist(startdate: string, enddate: string): Promise<CheckList[]> {
-  const apiUrl = `http://localhost:3001/api/graph/mental-health-checklist`;
+  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/mental-health-checklist`;
 
   try {
     const response = await axios.post(apiUrl, {
@@ -31,6 +31,8 @@ async function graphlist(startdate: string, enddate: string): Promise<CheckList[
       enddate,
     });
 
+    console.log(response.data);
+    
     return response.data;
   } catch (error) {
     console.error("Can't get graphlist", error);
@@ -83,15 +85,14 @@ export function MyChartComponentsList({
 
   return (
     <div>
-      <div>
-          <Button onClick={toggleSort} className="bg-[#5044e4]" >
-        {isSorted ? "Sort Ascending" : "Sort Descending"}
-      </Button>
-      </div>
-      
-      <Card style={{ margin: '10px 30px 0 0' }}>
+      <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4]">
+              {isSorted ? "Sort Ascending" : "Sort Descending"}
+            </Button>
+          </div>
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -113,11 +114,12 @@ export function MyChartComponentsList({
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart data={chartData}>
+              <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="mental_health_checklist"
-                tickLine={false}
+                // tickLine={false}
                 tickMargin={10}
-                axisLine={false}
+                // axisLine={false}
                 tickFormatter={(value) => value.slice(0, 50)}
                 interval={0}
                 angle={30}
@@ -126,7 +128,11 @@ export function MyChartComponentsList({
                 
               />
               <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dashed" />}
+              />
               <Bar
                 dataKey="checklist_count"
                 fill={chartConfig.checklist_count.color}

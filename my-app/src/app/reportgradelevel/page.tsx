@@ -46,6 +46,7 @@ export default function Page() {
                 กราฟแสดงจำนวนผู้รับบริการแต่ละชั้นปี
               </h1>
             </div>
+            <ComponentDrawer />
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-5 ">
@@ -58,7 +59,7 @@ export default function Page() {
                     setEndDate={setEndDate}
                   />
 
-                  <div className="relative" ref={dropdownRef}>
+                  {/* <div className="relative" ref={dropdownRef}>
                     <Button
                       id="dropdownSearchButton"
                       onClick={toggleDropdown}
@@ -168,23 +169,24 @@ export default function Page() {
                       </div>
                     )}
                   </div>
-                  <Button className="bg-[#5044e4]"> เลือก </Button>
+                  <Button className="bg-[#5044e4]"> เลือก </Button> */}
                 </div>
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
-                <MyChartComponentgradelevel
-                  startDate={startDate ?? null}
-                  endDate={endDate ?? null}
-                />
-              </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
-                <MyChartComponentbachelordegre
-                  startDate={startDate ?? null}
-                  endDate={endDate ?? null}
-                />
+              <div>
+                <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                  <MyChartComponentgradelevel
+                    startDate={startDate ?? null}
+                    endDate={endDate ?? null}
+                  />
+                </div>
+                <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
+                  <MyChartComponentbachelordegre
+                    startDate={startDate ?? null}
+                    endDate={endDate ?? null}
+                  />
+                </div>
               </div>
             </div>
-            <ComponentDrawer />
           </main>
         </div>
       </div>

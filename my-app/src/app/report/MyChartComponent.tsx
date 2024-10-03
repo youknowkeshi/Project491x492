@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -26,7 +26,7 @@ async function graphmajor(
   startdate: string,
   enddate: string
 ): Promise<Major[]> {
-  const apiUrl = `http://localhost:3001/api/graph/graphappointmentformajor`;
+  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphappointmentformajor`;
 
   try {
     const response = await axios.post(apiUrl, {
@@ -94,6 +94,12 @@ export function MyChartComponents({
       <Card style={{ margin: '10px 30px 0 0' }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละสาขา</CardTitle>
+          <div>
+            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+              เรียงลำดับ
+            </Button>
+          </div>
+
           <CardDescription>
             {startDate && endDate && (
               <>
@@ -117,7 +123,7 @@ export function MyChartComponents({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig}>
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
             <BarChart accessibilityLayer data={chartData}>
               <CartesianGrid vertical={false} />
               <XAxis
@@ -125,12 +131,13 @@ export function MyChartComponents({
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 50)  } 
-                interval={0} 
-                angle={30} 
-                textAnchor="start" 
-                height={140} 
+                tickFormatter={(value) => value.slice(0, 50)}
+                interval={0}
+                angle={30}
+                textAnchor="start"
+                height={140}
               />
+              <YAxis />
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent indicator="dashed" />}
@@ -144,7 +151,6 @@ export function MyChartComponents({
           </ChartContainer>
         </CardContent>
       </Card>
-
     </div>
   );
 }

@@ -8,26 +8,25 @@ import {
   Select,
   Modal,
 } from "flowbite-react";
-
 import React, { useState, useEffect } from "react";
-
-import { useRouter } from "next/navigation";
+import { useRouter ,useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Navbar } from "../component/์Navbar";
 import { Foot } from "../component/Footer";
 import { Button } from "@/components/ui/button";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
+
 export default function RegisterPage() {
   const router = useRouter();
   const [Id, setId] = useState("");
   const [phone, setPhone] = useState("");
   const [major, setMajor] = useState("วิศวกรรมโยธา");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState("ชาย");
   const [facebookurl, setFacebookUrl] = useState("");
   const [studentId, setStudentId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [gradeLevel, setGradeLevel] = useState("ชั้นปีที่ 1");
+  const [gradeLevel, setGradeLevel] = useState("ป.ตรี");
 
   const [checkPhone, setCheckPhone] = useState("");
   const [checkMajor, setCheckMajor] = useState("");
@@ -49,7 +48,10 @@ export default function RegisterPage() {
   const handleShowEmpty = () => setShowModalEmpty(true);
   const handleCloseEmpty = () => setShowModalEmpty(false);
 
-  const [accessCodeCondition, setAccessCodeCondition] = useState("");
+  const searchParams = useSearchParams();
+  const idCode:string = searchParams ? searchParams.get("id") || "" : "";
+
+  const [accessCodeCondition, setAccessCodeCondition] = useState(false);
 
   async function updatedataUsers(
     personid: string,
@@ -61,7 +63,7 @@ export default function RegisterPage() {
     gradelevel: string
   ) {
     try {
-      await axios.put("http://localhost:3001/api/user/firstlogin", {
+      await axios.put("https://entaneermindbackend.onrender.com/api/user/firstlogin", {
         personid,
         studentId,
         phone,
@@ -87,7 +89,7 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3001/api/user/checkuser";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -146,7 +148,7 @@ export default function RegisterPage() {
         checkPhone
       ) {
         handleShow();
-      } else if (accessCodeCondition == "0") {
+      } else if (accessCodeCondition) {
         handleShowAccessCode();
       } else {
         updatedataUsers(
@@ -158,8 +160,8 @@ export default function RegisterPage() {
           facebookurl,
           gradeLevel
         ).then(() => {
-          appointment();
           afterUseAccesscode(Id);
+          appointment();
         });
       }
     } else {
@@ -168,7 +170,7 @@ export default function RegisterPage() {
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -177,7 +179,7 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "http://localhost:3001/api/accesscode/deletemulaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deletemulaccesscode";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -186,13 +188,14 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3001/api/accesscode/checkaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.length;
 
-      setAccessCodeCondition(count);
-      if (count <= 0) {
+     
+      if (count == 0) {
+        setAccessCodeCondition(true);
       }
     } catch (error) {
       console.log("Can't generate access code ", error);
@@ -203,11 +206,6 @@ export default function RegisterPage() {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
 
-    const interval = setInterval(() => {
-      deleteAccessCode(); // เรียกใช้ทุก ๆ 300 วินาที
-    }, 300000); // 300 วินาที
-
-    return () => clearInterval(interval); // เมื่อ Component ถูก unmount ให้ clear interval
   }, []);
 
   return (
@@ -262,9 +260,7 @@ export default function RegisterPage() {
                       <h2 className="text-3xl mb-4 text-[#8FC1E3]">
                         ลงทะเบียน
                       </h2>
-                      <p className="mb-4">
-                        สร้างบัญชีของคุณ ฟรีและใช้เวลาเพียงไม่กี่นาที
-                      </p>
+      
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-สกุล" />
@@ -344,7 +340,11 @@ export default function RegisterPage() {
                           </div>
                           <TextInput
                             id="input-gray"
+<<<<<<< HEAD
                             placeholder=" เช่น https://www.facebook.com/entaneer"
+=======
+                            placeholder="ชื่อ facebook"
+>>>>>>> origin/main
                             required
                             color="gray"
                             value={facebookurl}
@@ -353,11 +353,15 @@ export default function RegisterPage() {
                         </div>
                         <div className="mt-5">
                           <div className="mb-1 block">
-                            <Label value="รหัสเข้ารับบริการ" />
+                            <Label value="รหัสเข้ารับบริการครั้งแรก" />
                           </div>
                           <TextInput
                             id="input-gray"
+<<<<<<< HEAD
                             placeholder="ขอรับรหัสจากนักจิตวิทยา"
+=======
+                            placeholder={idCode}
+>>>>>>> origin/main
                             required
                             color="gray"
                             value={Id}
@@ -373,10 +377,10 @@ export default function RegisterPage() {
                             required
                             onChange={handleGenderChange}
                           >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
                             <option value="LGBTQ+">LGBTQ+</option>
-                            <option value="Not specified">Not specified</option>
+                            <option value="ไม่ระบุ">ไม่ระบุ</option>
                           </Select>
                         </div>
 
@@ -389,18 +393,14 @@ export default function RegisterPage() {
                             required
                             onChange={handleGradeLevelChange}
                           >
-                            <option value="ชั้นปี 1">ชั้นปี 1</option>
-                            <option value="ชั้นปี 2">ชั้นปี 2</option>
-                            <option value="ชั้นปี 3">ชั้นปี 3</option>
-                            <option value="ชั้นปี 4">ชั้นปี 4</option>
-                            <option value="มากกว่าชั้นปี 4">
-                              มากกว่าชั้นปี 4
+                            <option value="ป.ตรี">
+                            ป.ตรี
                             </option>
                             <option value="ป.โท">ป.โท</option>
                             <option value="ป.เอก">ป.เอก</option>
                             <option value="อาจารย์">อาจารย์</option>
                             <option value="บุคลากร">บุคลากร</option>
-                            <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+                            {/* <option value="ผู้ปกครอง">ผู้ปกครอง</option> */}
                             <option value="อื่นๆ">อื่นๆ</option>
                           </Select>
                         </div>

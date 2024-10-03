@@ -9,10 +9,10 @@ type Props = {};
 
 export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = "/api/events";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
 
     try {
-      await axios.post(apiUrl);
+      await axios.get(apiUrl);
     } catch (error) {
       console.error(
         "Oh no! An error has arisen from the depths of the internet:",
@@ -22,7 +22,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "/api/events";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom";
 
     try {
       await axios.delete(apiUrl);
@@ -32,10 +32,10 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "/api/events2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
 
     try {
-      await axios.post(apiUrl);
+      await axios.get(apiUrl);
     } catch (error) {
       console.error(
         "Oh no! An error has arisen from the depths of the internet:",
@@ -45,7 +45,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "/api/events2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom2";
 
     try {
       await axios.delete(apiUrl);
@@ -59,15 +59,7 @@ export default function Page({}: Props) {
     deleteEvent();
     fetchEvents2();
     deleteEvent2();
-    const intervalId = setInterval(() => {
-      fetchEvents();
-      deleteEvent();
-      fetchEvents2();
-      deleteEvent2();
-    }, 100000); // fetch and delete every 5 seconds
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
   }, []);
 
   return (

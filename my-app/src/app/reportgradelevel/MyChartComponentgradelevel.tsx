@@ -1,37 +1,37 @@
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface gradelevel {
-    gradelevel: string;
-    gradelevel_count: number;
+  gradelevel: string;
+  gradelevel_count: number;
 }
 interface bachelordegre {
-    class_year: string;
-    count_class_year: number;
+  class_year: string;
+  count_class_year: number;
 }
 
 async function graphlist(startdate: string, enddate: string): Promise<gradelevel[]> {
-    const apiUrl = `/api/graphappointmentforgradelevl`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/appointment-for-grade-level`;
 
     try {
-        const response = await axios.put(apiUrl, {
+        const response = await axios.post(apiUrl, {
             startdate,
             enddate,
         });
@@ -43,10 +43,10 @@ async function graphlist(startdate: string, enddate: string): Promise<gradelevel
 }
 
 async function graphbachelordegre(startdate: string, enddate: string): Promise<bachelordegre[]> {
-    const apiUrl = `/api/graphappointmentforbachelordegree`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphappointmentforbachelordegree`;
 
     try {
-        const response = await axios.put(apiUrl, {
+        const response = await axios.post(apiUrl, {
             startdate,
             enddate,
         });
@@ -58,131 +58,148 @@ async function graphbachelordegre(startdate: string, enddate: string): Promise<b
 }
 
 const chartConfig: ChartConfig = {
-    gradelevel_count: {
-        color: "#6B84F4",
-    },
-    bachelordegre: {
-        color: "#a6b5f8",
-    },
+  gradelevel_count: {
+    color: "#6B84F4",
+  },
+  bachelordegre: {
+    color: "#a6b5f8",
+  },
 };
 
 interface MyChartComponentsProps {
-    startDate: Date | null;
-    endDate: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
 }
 
 export function MyChartComponentgradelevel({
-    startDate,
-    endDate,
+  startDate,
+  endDate,
 }: MyChartComponentsProps) {
-    const [chartData, setChartData] = useState<gradelevel[]>([]);
-    const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [chartData, setChartData] = useState<gradelevel[]>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
 
-    const toggleSort = () => {
-        const sortedData = [...chartData].sort((a, b) => {
-            if (isSorted) {
-                return a.gradelevel_count - b.gradelevel_count; // Ascending
-            } else {
-                return b.gradelevel_count - a.gradelevel_count; // Descending
-            }
-        });
-        setChartData(sortedData);
-        setIsSorted(!isSorted);
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.gradelevel_count - b.gradelevel_count; // Ascending
+      } else {
+        return b.gradelevel_count - a.gradelevel_count; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (startDate && endDate) {
+        const data = await graphlist(
+          startDate.toISOString().split("T")[0],
+          endDate.toISOString().split("T")[0]
+        );
+        setChartData(data);
+      }
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (startDate && endDate) {
-                const data = await graphlist(
-                    startDate.toISOString().split("T")[0],
-                    endDate.toISOString().split("T")[0]
-                );
-                setChartData(data);
-            }
-        };
-        fetchData();
-    }, [startDate, endDate]);
+    fetchData();
+  }, [startDate, endDate]);
 
     return (
         <div >
             <div>
                 <Button onClick={toggleSort} className="bg-[#5044e4]" >
-                    {isSorted ? "Sort Ascending" : "Sort Descending"}
+                    เรียงลำดับ
                 </Button>
             </div>
 
-            <Card style={{ margin: '10px 30px 0 0' }}>
-                <CardHeader>
-                    <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
-                    <CardDescription>
-                        {startDate && endDate && (
-                            <>
-                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(startDate).replace(',', '')}
-                                {' - '}
-                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(endDate).replace(',', '')}
-                            </>
-                        )}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ChartContainer config={chartConfig}>
-                        <BarChart accessibilityLayer data={chartData}>
-                            <CartesianGrid vertical={false} />
-                            <XAxis
-                                dataKey="gradelevel"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                                tickFormatter={(value) => value.slice(0, 50)}
-                                interval={0}
-                                angle={30}
-                                textAnchor="start"
-                                height={140}
-                            />
-                            <ChartTooltip
-                                cursor={false}
-                                content={<ChartTooltipContent indicator="dashed" />}
-                            />
-                            <Bar dataKey="gradelevel_count" fill={chartConfig.gradelevel_count.color} radius={4} />
-                        </BarChart>
-                    </ChartContainer>
-                </CardContent>
-            </Card>
-        </div>
-    );
+      <Card style={{ margin: "10px 30px 0 0" }}>
+        <CardHeader>
+          <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
+          <CardDescription>
+            {startDate && endDate && (
+              <>
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+                  .format(startDate)
+                  .replace(",", "")}
+                {" - "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+                  .format(endDate)
+                  .replace(",", "")}
+              </>
+            )}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <BarChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="gradelevel"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 50)}
+                interval={0}
+                angle={30}
+                textAnchor="start"
+                height={140}
+              />
+              <YAxis />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dashed" />}
+              />
+              <Bar
+                dataKey="gradelevel_count"
+                fill={chartConfig.gradelevel_count.color}
+                radius={4}
+              />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
 export function MyChartComponentbachelordegre({
-    startDate,
-    endDate,
+  startDate,
+  endDate,
 }: MyChartComponentsProps) {
-    const [chartData, setChartData] = useState<bachelordegre[]>([]);
-    const [isSorted, setIsSorted] = useState<boolean>(false);
+  const [chartData, setChartData] = useState<bachelordegre[]>([]);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
 
-    const toggleSort = () => {
-        const sortedData = [...chartData].sort((a, b) => {
-            if (isSorted) {
-                return a.count_class_year - b.count_class_year; // Ascending
-            } else {
-                return b.count_class_year - a.count_class_year; // Descending
-            }
-        });
-        setChartData(sortedData);
-        setIsSorted(!isSorted);
+  const toggleSort = () => {
+    const sortedData = [...chartData].sort((a, b) => {
+      if (isSorted) {
+        return a.count_class_year - b.count_class_year; // Ascending
+      } else {
+        return b.count_class_year - a.count_class_year; // Descending
+      }
+    });
+    setChartData(sortedData);
+    setIsSorted(!isSorted);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (startDate && endDate) {
+        const data = await graphbachelordegre(
+          startDate.toISOString().split("T")[0],
+          endDate.toISOString().split("T")[0]
+        );
+        setChartData(data);
+      }
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (startDate && endDate) {
-                const data = await graphbachelordegre(
-                    startDate.toISOString().split("T")[0],
-                    endDate.toISOString().split("T")[0]
-                );
-                setChartData(data);
-            }
-        };
-        fetchData();
-    }, [startDate, endDate]);
+    fetchData();
+  }, [startDate, endDate]);
 
     return (
         <div >
@@ -192,7 +209,8 @@ export function MyChartComponentbachelordegre({
                 </Button>
             </div>
 
-            <Card style={{ margin: '10px 30px 0 0' }}>
+           
+                 <Card style={{ margin: '10px 30px 0 0' }}>
                 <CardHeader>
                     <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
                     <CardDescription>
@@ -220,6 +238,7 @@ export function MyChartComponentbachelordegre({
                                 textAnchor="start"
                                 height={140}
                             />
+                             <YAxis />
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent indicator="dashed" />}
@@ -229,6 +248,8 @@ export function MyChartComponentbachelordegre({
                     </ChartContainer>
                 </CardContent>
             </Card>
+          
+           
         </div>
     );
 }

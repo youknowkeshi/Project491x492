@@ -20,6 +20,8 @@ import { Textarea } from "@/components/ui/textarea";
 import moment from "moment-timezone";
 import { Modal } from "flowbite-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 interface Appointment {
   firstname_lastname: string;
@@ -76,11 +78,15 @@ function BookAppointment({ room }: { room: any }) {
     "15:00 - 16:00",
   ];
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+
   async function getEvents() {
-    const apiUrl = "/api/events";
+    const apiUrl = 'https://entaneermindbackend.onrender.com/api/admin/gettimeroom';
     try {
       const response = await axios.get(apiUrl);
-      const rows: EventRow[] = response.data.result.rows;
+      const rows: EventRow[] = response.data;
 
       const slotsByDay: { [key: string]: string[] } = {};
 
@@ -90,25 +96,29 @@ function BookAppointment({ room }: { room: any }) {
 
         if (startDateTime && endDateTime) {
           const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-          const start = moment(startDateTime);
-          const end = moment(endDateTime);
+          const start = moment(startDateTime).startOf('hour');
+          const end = moment(endDateTime); // Do not round end time
 
           const hours = [];
-          for (let m = start; m.isBefore(end); m.add(1, "hours")) {
-            hours.push(m.format("HH:mm"));
+          for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
+            hours.push(m.format('HH:mm'));
+          }
+
+          // Check if the last hour slot is within the end time and not after it
+          if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
+            hours.push(end.startOf('hour').format('HH:mm'));
           }
 
           if (!slotsByDay[date]) {
             slotsByDay[date] = [];
           }
 
-          hours.forEach((hour) =>
-            slotsByDay[date].push(
-              `${hour} - ${moment(hour, "HH:mm")
-                .add(1, "hours")
-                .format("HH:mm")}`
-            )
-          );
+          hours.forEach(hour => {
+            const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
+            if (nextHour.isSameOrBefore(end)) {
+              slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
+            }
+          });
         }
       });
 
@@ -120,11 +130,16 @@ function BookAppointment({ room }: { room: any }) {
         }
       }
 
+      // console.log(newUnavailableSlotsByDay);
+
       setUnavailableSlotsByDay(newUnavailableSlotsByDay);
+
     } catch (error) {
       console.error("Can't get events: ", error);
     }
   }
+
+
 
   async function AddTimeAppointment(
     start_datetime: string,
@@ -132,7 +147,7 @@ function BookAppointment({ room }: { room: any }) {
     personid: string,
     topic: string
   ) {
-    const apiUrl = "http://localhost:3001/api/appointment/addtimeappointment";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/addtimeappointment";
     try {
       await axios.post(apiUrl, {
         start_datetime,
@@ -150,7 +165,7 @@ function BookAppointment({ room }: { room: any }) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -222,14 +237,14 @@ function BookAppointment({ room }: { room: any }) {
       const response = await axios.get("/api/register");
       checkregister(response.data.studentId);
       appointment(response.data.studentId);
-      getPersonId(response.data.studentId);
+      getPersonId(response.data.studentId)
     } catch (err) {
       console.log("This is error: ", err);
     }
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "http://localhost:3001/api/user/checkuser";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -248,7 +263,31 @@ function BookAppointment({ room }: { room: any }) {
     }
   }
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
+    if (date && selectedTimeSlot && message) {
+      if (
+        checkFacebookurl &&
+        checkGender &&
+        checkGradeLevel &&
+        checkMajor &&
+        checkPhone
+      ) {
+        if (checkAppointmented) {
+          await handleShowAppointmented();
+        } else {
+
+          setIsConfirmationModalOpen(true);
+
+        }
+      } else {
+        await handleShow();
+      }
+    }
+  };
+
+
+
+  async function confirmhandleSubmit() {
     if (date && selectedTimeSlot && message) {
       const formattedDate = formatDate(date);
       const [startHour, startMinute] = selectedTimeSlot
@@ -259,53 +298,39 @@ function BookAppointment({ room }: { room: any }) {
       const start_datetime = `${formattedDate}T${startHour}:${startMinute}:00+07:00`;
       const end_datetime = `${formattedDate}T${endHour}:${endMinute}:00+07:00`;
 
-      if (
-        checkFacebookurl &&
-        checkGender &&
-        checkGradeLevel &&
-        checkMajor &&
-        checkPhone
-      ) {
-        console.log("find", checkAppointmented);
+      setLoading(true); // เริ่มโหลด
 
-        if (checkAppointmented) {
-          handleShowAppointmented();
-        } else {
-          AddTimeAppointment(start_datetime, end_datetime, personId, message);
-          AddAppointmentGoogle(message, start_datetime, end_datetime);
-          setIsConfirmationModalOpen(true);
-        }
-      } else {
-        handleShow();
+      try {
+        await AddTimeAppointment(start_datetime, end_datetime, personId, message);
+        await AddAppointmentGoogle(message, start_datetime, end_datetime);
+        await fetchEvents();
+
+        router.push("/profile"); // ทำงานหลังจากทุกอย่างเสร็จสิ้น
+      } catch (error) {
+        console.error("Error while processing:", error);
+        // Handle error
+      } finally {
+        setLoading(false); // หยุดโหลดเมื่อทำทุกอย่างเสร็จ
       }
     }
-  };
+  }
+
 
   const appointment = async (studentid: string) => {
     const currentDateTime = new Date();
     try {
       const response = await axios.put(
-        "http://localhost:3001/api/appointment/checkappointment",
+        "https://entaneermindbackend.onrender.com/api/appointment/checkappointment",
         { studentid }
       );
       // Check if response.data is null or undefined
       if (response.data && response.data.length > 0) {
-        const latestApppoint = response.data[0].start_datetime || null;
-
-        if (latestApppoint) {
-          const appointmentDateTime = new Date(latestApppoint);
-          if (appointmentDateTime > currentDateTime) {
-            setCheckAppointmented(true);
-          } else {
-            setCheckAppointmented(false);
-          }
-        } else {
-          setCheckAppointmented(false);
-        }
+        setCheckAppointmented(true)
       } else {
         // Handle the case where response.data is null or empty
         setCheckAppointmented(false);
       }
+
     } catch (error) {
       console.log("Can't get appointment", error);
     }
@@ -313,18 +338,36 @@ function BookAppointment({ room }: { room: any }) {
 
   function getPersonId(studentId: string) {
     axios
-      .post("http://localhost:3001/api/user/checkuser", { studentId })
+      .post("https://entaneermindbackend.onrender.com/api/user/checkuser", { studentId })
       .then((response) => {
         setPersonId(response.data[0].personid);
       })
       .catch((error) => console.log("getPersonId fail: ", error));
   }
 
+  const fetchEvents = async () => {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
+
+    try {
+      await axios.get(apiUrl);
+    } catch (error) {
+      console.error(
+        "Oh no! An error has arisen from the depths of the internet:",
+        error
+      );
+    }
+  };
+
   useEffect(() => {
     getdatausers();
     getEvents();
     setCurrentTime(nowInThailand.format("YYYY-MM-DD HH:mm:ss"));
   }, []);
+
+  if (loading) {
+    return <Loading />; // Loading message or spinner
+  }
+
 
   return (
     <>
@@ -337,15 +380,15 @@ function BookAppointment({ room }: { room: any }) {
             จองคิวนัดปรึกษาที่ห้อง {room}
           </Button>
         </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Book Appointment</DialogTitle>
+        <DialogContent className="overflow-y-auto max-h-[80vh] px-4 py-6 rounded-lg shadow-lg">
+          <DialogHeader >
+            <DialogTitle>จองนัดรับบริการ</DialogTitle>
             <DialogDescription>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-3 items-baseline">
                   <h2 className="flex gap-2 mt-2 mb-1">
                     <CalendarDays className="text-primary h-5 w-5" />
-                    Select Date
+                    เลือกวัน
                   </h2>
                   <div>
                     <Calendar
@@ -363,7 +406,7 @@ function BookAppointment({ room }: { room: any }) {
                   <div className="mt-1 md:mt-0">
                     <h2 className="flex gap-2 items-center mb-3">
                       <Clock className="text-primary h-5 w-5" />
-                      Select Time Slot
+                      เลือกเวลา
                     </h2>
                     <div className="grid grid-cols-3 gap-2 border rounded-lg p-5">
                       {freeTimeSlots.map((timeSlot, index) => {
@@ -377,13 +420,12 @@ function BookAppointment({ room }: { room: any }) {
                             onClick={() =>
                               isAvailable && setSelectedTimeSlot(timeSlot)
                             }
-                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${
-                              selectedTimeSlot === timeSlot
-                                ? "bg-green-500 text-white"
-                                : !isAvailable
+                            className={`grid p-2 border rounded-lg justify-items-center cursor-pointer ${selectedTimeSlot === timeSlot
+                              ? "bg-green-500 text-white"
+                              : !isAvailable
                                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 : ""
-                            }`}
+                              }`}
                             key={index}
                           >
                             {timeSlot}
@@ -394,10 +436,10 @@ function BookAppointment({ room }: { room: any }) {
                   </div>
                   <div className="grid w-full gap-1.5">
                     <div className="mt-3">
-                      <Label htmlFor="message-2">Your Message</Label>
+                      <Label htmlFor="message-2">หัวข้อที่ต้องการพูดคุย</Label>
                       <Textarea
                         className="mt-3"
-                        placeholder="Type your message here."
+                        placeholder="รายละเอียด..."
                         id="message-2"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
@@ -408,24 +450,24 @@ function BookAppointment({ room }: { room: any }) {
               </div>
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="sm:justify-end">
+          <DialogFooter className="sm:justify-end ">
             <DialogClose asChild>
               <Button
-                className="text-red-500 border-red-500 hover:bg-[#ffffff] "
+                className="text-red-500 border-red-500 hover:bg-[#ffffff] mt-4"
                 type="button"
                 variant="outline"
               >
-                Close
+                ปิด
               </Button>
             </DialogClose>
 
             <Button
-              className="bg-blue-500 text-white border-blue-500"
+              className="bg-blue-500 text-white border-blue-500 mt-4"
               type="button"
               disabled={!(date && selectedTimeSlot && message)}
               onClick={handleSubmit}
             >
-              Submit
+              ยืนยัน
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -438,21 +480,21 @@ function BookAppointment({ room }: { room: any }) {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Confirmation</DialogTitle>
+              <DialogTitle>ยืนยันนัดหมาย</DialogTitle>
               <DialogDescription>
-                Your appointment has been booked for{" "}
+                คุณได้ทำการนัดรับบริการวันที่{" "}
                 {date?.toLocaleDateString()} at {selectedTimeSlot}.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="sm:justify-end">
-              <Link href="/profile">
-                <Button
-                  className="bg-blue-500 text-white border-blue-500"
-                  type="button"
-                >
-                  Submit
-                </Button>
-              </Link>
+              <Button
+                className="bg-blue-500 text-white border-blue-500 mt-4"
+                type="button"
+                disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
+                onClick={confirmhandleSubmit}
+              >
+                {loading ? "กำลังประมวลผล..." : "ยืนยัน"} 
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

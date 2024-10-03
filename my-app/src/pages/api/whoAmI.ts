@@ -32,10 +32,11 @@ export default async function handler(
     return res.status(404).json({ ok: false, message: "Invalid HTTP method" });
 
   const token = getCookie("cmu-oauth-example-token", { req, res });
+  
 
   //validate token
   if (typeof token !== "string")
-    return res.status(401).json({ ok: false, message: "Invalid token" });
+    return res.status(402).json({ ok: false, message: "Invalid token" });
 
 
   try {

@@ -106,7 +106,7 @@ export default async function handler(
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "1h", // Token will last for one hour only
+      expiresIn: "24h", // Token will last for one hour only
     }
   );
 
@@ -116,21 +116,20 @@ export default async function handler(
   setCookie("cmu-oauth-example-token", token, {
     req,
     res,
-    maxAge: 3600,
+    maxAge: 3600*24,
     //Set httpOnly to true so that client JavaScript cannot read or modify token
     //And the created token can be read by server side only
-    httpOnly: true,
-    sameSite: "lax",
-    //force cookie to use HTTPS only in production code
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
+    // httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+
+    // path: "/",
     //change to your hostname in production
-    domain: "localhost",
+    // domain: "localhost",
   });
 
   return res.json({ ok: true });
 }
-
 
 
 

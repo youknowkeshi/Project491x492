@@ -15,6 +15,7 @@ export default function Page({ }: Props) {
   const [endTime, setEndTime] = useState("-");
   const [personId, setPersonId] = useState("");
   const [description, setDescription] = useState("");
+  const [room, setRoom] = useState("-");
 
   const handlestarttimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStartTime(event.target.value);
@@ -22,6 +23,10 @@ export default function Page({ }: Props) {
 
   const handleendtimeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setEndTime(event.target.value);
+  };
+
+  const handleroomChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoom(event.target.value);
   };
 
   const handledescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,16 +47,18 @@ export default function Page({ }: Props) {
   async function getdata() {
     const apiurl = `/api/register`;
     const response = await axios.get(apiurl);
-    const cmuaccount = response.data.cmuAccount;
+    const cmuAccount = response.data.cmuAccount;
     axios
-      .put("http://localhost:3001/api/admin/checkadmin", { cmuaccount }).then((response) => {
+      .put("https://entaneermindbackend.onrender.com/api/admin/checkadmin", { cmuAccount }).then((response) => {
         setPersonId(response.data[0].personid);
       });
   }
 
-  async function closetimeslot(start_datetime: string, end_datetime: string, personid: string) {
-    const apiurl = `http://localhost:3001/api/admin/closetimeslot`;
-    axios.post(apiurl, { start_datetime, end_datetime, personid });
+  async function closetimeslot(start_datetime: string, end_datetime: string, personid: string,room:string) {
+    const apiurl = `https://entaneermindbackend.onrender.com/api/admin/closetimeslot`;
+    axios.post(apiurl, { start_datetime, end_datetime, personid ,room});
+   
+    
   }
 
   async function AddAppointmentGoogle(
@@ -59,7 +66,20 @@ export default function Page({ }: Props) {
     startDateTime: string,
     endDateTime: string
   ) {
-    const apiUrl = "/api/createevents";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent";
+    try {
+      await axios.post(apiUrl, { description, startDateTime, endDateTime });
+    } catch (error) {
+      console.log("Can't add appointment to googlecalendar : ", error);
+    }
+  }
+
+  async function AddAppointmentGoogle2(
+    description: string,
+    startDateTime: string,
+    endDateTime: string
+  ) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/createevent2";
     try {
       await axios.post(apiUrl, { description, startDateTime, endDateTime });
     } catch (error) {
@@ -68,12 +88,26 @@ export default function Page({ }: Props) {
   }
 
   const submit = () => {
-    if (startDate && endDate) {
-      closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId);
-      AddAppointmentGoogle(description,formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
-    } else {
-      alert("Please select both start and end dates.");
+    if(room === 'conseling_room1'){
+      if (startDate && endDate) {
+        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
+        AddAppointmentGoogle(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        window.location.reload();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    }else if(room === 'conseling_room2'){
+      if (startDate && endDate) {
+        closetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), personId,room);
+        AddAppointmentGoogle2(description, formatDateTime(startDate, startTime), formatDateTime(endDate, endTime))
+        window.location.reload();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    }else{
+      alert("Please select room.");
     }
+   
   }
 
   useEffect(() => {
@@ -88,28 +122,13 @@ export default function Page({ }: Props) {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-indigo-700">
               Appointment
+              
             </h1>
           </div>
         </header>
         <main>
-          <div className="w-screen">
-            <div className="relative mx-auto mt-10 mb-10 max-w-screen-lg overflow-hidden rounded-xl bg-indigo-700 py-32 text-center shadow-xl shadow-gray-300">
-              <h1 className="mt-2 px-8 text-3xl font-bold text-white md:text-5xl">
-                Book an appointment
-              </h1>
-              <p className="mt-6 text-lg text-white">
-                Get an appointment with our experienced accountants
-              </p>
-              <img
-                className="absolute top-0 left-0 -z-10 h-full w-full object-cover"
-                src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                alt=""
-              />
-            </div>
-          </div>
-
-          <div className="mx-auto grid max-w-screen-lg  pb-10">
-            <p className=" text-xl font-bold text-blue-900">Select a date</p>
+          <div className="mx-auto grid max-w-screen-lg  pb-10 mt-10">
+            <p className=" text-xl font-bold text-blue-900">เลือกวัน</p>
             <div className="relative mt-4">
               <DatePicker
                 startDate={startDate}
@@ -150,14 +169,32 @@ export default function Page({ }: Props) {
                   onChange={handleendtimeChange}
                 >
                   <option value="-"> - </option>
-                  <option value="9:00:00+07:00">9:00 น.</option>
+
                   <option value="10:00:00+07:00">10:00 น.</option>
                   <option value="11:00:00+07:00">11:00 น.</option>
                   <option value="13:00:00+07:00">13:00 น.</option>
                   <option value="14:00:00+07:00">14:00 น.</option>
                   <option value="15:00:00+07:00">15:00 น.</option>
+                  <option value="16:00:00+07:00">16:00 น.</option>
                 </Select>
               </div>
+            </div>
+
+            <div className="max-w-md mt-1">
+              <div className="mb-1 block">
+                <Label htmlFor="ห้องที่ต้องการปิด" value="ห้องที่ต้องการปิด" />
+              </div>
+              <Select
+                id="ห้องที่ต้องการปิด"
+                required
+                onChange={handleroomChange}
+              >
+                <option value="-"> - </option>
+
+                <option value="conseling_room1">ห้องที่ 1</option>
+                <option value="conseling_room2">ห้องที่ 2</option>
+
+              </Select>
             </div>
 
             <div className="max-w-md mt-3 ">
@@ -175,6 +212,8 @@ export default function Page({ }: Props) {
               />
 
             </div>
+
+
             <div className="text-center">
               <Button className="mt-7 bg-indigo-700" onClick={submit}>Submit</Button>
             </div>

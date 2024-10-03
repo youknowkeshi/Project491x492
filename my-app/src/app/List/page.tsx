@@ -2,7 +2,6 @@
 import * as React from "react";
 import { Button, Card, Modal } from "flowbite-react";
 import { useState } from "react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
@@ -16,51 +15,176 @@ import { CalendarIcon } from "lucide-react";
 import axios from "axios";
 import moment from 'moment-timezone';
 import { Navbaradmin } from "../component/Navbaradmin";
-import  loading  from "../loading"
+import { useRouter } from 'next/navigation'; // นำเข้า useRouter
+
 
 type Props = {};
 
-// interface details {
-//   details_consultation: string
-//   start_datetime: string
-// }
 
 export default function Page({ }: Props) {
   const [openModal, setOpenModal] = useState(false);
+  const handleShow = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [informationUsers, setInformationUsers] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const nowInThailand = moment().tz('Asia/Bangkok').format('YYYY-MM-DD');
   const [pastDetail, setPastDetail] = useState("")
+  const [idcancel, setidcancel] = useState("");
+  const [startCancle, setStartCancle] = useState("");
+  const [endCancle, setEndCancle] = useState("");
+  const [roomCancle, setRoomCancle] = useState("");
+  const [facebookCancle, setFaceboolCancle] = useState("");
+  const [nameCancle, setNameCancle] = useState("");
+
+  const router = useRouter(); // ใช้ useRouter เพื่อทำการเปลี่ยนเส้นทาง
+
+
 
   async function informationUser(selectedDate: Date) {
-    const apiUrl = "http://localhost:3001/api/infor/list";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/infor/list";
     try {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
       });
-      setInformationUsers(response.data);
+      if (response.data.length > 0) {
+        setInformationUsers(response.data);
+      } else {
+        setInformationUsers([])
+      }
+
+
     } catch (error) {
       console.log("Can't get information users");
     }
   }
 
+
+
   async function detailUser(studentid: string, selectdete: string) {
-    const apiUrl = "http://localhost:3001/api/infor/listdetail";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/infor/listdetail";
     try {
       const response = await axios.post(apiUrl, {
         studentid
       });
-      console.log(response.data);
-      
-      setPastDetail(response.data[0].details_consultation)
-     
+
+
+      if (response.data[0]) {
+        setPastDetail(response.data[0].details_consultation)
+      }
+
+
 
       // setPastDetail(response.data[1]?.details_consultation || '');
     } catch (error) {
       console.log("Can't get information users");
     }
   }
+
+  async function DeleteEvents(event_id: string) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/cancel";
+    try {
+      await axios.delete(apiUrl, {
+        data: { event_id },
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEvents2(event_id: string) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/cancel";
+    try {
+      await axios.delete(apiUrl, {
+        data: { event_id },
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEventsCalendar(event_id: string) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent";
+    try {
+      await axios.put(apiUrl, {
+        event_id,
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function DeleteEventsCalendar2(event_id: string) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent2";
+    try {
+      await axios.put(apiUrl, {
+        event_id,
+      });
+    } catch (error) {
+      console.log("Can't Delete Event ", error);
+    }
+  }
+
+  async function GetEventIdCalendar(
+    start_datetime: string,
+    end_datetime: string,
+    room: string
+  ) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/getidcalendar";
+    try {
+      const response = await axios.put(apiUrl, {
+        start_datetime,
+        end_datetime,
+        room,
+      });
+      const eventsid = response.data[0].event_id;
+      if (eventsid) {
+
+
+        DeleteEventsCalendar(eventsid);
+      }
+    } catch (error) {
+      console.log("Can't GET EventId ", error);
+    }
+  }
+
+  async function GetEventIdCalendar2(
+    start_datetime: string,
+    end_datetime: string,
+    room: string
+  ) {
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/getidcalendar";
+    try {
+      const response = await axios.put(apiUrl, {
+        start_datetime,
+        end_datetime,
+        room,
+      });
+      const eventsid = response.data[0].event_id;
+      if (eventsid) {
+        DeleteEventsCalendar2(eventsid);
+      }
+    } catch (error) {
+      console.log("Can't GET EventId ", error);
+    }
+  }
+
+  const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
+
+    if (room === 'conseling_room1') {
+      await GetEventIdCalendar(start_datetime, end_datetime, room);
+      await DeleteEvents(event_id);
+      await window.location.reload();
+    } else if (room === "conseling_room2") {
+      await GetEventIdCalendar2(start_datetime, end_datetime, room);
+      await DeleteEvents2(event_id);
+      await window.location.reload();
+    }
+
+    // GetEventIdCalendar(start_datetime, end_datetime);
+    // await DeleteEvents(event_id);
+    // window.location.reload()
+  };
 
   const handleSelectDate = (selectedDate: Date | undefined) => {
     if (selectedDate) {
@@ -79,8 +203,19 @@ export default function Page({ }: Props) {
     setPastDetail("");
   };
 
+  // ส่วนของปุ่ม room 1 และ room 2
+  const handleRoom1Click = () => {
+    router.push("/List"); // เปลี่ยนเส้นทางไปที่ /List
+  };
+
+  const handleRoom2Click = () => {
+    router.push("/List2"); // เปลี่ยนเส้นทางไปที่ /List2
+  };
+
   React.useEffect(() => {
     informationUser(new Date(nowInThailand))
+
+    
   }, [])
 
   return (
@@ -94,7 +229,26 @@ export default function Page({ }: Props) {
         </div>
       </header>
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        {/* <div className="flex items-center justify-start space-x-5">
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3] w-30"
+            type="button">
+            room 1
+          </Button>
+
+         
+
+          <Button
+            className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3] w-30"
+            type="button">
+            room 2
+          </Button>
+        </div> */}
+
+
+
         <div className="flex flex-row mt-7 gap-7">
+
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -106,7 +260,7 @@ export default function Page({ }: Props) {
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {date ? format(date, "PPP") : <span>เลือกวัน</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -129,21 +283,27 @@ export default function Page({ }: Props) {
               className="border-r-4 border-l-4 border-x-cyan-300 mt-11 mb-4 p-4 relative"
             >
               <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Time: {format(new Date(user.start_datetime), "HH:mm")} -{" "}
+                เวลา : {format(new Date(user.start_datetime), "HH:mm")} -{" "}
                 {format(new Date(user.end_datetime), "HH:mm")}
               </h5>
               <hr />
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Name: {user.firstname_lastname}
+                ชื่อ : {user.firstname_lastname}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Student ID: {user.studentid}
+                รหัสนักศึกษา : {user.studentid}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Major: {user.major}
+                เมเจอร์ : {user.major}
               </p>
               <p className="font-normal text-gray-700 dark:text-gray-400">
                 หัวข้อที่ต้องการพูดคุย : {user.topic}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                ชื่อ facebook : {user.facebookurl}
+              </p>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                ห้องให้คำปรึกษาที่ : {user.room}
               </p>
               <div className="flex flex-row gap-4 absolute bottom-4 right-4">
                 <Button
@@ -151,38 +311,54 @@ export default function Page({ }: Props) {
                   gradientDuoTone="cyanToBlue"
                   onClick={() => handleOpenModal2(user)}
                 >
-                  Details
+                  รายละเอียด
                 </Button>
                 <Button
                   gradientMonochrome="failure"
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setidcancel(user.event_id);
+                    setStartCancle(user.start_datetime);
+                    setEndCancle(user.end_datetime);
+                    setRoomCancle(user.room);
+                    setFaceboolCancle(user.facebookurl)
+                    setNameCancle(user.firstname_lastname)
+                    // ตั้งค่าเปิด Modal หลังจากตั้งค่าทั้งหมด
+                    handleShow();
+                  }}
                 >
-                  Cancel
+                  ยกเลิกนัด
                 </Button>
               </div>
               <Modal
-                show={openModal}
-                size="md"
-                onClose={() => setOpenModal(false)}
-                popup
+                dismissible
+                show={!!openModal}
               >
                 <Modal.Header />
                 <Modal.Body>
-                  <div className="text-center">
-                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Are you sure you want to delete this product?
-                    </h3>
-                    <div className="flex justify-center gap-4">
-                      <Button color="failure" onClick={() => setOpenModal(false)}>
-                        {"Yes, I'm sure"}
-                      </Button>
-                      <Button color="gray" onClick={() => setOpenModal(false)}>
-                        No, cancel
-                      </Button>
-                    </div>
+                  <div className="space-y-6">
+                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                      หากคุณต้องการยกเลิกนัดโปรดติดต่อที่ facebook ของ {nameCancle} ก่อน{" "}
+                      <a
+                        href={`https://www.facebook.com/${facebookCancle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        https://www.facebook.com/{facebookCancle}
+                      </a>
+                    </p>
                   </div>
                 </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    onClick={() => handleCancel(startCancle, endCancle, idcancel, roomCancle)}
+                    color="failure"
+                  >
+                    ยืนยัน
+                  </Button>
+                  <Button onClick={handleClose}
+                    color="gray">ปิด</Button>
+                </Modal.Footer>
               </Modal>
             </Card>
           ))
@@ -200,7 +376,7 @@ export default function Page({ }: Props) {
             </Modal.Body>
             <Modal.Footer>
               <Button gradientMonochrome="failure" onClick={handleCloseModal2}>
-                Close
+                ปิด
               </Button>
             </Modal.Footer>
           </Modal>

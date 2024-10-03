@@ -22,18 +22,24 @@ export function Nav() {
                     หน้าแรก
                   </a>
                   <a
-                    href="/Evaluationform"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    href="/EvaluationformGuest"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
                     aria-current="page"
                   >
                     แบบประเมิน
                   </a>
+<<<<<<< HEAD
                   <a
                     href="/article"
                     className="rounded-md px-3 py-2 text-sm font-semibold text-black hover:bg-[#8FC1E3] hover:text-zinc-100"
+=======
+                  {/* <a
+                    href="/articleguest"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+>>>>>>> origin/main
                   >
                     บทความ
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
@@ -57,12 +63,14 @@ export function Nav() {
               แบบประเมิน
             </a>
 
-            <a
+            {/* <a
               href="/artical"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
             >
               บทความ
-            </a>
+            </a> */}
+
+
           </div>
         </div>
       </nav>

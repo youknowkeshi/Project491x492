@@ -4,7 +4,11 @@ import uniqueString from "unique-string";
 import { Carousel } from "flowbite-react";
 import axios from "axios";
 import { Navbaradmin } from "../component/Navbaradmin";
+<<<<<<< HEAD
 import { Foot } from "../component/Footer";
+=======
+import { Button } from "@/components/ui/button";
+>>>>>>> origin/main
 
 export default function MePage() {
   const [generatedString, setGeneratedString] = useState("");
@@ -12,7 +16,9 @@ export default function MePage() {
 
   const generateNewString = () => {
     const code = uniqueString();
-    setGeneratedString(code);
+    setGeneratedString(`${code}`);
+
+
     setCopySuccess("");
     addAccessCode(code);
   };
@@ -27,7 +33,7 @@ export default function MePage() {
   };
 
   async function addAccessCode(accesscode: string) {
-    const apiUrl = "http://localhost:3001/api/accesscode/insertaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/insertaccesscode";
     try {
       await axios.post(apiUrl, { accesscode });
     } catch (error) {
@@ -36,7 +42,7 @@ export default function MePage() {
   }
 
   async function deleteAccessCode() {
-    const apiUrl = "http://localhost:3001/api/accesscode/deleteautoaccesscode";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -51,6 +57,7 @@ export default function MePage() {
   return (
     <>
       <Navbaradmin />
+<<<<<<< HEAD
       <div className="rounded p-8 h-16 sm:h-24 xl:h-30 2xl:h-36 mb-7">
         <div className="grid shadow-xl border-spacing-10 bg-white rounded-lg p-7 mb-7 bg-gradient-to-r from-cyan-200 to-blue-400">
           <div className="container mx-auto flex justify-center w-full h-full">
@@ -96,9 +103,44 @@ export default function MePage() {
               <p className="mt-2 text-green-700">{copySuccess}</p>
             )}
           </div>
+=======
+      <div className="rounded p-8">
+        <h2 className="text-2xl mb-7 mt-7">สร้างรหัสรับบริการสำหรับผู้รับบริการใหม่</h2>
+        <Button
+          onClick={generateNewString}
+          className="text-white bg-[#5044e4] from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-7"
+        >
+          Generate
+        </Button>
+        <hr className="border-gray-400 mb-8" />
+        <div className="flex flex-col items-start">
+          <p className="text-lg mb-8">
+            รหัสรับบริการของผู้รับบริการใหม่:{" "}
+            <a
+              className="text-blue-600 underline"
+            >
+              {generatedString}
+            </a>
+          </p>
+          <button onClick={copyToClipboard}>
+            <svg
+              className="h-8 w-8 text-teal-700"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+          {copySuccess && <p className="mt-2 text-green-500">{copySuccess}</p>}
+>>>>>>> origin/main
         </div>
         <Foot />
       </div>
     </>
   );
-}
+}  

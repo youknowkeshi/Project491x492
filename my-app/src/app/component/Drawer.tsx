@@ -12,14 +12,14 @@ import { PiStudent } from "react-icons/pi";
 import { FaWpforms } from "react-icons/fa6";
 
 export function ComponentDrawer() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
 
   return (
     <>
       <div className="flex items-center justify-end mr-10">
-        <Button className="bg-[#5044e4]" onClick={() => setIsOpen(true)}>Show Menu</Button>
+        <Button className="bg-[#5044e4]" onClick={() => setIsOpen(true)}>แสดงรูปแบบกราฟ</Button>
       </div>
       <Drawer backdrop={false} open={isOpen} onClose={handleClose}>
         <Drawer.Header title="รูปแบบของกราฟ" titleIcon={FaChartBar} />
@@ -57,9 +57,7 @@ export function ComponentDrawer() {
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
-                    {/* <Sidebar.Item href="https://github.com/themesberg/flowbite-react/" icon={HiClipboard}>
-                      Docs
-                    </Sidebar.Item> */}
+
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
               </div>

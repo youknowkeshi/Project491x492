@@ -33,7 +33,7 @@ export default function DemoPage() {
   const [information, setInformation] = useState<Information[]>([]);
 
   async function fetchData() {
-    const apiUrl = `http://localhost:3001/api/infor/getinformationusers`;
+    const apiUrl = `https://entaneermindbackend.onrender.com/api/infor/getinformationusers`;
     try {
       const response = await axios.get(apiUrl);
 
@@ -42,7 +42,7 @@ export default function DemoPage() {
         ...item,
         start_datetime: formatDatetime(item.start_datetime),
       }));
-
+      
       setInformation(formattedData);
     } catch (error) {
       console.log(error);

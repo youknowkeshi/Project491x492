@@ -26,6 +26,17 @@ export function DatePicker({
   endDate,
   setEndDate,
 }: StartDatePickerProps) {
+
+  const isPastDay = (day: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return day < today;
+  };
+
+  const isWeekend = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    return dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
+  };
   return (
     <div className="flex gap-0">
       <Popover>
@@ -51,6 +62,9 @@ export function DatePicker({
             selected={startDate}
             onSelect={setStartDate}
             initialFocus
+            disabled={(day) =>
+              isPastDay(day) || isWeekend(day) 
+            }
           />
         </PopoverContent>
       </Popover>
@@ -75,6 +89,9 @@ export function DatePicker({
             selected={endDate}
             onSelect={setEndDate}
             initialFocus
+            disabled={(day) =>
+              isPastDay(day) || isWeekend(day) 
+            }
           />
         </PopoverContent>
       </Popover>
