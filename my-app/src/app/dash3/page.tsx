@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 import { Foot } from "../component/Footer";
 
 type Props = {};
 
-export default function page({}: Props) {
+export default function page({ }: Props) {
   const callouts = [
     {
       name: "Desk and Office",
@@ -72,13 +72,13 @@ export default function page({}: Props) {
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                       <a
-                        href="#"
+                        href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
                         className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-[#bbd9ee] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         Log in
                       </a>
                       <a
-                        href="#"
+                        href="#register"
                         className="text-sm font-semibold leading-6 text-gray-900"
                       >
                         วิธีการลงทะเบียน <span aria-hidden="true">→</span>
@@ -97,11 +97,13 @@ export default function page({}: Props) {
                         {callouts.map((callout) => (
                           <div key={callout.name} className="group relative">
                             <div className="relative h-80 w-full overflow-hidden rounded-lg bg-transparent  sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 ">
-                              <img
+                             <a href={callout.href}>
+                             <img
                                 alt={callout.imageAlt}
                                 src={callout.imageSrc}
                                 className="h-full w-full object-cover object-center "
                               />
+                             </a>
                             </div>
                             <h3 className="mt-6 text-sm text-gray-500"></h3>
                             <p className="text-base font-semibold text-gray-900 flex justify-center">
@@ -118,7 +120,7 @@ export default function page({}: Props) {
           </div>
           <section className="dark:bg-gray-100 dark:text-gray-800 mt-7">
             <div className="container mx-auto flex flex-col p-6">
-              <h2 className="py-4 text-3xl font-bold text-center">
+              <h2  id="register" className="py-4 text-3xl font-bold text-center">
                 วิธีการจองสำหรับรับบริการครั้งแรก
               </h2>
               <div className="divide-y dark:divide-gray-300">
@@ -222,8 +224,8 @@ export default function page({}: Props) {
                     </span>
                     <span className="mt-2 dark:text-gray-700">
                       ผู้ใช้บริการสามารถเช็คการจองโดยไปที่เมนู ประวัติการจอง
-                      โดยก่อนวันนัด 1 วันจะมีเมลไปแจ้งเตือนผ่าน Gmail หรือ
-                      Outlook{" "}
+                      {/* โดยก่อนวันนัด 1 วันจะมีเมลไปแจ้งเตือนผ่าน Gmail หรือ
+                      Outlook{" "} */}
                     </span>
                   </div>
                 </div>

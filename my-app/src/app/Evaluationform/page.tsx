@@ -4,7 +4,7 @@ import { Button, Card } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 
 type Props = {};
 

@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useRouter ,useSearchParams } from "next/navigation";
 import axios from "axios";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 import { Foot } from "../component/Footer";
 import { Button } from "@/components/ui/button";
 import { HiOutlineExclamationCircle } from "react-icons/hi";

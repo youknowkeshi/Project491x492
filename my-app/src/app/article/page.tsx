@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 import { Carousel } from "flowbite-react";
 import axios from "axios";
 import { Button } from "flowbite-react";

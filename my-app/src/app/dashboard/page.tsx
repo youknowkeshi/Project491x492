@@ -2,7 +2,7 @@
 import React from "react";
 import { Carousel ,  Modal} from "flowbite-react";
 import { Foot } from "../component/Footer";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 
 export default function DashBoard() {
   return (

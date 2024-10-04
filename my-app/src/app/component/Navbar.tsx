@@ -29,40 +29,40 @@ export function Navbar() {
                 <div className="ml-10 flex items-baseline space-x-4">
 
                   <a
-                    href="/dashboard"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    href="/dash3"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
                     href="/register"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                   >
                     ลงทะเบียน
                   </a>
                   <a
                     href="/appointment"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                   >
                     จองคิว
                   </a>
                   <a
                     href="/profile"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                   >
                     ประวัติการพบนักจิตทางคณะ
                   </a>
                   <a
                     href="/Evaluationform"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                     aria-current="page"
                   >
                     แบบประเมิน
                   </a>
                   {/* <a
                     href="/article"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     บทความ
                   </a> */}
@@ -73,7 +73,7 @@ export function Navbar() {
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative ml-3">
                   <a
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-zinc-100"
+                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
                     role="menuitem"
                     tabIndex={-1}
                     id="user-menu-item-2"
@@ -137,7 +137,7 @@ export function Navbar() {
             <div className="mt-3 space-y-1 px-2">
 
               <a
-                className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-white"
                 onClick={signOut}
               >
                 ออกจากระบบ

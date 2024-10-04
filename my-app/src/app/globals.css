@@ -27,3 +27,7 @@
 .BaiJamjuree {
   font-family: var(--font-BaiJamjuree);
 }
+
+html {
+  scroll-behavior: smooth;
+}

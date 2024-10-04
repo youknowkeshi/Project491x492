@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BookingList from "./BookingList";
-import { Navbar } from "../component/์Navbar";
+import { Navbar } from "../component/Navbar";
 
 function Profile() {
   return (

@@ -123,7 +123,7 @@ export default function CMUOAuthCallback() {
   }
 
   function home() {
-    router.push("/dashboard");
+    router.push("/dash3");
   }
 
   function homeadmin() {

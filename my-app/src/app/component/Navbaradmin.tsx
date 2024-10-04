@@ -36,37 +36,37 @@ export function Navbaradmin() {
                 <div className="ml-10 flex items-baseline space-x-4">
                   <a
                     href="/List"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     รายการนัด
                   </a>
                   <a
                     href="/UserInfomation"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     ข้อมูลผู้รับบริการ
                   </a>
                   <a
                     href="/report"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     รายงานประจำเดือน
                   </a>
                   {/* <a
                     href="/articleadmin"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     บทความ
                   </a> */}
                   <a
                     href="/accessCode"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     รหัสสำหรับผู้เข้ารับบริการครั้งแรก
                   </a>
                   <a
                     href="/appointmentadmin"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                   >
                     ปิดเวลานัด
                   </a>
@@ -77,7 +77,7 @@ export function Navbaradmin() {
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative ml-3">
                   <a
-                    className="rounded-md px-3 py-2 text-md font-semibold text-zinc-100 hover:bg-[#8FC1E3] hover:text-zinc-100"
+                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                     onClick={signOut}
                   >
                     ออกจากระบบ
@@ -132,7 +132,7 @@ export function Navbaradmin() {
           <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="mt-3 space-y-1 px-2">
               <a
-                className="block rounded-md px-3 py-2 text-base font-medium text-zinc-100 hover:bg-[#8FC1E3] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-white"
                 onClick={signOut}
               >
                 ออกจากระบบ
