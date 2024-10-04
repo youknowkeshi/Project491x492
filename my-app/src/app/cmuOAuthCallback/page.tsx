@@ -70,6 +70,8 @@ export default function CMUOAuthCallback() {
               axios
                 .put("https://entaneermindbackend.onrender.com/api/user/checklogin", { studentId })
                 .then((response) => {
+                  // console.log(response.data);
+                  
                   if (organization_name == 'Faculty of Engineering') {
                     if (response.data) {
                       home();
@@ -119,7 +121,7 @@ export default function CMUOAuthCallback() {
   }
 
   function register() {
-    router.push("/register");
+    router.push("/policy");
   }
 
   function home() {
