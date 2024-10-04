@@ -177,7 +177,6 @@ export default function RegisterPage() {
       handleShowEmpty();
       setLoading(false)
     }
-    setAccessCodeCondition(false)
   };
 
   async function deleteAccessCode() {
