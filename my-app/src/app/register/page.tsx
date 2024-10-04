@@ -40,7 +40,7 @@ export default function RegisterPage() {
   //if user not use accesscode for admin
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
-  const handleCloseAccessCode = () => setShowModalAccessCode(false) ;
+  const handleCloseAccessCode = () => setShowModalAccessCode(false);
 
   //if empty text
   const [showModalEmpty, setShowModalEmpty] = useState(false);
@@ -51,6 +51,7 @@ export default function RegisterPage() {
   const idCode: string = searchParams ? searchParams.get("id") || "" : "";
 
   const [accessCodeCondition, setAccessCodeCondition] = useState(true);
+  const handleAccessCodeCondition = () => setAccessCodeCondition(true);
   const [loading, setLoading] = useState(false);
 
   async function updatedataUsers(
@@ -142,9 +143,11 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = async () => {
-    checkAccessCode(Id)
     setLoading(true)
+   
+
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
+    
       if (
         checkFacebookurl &&
         checkGender &&
@@ -152,14 +155,13 @@ export default function RegisterPage() {
         checkMajor &&
         checkPhone
       ) {
-        handleShow();
+        await handleShow();
         setLoading(false)
       } else if (accessCodeCondition) {
         await handleShowAccessCode()
-        await window.location.reload();
         setLoading(false)
       } else {
-        updatedataUsers(
+        await updatedataUsers(
           Id,
           studentId,
           phone,
@@ -170,8 +172,9 @@ export default function RegisterPage() {
         ).then(() => {
           afterUseAccesscode(Id);
           appointment();
-          setLoading(false)
+
         });
+        setLoading(false)
       }
 
     } else {
@@ -205,9 +208,10 @@ export default function RegisterPage() {
       "https://entaneermindbackend.onrender.com/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
-      const count = response.data.length;
 
-      if (count > 0) {
+
+      if (response.data[0]) {
+        console.log(response.data);
         setAccessCodeCondition(false);
       }
     } catch (error) {
@@ -218,6 +222,7 @@ export default function RegisterPage() {
   useEffect(() => {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
+    checkAccessCode(Id)
   }, [Id]);
 
   return (
@@ -410,10 +415,10 @@ export default function RegisterPage() {
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();
-                              
+
                             }}
                           >
-                            {loading ? "กำลังประมวลผล..." : "ลงทะเบียน"} 
+                            {loading ? "กำลังประมวลผล..." : "ลงทะเบียน"}
                           </button>
 
                           {/* Condition for registered */}
@@ -439,7 +444,10 @@ export default function RegisterPage() {
                           <Modal
                             dismissible
                             show={!!showModalAccessCode}
-                            onClose={handleCloseAccessCode}
+                            onClose={() => {
+                              handleCloseAccessCode();
+                              handleAccessCodeCondition();
+                            }}
                           >
                             <Modal.Body>
                               <div className="space-y-6">
@@ -449,7 +457,10 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button onClick={ handleCloseAccessCode }>
+                              <Button onClick={() => {
+                                handleCloseAccessCode();
+                                handleAccessCodeCondition();
+                              }}>
                                 Close
                               </Button>
                             </Modal.Footer>
