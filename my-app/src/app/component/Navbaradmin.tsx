@@ -92,39 +92,39 @@ export function Navbaradmin() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/List"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-blue"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-blue"
               // aria-current="page"
             >
               รายการนัด
             </a>
             <a
               href="/UserInfomation"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               ข้อมูลผู้รับบริการ
             </a>
             <a
               href="/report"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               จองคิว
             </a>
             <a
               href="/profile"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               รายงานประจำเดือน
             </a>
             <a
               href="/accessCode"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               รหัสสำหรับผู้เข้ารับบริการครั้งแรก
             </a>
 
             {/* <a
               href="/articleadmin"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               บทความ
             </a> */}
@@ -132,7 +132,7 @@ export function Navbaradmin() {
           <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="mt-3 space-y-1 px-2">
               <a
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                 onClick={signOut}
               >
                 ออกจากระบบ

@@ -71,12 +71,12 @@ export default function page({ }: Props) {
                       มหาวิทยาลัยเชียงใหม่
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                      <a
+                      {/* <a
                         href={process.env.NEXT_PUBLIC_CMU_OAUTH_URL}
                         className="rounded-md bg-[#8FC1E3] px-3.5 py-2.5 text-sm font-semibold text-white  hover:bg-[#bbd9ee] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         Log in
-                      </a>
+                      </a> */}
                       <a
                         href="#register"
                         className="text-sm font-semibold leading-6 text-gray-900"

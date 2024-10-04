@@ -44,7 +44,7 @@ export function Nav() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-blue"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-blue"
               // aria-current="page"
             >
               หน้าแรก
@@ -52,14 +52,14 @@ export function Nav() {
 
             <a
               href="/Evaluationform"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               แบบประเมิน
             </a>
 
             {/* <a
               href="/artical"
-              className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-[#8FC1E3] hover:text-white"
+              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               บทความ
             </a> */}
