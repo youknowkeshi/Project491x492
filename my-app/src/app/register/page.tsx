@@ -141,7 +141,7 @@ export default function RegisterPage() {
     router.push("/appointment");
   }
 
-  const handleSaveData = () => {
+  const handleSaveData = async () => {
     checkAccessCode(Id)
     setLoading(true)
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
@@ -155,7 +155,8 @@ export default function RegisterPage() {
         handleShow();
         setLoading(false)
       } else if (accessCodeCondition) {
-        handleShowAccessCode()
+        await handleShowAccessCode()
+        window.location.reload();
         setLoading(false)
       } else {
         updatedataUsers(
