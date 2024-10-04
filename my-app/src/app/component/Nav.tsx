@@ -51,7 +51,7 @@ export function Nav() {
             </a>
 
             <a
-              href="/Evaluationform"
+              href="/EvaluationformGuest"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               แบบประเมิน
