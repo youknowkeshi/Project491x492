@@ -90,7 +90,7 @@ export function Navbar() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/dashboard"
-              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-blue"
+              className=" block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-blue"
             >
               หน้าแรก
             </a>
