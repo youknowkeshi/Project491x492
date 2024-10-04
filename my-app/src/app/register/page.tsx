@@ -110,7 +110,6 @@ export default function RegisterPage() {
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
-    checkAccessCode(event.target.value);
   };
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,6 +144,7 @@ export default function RegisterPage() {
   const handleSaveData = () => {
     setLoading(true)
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
+      checkAccessCode(Id)
       if (
         checkFacebookurl &&
         checkGender &&
@@ -155,8 +155,7 @@ export default function RegisterPage() {
         handleShow();
         setLoading(false)
       } else if (accessCodeCondition) {
-        handleShowAccessCode();
-        setAccessCodeCondition(false)
+        handleShowAccessCode()
         setLoading(false)
       } else {
         updatedataUsers(
@@ -409,6 +408,7 @@ export default function RegisterPage() {
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();
+                              
                             }}
                           >
                             {loading ? "กำลังประมวลผล..." : "ลงทะเบียน"} 
