@@ -218,7 +218,7 @@ export default function RegisterPage() {
   useEffect(() => {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
-  }, []);
+  }, [Id]);
 
   return (
     <>
