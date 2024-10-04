@@ -156,7 +156,7 @@ export default function RegisterPage() {
         setLoading(false)
       } else if (accessCodeCondition) {
         await handleShowAccessCode()
-        window.location.reload();
+        await window.location.reload();
         setLoading(false)
       } else {
         updatedataUsers(
