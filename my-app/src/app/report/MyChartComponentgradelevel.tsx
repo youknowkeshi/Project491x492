@@ -68,7 +68,7 @@ const chartConfig: ChartConfig = {
     color: "#6B84F4",
   },
   bachelordegre: {
-    color: "#a6b5f8",
+    color: "#6B84F4",
   },
 };
 
@@ -116,7 +116,7 @@ export function MyChartComponentgradelevel({
           <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
           <div>
             <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+              เรียงลำดับ
             </Button>
           </div>
           <CardDescription>
@@ -213,10 +213,9 @@ export function MyChartComponentbachelordegre({
           <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
           <div>
             <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+              เรียงลำดับ
             </Button>
           </div>
-
           <CardDescription>
             {startDate && endDate && (
               <>

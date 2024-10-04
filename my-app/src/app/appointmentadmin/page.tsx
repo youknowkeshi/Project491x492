@@ -94,6 +94,8 @@ export default function Page({ }: Props) {
       if (result.data && result.data.length > 0) {
         await setCheckTime(result.data);  // ใช้ result.data เพื่อใส่ข้อมูลลงใน setCheckTime
         handleShow()
+      }else{
+        setIsConfirmationModalOpen(true)
       }
 
     } catch (error) {
@@ -167,7 +169,7 @@ export default function Page({ }: Props) {
   async function handleSubmit() {
     if (startDate && endDate && startTime && endTime && room && description) {
       checkclosetimeslot(formatDateTime(startDate, startTime), formatDateTime(endDate, endTime), room)
-      setIsConfirmationModalOpen(true)
+      
     } else {
       handleShowAppointmented();
     }
@@ -365,20 +367,19 @@ export default function Page({ }: Props) {
                   <p>โดยมีจำนวนนัด : {checkTime.length}</p>
                   {checkTime.length > 0 && (
                     <ul>
-                      {checkTime.map((time, index) => (
-                        <li key={index}>
-
-                          <strong>วันเวลา : </strong> {isCurrentAppointment(time.start_datetime)}
-                        </li>
-                      ))}
-                    </ul>
+                    {checkTime.slice(0, 10).map((time, index) => (
+                      <li key={index}>
+                        <strong>วันเวลา : </strong> {isCurrentAppointment(time.start_datetime)}
+                      </li>
+                    ))}
+                    {checkTime.length > 10 && <li>และรายการอื่น</li>}
+                  </ul>
                   )}
                 </p>
               </div>
             </Modal.Body>
             <Modal.Footer>
               <Button
-                // gradientMonochrome="failure"
                 onClick={handleClose}
               >
                 Close

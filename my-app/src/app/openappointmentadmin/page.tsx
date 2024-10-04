@@ -141,6 +141,15 @@ export default function Page({ }: Props) {
 
     };
 
+    const isCurrentAppointment = (start_datetime: string) => {
+        const [date, timeWithZone] = start_datetime.split('T');
+        const time = timeWithZone.substring(0, 5); 
+        const formattedTime = time.startsWith('0') ? time.slice(1) : time;
+        const finalTime = formattedTime.endsWith(':') ? formattedTime.slice(0, -1) : formattedTime;
+    
+        return `${date} ${finalTime}`;
+      };
+
     useEffect(() => {
         getclosetimeslot()
     })
@@ -164,18 +173,14 @@ export default function Page({ }: Props) {
                     closeTimeSlot.map((close, index) => (
                         <Card
                             key={index}
-                            className="border-r-4 border-l-4 border-x-cyan-300 mt-11 mb-4 p-4 relative"
+                            className="border-r-4 border-l-4  mt-11 mb-4 p-4 relative"
                         >
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                                {close.room}
+                               <strong> ห้องที่ปิด : </strong> {close.room}
                             </p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                                {close.start_datetime}
+                                <strong>วันเวลาที่ปิด : </strong> {isCurrentAppointment(close.start_datetime)} {"  "} ถึง {"  "} {isCurrentAppointment(close.end_datetime)}
                             </p>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">
-                                {close.end_datetime}
-                            </p>
-
                             <div className="flex flex-row gap-4 absolute bottom-4 right-4">
                                 <Button
                                     gradientMonochrome="failure"
@@ -189,7 +194,7 @@ export default function Page({ }: Props) {
                                         setIsConfirmationModalOpen(true);
                                     }}
                                 >
-                                    เปิดเวลารับบริการ
+                                    เปิดเวลารับบริการช่วงดังกล่าว
                                 </Button>
                             </div>
                         </Card>

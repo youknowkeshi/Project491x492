@@ -85,11 +85,7 @@ export function MyChartComponents({
 
   return (
     <div >
-       <div>
-          <Button onClick={toggleSort} className="bg-[#5044e4]" >
-        {isSorted ? "Sort Ascending" : "Sort Descending"}
-      </Button>
-      </div>
+      
 
       <Card style={{ margin: '10px 30px 0 0' }}>
         <CardHeader>

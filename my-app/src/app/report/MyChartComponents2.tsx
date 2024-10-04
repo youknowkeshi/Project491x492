@@ -91,7 +91,7 @@ export function MyChartComponentsList({
           <CardTitle>จำนวนผู้รับบริการแต่ละชนิดของสุขภาพจิต</CardTitle>
           <div>
             <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              {isSorted ? "Sort Ascending" : "เรียงลำดับ"}
+              เรียงลำดับ
             </Button>
           </div>
 
