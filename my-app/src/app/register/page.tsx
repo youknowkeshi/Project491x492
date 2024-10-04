@@ -51,6 +51,7 @@ export default function RegisterPage() {
   const idCode: string = searchParams ? searchParams.get("id") || "" : "";
 
   const [accessCodeCondition, setAccessCodeCondition] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function updatedataUsers(
     personid: string,
@@ -142,6 +143,7 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
+    setLoading(true)
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
       if (
         checkFacebookurl &&
@@ -151,8 +153,10 @@ export default function RegisterPage() {
         checkPhone
       ) {
         handleShow();
+        setLoading(false)
       } else if (accessCodeCondition) {
         handleShowAccessCode();
+        setLoading(false)
       } else {
         updatedataUsers(
           Id,
@@ -165,10 +169,12 @@ export default function RegisterPage() {
         ).then(() => {
           afterUseAccesscode(Id);
           appointment();
+          setLoading(false)
         });
       }
     } else {
       handleShowEmpty();
+      setLoading(false)
     }
   };
 
@@ -398,12 +404,13 @@ export default function RegisterPage() {
                         <div className="mt-7">
                           <button
                             className="w-full bg-[#8FC1E3] py-3 text-center text-white hover:bg-[#52a8e1]"
+                            disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();
                             }}
                           >
-                            Register Now
+                            {loading ? "กำลังประมวลผล..." : "ลงทะเบียน"} 
                           </button>
 
                           {/* Condition for registered */}
