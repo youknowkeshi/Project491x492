@@ -142,9 +142,9 @@ export default function RegisterPage() {
   }
 
   const handleSaveData = () => {
+    checkAccessCode(Id)
     setLoading(true)
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
-      checkAccessCode(Id)
       if (
         checkFacebookurl &&
         checkGender &&
@@ -172,10 +172,12 @@ export default function RegisterPage() {
           setLoading(false)
         });
       }
+
     } else {
       handleShowEmpty();
       setLoading(false)
     }
+    setAccessCodeCondition(false)
   };
 
   async function deleteAccessCode() {
