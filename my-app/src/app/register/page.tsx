@@ -281,7 +281,7 @@ export default function RegisterPage() {
                         <div className="mb-1 grid grid-cols-2 gap-5">
                           <TextInput
                             id="input-gray"
-                            placeholder="xxx-xxxxxxx"
+                            placeholder="โปรดกรอกเบอร์"
                             required
                             color="gray"
                             value={phone}
