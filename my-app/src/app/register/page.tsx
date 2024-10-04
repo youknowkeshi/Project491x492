@@ -50,7 +50,7 @@ export default function RegisterPage() {
   const searchParams = useSearchParams();
   const idCode: string = searchParams ? searchParams.get("id") || "" : "";
 
-  const [accessCodeCondition, setAccessCodeCondition] = useState(false);
+  const [accessCodeCondition, setAccessCodeCondition] = useState(true);
   const [loading, setLoading] = useState(false);
 
   async function updatedataUsers(
@@ -156,6 +156,7 @@ export default function RegisterPage() {
         setLoading(false)
       } else if (accessCodeCondition) {
         await handleShowAccessCode()
+        await window.location.reload();
         setLoading(false)
       } else {
         updatedataUsers(
@@ -206,8 +207,8 @@ export default function RegisterPage() {
       const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.length;
 
-      if (count == 0) {
-        setAccessCodeCondition(true);
+      if (count > 0) {
+        setAccessCodeCondition(false);
       }
     } catch (error) {
       console.log("Can't generate access code ", error);
