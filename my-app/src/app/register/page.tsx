@@ -40,7 +40,7 @@ export default function RegisterPage() {
   //if user not use accesscode for admin
   const [showModalAccessCode, setShowModalAccessCode] = useState(false);
   const handleShowAccessCode = () => setShowModalAccessCode(true);
-  const handleCloseAccessCode = () => setShowModalAccessCode(false);
+  const handleCloseAccessCode = () => setShowModalAccessCode(false) ;
 
   //if empty text
   const [showModalEmpty, setShowModalEmpty] = useState(false);
@@ -156,6 +156,7 @@ export default function RegisterPage() {
         setLoading(false)
       } else if (accessCodeCondition) {
         handleShowAccessCode();
+        setAccessCodeCondition(false)
         setLoading(false)
       } else {
         updatedataUsers(
@@ -446,7 +447,7 @@ export default function RegisterPage() {
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button onClick={handleCloseAccessCode}>
+                              <Button onClick={ handleCloseAccessCode }>
                                 Close
                               </Button>
                             </Modal.Footer>
