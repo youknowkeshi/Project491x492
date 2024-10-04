@@ -9,13 +9,12 @@ import {
   Modal,
 } from "flowbite-react";
 import React, { useState, useEffect } from "react";
-import { useRouter ,useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Navbar } from "../component/Navbar";
 import { Foot } from "../component/Footer";
 import { Button } from "@/components/ui/button";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -49,7 +48,7 @@ export default function RegisterPage() {
   const handleCloseEmpty = () => setShowModalEmpty(false);
 
   const searchParams = useSearchParams();
-  const idCode:string = searchParams ? searchParams.get("id") || "" : "";
+  const idCode: string = searchParams ? searchParams.get("id") || "" : "";
 
   const [accessCodeCondition, setAccessCodeCondition] = useState(false);
 
@@ -63,15 +62,18 @@ export default function RegisterPage() {
     gradelevel: string
   ) {
     try {
-      await axios.put("https://entaneermindbackend.onrender.com/api/user/firstlogin", {
-        personid,
-        studentId,
-        phone,
-        major,
-        gender,
-        facebookurl,
-        gradelevel,
-      });
+      await axios.put(
+        "https://entaneermindbackend.onrender.com/api/user/firstlogin",
+        {
+          personid,
+          studentId,
+          phone,
+          major,
+          gender,
+          facebookurl,
+          gradelevel,
+        }
+      );
     } catch (error) {
       console.log("This is error: ", error);
     }
@@ -89,7 +91,8 @@ export default function RegisterPage() {
   }
 
   async function checkregister(studentId: string) {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/user/checkuser";
+    const apiUrl =
+      "https://entaneermindbackend.onrender.com/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -170,7 +173,8 @@ export default function RegisterPage() {
   };
 
   async function deleteAccessCode() {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deleteautoaccesscode";
+    const apiUrl =
+      "https://entaneermindbackend.onrender.com/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -179,7 +183,8 @@ export default function RegisterPage() {
   }
 
   async function afterUseAccesscode(accesscode: string) {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/deletemulaccesscode";
+    const apiUrl =
+      "https://entaneermindbackend.onrender.com/api/accesscode/deletemulaccesscode";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -188,12 +193,12 @@ export default function RegisterPage() {
   }
 
   async function checkAccessCode(accesscode: string) {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/accesscode/checkaccesscode";
+    const apiUrl =
+      "https://entaneermindbackend.onrender.com/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
       const count = response.data.length;
 
-     
       if (count == 0) {
         setAccessCodeCondition(true);
       }
@@ -205,7 +210,6 @@ export default function RegisterPage() {
   useEffect(() => {
     getdatausers();
     deleteAccessCode(); // เรียกใช้ครั้งแรกเมื่อ Component ถูกโหลด
-
   }, []);
 
   return (
@@ -256,7 +260,7 @@ export default function RegisterPage() {
                       <h2 className="text-3xl mb-4 text-[#8FC1E3]">
                         ลงทะเบียน
                       </h2>
-      
+
                       <form action="#">
                         <div className="mb-1">
                           <Label value="ชื่อ-สกุล" />
@@ -381,9 +385,7 @@ export default function RegisterPage() {
                             required
                             onChange={handleGradeLevelChange}
                           >
-                            <option value="ป.ตรี">
-                            ป.ตรี
-                            </option>
+                            <option value="ป.ตรี">ป.ตรี</option>
                             <option value="ป.โท">ป.โท</option>
                             <option value="ป.เอก">ป.เอก</option>
                             <option value="อาจารย์">อาจารย์</option>
@@ -393,25 +395,9 @@ export default function RegisterPage() {
                           </Select>
                         </div>
 
-                        <div className="mt-5">
-                          <input
-                            type="checkbox"
-                            className="border border-gray-400"
-                          />
-                          <span className="ml-3">
-                            ฉันยอมรับข้อ{" "}
-                            <a className="text-[#8FC1E3] font-semibold">
-                              กำหนดการใช้งาน นโยบาย
-                            </a>{" "}
-                            &{" "}
-                            <a className="text-[#8FC1E3] font-semibold">
-                              ความเป็นส่วนตัว
-                            </a>
-                          </span>
-                        </div>
-                        <div className="mt-5">
+                        <div className="mt-7">
                           <button
-                            className="w-full bg-[#8FC1E3] py-3 text-center text-white hover:bg-[#8FC1E3]"
+                            className="w-full bg-[#8FC1E3] py-3 text-center text-white hover:bg-[#52a8e1]"
                             onClick={(e) => {
                               e.preventDefault();
                               handleSaveData();

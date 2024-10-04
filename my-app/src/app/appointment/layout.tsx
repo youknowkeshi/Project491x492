@@ -3,6 +3,7 @@
 import { Inter } from "next/font/google";
 import { Foot } from "../component/Footer";
 import { Navbar } from "../component/Navbar";
+import React from "react";
 
 // const style: React.CSSProperties = { background: "#FFFFFF", padding: "30px" };
 // const inter = Inter({ subsets: ["latin"] });

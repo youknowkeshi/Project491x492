@@ -14,7 +14,7 @@ export function Navbar() {
 
   return (
     <div>
-      <nav className="bg-[#bbd9ee]">
+      <nav className="bg-[#a3d8fc]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -27,42 +27,41 @@ export function Navbar() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-
                   <a
                     href="/dash3"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    className="rounded-md px-3 py-2 text-sm  text-[#191349] hover:bg-[#def2fb]"
                     aria-current="page"
                   >
                     หน้าแรก
                   </a>
                   <a
-                    href="/register"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    href="/policy"
+                    className="rounded-md px-3 py-2 text-sm  text-[#191349] hover:bg-[#def2fb]"
                   >
                     ลงทะเบียน
                   </a>
                   <a
                     href="/appointment"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    className="rounded-md px-3 py-2 text-sm  text-[#191349] hover:bg-[#def2fb]"
                   >
                     จองคิว
                   </a>
                   <a
                     href="/profile"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    className="rounded-md px-3 py-2 text-sm  text-[#191349] hover:bg-[#def2fb]"
                   >
                     ประวัติการพบนักจิตทางคณะ
                   </a>
                   <a
                     href="/Evaluationform"
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    className="rounded-md px-3 py-2 text-sm  text-[#191349] hover:bg-[#def2fb]"
                     aria-current="page"
                   >
                     แบบประเมิน
                   </a>
                   {/* <a
                     href="/article"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-[#8FC1E3] hover:text-gray-800"
+                    className="rounded-md px-3 py-2 text-sm  text-gray-700 hover:bg-[#def2fb] hover:text-[#191349]"
                   >
                     บทความ
                   </a> */}
@@ -73,7 +72,7 @@ export function Navbar() {
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative ml-3">
                   <a
-                    className="rounded-md spx-3 py-2 text-sm font-semibold text-gray-800"
+                    className="rounded-md spx-3 py-2 text-sm  text-[#191349]"
                     role="menuitem"
                     tabIndex={-1}
                     id="user-menu-item-2"
@@ -91,53 +90,47 @@ export function Navbar() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/dashboard"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-blue"
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-blue"
             >
               หน้าแรก
             </a>
             <a
-              href="/register"
-             className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              href="/policy"
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]"
             >
               ลงทะเบียน
             </a>
             <a
               href="/appointment"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]"
             >
               จองคิว
             </a>
             <a
               href="/profile"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]"
             >
               ประวัติการพบนักจิตทางคณะ
             </a>
             <a
               href="/Evaluationform"
-             className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]"
             >
               แบบประเมิน
             </a>
 
             {/* <a
               href="/artical"
-             className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800""
+             className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]""
             >
               บทความ
             </a> */}
-
-
           </div>
           <div className="border-t border-gray-700 pb-3 pt-4">
-            <div className="flex items-center px-5">
-
-
-            </div>
+            <div className="flex items-center px-5"></div>
             <div className="mt-3 space-y-1 px-2">
-
               <a
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+                className="block rounded-md px-3 py-2 text-base font-medium text-[#191349] hover:bg-[#def2fb] hover:text-[#191349]"
                 onClick={signOut}
               >
                 ออกจากระบบ

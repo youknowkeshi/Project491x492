@@ -5,7 +5,7 @@ import { Foot } from "../component/Footer";
 
 type Props = {};
 
-export default function page({ }: Props) {
+export default function page({}: Props) {
   const callouts = [
     {
       name: "Desk and Office",
@@ -13,7 +13,7 @@ export default function page({ }: Props) {
       imageSrc: "/student1.png",
       imageAlt:
         "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
-      href: "/register",
+      href: "/policy",
     },
     {
       name: "Self-Improvement",
@@ -97,13 +97,13 @@ export default function page({ }: Props) {
                         {callouts.map((callout) => (
                           <div key={callout.name} className="group relative">
                             <div className="relative h-80 w-full overflow-hidden rounded-lg bg-transparent  sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 ">
-                             <a href={callout.href}>
-                             <img
-                                alt={callout.imageAlt}
-                                src={callout.imageSrc}
-                                className="h-full w-full object-cover object-center "
-                              />
-                             </a>
+                              <a href={callout.href}>
+                                <img
+                                  alt={callout.imageAlt}
+                                  src={callout.imageSrc}
+                                  className="h-full w-full object-cover object-center "
+                                />
+                              </a>
                             </div>
                             <h3 className="mt-6 text-sm text-gray-500"></h3>
                             <p className="text-base font-semibold text-gray-900 flex justify-center">
@@ -120,7 +120,7 @@ export default function page({ }: Props) {
           </div>
           <section className="dark:bg-gray-100 dark:text-gray-800 mt-7">
             <div className="container mx-auto flex flex-col p-6">
-              <h2  id="register" className="py-4 text-3xl font-bold text-center">
+              <h2 id="register" className="py-4 text-3xl font-bold text-center">
                 วิธีการจองสำหรับรับบริการครั้งแรก
               </h2>
               <div className="divide-y dark:divide-gray-300">
