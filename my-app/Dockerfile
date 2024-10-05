@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # ตั้งค่า Working Directory
-WORKDIR /app
+WORKDIR /src/app
 
 # คัดลอก package.json และ package-lock.json
 COPY package*.json ./
