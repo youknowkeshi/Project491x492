@@ -2,7 +2,7 @@
 FROM node:20
 
 # ตั้งค่า Working Directory
-WORKDIR /my-app
+WORKDIR /app
 
 # คัดลอก package.json และ package-lock.json
 COPY package*.json ./
