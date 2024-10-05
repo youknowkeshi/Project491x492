@@ -1,5 +1,5 @@
 # ใช้ Node.js เป็น Base Image
-FROM node:20
+FROM node:18-alpine
 
 # ตั้งค่า Working Directory
 WORKDIR /app
