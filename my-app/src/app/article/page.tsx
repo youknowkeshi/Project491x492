@@ -19,7 +19,7 @@ export default function page({ }: Props) {
   const [articles, setArticles] = useState<Article[]>([]);;
 
   async function showarticle() {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/img/get`;
+    const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/img/get`;
     try {
       const response = await axios.get(apiUrl);
       setArticles(response.data);

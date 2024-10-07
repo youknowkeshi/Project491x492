@@ -4,7 +4,7 @@ import Image from "next/image";
 import axios from "axios";
 
 const googlelogin = async () => {
-  const apiUrl = "https://entaneermindbackend.onrender.com/api/google/login";
+  const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/login";
   try {
     const response = await axios.get(apiUrl);
     console.log(response.data);

@@ -24,7 +24,7 @@ interface CheckList {
 }
 
 async function evaluationform(startdate: string, enddate: string): Promise<CheckList[]> {
-    const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphevaluation`;
+    const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/graph/graphevaluation`;
 
   try {
     const response = await axios.post(apiUrl, {

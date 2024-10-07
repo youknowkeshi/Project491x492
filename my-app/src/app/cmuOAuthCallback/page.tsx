@@ -68,7 +68,7 @@ export default function CMUOAuthCallback() {
               homeadmin();
             } else {
               axios
-                .put("https://entaneermindbackend.onrender.com/api/user/checklogin", { studentId })
+                .put("https://entaneermindbackend-for-servereng.onrender.com/api/user/checklogin", { studentId })
                 .then((response) => {
                   // console.log(response.data);
                   
@@ -108,7 +108,7 @@ export default function CMUOAuthCallback() {
     accounttype: string
   ) {
     try {
-      await axios.post("https://entaneermindbackend.onrender.com/api/user/afterlogin", {
+      await axios.post("https://entaneermindbackend-for-servereng.onrender.com/api/user/afterlogin", {
         name: firstname_lastname,
         cmuaccount: cmuaccount,
         studentid: studentid,

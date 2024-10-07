@@ -26,7 +26,7 @@ async function graphmajor(
   startdate: string,
   enddate: string
 ): Promise<Major[]> {
-  const apiUrl = `https://entaneermindbackend.onrender.com/api/graph/graphappointmentformajor`;
+  const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/graph/graphappointmentformajor`;
 
   try {
     const response = await axios.post(apiUrl, {
