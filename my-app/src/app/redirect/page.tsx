@@ -41,26 +41,26 @@ export default function Home() {
 
             try {
 
-                const token = jwt.sign(
-                    {
-                        id: Info.id,
-                        email: Info.email,
-                        verified_email: Info.verified_email,
-                        name: Info.name
-                    },
-                    process.env.NEXT_PUBLIC_JWT_SECRET_GOOGLE!,
-                    {
-                        expiresIn: "24h",
-                    }
-                );
+                // const token = jwt.sign(
+                //     {
+                //         id: Info.id,
+                //         email: Info.email,
+                //         verified_email: Info.verified_email,
+                //         name: Info.name
+                //     },
+                //     process.env.NEXT_PUBLIC_JWT_SECRET_GOOGLE!,
+                //     {
+                //         expiresIn: "24h",
+                //     }
+                // );
 
-                setCookie("google-oauth-example-token", token, {
-                    maxAge: 3600 * 24,
-                    //httpOnly: true, // ตั้งเป็น true ในการผลิต
-                    secure: true,
-                    sameSite: 'none',
-                    // path: "/",
-                });
+                // setCookie("google-oauth-example-token", token, {
+                //     maxAge: 3600 * 24,
+                //     //httpOnly: true, // ตั้งเป็น true ในการผลิต
+                //     secure: true,
+                //     sameSite: 'none',
+                //     // path: "/",
+                // });
                 
                 // setCookie("test-token", token)
 
