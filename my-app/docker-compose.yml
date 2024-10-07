@@ -1,14 +1,14 @@
 version: "3.8"
 
 services:
-  fastify-api:
+    nextjs:
     build:
       context: .
       dockerfile: Dockerfile # ระบุชื่อ Dockerfile หากเป็นไฟล์อื่นนอกจากชื่อปกติ
-    image: fastify-api:latest
-    container_name: fastify-api
+    image: nextjs:latest
+    container_name: nextjs
     ports:
-      - "8080:8080"
+      - "3000:3000"
     environment:
       - CMU_OAUTH_CLIENT_ID=xxmT6ZjEmGYG0C3DFxDJTu7rB9N04B4sSyPXng2d
       - CMU_OAUTH_CLIENT_SECRET=pMsFDtR3FyNTWD0cz5r7mvMVNF0BZgryFzvgcCYh
