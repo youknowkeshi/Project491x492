@@ -4,7 +4,7 @@ services:
     nextjs:
     build:
       context: .
-      dockerfile: Dockerfile # ระบุชื่อ Dockerfile หากเป็นไฟล์อื่นนอกจากชื่อปกติ
+      dockerfile: Dockerfile 
     image: nextjs:latest
     container_name: nextjs
     ports:
@@ -25,5 +25,4 @@ services:
       - NEXT_PUBLIC_ADMIN=nithikon_jansanitsri@cmu.ac.th
       - NEXT_PUBLIC_GOOGLE_OAUTH_URL=https://mind.eng.cmu.ac.th/adminlogin
       - NEXT_PUBLIC_JWT_SECRET_GOOGLE=3g1j2a2OJxru1m6hFtyjFnUP7HhTBNcN
-
     restart: always
