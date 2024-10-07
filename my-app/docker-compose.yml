@@ -11,8 +11,8 @@ services:
       CMU_OAUTH_CLIENT_SECRET: pMsFDtR3FyNTWD0cz5r7mvMVNF0BZgryFzvgcCYh
       CMU_OAUTH_GET_TOKEN_URL: https://oauth.cmu.ac.th/v1/GetToken.aspx
       CMU_OAUTH_GET_BASIC_INFO: https://misapi.cmu.ac.th/cmuitaccount/v1/api/cmuitaccount/basicinfo
-      NEXT_PUBLIC_CMU_OAUTH_URL: https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=xxmT6ZjEmGYG0C3DFxDJTu7rB9N04B4sSyPXng2d&redirect_uri=http://localhost:3000/cmuOAuthCallback&scope=cmuitaccount.basicinfo&state=xyz
-      CMU_OAUTH_REDIRECT_URL: http://localhost:3000/cmuOAuthCallback
+      NEXT_PUBLIC_CMU_OAUTH_URL: https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=xxmT6ZjEmGYG0C3DFxDJTu7rB9N04B4sSyPXng2d&redirect_uri=https://mind.eng.cmu.ac.th/cmuOAuthCallback&scope=cmuitaccount.basicinfo&state=xyz
+      CMU_OAUTH_REDIRECT_URL: https://mind.eng.cmu.ac.th/cmuOAuthCallback
       JWT_SECRET: 3g1j2a2OJxru1m6hFtyjFnUP7HhTBNcN
       PGSQL_HOST: ep-empty-dust-a1wnsfia-pooler.ap-southeast-1.aws.neon.tech
       PGSQL_PORT: 5432
@@ -20,6 +20,6 @@ services:
       PGSQL_USER: default  
       PGSQL_PASSWORD: oh80MiHuWFpt  
       NEXT_PUBLIC_ADMIN: nithikon_jansanitsri@cmu.ac.th
-      NEXT_PUBLIC_GOOGLE_OAUTH_URL: http://localhost:3000/adminlogin
+      NEXT_PUBLIC_GOOGLE_OAUTH_URL: https://mind.eng.cmu.ac.th/adminlogin
       NEXT_PUBLIC_JWT_SECRET_GOOGLE: 3g1j2a2OJxru1m6hFtyjFnUP7HhTBNcN
     restart: always
