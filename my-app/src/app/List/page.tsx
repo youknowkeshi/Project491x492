@@ -214,9 +214,11 @@ export default function Page({ }: Props) {
   async function reminderappoint() {
     const apiUrl = "https://entaneermindbackend.onrender.com/api/user/getmailandtime";
     try {
+      setLoading(true)
       const response = await axios.get(apiUrl);
       setEvent_Id(response.data);
       setIsConfirmationModalOpen(true)
+      setLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -268,7 +270,7 @@ export default function Page({ }: Props) {
         sendername: senderName,
         sendermail: senderMail,
         subject: subjectMail,
-        message: `สวัสดีครับ คุณ ${firstname_lastname}<br><br><br>เนื่องจาก EntaneerMindFriend ไม่สะดวกในวันและเวลาต่อไปนี้:<br>${isCurrentAppointment(start_datetime)}<br>สถานที่: คณะวิศวกรรมศาสตร์อาคารเรียนรวม 3 ชั้น ห้อง ${room}<br>หากท่านไม่สามารถมาพบตามเวลาที่นัดหมายได้ กรุณาแจ้งให้ทราบล่วงหน้าผ่านเพจ EntaneerMindFriend และโปรดทำการยกเลิกนัดหมายผ่านทางเว็บไซต์<br><br>ขอบคุณครับ`,
+        message: `สวัสดีครับ คุณ ${firstname_lastname}<br><br><br>เนื่องจาก EntaneerMindFriend ไม่สะดวกในวันและเวลาต่อไปนี้:<br>${isCurrentAppointment(start_datetime)}<br>หากท่านไม่สามารถมาพบตามเวลาที่นัดหมายได้ กรุณาแจ้งให้ทราบล่วงหน้าผ่านเพจ EntaneerMindFriend และโปรดทำการยกเลิกนัดหมายผ่านทางเว็บไซต์<br><br>ขอบคุณครับ`,
       });
 
       setLoading(false);
@@ -281,27 +283,43 @@ export default function Page({ }: Props) {
 
   }
 
+  const waitForData = (data: any) => {
+    return new Promise<void>((resolve) => {
+      const checkData = () => {
+        if (data.start_datetime && data.end_datetime && data.event_id && data.room && data.firstname_lastname && data.cmuaccount) {
+          resolve();
+        } else {
+          setTimeout(checkData, 100); 
+        }
+      };
+      checkData();
+    });
+  };
+
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string, firstname_lastname: string, cmuaccount: string) => {
 
+    const data = { start_datetime, end_datetime, event_id, room, firstname_lastname, cmuaccount };
+
+    // รอจนกว่าข้อมูลทั้งหมดจะมา
+    await waitForData(data);
+  
+    setLoading(true);
     if (room === 'conseling_room1') {
-      setLoading(true)
       await Promise.all([
         GetEventIdCalendar(start_datetime, end_datetime, room),
         DeleteEvents(event_id),
-        cancelsendmail(start_datetime, room, firstname_lastname, cmuaccount)
+        //cancelsendmail(start_datetime, room, firstname_lastname, cmuaccount)
       ]);
-      setLoading(false)
-      await window.location.reload();
     } else if (room === "conseling_room2") {
-      setLoading(true)
       await Promise.all([
         GetEventIdCalendar2(start_datetime, end_datetime, room),
         DeleteEvents2(event_id),
-        cancelsendmail(start_datetime, room, firstname_lastname, cmuaccount),
+       // cancelsendmail(start_datetime, room, firstname_lastname, cmuaccount),
       ]);
-      setLoading(false)
-      await window.location.reload();
     }
+  
+    setLoading(false);
+    await window.location.reload();
 
     // GetEventIdCalendar(start_datetime, end_datetime);
     // await DeleteEvents(event_id);
@@ -342,6 +360,7 @@ export default function Page({ }: Props) {
 
   React.useEffect(() => {
     informationUser(new Date(nowInThailand))
+    
   }, [])
 
   return (
@@ -376,9 +395,9 @@ export default function Page({ }: Props) {
                 mode="single"
                 selected={date}
                 onSelect={handleSelectDate}
-                // disabled={(day) =>
-                //   isWeekend(day)
-                // }
+                disabled={(day) =>
+                  isWeekend(day)
+                }
                 initialFocus
               />
             </PopoverContent>
