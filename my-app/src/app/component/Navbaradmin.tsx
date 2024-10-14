@@ -1,21 +1,22 @@
 import axios from "axios";
 import React from "react";
+import { Button, Tooltip, Dropdown } from "flowbite-react";
 
 export function Navbaradmin() {
 
-    const signOut = async () => {
-        try {
-          
-            await axios.post("api/signOutGoogle");
-            await axios.post("/api/signOut");
-            window.location.href = "/adminlogin";     
-        
-        } catch (error) {
-            console.error("Error signing out:", error);
-        }
-    };
+  const signOut = async () => {
+    try {
 
-   
+      await axios.post("api/signOutGoogle");
+      await axios.post("/api/signOut");
+      window.location.href = "/adminlogin";
+
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+
 
   return (
     <div>
@@ -64,12 +65,27 @@ export function Navbaradmin() {
                   >
                     รหัสสำหรับผู้เข้ารับบริการครั้งแรก
                   </a>
-                  <a
-                    href="/appointmentadmin"
-                    className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
-                  >
-                    ปิดเวลานัด
-                  </a>
+
+                  <div className="group relative cursor-pointer py-2">
+                    <a className="menu-hover rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800" >
+                      เปิด/ปิดเวลานัด
+                    </a>
+                    <div
+                      className="invisible absolute z-50 flex w-full flex-col bg-gray-100 py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
+
+                      <a href="/appointmentadmin"
+                        className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800">
+                        ปิดเวลานัด
+                      </a>
+
+                      <a href="/openappointmentadmin"
+                        className="rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800">
+                        เปิดเวลา
+                      </a>
+
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -92,35 +108,53 @@ export function Navbaradmin() {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <a
               href="/List"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-blue"
-              // aria-current="page"
+              className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+            // aria-current="page"
             >
               รายการนัด
             </a>
             <a
               href="/UserInfomation"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               ข้อมูลผู้รับบริการ
             </a>
             <a
               href="/report"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
-            >
-              จองคิว
-            </a>
-            <a
-              href="/profile"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               รายงานประจำเดือน
             </a>
             <a
               href="/accessCode"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+              className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
             >
               รหัสสำหรับผู้เข้ารับบริการครั้งแรก
             </a>
+
+
+
+
+            <div className="group relative cursor-pointer py-2">
+              <a className="menu-hover rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800" >
+                เปิด/ปิดเวลานัด
+              </a>
+              <div
+                className="invisible absolute z-50 flex w-full flex-col bg-gray-100 py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
+
+                <a href="/appointmentadmin"
+                  className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800">
+                  ปิดเวลานัด
+                </a>
+
+                <a href="/openappointmentadmin"
+                  className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800">
+                  เปิดเวลา
+                </a>
+
+              </div>
+            </div>
+
 
             {/* <a
               href="/articleadmin"
@@ -132,7 +166,7 @@ export function Navbaradmin() {
           <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="mt-3 space-y-1 px-2">
               <a
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
+                className="block rounded-md px-3 py-2 text-md font-semibold text-gray-800 hover:bg-[#8FC1E3] hover:text-gray-800"
                 onClick={signOut}
               >
                 ออกจากระบบ

@@ -33,6 +33,7 @@ export default function Home() {
             const response = await axios.post(apiUrl, { code });
 
             const Info = response.data.info;
+         
             if (!Info) {
                 throw new Error('Info not found in API response');
             }          
