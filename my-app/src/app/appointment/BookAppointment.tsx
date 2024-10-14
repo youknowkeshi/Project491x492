@@ -388,7 +388,8 @@ function BookAppointment({ room }: { room: any }) {
                       selected={date}
                       onSelect={setDate}
                       disabled={(day) =>
-                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                        isPastDay(day) || isFullyBooked(day)
+                        || isWeekend(day) 
                       }
                       className="border rounded-lg"
                     />

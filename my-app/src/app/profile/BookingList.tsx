@@ -242,11 +242,21 @@ function BookingList() {
             key={index}
             className="flex flex-col md:flex-row items-center mb-5 border p-4 rounded-lg relative"
           >
-            {/* <img
-              src="/Pop.png"
-              alt="pop"
-              className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
-            /> */}
+              {appointment.room === "conseling_room1" ? (
+                 <img
+                 src="/Pop.png"
+                 alt="pop"
+                 className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
+               />
+              ):(
+                <img
+                 src="/psyco.jpg"
+                 alt="psyco"
+                 className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
+               />
+              )}
+
+           
             <div className="flex flex-col gap-4 p-5 text-center md:text-left">
               {appointment.room === "conseling_room1" ? (
                 <h2 className="font-bold text-[18px]">

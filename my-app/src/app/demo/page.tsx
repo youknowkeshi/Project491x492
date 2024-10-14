@@ -79,7 +79,7 @@ function App() {
   }
 
   async function getmail() {
-    const apiUrl = "http://localhost:3001/api/user/getmailandtime";
+    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/user/getmailandtime";
     try {
       const response = await axios.get(apiUrl);
       console.log("Response:", response.data);
