@@ -30,7 +30,7 @@ export default function MePage() {
 
   async function addAccessCode(accesscode: string) {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/accesscode/insertaccesscode";
+      "http://10.10.12.95:3001/api/accesscode/insertaccesscode";
     try {
       await axios.post(apiUrl, { accesscode });
     } catch (error) {
@@ -40,7 +40,7 @@ export default function MePage() {
 
   async function deleteAccessCode() {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/accesscode/deleteautoaccesscode";
+      "http://10.10.12.95:3001/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {

@@ -27,7 +27,7 @@ export default function Home() {
     }
 
     async function OAuth() {
-        const apiUrl = 'https://entaneermindbackend-for-servereng.onrender.com/api/google/redirect';
+        const apiUrl = 'http://10.10.12.95:3001/api/google/redirect';
 
         try {
             const response = await axios.post(apiUrl, { code });

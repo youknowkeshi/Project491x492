@@ -49,7 +49,7 @@ export default function Page({ }: Props) {
 
 
     async function getclosetimeslot() {
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/admin/getclosetimeslot";
+        const apiUrl = "http://10.10.12.95:3001/api/admin/getclosetimeslot";
         try {
             const response = await axios.get(apiUrl)
             if (response.data.length > 0) {
@@ -63,7 +63,7 @@ export default function Page({ }: Props) {
 
 
     async function DeleteEventsCalendar(event_id: string) {
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/deleteevent";
+        const apiUrl = "http://10.10.12.95:3001/api/google/deleteevent";
         try {
             await axios.put(apiUrl, {
                 event_id,
@@ -74,7 +74,7 @@ export default function Page({ }: Props) {
     }
 
     async function DeleteEventsCalendar2(event_id: string) {
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/deleteevent2";
+        const apiUrl = "http://10.10.12.95:3001/api/google/deleteevent2";
         try {
             await axios.put(apiUrl, {
                 event_id,
@@ -89,7 +89,7 @@ export default function Page({ }: Props) {
         end_datetime: string,
         room: string
     ) {
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment/getidcalendar";
+        const apiUrl = "http://10.10.12.95:3001/api/appointment/getidcalendar";
         try {
             const response = await axios.put(apiUrl, {
                 start_datetime,
@@ -111,7 +111,7 @@ export default function Page({ }: Props) {
         end_datetime: string,
         room: string
     ) {
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment2/getidcalendar";
+        const apiUrl = "http://10.10.12.95:3001/api/appointment2/getidcalendar";
         try {
             const response = await axios.put(apiUrl, {
                 start_datetime,

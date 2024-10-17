@@ -82,7 +82,7 @@ export default function Page({ }: Props) {
 
 
   async function informationUser(selectedDate: Date) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/infor/list";
+    const apiUrl = "http://10.10.12.95:3001/api/infor/list";
     try {
       const response = await axios.post(apiUrl, {
         date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "null",
@@ -104,7 +104,7 @@ export default function Page({ }: Props) {
 
 
   async function detailUser(studentid: string, selectdete: string) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/infor/listdetail";
+    const apiUrl = "http://10.10.12.95:3001/api/infor/listdetail";
     try {
       const response = await axios.post(apiUrl, {
         studentid
@@ -124,7 +124,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEvents(event_id: string) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment/cancel";
+    const apiUrl = "http://10.10.12.95:3001/api/appointment/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id },
@@ -135,7 +135,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEvents2(event_id: string) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment2/cancel";
+    const apiUrl = "http://10.10.12.95:3001/api/appointment2/cancel";
     try {
       await axios.delete(apiUrl, {
         data: { event_id },
@@ -146,7 +146,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEventsCalendar(event_id: string) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/deleteevent";
+    const apiUrl = "http://10.10.12.95:3001/api/google/deleteevent";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -157,7 +157,7 @@ export default function Page({ }: Props) {
   }
 
   async function DeleteEventsCalendar2(event_id: string) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/deleteevent2";
+    const apiUrl = "http://10.10.12.95:3001/api/google/deleteevent2";
     try {
       await axios.put(apiUrl, {
         event_id,
@@ -172,7 +172,7 @@ export default function Page({ }: Props) {
     end_datetime: string,
     room: string
   ) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment/getidcalendar";
+    const apiUrl = "http://10.10.12.95:3001/api/appointment/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
@@ -195,7 +195,7 @@ export default function Page({ }: Props) {
     end_datetime: string,
     room: string
   ) {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/appointment2/getidcalendar";
+    const apiUrl = "http://10.10.12.95:3001/api/appointment2/getidcalendar";
     try {
       const response = await axios.put(apiUrl, {
         start_datetime,
@@ -212,7 +212,7 @@ export default function Page({ }: Props) {
   }
 
   async function reminderappoint() {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/user/getmailandtime";
+    const apiUrl = "http://10.10.12.95:3001/api/user/getmailandtime";
     try {
       const response = await axios.get(apiUrl);
       setEvent_Id(response.data);

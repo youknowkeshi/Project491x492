@@ -143,7 +143,7 @@ export function ProfileForm() {
   }
 
   async function Getsingledata() {
-    const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/infor/detailinfor/${id}`;
+    const apiUrl = `http://10.10.12.95:3001/api/infor/detailinfor/${id}`;
     try {
       const response = await axios.post(apiUrl, { id });
 
@@ -164,7 +164,7 @@ export function ProfileForm() {
     mental_risk_level: string,
     event_id: string
   ) {
-    const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/infor/editinfor/${id}`;
+    const apiUrl = `http://10.10.12.95:3001/api/infor/editinfor/${id}`;
     try {
       await axios.put(apiUrl, {
         details_consultation,

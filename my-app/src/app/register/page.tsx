@@ -65,7 +65,7 @@ export default function RegisterPage() {
   ) {
     try {
       await axios.put(
-        "https://entaneermindbackend-for-servereng.onrender.com/api/user/firstlogin",
+        "http://10.10.12.95:3001/api/user/firstlogin",
         {
           personid,
           studentId,
@@ -94,7 +94,7 @@ export default function RegisterPage() {
 
   async function checkregister(studentId: string) {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/user/checkuser";
+      "http://10.10.12.95:3001/api/user/checkuser";
 
     try {
       const response = await axios.post(apiUrl, { studentId });
@@ -185,7 +185,7 @@ export default function RegisterPage() {
 
   async function deleteAccessCode() {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/accesscode/deleteautoaccesscode";
+      "http://10.10.12.95:3001/api/accesscode/deleteautoaccesscode";
     try {
       await axios.delete(apiUrl);
     } catch (error) {
@@ -195,7 +195,7 @@ export default function RegisterPage() {
 
   async function afterUseAccesscode(accesscode: string) {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/accesscode/deletemulaccesscode";
+      "http://10.10.12.95:3001/api/accesscode/deletemulaccesscode";
     try {
       await axios.put(apiUrl, { accesscode });
     } catch (error) {
@@ -205,7 +205,7 @@ export default function RegisterPage() {
 
   async function checkAccessCode(accesscode: string) {
     const apiUrl =
-      "https://entaneermindbackend-for-servereng.onrender.com/api/accesscode/checkaccesscode";
+      "http://10.10.12.95:3001/api/accesscode/checkaccesscode";
     try {
       const response = await axios.put(apiUrl, { accesscode });
 

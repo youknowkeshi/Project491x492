@@ -40,7 +40,7 @@ export default function Page({ }: Props) {
             return;
         }
 
-        const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/img/upload"; // Update with your actual API endpoint
+        const apiUrl = "http://10.10.12.95:3001/api/img/upload"; // Update with your actual API endpoint
         const formData = new FormData();
 
         // เพิ่มไฟล์ทั้งหมดลงใน FormData
@@ -73,7 +73,7 @@ export default function Page({ }: Props) {
     };
 
     async function showarticle() {
-        const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/img/get`;
+        const apiUrl = `http://10.10.12.95:3001/api/img/get`;
         try {
             const response = await axios.get(apiUrl);
             setArticles(response.data);
@@ -83,7 +83,7 @@ export default function Page({ }: Props) {
     }
 
     async function deletearticle(id: string) {
-        const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/img/delimgtest`;
+        const apiUrl = `http://10.10.12.95:3001/api/img/delimgtest`;
         try {
             await axios.put(apiUrl, { id });
             

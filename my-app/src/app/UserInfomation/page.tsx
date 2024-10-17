@@ -33,7 +33,7 @@ export default function DemoPage() {
   const [information, setInformation] = useState<Information[]>([]);
 
   async function fetchData() {
-    const apiUrl = `https://entaneermindbackend-for-servereng.onrender.com/api/infor/getinformationusers`;
+    const apiUrl = `http://10.10.12.95:3001/api/infor/getinformationusers`;
     try {
       const response = await axios.get(apiUrl);
 
