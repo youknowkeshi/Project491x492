@@ -47,6 +47,8 @@ export default function RegisterPage() {
   const handleShowEmpty = () => setShowModalEmpty(true);
   const handleCloseEmpty = () => setShowModalEmpty(false);
 
+  const [emptyFields ,setEmptyFields ] = useState<string[]>([]);
+
   const searchParams = useSearchParams();
   const idCode: string = searchParams ? searchParams.get("id") || "" : "";
 
@@ -144,7 +146,15 @@ export default function RegisterPage() {
 
   const handleSaveData = async () => {
     setLoading(true)
-   
+    const missingFields = []; // อาร์เรย์สำหรับเก็บฟิลด์ที่ยังกรอกไม่ครบ
+
+    // ตรวจสอบฟิลด์ที่ต้องกรอก
+    if (!Id) missingFields.push(' รหัสรับบริการครั้งแรก ');
+    if (!phone) missingFields.push(' เบอร์โทร ');
+    if (!major) missingFields.push(' สาขา ');
+    if (!gender) missingFields.push(' เพศ ');
+    if (!facebookurl) missingFields.push(' Facebook URL ');
+    if (!gradeLevel) missingFields.push(' ชั้นปี ');
 
     if (Id && phone && major && gender && facebookurl && gradeLevel) {
     
@@ -178,6 +188,7 @@ export default function RegisterPage() {
       }
 
     } else {
+      await setEmptyFields(missingFields)
       handleShowEmpty();
       setLoading(false)
     }
@@ -366,7 +377,7 @@ export default function RegisterPage() {
                           </div>
                           <TextInput
                             id="input-gray"
-                            placeholder={idCode}
+                            placeholder="ได้รับจากการพูดคุยกับนักจิตเบื้องต้น"
                             required
                             color="gray"
                             value={Id}
@@ -477,7 +488,7 @@ export default function RegisterPage() {
                               <div className="text-center">
                                 <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                  โปรดกรอกข้อมูลให้ครบถ้วน
+                                  โปรดกรอกข้อมูลให้ครบถ้วน {"  "}{emptyFields}
                                 </h3>
                               </div>
 

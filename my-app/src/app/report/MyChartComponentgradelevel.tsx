@@ -15,8 +15,10 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react"; // เพิ่ม useCallback เข้ามาด้วย
 import { Button } from "@/components/ui/button";
+import { useCurrentPng } from 'recharts-to-png'; // ใช้ useCurrentPng จาก recharts-to-png
+import FileSaver from 'file-saver'; // ใช้ FileSaver
 
 interface gradelevel {
   gradelevel: string;
@@ -55,7 +57,7 @@ async function graphbachelordegre(
     const response = await axios.post(apiUrl, {
       startdate,
       enddate,
-    });
+    });   
     return response.data;
   } catch (error) {
     console.error("Can't get graphlist", error);
@@ -96,6 +98,20 @@ export function MyChartComponentgradelevel({
     setIsSorted(!isSorted);
   };
 
+    // สร้างตัวดึง PNG จากกราฟที่เราสร้างขึ้น
+    const [getPng, { ref, isLoading }] = useCurrentPng();
+
+    // ฟังก์ชันการดาวน์โหลด PNG เมื่อคลิกปุ่ม
+    const handleDownload = useCallback(async () => {
+      const png = await getPng();
+  
+      // ตรวจสอบว่าค่า png ไม่ใช่ undefined
+      if (png) {
+        // บันทึก PNG ด้วย FileSaver
+        FileSaver.saveAs(png, 'GradeLevelChart.png');
+      }
+    }, [getPng]);
+
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
@@ -114,10 +130,20 @@ export function MyChartComponentgradelevel({
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละชั้นปี</CardTitle>
-          <div>
-            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              เรียงลำดับ
-            </Button>
+          <div className="flex justify-between w-full">
+            <div>
+              <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+                เรียงลำดับ
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={handleDownload}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
+              >
+                {isLoading ? 'กำลังบันทึก' : 'บันทึกกราฟ'}
+              </Button>
+            </div>
           </div>
           <CardDescription>
             {startDate && endDate && (
@@ -143,7 +169,7 @@ export function MyChartComponentgradelevel({
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
+            <BarChart accessibilityLayer data={chartData} ref={ref}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="gradelevel"
@@ -193,6 +219,21 @@ export function MyChartComponentbachelordegre({
     setIsSorted(!isSorted);
   };
 
+
+    // สร้างตัวดึง PNG จากกราฟที่เราสร้างขึ้น
+    const [getPng, { ref, isLoading }] = useCurrentPng();
+
+    // ฟังก์ชันการดาวน์โหลด PNG เมื่อคลิกปุ่ม
+    const handleDownload = useCallback(async () => {
+      const png = await getPng();
+  
+      // ตรวจสอบว่าค่า png ไม่ใช่ undefined
+      if (png) {
+        // บันทึก PNG ด้วย FileSaver
+        FileSaver.saveAs(png, 'BachelorDegreeChart.png');
+      }
+    }, [getPng]);
+
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
@@ -211,10 +252,20 @@ export function MyChartComponentbachelordegre({
       <Card style={{ margin: "10px 30px 0 0" }}>
         <CardHeader>
           <CardTitle>จำนวนผู้รับบริการแต่ละปีการศึกษา</CardTitle>
-          <div>
-            <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
-              เรียงลำดับ
-            </Button>
+          <div className="flex justify-between w-full">
+            <div>
+              <Button onClick={toggleSort} className="bg-[#5044e4] mt-5">
+                เรียงลำดับ
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={handleDownload}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
+              >
+                {isLoading ? 'กำลังบันทึก' : 'บันทึกกราฟ'}
+              </Button>
+            </div>
           </div>
           <CardDescription>
             {startDate && endDate && (
@@ -240,7 +291,7 @@ export function MyChartComponentbachelordegre({
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
+            <BarChart  accessibilityLayer data={chartData} ref={ref}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="class_year"
