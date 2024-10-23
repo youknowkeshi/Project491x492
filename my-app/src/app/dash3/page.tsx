@@ -5,7 +5,7 @@ import { Foot } from "../component/Footer";
 
 type Props = {};
 
-export default function page({ }: Props) {
+export default function page({}: Props) {
   const callouts = [
     {
       name: "Desk and Office",
@@ -92,16 +92,17 @@ export default function page({ }: Props) {
                       <h2 className=" flex justify-center text-2xl font-bold text-[#8FC1E3] ">
                         คุณเคยเข้ารับคำปรึกษาแล้วหรือยัง ?
                       </h2>
-
                       <div className="mt-6 space-y-12 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:space-y-0">
                         {callouts.map((callout) => (
                           <div key={callout.name} className="group relative">
-                            <div className="relative h-80 w-full overflow-hidden rounded-lg bg-transparent  sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 ">
+                            <div className="relative h-80 w-full overflow-hidden rounded-lg bg-transparent sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 md:h-76 md:aspect-h-1 md:aspect-w-2">
+                              {" "}
+                              {/* Adjust the height for iPad */}
                               <a href={callout.href}>
                                 <img
                                   alt={callout.imageAlt}
                                   src={callout.imageSrc}
-                                  className="h-full w-full object-cover object-center "
+                                  className="object-cover object-center "
                                 />
                               </a>
                             </div>
@@ -173,7 +174,8 @@ export default function page({ }: Props) {
                     </span>
                     <span className="mt-2 dark:text-gray-700">
                       หลังจากพูดคุยเบื้องต้นกับนักจิตวิทยาแล้วจะได้รับรหัสสำหรับเข้ารับบริการครั้งแรกมา
-                      ให้ผู้ใช้ไปที่หน้าลงทะเบียน นำไปกรอกสำหรับการลงทะเบียนเเละกรอกข้อมูลอื่นๆให้ครบถ้วน
+                      ให้ผู้ใช้ไปที่หน้าลงทะเบียน
+                      นำไปกรอกสำหรับการลงทะเบียนเเละกรอกข้อมูลอื่นๆให้ครบถ้วน
                     </span>
                   </div>
                 </div>
