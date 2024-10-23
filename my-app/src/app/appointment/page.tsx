@@ -1,15 +1,18 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BookAppointment from "./BookAppointment";
 import BookAppointment2 from "./BookAppointment2";
+import Loading from "../loading";
 
 import axios from "axios";
 
 type Props = {};
 
-export default function Page({}: Props) {
+export default function Page({ }: Props) {
+
+  const [loadingCal, setLoadingCal] = useState(false);
   const fetchEvents = async () => {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/events";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
 
     try {
       await axios.get(apiUrl);
@@ -22,7 +25,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/admin/deltimeroom";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom";
 
     try {
       await axios.delete(apiUrl);
@@ -32,7 +35,7 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/events2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
 
     try {
       await axios.get(apiUrl);
@@ -45,7 +48,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/admin/deltimeroom2";
+    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom2";
 
     try {
       await axios.delete(apiUrl);
@@ -55,12 +58,27 @@ export default function Page({}: Props) {
   };
 
   useEffect(() => {
-    fetchEvents();
-    deleteEvent();
-    fetchEvents2();
-    deleteEvent2();
-
+    const handleEvents = async () => {
+      try {
+        setLoadingCal(true);
+        await fetchEvents();
+        await deleteEvent();
+        await fetchEvents2();
+        await deleteEvent2();
+      } catch (error) {
+        console.error("Error handling events:", error);
+      } finally {
+        setLoadingCal(false);
+      }
+    };
+  
+    handleEvents();
   }, []);
+  
+
+  if (loadingCal) {
+      <Loading/>
+  }
 
   return (
     <section>

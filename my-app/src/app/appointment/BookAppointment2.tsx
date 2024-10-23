@@ -77,52 +77,64 @@ function BookAppointment({ room }: { room: any }) {
     try {
       const response = await axios.get(apiUrl);
       const rows: EventRow[] = response.data;
-
+  
+      console.log(rows);
+  
       const slotsByDay: { [key: string]: string[] } = {};
-
+  
       rows.forEach((event) => {
         const startDateTime = event.start_datetime;
         const endDateTime = event.end_datetime;
-
+  
         if (startDateTime && endDateTime) {
-          const date = startDateTime.substring(0, 10); // Extract the date part (YYYY-MM-DD)
-          const start = moment(startDateTime).startOf('hour');
-          const end = moment(endDateTime); // Do not round end time
-
-          const hours = [];
-          for (let m = start; m.isBefore(end); m.add(1, 'hour')) {
-            hours.push(m.format('HH:mm'));
-          }
-
-          // Check if the last hour slot is within the end time and not after it
-          if (start.isBefore(end) && start.format('HH:mm') !== end.format('HH:mm')) {
-            hours.push(end.startOf('hour').format('HH:mm'));
-          }
-
-          if (!slotsByDay[date]) {
-            slotsByDay[date] = [];
-          }
-
-          hours.forEach(hour => {
-            const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
-            if (nextHour.isSameOrBefore(end)) {
-              slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
+          let start = moment(startDateTime);
+          const end = moment(endDateTime);
+  
+          // Loop through each day from the start date to the end date
+          while (start.isBefore(end, 'day') || start.isSame(end, 'day')) {
+            const date = start.format('YYYY-MM-DD'); // Get the date for the current iteration
+            let startOfDay = start.clone().startOf('day').add(9, 'hours'); // Starting time (09:00 AM)
+            let endOfDay = start.clone().endOf('day'); // End time (11:59 PM) of the current day
+  
+            if (start.isSame(moment(startDateTime), 'day')) {
+              startOfDay = moment(startDateTime); // Use actual start time for the first day
             }
-          });
+  
+            if (start.isSame(end, 'day')) {
+              endOfDay = moment(endDateTime); // Use actual end time for the last day
+            }
+  
+            const hours = [];
+            for (let m = startOfDay; m.isBefore(endOfDay); m.add(1, 'hour')) {
+              hours.push(m.format('HH:mm'));
+            }
+  
+            if (!slotsByDay[date]) {
+              slotsByDay[date] = [];
+            }
+  
+            hours.forEach(hour => {
+              const nextHour = moment(hour, 'HH:mm').add(1, 'hour');
+              if (nextHour.isSameOrBefore(endOfDay)) {
+                slotsByDay[date].push(`${hour} - ${nextHour.format('HH:mm')}`);
+              }
+            });
+  
+            start.add(1, 'day'); // Move to the next day
+          }
         }
       });
-
+  
       const newUnavailableSlotsByDay: { [key: string]: string[] } = {};
-
+  
       for (const date in slotsByDay) {
         if (slotsByDay[date].length > 0) {
           newUnavailableSlotsByDay[date] = slotsByDay[date];
         }
       }
-
-
+  
       setUnavailableSlotsByDay(newUnavailableSlotsByDay);
-
+  
     } catch (error) {
       console.error("Can't get events: ", error);
     }

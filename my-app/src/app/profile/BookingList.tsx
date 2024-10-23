@@ -193,7 +193,7 @@ function BookingList() {
       appointment1(personId);
       setIsLoading(false);
     }
-    console.log(roomCancle);
+    // console.log(roomCancle);
 
   }, [personId, startCancle, endCancle, idcancel, roomCancle]);
 

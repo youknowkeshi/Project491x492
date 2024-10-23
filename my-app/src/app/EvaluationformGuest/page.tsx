@@ -59,10 +59,10 @@ const Page: React.FC<Props> = () => {
               มาทำแบบวัดพลังใจกันเลย
             </p>
             <div className="flex justify-end">
-              <Link
+              {/* <Link
                 href="https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey"
                 passHref
-              >
+              > */}
                 <Button
                   className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3]"
                   onClick={() => handleClick("แบบวัดพลังใจ")}
@@ -82,7 +82,7 @@ const Page: React.FC<Props> = () => {
                     />
                   </svg>
                 </Button>
-              </Link>
+              {/* </Link> */}
             </div>
             <div className="mt-2 text-right">
              
@@ -97,10 +97,10 @@ const Page: React.FC<Props> = () => {
               มาประเมินกันว่าความเครียดของเราอยู่ในระดับไหน
             </p>
             <div className="flex justify-end">
-              <Link
+              {/* <Link
                 href="https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress"
                 passHref
-              >
+              > */}
                 <Button
                   className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3]"
                   onClick={() => handleClick("วัดความเครียด")}
@@ -120,7 +120,7 @@ const Page: React.FC<Props> = () => {
                     />
                   </svg>
                 </Button>
-              </Link>
+              {/* </Link> */}
             </div>
             <div className="mt-2 text-right">
             </div>
@@ -133,10 +133,10 @@ const Page: React.FC<Props> = () => {
               มารู้จักตนเองให้มากขึ้นโดยทำแบบสำรวจตนเองได้เลย
             </p>
             <div className="flex justify-end">
-              <Link
+              {/* <Link
                 href="https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList"
                 passHref
-              >
+              > */}
                 <Button
                   className="mt-5 text-white border-[#FFFFFF] bg-[#8FC1E3]"
                   onClick={() => handleClick("สำรวจตัวเอง")}
@@ -156,7 +156,7 @@ const Page: React.FC<Props> = () => {
                     />
                   </svg>
                 </Button>
-              </Link>
+              {/* </Link> */}
             </div>
             <div className="mt-2 text-right">
             </div>

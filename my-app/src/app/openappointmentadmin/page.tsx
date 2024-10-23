@@ -47,6 +47,8 @@ export default function Page({ }: Props) {
 
     const [loading, setLoading] = useState(false);
 
+    const router = useRouter();
+
 
     async function getclosetimeslot() {
         const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/getclosetimeslot";
@@ -54,7 +56,7 @@ export default function Page({ }: Props) {
             const response = await axios.get(apiUrl)
             if (response.data.length > 0) {
                 setCloseTimeSlot(response.data);
-            } 
+            }
 
         } catch (error) {
             console.log("Can't get information users", error);
@@ -65,90 +67,95 @@ export default function Page({ }: Props) {
     async function DeleteEventsCalendar(event_id: string) {
         const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent";
         try {
-            await axios.put(apiUrl, {
-                event_id,
-            });
+          await axios.put(apiUrl, {
+            event_id,
+          });
         } catch (error) {
-            console.log("Can't Delete Event ", error);
+          console.log("Can't Delete Event ", error);
         }
-    }
-
-    async function DeleteEventsCalendar2(event_id: string) {
+      }
+    
+      async function DeleteEventsCalendar2(event_id: string) {
         const apiUrl = "https://entaneermindbackend.onrender.com/api/google/deleteevent2";
         try {
-            await axios.put(apiUrl, {
-                event_id,
-            });
+          await axios.put(apiUrl, {
+            event_id,
+          });
         } catch (error) {
-            console.log("Can't Delete Event ", error);
+          console.log("Can't Delete Event ", error);
         }
-    }
+      }
 
     async function GetEventIdCalendar(
         start_datetime: string,
         end_datetime: string,
         room: string
-    ) {
+      ) {
         const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/getidcalendar";
         try {
-            const response = await axios.put(apiUrl, {
-                start_datetime,
-                end_datetime,
-                room,
-            });
-            const eventsid = response.data[0].event_id;
-            
-            if (eventsid) {
-                DeleteEventsCalendar(eventsid);
-            }
+          const response = await axios.put(apiUrl, {
+            start_datetime,
+            end_datetime,
+            room,
+          });
+          if (response.data && response.data.length > 0) {
+            await DeleteEventsCalendar(response.data[0].event_id);
+          } else {
+            console.log("No events found.");
+          }
+          window.location.reload();
         } catch (error) {
-            console.log("Can't GET EventId ", error);
+          console.log("Can't GET EventId ", error);
         }
-    }
+      }
 
-    async function GetEventIdCalendar2(
+      async function GetEventIdCalendar2(
         start_datetime: string,
         end_datetime: string,
         room: string
-    ) {
+      ) {
         const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/getidcalendar";
         try {
-            const response = await axios.put(apiUrl, {
-                start_datetime,
-                end_datetime,
-                room,
-            });
-            const eventsid = response.data[0].event_id;
-            if (eventsid) {
-                DeleteEventsCalendar2(eventsid);
-            }
+          const response = await axios.put(apiUrl, {
+            start_datetime,
+            end_datetime,
+            room,
+          }) 
+          // Call DeleteEventsCalendar2 if the request is successful
+          if (response.data && response.data.length > 0) {
+            await DeleteEventsCalendar2(response.data[0].event_id);
+          } else {
+            console.log("No events found.");
+          }
+          window.location.reload();
         } catch (error) {
-            console.log("Can't GET EventId ", error);
+          console.log("Can't GET EventId ", error);
         }
-    }
+      }
 
     const handleCancel = async (start_datetime: string, end_datetime: string, room: string) => {
         setLoading(true)
         if (room === 'conseling_room1') {
             await GetEventIdCalendar(start_datetime, end_datetime, room);
             setLoading(false)
-            window.location.reload();
+            // window.location.reload();
         } else if (room === "conseling_room2") {
             await GetEventIdCalendar2(start_datetime, end_datetime, room);
             setLoading(false)
-            window.location.reload();
+            // window.location.reload();
         }
+       
 
     };
 
     const isCurrentAppointment = (start_datetime: string) => {
         const [date, timeWithZone] = start_datetime.split('T');
-        const time = timeWithZone.substring(0, 5); 
+        const time = timeWithZone.substring(0, 5);
         const formattedTime = time.startsWith('0') ? time.slice(1) : time;
         const finalTime = formattedTime.endsWith(':') ? formattedTime.slice(0, -1) : formattedTime;
-    
+
         return `${date} ${finalTime}`;
-      };
+    };
 
     useEffect(() => {
         getclosetimeslot()
@@ -176,7 +183,7 @@ export default function Page({ }: Props) {
                             className="border-r-4 border-l-4  mt-11 mb-4 p-4 relative"
                         >
                             <p className="font-normal text-gray-700 dark:text-gray-400">
-                               <strong> ห้องที่ปิด : </strong> {close.room}
+                                <strong> ห้องที่ปิด : </strong> {close.room}
                             </p>
                             <p className="font-normal text-gray-700 dark:text-gray-400">
                                 <strong>วันเวลาที่ปิด : </strong> {isCurrentAppointment(close.start_datetime)} {"  "} ถึง {"  "} {isCurrentAppointment(close.end_datetime)}
@@ -210,8 +217,8 @@ export default function Page({ }: Props) {
                             <DialogHeader>
                                 <DialogTitle>เปิดรับบริการ</DialogTitle>
                                 <DialogDescription>
-                                    คุณได้เลือกการปิดรับบริการวันที่{"  "}
-
+                                    ห้องที่เปิดปิด :{roomCancle}{"  "} เวลา {isCurrentAppointment(startCancle)} ถึง  {isCurrentAppointment(endCancle)}
+                                    
                                     {/* {date?.toLocaleDateString()} at {selectedTimeSlot}. */}
                                 </DialogDescription>
                             </DialogHeader>
