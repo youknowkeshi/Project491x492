@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { Nav } from "../component/Nav";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Page: React.FC<Props> = () => {
+  const router = useRouter();
 
   async function countevaluationform(topic: string) {
     const apiUrl = "https://entaneermindbackend.onrender.com/api/user/clickevaluation";
@@ -20,9 +22,17 @@ const Page: React.FC<Props> = () => {
   }
 
   const handleClick = (topic: string) => {
-    // setClickCounts(prevCounts => ({ ...prevCounts, [type]: prevCounts[type] + 1 }));
     countevaluationform(topic);
+    
+    if (topic === "แบบวัดพลังใจ") {
+      window.location.href = "https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey";
+    } else if (topic === "วัดความเครียด") {
+      window.location.href = "https://mentalhealth.cmu.ac.th/Views/StressSurvey/Stress";
+    } else if (topic === "สำรวจตัวเอง") {
+      window.location.href = "https://mentalhealth.cmu.ac.th/Views/PreChecklist/StudentIssueList";
+    }
   };
+  
 
   return (
     <>
