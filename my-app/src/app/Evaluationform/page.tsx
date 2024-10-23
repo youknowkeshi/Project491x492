@@ -18,8 +18,8 @@ const Page: React.FC<Props> = () => {
     }
   }
 
-  const handleClick = (topic: string) => {
-    countevaluationform(topic);
+  const handleClick = async (topic: string)  => {
+    await countevaluationform(topic);
     
     if (topic === "แบบวัดพลังใจ") {
       window.location.href = "https://mentalhealth.cmu.ac.th/Views/MindSurvey/MainMindSurvey";
