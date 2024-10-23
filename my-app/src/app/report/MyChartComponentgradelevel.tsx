@@ -112,12 +112,24 @@ export function MyChartComponentgradelevel({
       }
     }, [getPng]);
 
+    function formatToLocalISOString(dateString: Date): string {
+      const date = new Date(dateString);
+      const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000); // ปรับให้เป็นเวลาโซนท้องถิ่น
+      const isoString = localDate.toISOString().split('.')[0]; // ตัดมิลลิวินาทีออก
+      const timezoneOffset = -date.getTimezoneOffset(); // โซนเวลาในนาที
+      const sign = timezoneOffset >= 0 ? '+' : '-';
+      const hours = String(Math.floor(Math.abs(timezoneOffset) / 60)).padStart(2, '0');
+      const minutes = String(Math.abs(timezoneOffset) % 60).padStart(2, '0');
+      
+      return `${isoString}${sign}${hours}:${minutes}`;
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       if (startDate && endDate) {
         const data = await graphlist(
-          startDate.toISOString().split("T")[0],
-          endDate.toISOString().split("T")[0]
+          formatToLocalISOString(startDate),
+          formatToLocalISOString(endDate)
         );
         setChartData(data);
       }
