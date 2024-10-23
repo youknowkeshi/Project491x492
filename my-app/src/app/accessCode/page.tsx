@@ -13,7 +13,11 @@ export default function MePage() {
 
   const generateNewString = () => {
     const code = uniqueString();
-    setGeneratedString(`${code}`);
+    setGeneratedString(
+      `ลิ้งสำหรับเข้าสู่เว็บไซต์: https://project491x492.vercel.app ` +
+      `รหัสเข้ารับบริการครั้งแรก: ${code}  ` +
+      `(ให้ผู้รับบริการกรอกที่หน้าลงทะเบียนหลังจาก login)`
+    );
 
     setCopySuccess("");
     addAccessCode(code);
@@ -102,9 +106,9 @@ export default function MePage() {
           </Button>
           <hr className="border-gray-400 mb-8" />
           <div className="flex flex-col items-start">
-            <p className="text-xl mb-7 underline">
-              รหัสรับบริการของผู้รับบริการใหม่:{" "}
-              <a className="text-blue-600 underline">{generatedString}</a>
+            <p className="text-xl mb-7 ">
+              รหัสรับบริการของผู้รับบริการใหม่:{"   "}
+              <a className="text-gray-600 ">{generatedString}</a>
             </p>
             <button onClick={copyToClipboard}>
               <svg

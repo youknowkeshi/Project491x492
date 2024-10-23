@@ -44,6 +44,7 @@
     "cookies-next": "^4.1.1",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
+    "file-saver": "^2.0.5",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
     "googleapis": "^144.0.0",
@@ -68,6 +69,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.52.1",
     "recharts": "^2.12.7",
+    "recharts-to-png": "^2.3.2",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "unique-string": "^3.0.0",
@@ -75,6 +77,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/jquery": "^3.5.29",
     "@types/multer": "^1.4.11",
     "@types/node": "^20",

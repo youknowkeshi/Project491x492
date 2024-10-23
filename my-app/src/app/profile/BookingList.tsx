@@ -29,7 +29,7 @@ function BookingList() {
     // await fetchEvents2();
     await setShowModal(true);
   }
-   
+
   const handleClose = () => setShowModal(false);
 
   const [idcancel, setidcancel] = useState("");
@@ -59,20 +59,20 @@ function BookingList() {
   // };
 
   const handleCancel = async (start_datetime: string, end_datetime: string, event_id: string, room: string) => {
-  
+
     if (room === 'conseling_room1') {
-      await GetEventIdCalendar(start_datetime, end_datetime,room);
+      await GetEventIdCalendar(start_datetime, end_datetime, room);
       await DeleteEvents(event_id);
       await router.push("/appointment");
       // console.log("room1");
     } else if (room === "conseling_room2") {
-      await GetEventIdCalendar2(start_datetime, end_datetime,room);
+      await GetEventIdCalendar2(start_datetime, end_datetime, room);
       await DeleteEvents2(event_id);
-      await router.push("/appointment"); 
+      await router.push("/appointment");
       // console.log("room2");
-      
+
     }
-    
+
   };
 
   const getPersonId = () => {
@@ -141,7 +141,7 @@ function BookingList() {
   async function GetEventIdCalendar(
     start_datetime: string,
     end_datetime: string,
-    room:string
+    room: string
   ) {
     const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment/getidcalendar";
     try {
@@ -152,8 +152,8 @@ function BookingList() {
       });
       const eventsid = response.data[0].event_id;
       if (eventsid) {
-       
-        
+
+
         DeleteEventsCalendar(eventsid);
       }
     } catch (error) {
@@ -164,7 +164,7 @@ function BookingList() {
   async function GetEventIdCalendar2(
     start_datetime: string,
     end_datetime: string,
-    room:string
+    room: string
   ) {
     const apiUrl = "https://entaneermindbackend.onrender.com/api/appointment2/getidcalendar";
     try {
@@ -194,8 +194,8 @@ function BookingList() {
       setIsLoading(false);
     }
     console.log(roomCancle);
-    
-  }, [personId,startCancle, endCancle, idcancel,roomCancle]);
+
+  }, [personId, startCancle, endCancle, idcancel, roomCancle]);
 
   const isCurrentAppointment = (start_datetime: string) => {
     const now = new Date();
@@ -242,13 +242,24 @@ function BookingList() {
             key={index}
             className="flex flex-col md:flex-row items-center mb-5 border p-4 rounded-lg relative"
           >
-            {/* <img
-              src="/Pop.png"
-              alt="pop"
-              className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
-            /> */}
+              {appointment.room === "conseling_room1" ? (
+                 <img
+                 src="/Pop.png"
+                 alt="pop"
+                 className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
+               />
+              ):(
+                <img
+                 src="/psyco.jpg"
+                 alt="psyco"
+                 className="w-1/2 md:w-1/4 lg:w-1/6 border rounded-lg md:ml-4"
+               />
+              )}
+
+           
             <div className="flex flex-col gap-4 p-5 text-center md:text-left">
               {appointment.room === "conseling_room1" ? (
+
                 <h2 className="font-bold text-[18px]">
                   นักจิตวิทยาห้องที่ 1 (พี่ป็อป)
                 </h2>
@@ -290,7 +301,7 @@ function BookingList() {
                   className="absolute bottom-4 right-4"
                   disabled
                 >
-                  
+
                 </Button>
               )
             )}
@@ -316,7 +327,7 @@ function BookingList() {
               </Modal.Body>
               <Modal.Footer>
                 <Button
-                  onClick={() => handleCancel(startCancle, endCancle, idcancel,roomCancle)}
+                  onClick={() => handleCancel(startCancle, endCancle, idcancel, roomCancle)}
 
                 >
                   ยืนยัน

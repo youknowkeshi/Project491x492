@@ -9,7 +9,7 @@ type Props = {};
 
 export default function Page({}: Props) {
   const fetchEvents = async () => {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events";
+    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/events";
 
     try {
       await axios.get(apiUrl);
@@ -22,7 +22,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent = async () => {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom";
+    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/admin/deltimeroom";
 
     try {
       await axios.delete(apiUrl);
@@ -32,7 +32,7 @@ export default function Page({}: Props) {
   };
 
   const fetchEvents2 = async () => {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/google/events2";
+    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/google/events2";
 
     try {
       await axios.get(apiUrl);
@@ -45,7 +45,7 @@ export default function Page({}: Props) {
   };
 
   const deleteEvent2 = async () => {
-    const apiUrl = "https://entaneermindbackend.onrender.com/api/admin/deltimeroom2";
+    const apiUrl = "https://entaneermindbackend-for-servereng.onrender.com/api/admin/deltimeroom2";
 
     try {
       await axios.delete(apiUrl);
@@ -112,7 +112,7 @@ export default function Page({}: Props) {
             <p className="mt-4 text-gray-600 text-justify">
               รับคำปรึกษาจากพี่ป็อปในห้องให้คำปรึกษาที่ 2
               ไม่ว่าคุณจะกำลังเผชิญกับความท้าทายส่วนตัวหรือต้องการใครสักคนที่พร้อมรับฟัง
-              พี่ป็อปพร้อมช่วยคุณในการแก้ไขปัญหา
+              นักจิตอาสาพร้อมช่วยคุณในการแก้ไขปัญหา
               จองนัดวันนี้และเริ่มต้นก้าวแรกสู่ตัวคุณที่ดีกว่าเดิม
             </p>
             <div className="mt-4 text-gray-600text-inherit text-justify font-bold">

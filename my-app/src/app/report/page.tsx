@@ -56,12 +56,6 @@ export default function Page() {
                   endDate={endDate ?? null}
                 />
               </div>
-              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 mt-1">
-                <Evaluationform
-                  startDate={startDate ?? null}
-                  endDate={endDate ?? null}
-                />
-              </div>
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
                 <MyChartComponentgradelevel
                   startDate={startDate ?? null}
@@ -69,7 +63,13 @@ export default function Page() {
                 />
               </div>
               <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 ">
-                <MyChartComponentbachelordegre
+                <MyChartComponentbachelordegre 
+                  startDate={startDate ?? null}
+                  endDate={endDate ?? null}
+                />
+              </div>
+              <div className="  mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 gap-12 mt-1">
+                <Evaluationform
                   startDate={startDate ?? null}
                   endDate={endDate ?? null}
                 />

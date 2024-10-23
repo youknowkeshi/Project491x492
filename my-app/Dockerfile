@@ -1,8 +1,8 @@
 # ใช้ Node.js เป็น Base Image
-FROM node:18-alpine
+FROM node:alpine
 
 # ตั้งค่า Working Directory
-WORKDIR /app
+WORKDIR /src/app
 
 # คัดลอก package.json และ package-lock.json
 COPY package*.json ./

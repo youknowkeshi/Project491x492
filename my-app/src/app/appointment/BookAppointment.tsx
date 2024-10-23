@@ -386,9 +386,12 @@ function BookAppointment({ room }: { room: any }) {
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+                        setSelectedTimeSlot("");
+                      }}
                       disabled={(day) =>
-                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                        isPastDay(day) || isFullyBooked(day) || isWeekend(day)
                       }
                       className="border rounded-lg"
                     />
@@ -485,7 +488,7 @@ function BookAppointment({ room }: { room: any }) {
                 disabled={loading} // ปิดปุ่มเมื่อกำลังโหลด
                 onClick={confirmhandleSubmit}
               >
-                {loading ? "กำลังประมวลผล..." : "ยืนยัน"} 
+                {loading ? "กำลังประมวลผล..." : "ยืนยัน"}
               </Button>
             </DialogFooter>
           </DialogContent>

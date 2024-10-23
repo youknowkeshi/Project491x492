@@ -374,9 +374,13 @@ function BookAppointment({ room }: { room: any }) {
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+                        setSelectedTimeSlot("");
+                      }}
                       disabled={(day) =>
-                        isPastDay(day) || isWeekend(day) || isFullyBooked(day)
+                        isPastDay(day) || isFullyBooked(day)
+                        || isWeekend(day)
                       }
                       className="border rounded-lg"
                     />
