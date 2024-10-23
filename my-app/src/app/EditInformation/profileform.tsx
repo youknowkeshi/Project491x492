@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useSearchParams ,useRouter} from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 // import { useRouter } from 'next/router';
 import {
 
@@ -96,17 +96,17 @@ export function ProfileForm() {
     if (options === null || options === undefined) {
       return [];
     }
-  
+
     // ใช้ regex แยกตามช่องว่าง, คอมม่า, เครื่องหมายปีกกา, และเครื่องหมายคำพูด
     const optionsArray = options.split(/[\s,{}"']+/);
-  
+
     // กรองค่าออกจากอาร์เรย์ที่ไม่เป็นค่าว่าง
     const filteredOptions = optionsArray.filter(option => option.trim() !== "");
-  
+
     // คืนค่าเป็นอาร์เรย์ของคำที่กรองแล้ว
     return filteredOptions;
   };
-  
+
   // ใช้ฟังก์ชัน combineOptions กับ optionsListdisable
   const combinedOptions = combineOptions(checkList);
 
@@ -394,8 +394,12 @@ export function ProfileForm() {
               type="submit"
               onClick={(event) => {
                 event.preventDefault();
+
+                // ตรวจสอบว่า selectedValues มีค่า ถ้าไม่มีใช้ค่าจาก infor.mental_health_checklist
+                const updatedSelectedValues = selectedValues.length > 0 ? selectedValues : combinedOptions;
+
                 if (id) {
-                  updatesingledata(textEditorContent, selectedValues, riskLevel, id);
+                  updatesingledata(textEditorContent, updatedSelectedValues, riskLevel, id);
                 }
               }}
             >
