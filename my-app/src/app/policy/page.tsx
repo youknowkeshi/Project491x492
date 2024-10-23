@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import {
@@ -8,11 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+import { useRouter } from "next/navigation";
 type Props = {};
 
-function Page({}: Props) {
+function Page({ }: Props) {
+  const router = useRouter();
+
+  const handleback = () => {
+
+    router.push("/dash3");
+  };
   return (
     <div>
+      
       <header className="bg-slate-50 shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -21,56 +31,59 @@ function Page({}: Props) {
         </div>
       </header>
       <main className="bg-slate-50">
-        <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-          <div
-            aria-hidden="true"
-            className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-          >
+        <div>
+          <div className="fixed relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
             <div
-              style={{
-                clipPath:
-                  "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
-              }}
-              className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#5facff] to-[#54b8fb] opacity-30"
-            />
-          </div>
-          <div
-            aria-hidden="true"
-            className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-          >
+              aria-hidden="true"
+              className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+            >
+              <div
+                style={{
+                  clipPath:
+                    "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
+                }}
+                className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#5facff] to-[#54b8fb] opacity-30"
+              />
+            </div>
             <div
-              style={{
-                clipPath:
-                  "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
-              }}
-              className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#5facff] to-[#54b8fb] opacity-30"
-            />
-          </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <p className="text-lg leading-6 text-[#5facff]">
-              ท่านยอมรับเงื่อนไขหรือไม่ ?
-            </p>
-            <a
-              href="/register"
-              className="flex-none rounded-md bg-[#5facff] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-[#54b8fb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+              aria-hidden="true"
+              className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
             >
-              Register now <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-          <div className="flex flex-1 justify-end">
-            <button
-              type="button"
-              className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
-            >
-              <span className="sr-only">Dismiss</span>
-              <XMarkIcon aria-hidden="true" className="h-5 w-5 text-gray-900" />
-            </button>
+              <div
+                style={{
+                  clipPath:
+                    "polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)",
+                }}
+                className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#5facff] to-[#54b8fb] opacity-30"
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 p-6"> {/* เพิ่ม padding */}
+              <p className="text-2xl leading-6 text-[#5facff]">
+                ท่านยอมรับเงื่อนไขหรือไม่ ?
+              </p>
+              <a
+                href="/register"
+                className="flex-none rounded-md bg-[#5facff] px-5 py-2 text-lg font-semibold text-white shadow-sm hover:bg-[#54b8fb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+              >
+                Register now <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+            <div className="flex flex-1 justify-end">
+              <button
+                type="button"
+                className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
+                onClick={handleback}
+              >
+                <span className="sr-only">Dismiss</span>
+                <XMarkIcon aria-hidden="true" className="h-5 w-5 text-gray-900" />
+              </button>
+            </div>
           </div>
         </div>
         <Card className="mx-7 my-7 py-7 px-7 bg-[#b6e2ff] text-[#144363]">
           <CardHeader>
             <CardDescription className="text-lg  text-justify font-medium  text-* ml">
-              CMU MIND/CMU MENTAL HEALTH CENTER
+              Entaneer Mind Friend
               เป็นเครื่องมือประเมินสุขภาพจิตเบื้องต้น
               และคัดกรองความเสี่ยงต่อปัญหาสุขภาพจิต
               มีวัตถุประสงค์เพื่อประเมินสุขภาพจิตเบื้องต้นและคัดกรองความเสี่ยงต่อปัญหาสุขภาพจิต
